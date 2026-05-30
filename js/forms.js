@@ -3,8 +3,11 @@
  */
 
 const Forms = {
+    OLD_FORM_ENDPOINT: 'https://formspree.io/f/xjgzzwej',
+
     init() {
         this.setupSmoothScroll();
+        this.setupDualSubmit();
     },
 
     setupSmoothScroll() {
@@ -17,9 +20,31 @@ const Forms = {
                         e.preventDefault();
                         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
-                    // if target doesn't exist on this page, allow default behavior
                 }
             });
+        });
+    },
+
+    setupDualSubmit() {
+        const form = document.getElementById('contact-form');
+        if (!form) return;
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = form.querySelector('.btn-submit');
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+
+            const data = new FormData(form);
+
+            await Promise.allSettled([
+                fetch(form.action, { method: 'POST', body: data, mode: 'no-cors' }),
+                fetch(this.OLD_FORM_ENDPOINT, { method: 'POST', body: data, mode: 'no-cors' })
+            ]);
+
+            btn.textContent = 'Sent!';
+            form.reset();
+            setTimeout(() => { btn.textContent = 'Send Message'; btn.disabled = false; }, 3000);
         });
     }
 };
