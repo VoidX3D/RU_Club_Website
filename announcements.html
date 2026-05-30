@@ -174,9 +174,7 @@
         font-size: 0.85rem;
         font-weight: 600;
         color: var(--brand-primary);
-        background: none;
-        border: none;
-        cursor: pointer;
+        text-decoration: none;
         padding: 0.3rem 0;
         transition: opacity 0.2s;
         min-height: 44px;
@@ -188,81 +186,6 @@
         outline: 2px solid var(--brand-primary);
         outline-offset: 2px;
         border-radius: 4px;
-      }
-      .announcement-chevron {
-        transition: transform 0.3s ease;
-      }
-
-      .announcement-detail {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.4s ease, padding 0.3s ease;
-        padding: 0 1.5rem;
-        border-top: 0 solid var(--border-light);
-      }
-      .announcement-detail.open {
-        padding: 1.5rem;
-        border-top-width: 1px;
-      }
-
-      .detail-header {
-        margin-bottom: 1.25rem;
-      }
-      .detail-meta-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0.75rem;
-      }
-      @media (max-width: 480px) {
-        .detail-meta-grid {
-          grid-template-columns: 1fr;
-        }
-      }
-      .detail-row {
-        display: flex;
-        flex-direction: column;
-        gap: 0.15rem;
-      }
-      .detail-label {
-        font-size: 0.65rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        color: var(--text-tertiary);
-      }
-      .detail-value {
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: var(--text-primary);
-      }
-
-      .detail-section {
-        margin-top: 1.25rem;
-        padding-top: 1.25rem;
-        border-top: 1px solid var(--border-light);
-      }
-      .detail-section-title {
-        font-size: 0.7rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        color: var(--text-tertiary);
-        margin-bottom: 0.5rem;
-      }
-      .detail-section-body {
-        font-size: 0.95rem;
-        line-height: 1.7;
-        color: var(--text-secondary);
-      }
-      .detail-importance {
-        background: color-mix(in srgb, var(--brand-primary) 6%, transparent);
-        border-radius: var(--radius-lg);
-        padding: 1rem;
-        margin-top: 1rem;
-        border-top: none;
-      }
-      .detail-importance .detail-section-title {
-        color: var(--brand-primary);
       }
 
       .announcements-empty {
