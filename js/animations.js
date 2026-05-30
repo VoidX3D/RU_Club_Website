@@ -76,43 +76,46 @@ const Animations = {
         setTimeout(poll, 300);
     },
 
-    burstLeaves(target) {
+    burstLeaves() {
         if (this._bursting) return;
         this._bursting = true;
         console.info('🌿 Easter egg activated!');
-        const rect = target.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2 + window.scrollX;
-        const cy = rect.top + rect.height / 2 + window.scrollY;
+        const NS = 'http://www.w3.org/2000/svg';
         const colors = ['#0D9488', '#14B8A6', '#CCFBF1', '#059669', '#34D399', '#A7F3D0'];
-        const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="COLOR" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 17 3.5 19 2c1 2 2 4.5 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>';
         const leaves = [];
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
 
-        for (let i = 0; i < 30; i++) {
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            const size = 18 + Math.random() * 16;
-            const wrap = document.createElement('div');
-            wrap.innerHTML = svg.replace('COLOR', color);
-            const leaf = wrap.firstElementChild;
-            leaf.style.cssText = `position:fixed;width:${size}px;height:${size}px;left:${cx - size / 2}px;top:${cy - size / 2}px;pointer-events:none;z-index:9999;opacity:1;`;
-            document.body.appendChild(leaf);
-            leaves.push(leaf);
+        for (let i = 0; i < 50; i++) {
+            const svg = document.createElementNS(NS, 'svg');
+            svg.setAttribute('viewBox', '0 0 24 24');
+            svg.setAttribute('fill', 'none');
+            svg.setAttribute('stroke', colors[Math.floor(Math.random() * colors.length)]);
+            svg.setAttribute('stroke-width', '1.5');
+            svg.setAttribute('stroke-linecap', 'round');
+            svg.setAttribute('stroke-linejoin', 'round');
+            svg.innerHTML = '<path d="M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 17 3.5 19 2c1 2 2 4.5 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>';
 
-            const angle = Math.random() * Math.PI * 2;
-            const dist = 80 + Math.random() * 200;
-            const dx = Math.cos(angle) * dist;
-            const dy = Math.sin(angle) * dist - 100;
-            const rot = Math.random() * 720 - 360;
+            const size = 20 + Math.random() * 24;
+            const startX = Math.random() * vw;
+            const startY = -40 - Math.random() * 60;
+            svg.style.cssText = `position:fixed;width:${size}px;height:${size}px;left:${startX}px;top:${startY}px;pointer-events:none;z-index:9999;opacity:1;`;
+            document.body.appendChild(svg);
+            leaves.push(svg);
 
-            leaf.offsetHeight;
+            const fallX = (Math.random() - 0.5) * vw * 0.6;
+            const fallY = vh + 80 + Math.random() * 100;
+            const rot = Math.random() * 1080 - 540;
 
-            leaf.style.transition = `all ${0.6 + Math.random() * 0.6}s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity ${0.4 + Math.random() * 0.4}s ease`;
-            leaf.style.transform = `translate(${dx}px, ${dy}px) rotate(${rot}deg) scale(${0.3 + Math.random() * 0.7})`;
-            leaf.style.opacity = '0';
+            svg.offsetHeight;
+            svg.style.transition = `all ${1.5 + Math.random() * 1.5}s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity ${0.8 + Math.random() * 0.6}s ease`;
+            svg.style.transform = `translate(${fallX}px, ${fallY}px) rotate(${rot}deg) scale(${0.5 + Math.random() * 0.8})`;
+            svg.style.opacity = '0';
         }
 
         setTimeout(() => {
             leaves.forEach(l => l.remove());
             this._bursting = false;
-        }, 1500);
+        }, 3000);
     }
 };
