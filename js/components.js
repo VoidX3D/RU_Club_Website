@@ -73,21 +73,17 @@ const Components = {
 
         if (accept) {
             accept.addEventListener('click', () => {
-                localStorage.setItem('cookie-consent', 'accepted');
+                if (typeof Analytics !== 'undefined') Analytics.grantConsent();
+                else localStorage.setItem('cookie-consent', 'accepted');
                 hide();
-                if (typeof gtag !== 'undefined') {
-                    gtag('consent', 'update', { analytics_storage: 'granted' });
-                }
             });
         }
 
         if (decline) {
             decline.addEventListener('click', () => {
-                localStorage.setItem('cookie-consent', 'declined');
+                if (typeof Analytics !== 'undefined') Analytics.denyConsent();
+                else localStorage.setItem('cookie-consent', 'declined');
                 hide();
-                if (typeof gtag !== 'undefined') {
-                    gtag('consent', 'update', { analytics_storage: 'denied' });
-                }
             });
         }
     }
