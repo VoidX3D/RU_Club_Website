@@ -32,6 +32,10 @@ const Announcements = {
     }
   },
 
+  statusLabel(s) {
+    return { ongoing: 'Ongoing', deadline: 'Deadline', ended: 'Ended' }[s] || s;
+  },
+
   async renderCards(containerId) {
     await this.loadList();
     const container = document.getElementById(containerId);
@@ -46,10 +50,12 @@ const Announcements = {
         <div class="announcement-card-body">
           <div class="announcement-card-meta">
             <span class="announcement-tag">${a.tag}</span>
+            ${a.status ? `<span class="announcement-status announcement-status--${a.status}">${this.statusLabel(a.status)}</span>` : ''}
             <span class="announcement-date">${a.date}</span>
           </div>
           <h3 class="announcement-card-title">${a.title}</h3>
           <p class="announcement-card-summary">${a.summary}</p>
+          ${a.tags && a.tags.length ? `<div class="announcement-card-tags">${a.tags.map(t => `<span class="announcement-chip">${t}</span>`).join('')}</div>` : ''}
           <a href="/announcement?id=${a.id}" class="announcement-read-more">
             Read More
             <img src="static/assets/icons/arrow-right.svg" alt="" width="14" height="14" class="icon-current">

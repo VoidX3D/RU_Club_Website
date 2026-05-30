@@ -153,6 +153,41 @@
         font-size: 0.8rem;
         color: var(--text-tertiary);
       }
+      .announcement-status {
+        font-size: 0.6rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        padding: 0.15rem 0.5rem;
+        border-radius: var(--radius-full);
+      }
+      .announcement-status--ongoing {
+        color: #059669;
+        background: color-mix(in srgb, #059669 12%, transparent);
+      }
+      .announcement-status--deadline {
+        color: #d97706;
+        background: color-mix(in srgb, #d97706 12%, transparent);
+      }
+      .announcement-status--ended {
+        color: #dc2626;
+        background: color-mix(in srgb, #dc2626 12%, transparent);
+      }
+
+      .announcement-card-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        margin-bottom: 0.75rem;
+      }
+      .announcement-chip {
+        font-size: 0.65rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        background: var(--bg-secondary);
+        padding: 0.15rem 0.5rem;
+        border-radius: var(--radius-full);
+      }
 
       .announcement-card-title {
         font-size: 1.25rem;
