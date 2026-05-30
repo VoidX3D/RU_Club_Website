@@ -71,7 +71,7 @@ const Announcements = {
           ${a.tags && a.tags.length ? `<div class="announcement-card-tags">${a.tags.map(t => `<span class="announcement-chip">${t}</span>`).join('')}</div>` : ''}
           <a href="/announcement?id=${a.id}" class="announcement-read-more">
             Read More
-            <img src="/static/assets/icons/arrow-right.svg" alt="" width="18" height="18" class="icon-current">
+            <img src="/static/assets/icons/arrow-right.svg" alt="Read more" width="18" height="18" class="icon-current">
           </a>
         </div>
       </article>

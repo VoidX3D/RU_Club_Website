@@ -6,7 +6,7 @@
     "date": "Month Day, Year (e.g. June 5, 2026)",
     "summary": "Short summary shown on the card (1-2 sentences)",
     "image": "announcements/assets/your-image.jpg",
-    "active": true
+    "active": false
   },
   {
     "id": "urgent-notice-diy-upcycle",
