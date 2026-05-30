@@ -208,7 +208,7 @@ Pushing to `main` triggers automatic Vercel deployment.
 
 ## Analytics
 
-GA4 is configured with ID `G-7ZT4XY1D1B` in `static/js/analytics.js`.
+GA4 is configured with two measurement IDs (`G-HWFPCZ4W1Q`, `G-HJTLGVDNYK`) in `static/js/analytics.js`.
 
 Tracked events:
 - Page views (automatic)

@@ -9,7 +9,7 @@ RU Club Motherland is a static HTML/CSS/JS site for an environmental sustainabil
 - AOS 2.3 for scroll animations
 - GLightbox for image lightbox
 - Formspree for contact form (dual-endpoint)
-- Google Analytics GA4 (ID: G-7ZT4XY1D1B)
+- Google Analytics GA4 (Dual-Tag: G-HWFPCZ4W1Q, G-HJTLGVDNYK)
 
 ## Architecture
 ```
