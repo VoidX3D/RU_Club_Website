@@ -1,5 +1,11 @@
 /**
  * Theme System - Light/Dark mode toggle
+ * ---------------------------------------
+ * "Why did the sun go to school? To get brighter!"
+ * ...and the moon went too, but it was a phase.
+ *
+ * Saves preference in localStorage so the website doesn't
+ * have an identity crisis on every page load.
  */
 
 const Theme = {
@@ -11,6 +17,7 @@ const Theme = {
         this.updateIcon(savedTheme);
     },
 
+    /* If only real life had a dark mode toggle... */
     setupToggle() {
         const themeBtn = document.getElementById('theme-toggle');
         if (!themeBtn) return;
@@ -25,6 +32,7 @@ const Theme = {
         });
     },
 
+    /* Sun goes to sleep, moon says "my turn." */
     updateIcon(theme) {
         const sun = document.getElementById('theme-icon-sun');
         const moon = document.getElementById('theme-icon-moon');
