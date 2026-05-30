@@ -55,16 +55,22 @@
     </script>
 
     <style>
-      .legal-content { max-width: 800px; margin: 0 auto; padding: 4rem 0; }
+      .legal-content { max-width: 860px; margin: 0 auto; padding: 3rem 0 6rem; }
       .legal-content h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
-      .legal-content .last-updated { color: var(--text-tertiary); font-size: 0.85rem; margin-bottom: 2.5rem; }
-      .legal-content h2 { font-size: 1.4rem; font-weight: 700; margin: 2rem 0 0.75rem; color: var(--text-primary); }
-      .legal-content h3 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.5rem; color: var(--text-primary); }
-      .legal-content p, .legal-content li { color: var(--text-secondary); line-height: 1.8; font-size: 0.95rem; }
-      .legal-content ul { padding-left: 1.5rem; margin: 0.75rem 0; }
-      .legal-content li { margin-bottom: 0.4rem; }
+      .legal-content .last-updated { color: var(--text-tertiary); font-size: 0.85rem; margin-bottom: 3rem; }
+      .legal-content h2 { font-size: 1.5rem; font-weight: 700; margin: 2.5rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-light); color: var(--text-primary); }
+      .legal-content h3 { font-size: 1.15rem; font-weight: 600; margin: 1.75rem 0 0.75rem; color: var(--text-primary); }
+      .legal-content p { color: var(--text-secondary); line-height: 1.85; font-size: 1rem; margin-bottom: 0.75rem; }
+      .legal-content ul { padding-left: 1.75rem; margin: 1rem 0; }
+      .legal-content li { color: var(--text-secondary); line-height: 1.85; font-size: 1rem; margin-bottom: 0.5rem; }
       .legal-content a { color: var(--brand-primary); text-decoration: underline; }
-      .legal-content .highlight-box { background: var(--bg-secondary); border-left: 3px solid var(--brand-primary); padding: 1.25rem; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 1.5rem 0; }
+      .legal-content a:hover { opacity: 0.8; }
+      .legal-content table { width:100%; border-collapse: collapse; margin: 1.25rem 0; font-size:0.9rem; }
+      .legal-content th { background: var(--bg-secondary); padding: 0.75rem; text-align: left; border-bottom: 2px solid var(--border-light); font-weight: 600; }
+      .legal-content td { padding: 0.75rem; border-bottom: 1px solid var(--border-light); }
+      .legal-content code { background: var(--bg-secondary); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.85rem; }
+      .legal-content .highlight-box { background: var(--bg-secondary); border-left: 4px solid var(--brand-primary); padding: 1.5rem; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 1.75rem 0; }
+      @media (max-width: 480px) { .legal-content { padding: 1.5rem 0 4rem; } }
     </style>
     <!-- JSON-LD Structured Data: BreadcrumbList -->
     <script type="application/ld+json">
