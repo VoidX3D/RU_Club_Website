@@ -33,7 +33,8 @@ jobs:
           existing = {}
           if LIST_PATH.exists():
               with open(LIST_PATH) as f:
-                  for m in json.load(f):
+                  data = json.load(f)
+                  for m in data.get("missions", []):
                       existing[m["slug"]] = m
 
           missions = []
@@ -86,7 +87,7 @@ jobs:
               print(f"✅  {slug}: {mission['title']} ({image_count} images)")
 
           missions.sort(key=lambda m: m.get("date", ""), reverse=True)
-          LIST_PATH.write_text(json.dumps(missions, indent=2, ensure_ascii=False) + "\n")
+          LIST_PATH.write_text(json.dumps({"missions": missions}, indent=2, ensure_ascii=False) + "\n")
           print(f"\n✔  list.json updated — {len(missions)} missions")
           PYEOF
 
