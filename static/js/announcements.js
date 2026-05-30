@@ -8,7 +8,7 @@ const Announcements = {
       return this.list;
     }
     try {
-      const res = await fetch('/announcements/list.json');
+      const res = await fetch('announcements/list.json');
       console.log('Announcements: Fetch response status:', res.status);
       this.list = await res.json();
       console.log('Announcements: List loaded successfully:', this.list);
@@ -34,7 +34,7 @@ const Announcements = {
     const entry = this.list.find(a => a.id === id);
     if (!entry) return null;
     try {
-      const res = await fetch(`/announcements/main/${id}.json`);
+      const res = await fetch('announcements/main/' + id + '.json');
       const detail = await res.json();
       return { ...entry, ...detail };
     } catch (e) {
