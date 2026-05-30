@@ -5,82 +5,99 @@ on:
     branches: [main]
     paths:
       - 'mission/**'
+      - '!mission/list.json'
   workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-jobs:
-  scan-missions:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+permissions:
+  contents: write
 
+jobs:
+  discover:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
 
-      - name: Scan mission folders and update data
+      - name: Scan mission folders and build list.json
         run: |
-          LIST="mission/list.json"
-          echo '{"missions":[]}' > "$LIST"
+          python3 << 'PYEOF'
+          import json, re
+          from pathlib import Path
 
-          for dir in mission/*/; do
-            [ -d "$dir" ] || continue
-            folder=$(basename "$dir")
-            # Skip hidden folders and list.json itself
-            [[ "$folder" == .* ]] && continue
-            info="$dir/info.json"
-            [ -f "$info" ] || continue
+          MISSION = Path("mission")
+          LIST_PATH = MISSION / "list.json"
 
-            # Generate clean slug from folder name
-            slug=$(echo "$folder" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-//;s/-$//')
+          existing = {}
+          if LIST_PATH.exists():
+              with open(LIST_PATH) as f:
+                  for m in json.load(f):
+                      existing[m["slug"]] = m
 
-            title=$(jq -r '.title // "New Mission"' "$info")
-            tag=$(jq -r '.tag // "Mission"' "$info")
-            date=$(jq -r '.date // ""' "$info")
-            desc=$(jq -r '.description // ""' "$info")
-            detail=$(jq -r '.detail // ""' "$info")
+          missions = []
+          for folder in sorted(MISSION.iterdir()):
+              if not folder.is_dir() or folder.name.startswith("."):
+                  continue
+              info_file = folder / "info.json"
+              if not info_file.exists():
+                  images_list = sorted([f.name for f in folder.iterdir() if f.suffix.lower() in ('.jpg','.jpeg','.png','.webp')])
+                  if not images_list:
+                      print(f"⚠️  Skipping {folder.name}: no info.json and no images")
+                      continue
+                  info = {
+                      "title": folder.name.replace("-", " ").title(),
+                      "description": f"Mission in {folder.name.replace('-', ' ')}",
+                      "tag": "Mission",
+                      "date": "",
+                      "detail": "",
+                      "show": True
+                  }
+                  info_file.write_text(json.dumps(info, indent=2, ensure_ascii=False) + "\n")
+                  print(f"📝  Created info.json for {folder.name}")
+              else:
+                  info = json.loads(info_file.read_text())
+              slug = re.sub(r'[^a-z0-9-]', '', (info.get("slug") or folder.name).lower().replace(' ', '-'))
 
-            # Pick first image as featured
-            img_list=$(jq -r '.images[]' "$info" 2>/dev/null | head -1)
-            if [ -z "$img_list" ]; then
-              img_list=$(ls "$dir"*.jpg "$dir"*.png "$dir"*.jpeg "$dir"*.webp 2>/dev/null | head -1)
-              [ -n "$img_list" ] && featured="mission/$folder/$(basename "$img_list")" || featured=""
-            else
-              featured="mission/$folder/$img_list"
-            fi
-            [ -z "$featured" ] && continue
+              image_exts = {"*.jpg", "*.jpeg", "*.png", "*.webp"}
+              images = []
+              for ext in sorted(image_exts):
+                  images.extend(sorted(folder.glob(ext)))
+              image_count = len(images)
 
-            img_count=$(jq '.images | length' "$info" 2>/dev/null || echo 0)
-            show=$(jq '.show // true' "$info")
+              mission = {
+                  "slug": slug,
+                  "id": slug,
+                  "title": info.get("title", folder.name.replace("-", " ").title()),
+                  "description": info.get("description", ""),
+                  "tag": info.get("tag", ""),
+                  "date": info.get("date", ""),
+                  "detail": info.get("detail", ""),
+                  "show": info.get("show") if isinstance(info.get("show"), bool) else existing.get(slug, {}).get("show", True)
+              }
 
-            jq --arg id "$folder" \
-               --arg slug "$slug" \
-               --arg title "$title" \
-               --arg tag "$tag" \
-               --arg date "$date" \
-               --arg desc "$desc" \
-               --arg detail "$detail" \
-               --argjson imgcount "$img_count" \
-               --arg featured "$featured" \
-               --argjson show "$show" \
-               '.missions += [{id:$id, slug:$slug, title:$title, tag:$tag, date:$date, description:$desc, detail:$detail, imageCount:$imgcount, featured:$featured, show:$show}]' "$LIST" > tmp.json && mv tmp.json "$LIST"
-          done
+              if slug in existing:
+                  for k, v in existing[slug].items():
+                      if k not in mission:
+                          mission[k] = v
 
-          echo "Mission scan complete."
+              missions.append(mission)
+              print(f"✅  {slug}: {mission['title']} ({image_count} images)")
 
-      - name: Commit and push changes
+          missions.sort(key=lambda m: m.get("date", ""), reverse=True)
+          LIST_PATH.write_text(json.dumps(missions, indent=2, ensure_ascii=False) + "\n")
+          print(f"\n✔  list.json updated — {len(missions)} missions")
+          PYEOF
+
+      - name: Commit and push
         run: |
-          git config --local user.name "github-actions[bot]"
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A
-          if ! git diff --quiet HEAD; then
-            git commit -m "auto: discover and register new missions"
-            git push
-            echo "Changes committed and pushed."
+          git config user.name "Mission Bot"
+          git config user.email "bot@ruclubmotherland.vercel.app"
+          git add mission/list.json mission/*/info.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
           else
-            echo "No changes to commit."
+            git commit -m "chore: auto-update mission list"
+            git push
           fi
