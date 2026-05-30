@@ -1,8 +1,66 @@
 /* ========================================
    RU CLUB MOTHERLAND - PREMIUM DESIGN
+   ========================================
+   "If at first you don't succeed, call it version 1.0"
+   — Some developer who definitely wasn't us
    ======================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+/* ----------------------------------------------------------------
+   PERFORMANCE BOOST — GPU go brrrrr
+   ---------------------------------------------------------------- */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Content-visibility: skip rendering below the fold like a lazy genius */
+section, footer, .stats-section, .partners, .intro, .bg-secondary,
+.cta-section, .page-header, .footer-grid, .gallery-grid, .missions-grid {
+    content-visibility: auto;
+    contain-intrinsic-size: 500px;
+}
+
+/* Above-fold content should render immediately (no lazy loading for hero) */
+.hero, .main-header {
+    content-visibility: visible;
+}
+
+/* ----------------------------------------------------------------
+   BUTTERY ANIMATIONS — transform & opacity only (GPU composited)
+   No `display`, no `width`, no `height` — those hurt performance.
+   "We don't do that here."
+   ---------------------------------------------------------------- */
+.gallery-card,
+.feature-card,
+.stat-item,
+.contact-info,
+.contact-form,
+.mission-sidebar-card,
+.footer-social a,
+.nav-link::after,
+.partner-logo,
+.scroll-top-btn {
+    will-change: transform;
+}
+
+/* Force GPU acceleration for heavy lifters */
+.hero-shapes,
+.hero-shape,
+.swiper-slide img,
+.gallery-image img,
+.gallery-card:hover .gallery-image img {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* AOS override: use hardware-accelerated properties only */
+[data-aos] {
+    pointer-events: none;
+}
+[data-aos].aos-animate {
+    pointer-events: auto;
+}
 
 /* === CSS VARIABLES === */
 :root {
