@@ -66,7 +66,7 @@ const Animations = {
 
             cell.addEventListener('click', (e) => {
                 e.stopPropagation();
-                window.location.href = 'secret-garden.html';
+                window.location.href = '/secret-garden';
             });
 
             let lastTap = 0;
@@ -74,7 +74,7 @@ const Animations = {
                 const now = Date.now();
                 if (now - lastTap < 300) {
                     e.stopPropagation();
-                    window.location.href = 'secret-garden.html';
+                    window.location.href = '/secret-garden';
                     e.preventDefault();
                 }
                 lastTap = now;
