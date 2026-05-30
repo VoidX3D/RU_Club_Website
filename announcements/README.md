@@ -29,7 +29,9 @@ Each announcement is a single JSON file in `announcements/main/`.
 
 | Field | Description |
 |-------|-------------|
-| `tag` | Badge label (Event, Update, Notice — defaults to Notice) |
+| `tag` | Badge label (Event, Update, Notice, Opportunity) |
+| `status` | Status badge (ongoing, deadline, ended, urgent, upcoming) |
+| `tags` | Array of keyword chips (e.g. ["urgent", "members-only"]) |
 | `day` | Day of week |
 | `time` | Event time |
 | `location` | Event location |
