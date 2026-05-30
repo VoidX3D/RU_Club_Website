@@ -7,6 +7,7 @@ const Animations = {
         this.initAOS();
         this.initGLightbox();
         this.initScrollObserver();
+        this.setupEasterEgg();
     },
 
     initAOS() {
@@ -51,5 +52,67 @@ const Animations = {
         document.querySelectorAll('.fade-in-up').forEach(el => {
             observer.observe(el);
         });
+    },
+
+    setupEasterEgg() {
+        const observer = new MutationObserver(() => {
+            const cell = document.querySelector('td.member-name');
+            if (!cell || !cell.textContent.includes('Sincere')) return;
+            observer.disconnect();
+            cell.title = 'Double-click me! 🌿';
+            cell.style.cursor = 'pointer';
+
+            cell.addEventListener('dblclick', () => this.burstLeaves(cell), { passive: true });
+
+            let lastTap = 0;
+            cell.addEventListener('touchend', (e) => {
+                const now = Date.now();
+                if (now - lastTap < 300) { this.burstLeaves(cell); e.preventDefault(); }
+                lastTap = now;
+            }, { passive: true });
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+    },
+
+    burstLeaves(target) {
+        if (this._bursting) return;
+        this._bursting = true;
+        const rect = target.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2 + window.scrollX;
+        const cy = rect.top + rect.height / 2 + window.scrollY;
+        const colors = ['#0D9488', '#14B8A6', '#CCFBF1', '#059669', '#34D399', '#A7F3D0'];
+        const leaves = [];
+
+        for (let i = 0; i < 30; i++) {
+            const leaf = document.createElement('div');
+            const size = 8 + Math.random() * 14;
+            leaf.style.cssText = `
+                position: fixed; width:${size}px; height:${size}px;
+                background:${colors[Math.floor(Math.random() * colors.length)]};
+                border-radius:${Math.random() > 0.5 ? '50% 0 50% 0' : '0 50% 0 50%'};
+                left:${cx - size / 2}px; top:${cy - size / 2}px;
+                pointer-events:none; z-index:9999;
+                opacity:1; transition:none;
+            `;
+            document.body.appendChild(leaf);
+            leaves.push(leaf);
+
+            const angle = Math.random() * Math.PI * 2;
+            const dist = 80 + Math.random() * 200;
+            const dx = Math.cos(angle) * dist;
+            const dy = Math.sin(angle) * dist - 100;
+            const rot = Math.random() * 720 - 360;
+
+            requestAnimationFrame(() => {
+                leaf.style.transition = `all ${0.6 + Math.random() * 0.6}s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity ${0.4 + Math.random() * 0.4}s ease`;
+                leaf.style.transform = `translate(${dx}px, ${dy}px) rotate(${rot}deg) scale(${0.3 + Math.random() * 0.7})`;
+                leaf.style.opacity = '0';
+            });
+        }
+
+        setTimeout(() => {
+            leaves.forEach(l => l.remove());
+            this._bursting = false;
+        }, 1500);
     }
 };
