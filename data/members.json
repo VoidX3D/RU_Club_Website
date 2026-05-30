@@ -24,7 +24,6 @@
     { "name": "Anushka Aryal", "class": "9C", "role": "General Member" },
     { "name": "Anusha Thapa", "class": "9A", "role": "General Member" },
     { "name": "Sarbesh Adhikari", "class": "9C", "role": "General Member" },
-    { "name": "Samyam Banstola", "class": "9A", "role": "General Member" },
     { "name": "Pratik Pokhrel", "class": "9C", "role": "General Member" },
     { "name": "Aarjan Khadka", "class": "8B", "role": "General Member" },
     { "name": "Ayushna Rajbanshi", "class": "8C", "role": "General Member" },
@@ -39,7 +38,7 @@
   "stats": {
     "teachers": 3,
     "core": 5,
-    "general": 23,
-    "total": 31
+    "general": 22,
+    "total": 30
   }
 }
