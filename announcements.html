@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcements | RU Club Motherland</title>
+    <meta name="description" content="Latest announcements from RU Club Motherland — events, updates, and notices for members and the community.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ruclubmotherland.vercel.app/announcements">
+
+    <meta property="og:title" content="Announcements | RU Club Motherland">
+    <meta property="og:description" content="Latest announcements from RU Club Motherland — events, updates, and notices for members and the community.">
+    <meta property="og:image" content="https://ruclubmotherland.vercel.app/static/assets/brand/logo.png">
+    <meta property="og:url" content="https://ruclubmotherland.vercel.app/announcements">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="RU Club Motherland">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Announcements | RU Club Motherland">
+    <meta name="twitter:description" content="Latest announcements from RU Club Motherland — events, updates, and notices for members and the community.">
+    <meta name="twitter:image" content="https://ruclubmotherland.vercel.app/static/assets/brand/logo.png">
+
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="stylesheet" href="static/css/style.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="icon" href="static/assets/brand/logo_icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="static/assets/brand/logo_icon.png">
+    <script>
+        (function() {
+            var theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "RU Club Motherland",
+      "url": "https://ruclubmotherland.vercel.app",
+      "logo": "https://ruclubmotherland.vercel.app/static/assets/brand/logo.png",
+      "sameAs": [
+        "https://facebook.com/profile.php?id=61585206314774",
+        "https://instagram.com/rucl.ub/"
+      ],
+      "description": "Environmental sustainability club at Motherland Secondary School, Pokhara, Nepal."
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "RU Club Motherland",
+      "url": "https://ruclubmotherland.vercel.app"
+    }
+    </script>
+
+    <style>
+      .announcements-hero {
+        padding: calc(var(--header-height) + 4rem) 0 3rem;
+        text-align: center;
+        background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+      }
+      .announcements-hero h1 {
+        font-size: clamp(2.5rem, 8vw, 4.5rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        margin-bottom: 1rem;
+      }
+      .announcements-hero p {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        max-width: 550px;
+        margin: 0 auto;
+      }
+
+      .announcements-list {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding-bottom: 3rem;
+      }
+      @media (min-width: 640px) {
+        .announcements-list {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      .announcement-card {
+        display: flex;
+        flex-direction: column;
+      }
+      .announcement-card-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      .announcement-read-more {
+        margin-top: auto;
+      }
+
+      .announcement-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-xl);
+        overflow: hidden;
+        transition: box-shadow 0.3s ease, border-color 0.3s ease;
+      }
+      .announcement-card:hover {
+        box-shadow: 0 4px 20px var(--shadow-light);
+        border-color: var(--brand-primary);
+      }
+
+      .announcement-card-image {
+        width: 100%;
+        aspect-ratio: 16/9;
+        overflow: hidden;
+        background: var(--bg-secondary);
+      }
+      .announcement-card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+      }
+      .announcement-card:hover .announcement-card-image img {
+        transform: scale(1.03);
+      }
+
+      .announcement-card-body {
+        padding: 1.25rem 1.5rem;
+      }
+
+      .announcement-card-meta {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.5rem;
+      }
+      .announcement-tag {
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--brand-primary);
+        background: color-mix(in srgb, var(--brand-primary) 10%, transparent);
+        padding: 0.2rem 0.6rem;
+        border-radius: var(--radius-full);
+      }
+      .announcement-date {
+        font-size: 0.8rem;
+        color: var(--text-tertiary);
+      }
+
+      .announcement-card-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        line-height: 1.4;
+        margin-bottom: 0.5rem;
+      }
+      .announcement-card-summary {
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+        margin-bottom: 0.75rem;
+      }
+
+      .announcement-read-more {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--brand-primary);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.3rem 0;
+        transition: opacity 0.2s;
+        min-height: 44px;
+      }
+      .announcement-read-more:hover {
+        opacity: 0.8;
+      }
+      .announcement-read-more:focus-visible {
+        outline: 2px solid var(--brand-primary);
+        outline-offset: 2px;
+        border-radius: 4px;
+      }
+      .announcement-chevron {
+        transition: transform 0.3s ease;
+      }
+
+      .announcement-detail {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease, padding 0.3s ease;
+        padding: 0 1.5rem;
+        border-top: 0 solid var(--border-light);
+      }
+      .announcement-detail.open {
+        padding: 1.5rem;
+        border-top-width: 1px;
+      }
+
+      .detail-header {
+        margin-bottom: 1.25rem;
+      }
+      .detail-meta-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+      }
+      @media (max-width: 480px) {
+        .detail-meta-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .detail-row {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+      }
+      .detail-label {
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--text-tertiary);
+      }
+      .detail-value {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      .detail-section {
+        margin-top: 1.25rem;
+        padding-top: 1.25rem;
+        border-top: 1px solid var(--border-light);
+      }
+      .detail-section-title {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--text-tertiary);
+        margin-bottom: 0.5rem;
+      }
+      .detail-section-body {
+        font-size: 0.95rem;
+        line-height: 1.7;
+        color: var(--text-secondary);
+      }
+      .detail-importance {
+        background: color-mix(in srgb, var(--brand-primary) 6%, transparent);
+        border-radius: var(--radius-lg);
+        padding: 1rem;
+        margin-top: 1rem;
+        border-top: none;
+      }
+      .detail-importance .detail-section-title {
+        color: var(--brand-primary);
+      }
+
+      .announcements-empty {
+        text-align: center;
+        padding: 4rem 1rem;
+        color: var(--text-tertiary);
+      }
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ruclubmotherland.vercel.app" },
+        { "@type": "ListItem", "position": 2, "name": "Announcements", "item": "https://ruclubmotherland.vercel.app/announcements" }
+      ]
+    }
+    </script>
+
+</head>
+<body>
+
+    <header id="header-placeholder" class="main-header"></header>
+
+    <main>
+        <section class="announcements-hero">
+            <div class="container">
+                <h1 data-aos="fade-up">Announcements</h1>
+                <p data-aos="fade-up" data-aos-delay="100">Stay up to date with the latest from RU Club Motherland.</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="announcements-list" id="announcements-list"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="footer-placeholder" class="main-footer"></footer>
+
+    <script defer src="static/js/analytics.js"></script>
+    <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script defer src="static/js/theme.js"></script>
+    <script defer src="static/js/navigation.js"></script>
+    <script defer src="static/js/animations.js"></script>
+    <script defer src="static/js/carousel.js"></script>
+    <script defer src="static/js/forms.js"></script>
+    <script defer src="static/js/missions.js"></script>
+    <script defer src="static/js/announcements.js"></script>
+    <script defer src="static/js/data-loader.js"></script>
+    <script defer src="static/js/components.js"></script>
+    <script defer src="static/js/main.js"></script>
+</body>
+</html>

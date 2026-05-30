@@ -1,0 +1,77 @@
+name: Auto-Discover Announcements
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'announcements/main/**'
+      - '!announcements/list.json'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scan announcement JSONs and build list.json
+        run: |
+          python3 << 'PYEOF'
+          import json, re
+          from pathlib import Path
+
+          MAIN = Path("announcements/main")
+          LIST_PATH = Path("announcements/list.json")
+
+          announcements = []
+          if not MAIN.exists():
+              print("No announcements/main/ directory — skipping")
+              exit(0)
+
+          for file in sorted(MAIN.iterdir()):
+              if not file.name.endswith(".json") or file.name.startswith("."):
+                  continue
+              try:
+                  data = json.loads(file.read_text())
+              except json.JSONDecodeError as e:
+                  print(f"⚠️  Skipping {file.name}: invalid JSON ({e})")
+                  continue
+
+              slug = re.sub(r'[^a-z0-9-]', '', data.get("id", file.stem).lower().replace(' ', '-'))
+
+              entry = {
+                  "id": slug,
+                  "title": data.get("title", file.stem.replace("-", " ").title()),
+                  "tag": data.get("tag", "Notice"),
+                  "date": data.get("date", ""),
+                  "summary": data.get("summary", ""),
+                  "image": data.get("image", ""),
+                  "active": data.get("active", True)
+              }
+
+              announcements.append(entry)
+              status = "✅" if entry["active"] else "🔴"
+              print(f"{status}  {slug}: {entry['title']}")
+
+          announcements.sort(key=lambda a: a.get("date", ""), reverse=True)
+          LIST_PATH.write_text(json.dumps(announcements, indent=2, ensure_ascii=False) + "\n")
+          print(f"\n✔  list.json updated — {len(announcements)} announcements")
+
+      - name: Commit and push
+        run: |
+          git config user.name "Announcement Bot"
+          git config user.email "bot@ruclubmotherland.vercel.app"
+          git add announcements/list.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: auto-update announcement list"
+            git push
+          fi

@@ -40,6 +40,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         Missions.renderMissionsGrid('missions-grid');
     }
 
+    // Load announcements if present
+    if (document.getElementById('announcements-list')) {
+        Announcements.renderCards('announcements-list');
+    }
+
     // Update missions stats page from JSON data
     if (document.getElementById('stat-missions')) {
         Missions.updateStats();

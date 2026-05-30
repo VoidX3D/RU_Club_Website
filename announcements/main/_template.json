@@ -1,0 +1,17 @@
+{
+  "id": "your-unique-id",
+  "title": "Your Announcement Title",
+  "tag": "Event | Update | Notice",
+  "date": "Month Day, Year (e.g. June 5, 2026)",
+  "day": "Day of week (e.g. Friday)",
+  "time": "Optional — event time (e.g. 7:00 AM - 11:00 AM)",
+  "location": "Optional — event location",
+  "issuedBy": "Who issued this (e.g. RU Club Motherland Executive Committee)",
+  "summary": "Short summary shown on the card (1-2 sentences)",
+  "description": "Full description shown when expanded (2-4 paragraphs). Tell the full story here.",
+  "importance": "Optional — why this matters (shown in a highlighted box)",
+  "instructions": "Optional — practical instructions for participants",
+  "image": "announcements/assets/your-image.jpg",
+  "active": true,
+  "gallery": []
+}
