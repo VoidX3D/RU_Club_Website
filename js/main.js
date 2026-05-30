@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Always init partner swiper if container exists
-    Carousel.initPartnerSwiper();
+    if (typeof Carousel !== 'undefined') Carousel.initPartnerSwiper();
 
     // Load missions carousel — populate slides first, then init Swiper
     if (document.getElementById('missions-carousel')) {
