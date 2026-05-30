@@ -35,7 +35,7 @@ RU Club Motherland is a student-led environmental initiative at Motherland Secon
 ├── .github/workflows/ → Auto-mission discovery on push
 ├── vercel.json      → Vercel deployment config
 ├── 404.html         → Custom error page
-└── *.html           → Pages: index, missions, mission, members, gallery, contact
+└── *.html           → Pages: index, missions, mission, members, gallery, contact, privacy, consent, license
 ```
 
 ## Adding a New Mission

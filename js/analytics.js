@@ -144,14 +144,16 @@ const Analytics = {
     document.addEventListener('click', e => {
       const link = e.target.closest('a');
       if (!link || !link.href) return;
-      const url = new URL(link.href);
-      if (url.hostname !== window.location.hostname) {
-        gtag('event', 'click', {
-          event_category: 'outbound',
-          event_label: url.href,
-          transport_type: 'beacon'
-        });
-      }
+      try {
+        const url = new URL(link.href);
+        if (url.hostname !== window.location.hostname) {
+          gtag('event', 'click', {
+            event_category: 'outbound',
+            event_label: url.href,
+            transport_type: 'beacon'
+          });
+        }
+      } catch (_) { /* invalid URL, skip */ }
     });
   },
 
