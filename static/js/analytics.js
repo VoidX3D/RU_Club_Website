@@ -12,7 +12,7 @@
  */
 
 const Analytics = {
-  GA_MEASUREMENT_ID: 'G-7ZT4XY1D1B',
+  GA_MEASUREMENT_IDS: ['G-HWFPCZ4W1Q', 'G-HJTLGVDNYK'],
 
   /* ---------------------------------------------------------------- */
   /*  INIT — the party starter                                        */
@@ -47,15 +47,16 @@ const Analytics = {
   /*  LOAD SCRIPT — summons the Google Analytics deity                */
   /* ---------------------------------------------------------------- */
   loadScript() {
-    const id = this.GA_MEASUREMENT_ID;
-    if (!id || id === 'G-XXXXXXXXXX') {
-      console.info('📊 GA4 placeholder detected — no data sent. Drop your real ID in and watch the magic.');
+    const ids = this.GA_MEASUREMENT_IDS;
+    if (!ids || ids.length === 0) {
+      console.info('📊 GA4 placeholder detected — no data sent.');
       return;
     }
 
+    const firstId = ids[0];
     const script = document.createElement('script');
     script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${firstId}`;
     document.head.appendChild(script);
 
     window.dataLayer = window.dataLayer || [];
@@ -63,8 +64,11 @@ const Analytics = {
 
     gtag('consent', 'default', { analytics_storage: 'denied' });
     gtag('js', new Date());
-    gtag('config', id, { send_page_view: false });
-    console.info('📊 GA4 loaded — big brother is watching (anonymously).');
+    
+    ids.forEach(id => {
+        gtag('config', id, { send_page_view: false });
+    });
+    console.info('📊 GA4 loaded for IDs:', ids.join(', '));
   },
 
   /* ---------------------------------------------------------------- */
