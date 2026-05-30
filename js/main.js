@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             DataLoader.renderMembers('members-core', 'core'),
             DataLoader.renderMembers('members-general', 'general')
         ]);
-        Animations.setupEasterEgg();
     }
 
     // Always init partner swiper if container exists
