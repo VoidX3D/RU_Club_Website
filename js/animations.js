@@ -55,25 +55,25 @@ const Animations = {
     },
 
     setupEasterEgg() {
-        const observer = new MutationObserver(() => {
+        const poll = () => {
             const cells = document.querySelectorAll('td');
             let row = null;
             cells.forEach(c => { if (c.textContent.includes('Sincere')) row = c.closest('tr'); });
-            if (!row) return;
-            observer.disconnect();
-            row.title = 'Double-click me! 🌿';
-            row.style.cursor = 'pointer';
+            if (!row) { setTimeout(poll, 300); return; }
 
-            row.addEventListener('dblclick', () => this.burstLeaves(row), { passive: true });
+            row.title = '🌿';
+            row.style.cursor = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\' viewBox=\'0 0 24 24\'%3E%3Ctext y=\'18\' font-size=\'18\'%3E🌿%3C/text%3E%3C/svg%3E") 12 12, pointer';
+
+            row.addEventListener('dblclick', () => this.burstLeaves(row));
 
             let lastTap = 0;
             row.addEventListener('touchend', (e) => {
                 const now = Date.now();
                 if (now - lastTap < 300) { this.burstLeaves(row); e.preventDefault(); }
                 lastTap = now;
-            }, { passive: true });
-        });
-        observer.observe(document.body, { childList: true, subtree: true });
+            });
+        };
+        setTimeout(poll, 300);
     },
 
     burstLeaves(target) {
