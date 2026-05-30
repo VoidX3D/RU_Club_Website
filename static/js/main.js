@@ -42,15 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Load announcements if present
     if (document.getElementById('announcements-list')) {
-        if (typeof Announcements !== 'undefined') {
-            Announcements.renderCards('announcements-list');
-        } else {
-            console.error('Announcements script not loaded yet');
-            // Poll for object if needed or wait for window load
-            window.addEventListener('load', () => {
-                if (typeof Announcements !== 'undefined') Announcements.renderCards('announcements-list');
-            });
-        }
+        await Announcements.renderCards('announcements-list');
     }
 
     // Update missions stats page from JSON data
