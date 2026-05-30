@@ -79,6 +79,7 @@ const Animations = {
     burstLeaves(target) {
         if (this._bursting) return;
         this._bursting = true;
+        console.info('🌿 Easter egg activated! Double-leaf burst incoming!');
         const rect = target.getBoundingClientRect();
         const cx = rect.left + rect.width / 2 + window.scrollX;
         const cy = rect.top + rect.height / 2 + window.scrollY;
@@ -94,7 +95,7 @@ const Animations = {
                 border-radius:${Math.random() > 0.5 ? '50% 0 50% 0' : '0 50% 0 50%'};
                 left:${cx - size / 2}px; top:${cy - size / 2}px;
                 pointer-events:none; z-index:9999;
-                opacity:1; transition:none;
+                opacity:1;
             `;
             document.body.appendChild(leaf);
             leaves.push(leaf);
@@ -105,11 +106,11 @@ const Animations = {
             const dy = Math.sin(angle) * dist - 100;
             const rot = Math.random() * 720 - 360;
 
-            requestAnimationFrame(() => {
-                leaf.style.transition = `all ${0.6 + Math.random() * 0.6}s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity ${0.4 + Math.random() * 0.4}s ease`;
-                leaf.style.transform = `translate(${dx}px, ${dy}px) rotate(${rot}deg) scale(${0.3 + Math.random() * 0.7})`;
-                leaf.style.opacity = '0';
-            });
+            leaf.offsetHeight;
+
+            leaf.style.transition = `all ${0.6 + Math.random() * 0.6}s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity ${0.4 + Math.random() * 0.4}s ease`;
+            leaf.style.transform = `translate(${dx}px, ${dy}px) rotate(${rot}deg) scale(${0.3 + Math.random() * 0.7})`;
+            leaf.style.opacity = '0';
         }
 
         setTimeout(() => {
