@@ -6,7 +6,7 @@
  */
 
 const Analytics = {
-  GA_MEASUREMENT_ID: 'G-XXXXXXXXXX',
+  GA_MEASUREMENT_ID: 'G-7ZT4XY1D1B',
 
   init() {
     if (this.isDisabled()) return;
