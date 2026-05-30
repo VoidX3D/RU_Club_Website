@@ -1,10 +1,42 @@
 /**
- * Components - Header/Footer loader
+ * Components - Header/Footer loader + global UI
+ * ---------------------------------------------
+ * Loads header and footer HTML into placeholders,
+ * then injects the cookie consent popup directly
+ * into the body (not tied to any component).
  */
 
 const Components = {
     init() {
+        this.injectCookieConsent();
         this.loadComponents();
+    },
+
+    injectCookieConsent() {
+        const overlay = document.createElement('div');
+        overlay.id = 'cookie-overlay';
+        overlay.className = 'cookie-overlay';
+
+        const banner = document.createElement('div');
+        banner.id = 'cookie-consent';
+        banner.className = 'cookie-consent';
+        banner.setAttribute('role', 'dialog');
+        banner.setAttribute('aria-modal', 'true');
+        banner.setAttribute('aria-label', 'Cookie consent');
+        banner.innerHTML = `
+            <div class="cookie-icon">
+                <img src="assets/icons/cookie.svg" alt="Cookie" width="32" height="32">
+            </div>
+            <h3 class="cookie-title">We value your privacy</h3>
+            <p class="cookie-text">This site uses cookies from Google Analytics to analyze traffic. No personal data is sold or shared. <a href="consent.html">Learn more</a></p>
+            <div class="cookie-actions">
+                <button id="cookie-decline" class="cookie-btn cookie-btn-decline">Decline</button>
+                <button id="cookie-accept" class="cookie-btn cookie-btn-accept">Accept All</button>
+            </div>
+        `;
+
+        document.body.appendChild(overlay);
+        document.body.appendChild(banner);
     },
 
     async loadComponents() {
@@ -13,7 +45,6 @@ const Components = {
             this.loadComponent('footer-placeholder', 'components/footer.html')
         ]);
 
-        // Initialize all modules after components are loaded
         this.initAll();
     },
 
@@ -28,7 +59,6 @@ const Components = {
     },
 
     initAll() {
-        // Initialize all modules
         Theme.init();
         Navigation.init();
         Animations.init();
