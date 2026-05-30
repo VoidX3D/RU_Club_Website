@@ -85,6 +85,45 @@
         font-size: 0.9rem;
         color: var(--text-tertiary);
       }
+      .announcement-detail-header .announcement-status {
+        display: inline-block;
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        padding: 0.25rem 0.75rem;
+        border-radius: var(--radius-full);
+        margin-left: 0.5rem;
+        vertical-align: middle;
+      }
+      .announcement-detail-header .announcement-status--ongoing {
+        color: #059669;
+        background: color-mix(in srgb, #059669 12%, transparent);
+      }
+      .announcement-detail-header .announcement-status--deadline {
+        color: #d97706;
+        background: color-mix(in srgb, #d97706 12%, transparent);
+      }
+      .announcement-detail-header .announcement-status--ended {
+        color: #dc2626;
+        background: color-mix(in srgb, #dc2626 12%, transparent);
+      }
+
+      .announcement-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-top: 1rem;
+      }
+      .announcement-tags .announcement-chip {
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        background: var(--bg-secondary);
+        padding: 0.25rem 0.6rem;
+        border-radius: var(--radius-full);
+      }
+
       .announcement-detail-header .announcement-issuer {
         font-size: 0.85rem;
         color: var(--text-secondary);
@@ -235,7 +274,10 @@
             <div class="container">
                 <p class="announcement-tag" id="announcement-tag"></p>
                 <h1 id="announcement-title"></h1>
-                <p class="announcement-date" id="announcement-date"></p>
+                <p>
+                  <span class="announcement-date" id="announcement-date"></span>
+                  <span class="announcement-status" id="announcement-status" style="display:none;"></span>
+                </p>
                 <p class="announcement-issuer" id="announcement-issuer"></p>
             </div>
         </div>
@@ -248,6 +290,7 @@
                             <img id="announcement-image" src="" alt="" loading="lazy">
                         </div>
                         <div class="announcement-description" id="announcement-description"></div>
+                        <div class="announcement-tags" id="announcement-tags" style="display:none;"></div>
                         <div class="announcement-importance" id="announcement-importance" style="display:none;">
                             <h3>Why It Matters</h3>
                             <p id="announcement-importance-text"></p>
@@ -313,11 +356,26 @@
 
         document.getElementById('announcement-tag').textContent = announcement.tag;
         document.getElementById('announcement-title').textContent = announcement.title;
-        document.getElementById('announcement-date').textContent = announcement.date + (announcement.day ? ' &middot; ' + announcement.day : '');
+        
+        const statusLabel = { ongoing: 'Ongoing', deadline: 'Deadline', ended: 'Ended' };
+        if (announcement.status) {
+          const statusEl = document.getElementById('announcement-status');
+          statusEl.textContent = statusLabel[announcement.status] || announcement.status;
+          statusEl.className = 'announcement-status announcement-status--' + announcement.status;
+          statusEl.style.display = 'inline-block';
+        }
+        
+        document.getElementById('announcement-date').textContent = announcement.date + (announcement.day ? ' · ' + announcement.day : '');
         document.getElementById('announcement-issuer').textContent = announcement.issuedBy ? 'Issued by ' + announcement.issuedBy : '';
 
         const descContainer = document.getElementById('announcement-description');
         descContainer.innerHTML = announcement.description.split('\n').filter(p => p.trim()).map(p => '<p>' + p.trim() + '</p>').join('');
+
+        if (announcement.tags && announcement.tags.length) {
+          const tagsEl = document.getElementById('announcement-tags');
+          tagsEl.innerHTML = announcement.tags.map(t => '<span class="announcement-chip">' + t + '</span>').join('');
+          tagsEl.style.display = 'flex';
+        }
 
         if (announcement.importance) {
           const el = document.getElementById('announcement-importance');
@@ -341,6 +399,8 @@
 
         const metaContainer = document.getElementById('announcement-meta');
         const metaItems = [
+          { label: 'Status', value: announcement.status ? statusLabel[announcement.status] : null },
+          { label: 'Deadline', value: announcement.deadline },
           { label: 'Date', value: announcement.date },
           { label: 'Day', value: announcement.day },
           { label: 'Time', value: announcement.time },
