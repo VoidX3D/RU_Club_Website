@@ -56,18 +56,20 @@ const Animations = {
 
     setupEasterEgg() {
         const observer = new MutationObserver(() => {
-            const cell = document.querySelector('td.member-name');
-            if (!cell || !cell.textContent.includes('Sincere')) return;
+            const cells = document.querySelectorAll('td');
+            let row = null;
+            cells.forEach(c => { if (c.textContent.includes('Sincere')) row = c.closest('tr'); });
+            if (!row) return;
             observer.disconnect();
-            cell.title = 'Double-click me! 🌿';
-            cell.style.cursor = 'pointer';
+            row.title = 'Double-click me! 🌿';
+            row.style.cursor = 'pointer';
 
-            cell.addEventListener('dblclick', () => this.burstLeaves(cell), { passive: true });
+            row.addEventListener('dblclick', () => this.burstLeaves(row), { passive: true });
 
             let lastTap = 0;
-            cell.addEventListener('touchend', (e) => {
+            row.addEventListener('touchend', (e) => {
                 const now = Date.now();
-                if (now - lastTap < 300) { this.burstLeaves(cell); e.preventDefault(); }
+                if (now - lastTap < 300) { this.burstLeaves(row); e.preventDefault(); }
                 lastTap = now;
             }, { passive: true });
         });
