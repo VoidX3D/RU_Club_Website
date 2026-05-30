@@ -47,6 +47,12 @@ const Announcements = {
     const container = document.getElementById(containerId);
     if (!container) return;
 
+    const items = this.active();
+    if (!items.length) {
+      container.innerHTML = '<div class="announcements-empty"><p>No announcements at this time. Check back later!</p></div>';
+      return;
+    }
+
     container.innerHTML = items.map((a, i) => {
       const imgPath = a.image ? (a.image.startsWith('/') ? a.image : '/' + a.image) : '';
       return `
@@ -55,7 +61,6 @@ const Announcements = {
           <img src="${imgPath}" alt="${a.title}" loading="lazy">
         </div>` : ''}
         <div class="announcement-card-body">
-    ...
           <div class="announcement-card-meta">
             <span class="announcement-tag">${a.tag}</span>
             ${a.status ? `<span class="announcement-status announcement-status--${a.status}">${this.statusLabel(a.status)}</span>` : ''}
@@ -66,10 +71,10 @@ const Announcements = {
           ${a.tags && a.tags.length ? `<div class="announcement-card-tags">${a.tags.map(t => `<span class="announcement-chip">${t}</span>`).join('')}</div>` : ''}
           <a href="/announcement?id=${a.id}" class="announcement-read-more">
             Read More
-            <img src="static/assets/icons/arrow-right.svg" alt="" width="14" height="14" class="icon-current">
+            <img src="/static/assets/icons/arrow-right.svg" alt="" width="14" height="14" class="icon-current">
           </a>
         </div>
       </article>
-    `).join('');
+    `}).join('');
   }
 };
