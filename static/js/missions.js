@@ -34,7 +34,7 @@ const Missions = {
         <div class="gallery-image">
           <img src="${m.featured}" alt="${m.title}" loading="lazy">
           <div class="gallery-overlay">
-            <a href="mission.html?id=${m.slug}" class="btn-primary">View Mission</a>
+            <a href="/mission?id=${m.slug}" class="btn-primary">View Mission</a>
           </div>
         </div>
         <div class="gallery-content">

@@ -38,7 +38,7 @@ const Navigation = {
     },
 
     setActiveLink() {
-        const path = window.location.pathname.split('/').pop() || 'index.html';
+        const path = window.location.pathname.replace(/\/$/, '');
         document.querySelectorAll('.nav-link').forEach(link => {
             if (link.getAttribute('href') === path) {
                 link.classList.add('active');

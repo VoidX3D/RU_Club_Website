@@ -43,7 +43,7 @@ const Forms = {
             ]);
 
             const allOk = results.every(r => r.status === 'fulfilled');
-            window.location.href = allOk ? 'success.html' : 'failed.html';
+            window.location.href = allOk ? '/success' : '/failed';
         });
     }
 };

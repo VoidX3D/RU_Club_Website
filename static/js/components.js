@@ -28,7 +28,7 @@ const Components = {
                 <img src="static/assets/icons/cookie.svg" alt="Cookie" width="32" height="32">
             </div>
             <h3 class="cookie-title">We value your privacy</h3>
-            <p class="cookie-text">This site uses cookies from Google Analytics to analyze traffic. No personal data is sold or shared. <a href="consent.html">Learn more</a></p>
+            <p class="cookie-text">This site uses cookies from Google Analytics to analyze traffic. No personal data is sold or shared. <a href="/consent">Learn more</a></p>
             <div class="cookie-actions">
                 <button id="cookie-decline" class="cookie-btn cookie-btn-decline">Decline</button>
                 <button id="cookie-accept" class="cookie-btn cookie-btn-accept">Accept All</button>
@@ -41,8 +41,8 @@ const Components = {
 
     async loadComponents() {
         await Promise.all([
-            this.loadComponent('header-placeholder', 'components/header.html'),
-            this.loadComponent('footer-placeholder', 'components/footer.html')
+            this.loadComponent('header-placeholder', '/components/header'),
+            this.loadComponent('footer-placeholder', '/components/footer')
         ]);
 
         this.initAll();
