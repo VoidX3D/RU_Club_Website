@@ -2,20 +2,31 @@ const Announcements = {
   list: null,
 
   async loadList() {
-    if (this.list) return this.list;
+    console.log('Announcements: Loading list.json...');
+    if (this.list) {
+      console.log('Announcements: List already loaded');
+      return this.list;
+    }
     try {
       const res = await fetch('/announcements/list.json');
+      console.log('Announcements: Fetch response status:', res.status);
       this.list = await res.json();
+      console.log('Announcements: List loaded successfully:', this.list);
       return this.list;
     } catch (e) {
-      console.error('Failed to load announcements:', e);
+      console.error('Announcements: Failed to load list.json:', e);
       return [];
     }
   },
 
   active() {
-    if (!this.list) return [];
-    return this.list.filter(a => a.active !== false);
+    if (!this.list) {
+      console.warn('Announcements: List not loaded yet');
+      return [];
+    }
+    const activeItems = this.list.filter(a => a.active !== false);
+    console.log('Announcements: Active items:', activeItems);
+    return activeItems;
   },
 
   async get(id) {
@@ -43,13 +54,18 @@ const Announcements = {
   },
 
   async renderCards(containerId) {
+    console.log('Announcements: Starting render for:', containerId);
     await this.loadList();
     const container = document.getElementById(containerId);
-    if (!container) return;
+    if (!container) {
+      console.error('Announcements: Container not found:', containerId);
+      return;
+    }
 
     const items = this.active();
     if (!items.length) {
-      container.innerHTML = '<div class="announcements-empty"><p>No announcements at this time. Check back later!</p></div>';
+      console.warn('Announcements: No active items to render');
+      container.innerHTML = '<div class="announcements-empty"><p>No announcements at this time.</p></div>';
       return;
     }
 
@@ -76,5 +92,6 @@ const Announcements = {
         </div>
       </article>
     `}).join('');
+    console.log('Announcements: Render complete');
   }
 };
