@@ -414,7 +414,7 @@
         if (announcement.image) {
           const wrap = document.getElementById('announcement-image-wrap');
           const img = document.getElementById('announcement-image');
-          img.src = announcement.image;
+          img.src = announcement.image.startsWith('/') ? announcement.image : '/' + announcement.image;
           img.alt = announcement.title;
           wrap.style.display = 'block';
         }

@@ -47,13 +47,15 @@ const Announcements = {
     const container = document.getElementById(containerId);
     if (!container) return;
 
-    const items = this.active();
-    container.innerHTML = items.map((a, i) => `
+    container.innerHTML = items.map((a, i) => {
+      const imgPath = a.image ? (a.image.startsWith('/') ? a.image : '/' + a.image) : '';
+      return `
       <article class="announcement-card" data-aos="fade-up" data-aos-delay="${i * 100}">
-        ${a.image ? `<div class="announcement-card-image">
-          <img src="${a.image}" alt="${a.title}" loading="lazy">
+        ${imgPath ? `<div class="announcement-card-image">
+          <img src="${imgPath}" alt="${a.title}" loading="lazy">
         </div>` : ''}
         <div class="announcement-card-body">
+    ...
           <div class="announcement-card-meta">
             <span class="announcement-tag">${a.tag}</span>
             ${a.status ? `<span class="announcement-status announcement-status--${a.status}">${this.statusLabel(a.status)}</span>` : ''}
