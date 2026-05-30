@@ -148,6 +148,22 @@
         color: #dc2626;
         background: color-mix(in srgb, #dc2626 12%, transparent);
       }
+      .announcement-status--urgent {
+        color: #e11d48;
+        background: color-mix(in srgb, #e11d48 12%, transparent);
+        font-weight: 800;
+        animation: pulse-red 2s infinite;
+      }
+      .announcement-status--upcoming {
+        color: #2563eb;
+        background: color-mix(in srgb, #2563eb 12%, transparent);
+      }
+
+      @keyframes pulse-red {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+      }
 
       .announcement-card-tags {
         display: flex;

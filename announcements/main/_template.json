@@ -1,9 +1,9 @@
 {
   "id": "your-unique-id",
   "title": "Your Announcement Title",
-  "tag": "Event | Update | Notice",
-  "status": "ongoing | deadline | ended",
-  "tags": ["keyword1", "keyword2"],
+  "tag": "Notice | Event | Update | Opportunity",
+  "status": "ongoing | deadline | ended | urgent | upcoming",
+  "tags": ["environment", "waste-management", "urgent", "members-only"],
   "date": "Month Day, Year (e.g. June 5, 2026)",
   "day": "Day of week (e.g. Friday)",
   "deadline": "Optional — strict deadline date (e.g. June 10, 2026)",

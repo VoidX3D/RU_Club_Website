@@ -33,7 +33,13 @@ const Announcements = {
   },
 
   statusLabel(s) {
-    return { ongoing: 'Ongoing', deadline: 'Deadline', ended: 'Ended' }[s] || s;
+    return { 
+      ongoing: 'Ongoing', 
+      deadline: 'Deadline', 
+      ended: 'Ended',
+      urgent: 'Urgent',
+      upcoming: 'Upcoming'
+    }[s] || s;
   },
 
   async renderCards(containerId) {
