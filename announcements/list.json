@@ -1,12 +1,18 @@
 [
   {
+    "id": "your-unique-id",
+    "title": "Your Announcement Title",
+    "tag": "Event | Update | Notice",
+    "date": "Month Day, Year (e.g. June 5, 2026)",
+    "summary": "Short summary shown on the card (1-2 sentences)",
+    "image": "announcements/assets/your-image.jpg",
+    "active": true
+  },
+  {
     "id": "urgent-notice-diy-upcycle",
     "title": "URGENT NOTICE — RU CLUB (Recycle & Upcycle Club)",
     "tag": "Notice",
-    "status": "deadline",
-    "tags": ["urgent", "DIY", "upcycling", "World Environment Day"],
     "date": "May 30, 2026",
-    "deadline": "June 4, 2026",
     "summary": "Every member MUST prepare one DIY decorative item from upcycled/waste materials. Strict deadline this Thursday.",
     "image": "",
     "active": true
