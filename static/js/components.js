@@ -25,7 +25,7 @@ const Components = {
         banner.setAttribute('aria-label', 'Cookie consent');
         banner.innerHTML = `
             <div class="cookie-icon">
-                <img src="assets/icons/cookie.svg" alt="Cookie" width="32" height="32">
+                <img src="static/assets/icons/cookie.svg" alt="Cookie" width="32" height="32">
             </div>
             <h3 class="cookie-title">We value your privacy</h3>
             <p class="cookie-text">This site uses cookies from Google Analytics to analyze traffic. No personal data is sold or shared. <a href="consent.html">Learn more</a></p>

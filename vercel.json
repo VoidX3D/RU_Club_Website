@@ -36,7 +36,7 @@
       ]
     },
     {
-      "source": "/assets/:path*",
+      "source": "/static/assets/:path*",
       "headers": [
         {
           "key": "Cache-Control",

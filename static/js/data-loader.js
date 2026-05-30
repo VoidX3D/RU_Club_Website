@@ -13,11 +13,11 @@ const DataLoader = {
     }
   },
 
-  async getSite() { return this.get('data/site.json'); },
-  async getStats() { return this.get('data/stats.json'); },
-  async getPartners() { return this.get('data/partners.json'); },
-  async getMembers() { return this.get('data/members.json'); },
-  async getContent() { return this.get('data/content.json'); },
+  async getSite() { return this.get('info/site.json'); },
+  async getStats() { return this.get('info/stats.json'); },
+  async getPartners() { return this.get('info/partners.json'); },
+  async getMembers() { return this.get('info/members.json'); },
+  async getContent() { return this.get('info/content.json'); },
 
   async renderStats(containerId) {
     const container = document.getElementById(containerId);
@@ -112,7 +112,7 @@ const DataLoader = {
       featuresContainer.innerHTML = content.features.cards.map((c, i) => `
         <div class="feature-card" data-aos="fade-up" data-aos-delay="${(i + 1) * 100}">
           <div class="feature-icon">
-            <img src="assets/icons/${c.icon}.svg" alt="${c.title}" width="24" height="24">
+            <img src="static/assets/icons/${c.icon}.svg" alt="${c.title}" width="24" height="24">
           </div>
           <h3 class="feature-title">${c.title}</h3>
           <p class="feature-desc">${c.description}</p>
