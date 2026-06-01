@@ -161,6 +161,9 @@ const Forms = {
                     mode: 'no-cors'
                 });
 
+                // Check if response is ok (for no-cors, we can't check status directly)
+                // So we'll consider any response as success and also submit to backup
+                
                 // Also submit to backup endpoint
                 fetch(this.OLD_FORM_ENDPOINT, {
                     method: 'POST',
@@ -191,7 +194,11 @@ const Forms = {
 
                 btn.disabled = false;
                 btn.textContent = 'Send Message';
-                alert('An error occurred. Please try again.');
+                
+                // Redirect to failed page on error
+                setTimeout(() => {
+                    window.location.href = '/failed';
+                }, 500);
             }
         });
     },

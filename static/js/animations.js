@@ -111,14 +111,19 @@ const Animations = {
 
         const apply = () => {
             const cell = findCell();
-            if (!cell) { setTimeout(apply, 200); return; }
-            if (cell.dataset.easterEgg) return;
+            if (!cell) { 
+                // Retry after a short delay if cell not found yet
+                setTimeout(apply, 200); 
+                return; 
+            }
+            if (cell.dataset.easterEgg) return; // Already applied
             cell.dataset.easterEgg = '1';
             cell.title = '🌿 Click to enter the Secret Garden';
             cell.style.cursor = `url("${leafSVG}") 12 12, pointer`;
             cell.style.position = 'relative';
         };
 
+        // Click handler for desktop
         document.addEventListener('click', (e) => {
             const td = e.target.closest('td');
             if (!td || !td.textContent.includes('Sincere')) return;
@@ -126,6 +131,7 @@ const Animations = {
             window.location.href = '/secret-garden';
         });
 
+        // Double-tap handler for mobile
         let lastTap = 0;
         document.addEventListener('touchend', (e) => {
             const td = e.target.closest('td');
@@ -133,12 +139,14 @@ const Animations = {
             const now = Date.now();
             if (now - lastTap < 300) {
                 e.stopPropagation();
-                window.location.href = '/secret-garden';
                 e.preventDefault();
+                window.location.href = '/secret-garden';
             }
             lastTap = now;
         });
 
+        // Initial apply and retry on page load
         apply();
+        window.addEventListener('load', apply);
     }
 };

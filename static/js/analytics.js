@@ -5,7 +5,7 @@
  *
  * Centralized GA4 — change the ID once, it works everywhere.
  * Tracks page views, outbound clicks, scroll depth, CTA clicks,
- * downloads, theme toggles, mobile menu, and form submissions.
+ * downloads, theme toggles, mobile menu, form submissions, and more.
  *
  * To disable: just delete the GA_MEASUREMENT_ID below.
  * To enable: it's already enabled. You're welcome.
@@ -13,6 +13,8 @@
 
 const Analytics = {
   GA_MEASUREMENT_IDS: ['G-HWFPCZ4W1Q', 'G-HJTLGVDNYK'],
+  sessionStartTime: Date.now(),
+  pageStartTime: Date.now(),
 
   /* ---------------------------------------------------------------- */
   /*  INIT — the party starter                                        */
@@ -33,6 +35,9 @@ const Analytics = {
     this.trackThemeToggle();
     this.trackMobileMenu();
     this.trackFormSubmissions();
+    this.trackUserInteraction();
+    this.trackPagePerformance();
+    this.trackErrorTracking();
   },
 
   /* ---------------------------------------------------------------- */
@@ -66,7 +71,11 @@ const Analytics = {
     gtag('js', new Date());
     
     ids.forEach(id => {
-        gtag('config', id, { send_page_view: false });
+        gtag('config', id, { 
+            send_page_view: false,
+            'allow_google_signals': true,
+            'allow_ad_personalization_signals': true
+        });
     });
     console.info('📊 GA4 loaded for IDs:', ids.join(', '));
   },
@@ -86,11 +95,46 @@ const Analytics = {
   /* ---------------------------------------------------------------- */
   trackPageView() {
     if (typeof gtag === 'undefined') return;
+    
+    // Determine page type
+    const path = window.location.pathname;
+    let pageType = 'other';
+    if (path === '/' || path === '') pageType = 'home';
+    else if (path.includes('missions')) pageType = 'missions';
+    else if (path.includes('members')) pageType = 'members';
+    else if (path.includes('gallery')) pageType = 'gallery';
+    else if (path.includes('announcements')) pageType = 'announcements';
+    else if (path.includes('contact')) pageType = 'contact';
+    else if (path.includes('success')) pageType = 'success';
+    else if (path.includes('failed')) pageType = 'failed';
+    else if (path.includes('secret-garden')) pageType = 'secret_garden';
+
     gtag('event', 'page_view', {
       page_title: document.title,
       page_location: window.location.href,
-      page_path: window.location.pathname
+      page_path: window.location.pathname,
+      page_type: pageType,
+      referrer: document.referrer || 'direct',
+      user_language: navigator.language,
+      screen_resolution: `${window.screen.width}x${window.screen.height}`,
+      viewport_size: `${window.innerWidth}x${window.innerHeight}`,
+      device_type: this.getDeviceType()
     });
+
+    this.pageStartTime = Date.now();
+  },
+
+  /* ---------------------------------------------------------------- */
+  /*  DEVICE TYPE — determine if mobile, tablet, or desktop           */
+  /* ---------------------------------------------------------------- */
+  getDeviceType() {
+    const ua = navigator.userAgent;
+    if (/mobile|android|iphone|ipod|blackberry|iemobile|opera mini/i.test(ua)) {
+      return 'mobile';
+    } else if (/ipad|android|tablet/i.test(ua)) {
+      return 'tablet';
+    }
+    return 'desktop';
   },
 
   /* ---------------------------------------------------------------- */
@@ -113,7 +157,8 @@ const Analytics = {
               depths.add(mark);
               gtag('event', 'scroll_depth', {
                 scroll_depth: mark + '%',
-                page_path: window.location.pathname
+                page_path: window.location.pathname,
+                scroll_position: window.scrollY
               });
             }
           });
@@ -132,9 +177,11 @@ const Analytics = {
     const intervals = [10, 30, 60, 120, 300];
     intervals.forEach(seconds => {
       setTimeout(() => {
+        const timeSpent = Math.round((Date.now() - this.pageStartTime) / 1000);
         gtag('event', 'time_on_page', {
           engagement_time: seconds + 's',
-          page_path: window.location.pathname
+          page_path: window.location.pathname,
+          actual_time_spent: timeSpent + 's'
         });
       }, seconds * 1000);
     });
@@ -153,7 +200,9 @@ const Analytics = {
         if (url.hostname !== window.location.hostname) {
           gtag('event', 'click', {
             event_category: 'outbound',
-            event_label: url.href,
+            event_label: url.hostname,
+            link_url: url.href,
+            link_text: link.textContent.trim().slice(0, 100),
             transport_type: 'beacon'
           });
         }
@@ -173,6 +222,7 @@ const Analytics = {
       gtag('event', 'cta_click', {
         cta_text: text,
         cta_href: btn.getAttribute('href') || '',
+        cta_class: btn.className,
         page_path: window.location.pathname
       });
     });
@@ -187,10 +237,11 @@ const Analytics = {
       const link = e.target.closest('a');
       if (!link || !link.href) return;
       const ext = link.href.split('.').pop().toLowerCase();
-      if (['pdf', 'zip', 'doc', 'docx', 'xls', 'xlsx', 'csv'].includes(ext)) {
+      if (['pdf', 'zip', 'doc', 'docx', 'xls', 'xlsx', 'csv', 'jpg', 'png', 'gif'].includes(ext)) {
         gtag('event', 'download', {
           file_url: link.href,
-          file_type: ext
+          file_type: ext,
+          file_name: link.href.split('/').pop()
         });
       }
     });
@@ -206,7 +257,8 @@ const Analytics = {
     btn.addEventListener('click', () => {
       const theme = document.documentElement.getAttribute('data-theme');
       gtag('event', 'theme_toggle', {
-        theme: theme === 'dark' ? 'dark_mode' : 'light_mode'
+        theme: theme === 'dark' ? 'dark_mode' : 'light_mode',
+        timestamp: new Date().toISOString()
       });
     });
   },
@@ -219,7 +271,12 @@ const Analytics = {
     const menuBtn = document.getElementById('menu-toggle');
     if (!menuBtn) return;
     menuBtn.addEventListener('click', () => {
-      gtag('event', 'mobile_menu', { action: 'opened' });
+      const mobileMenu = document.getElementById('mobile-menu');
+      const isOpen = mobileMenu?.classList.contains('active');
+      gtag('event', 'mobile_menu', { 
+        action: isOpen ? 'opened' : 'closed',
+        device_type: this.getDeviceType()
+      });
     });
   },
 
@@ -234,7 +291,98 @@ const Analytics = {
       const action = form.getAttribute('action') || '';
       gtag('event', 'form_submission', {
         form_action: action,
-        page_path: window.location.pathname
+        form_id: form.id,
+        page_path: window.location.pathname,
+        form_fields: form.querySelectorAll('input, textarea').length
+      });
+    });
+  },
+
+  /* ---------------------------------------------------------------- */
+  /*  USER INTERACTION — track various user interactions              */
+  /* ---------------------------------------------------------------- */
+  trackUserInteraction() {
+    if (typeof gtag === 'undefined') return;
+    
+    // Track video plays if present
+    document.addEventListener('play', (e) => {
+      if (e.target.tagName === 'VIDEO') {
+        gtag('event', 'video_play', {
+          video_title: e.target.title || 'unknown',
+          page_path: window.location.pathname
+        });
+      }
+    }, true);
+
+    // Track image interactions
+    document.addEventListener('click', (e) => {
+      if (e.target.tagName === 'IMG' && e.target.closest('.glightbox')) {
+        gtag('event', 'image_view', {
+          image_src: e.target.src,
+          image_alt: e.target.alt,
+          page_path: window.location.pathname
+        });
+      }
+    });
+  },
+
+  /* ---------------------------------------------------------------- */
+  /*  PAGE PERFORMANCE — track Core Web Vitals                        */
+  /* ---------------------------------------------------------------- */
+  trackPagePerformance() {
+    if (typeof gtag === 'undefined' || !window.PerformanceObserver) return;
+
+    // Track Largest Contentful Paint (LCP)
+    try {
+      const lcpObserver = new PerformanceObserver((list) => {
+        const entries = list.getEntries();
+        const lastEntry = entries[entries.length - 1];
+        gtag('event', 'page_performance', {
+          metric_name: 'LCP',
+          metric_value: Math.round(lastEntry.renderTime || lastEntry.loadTime),
+          page_path: window.location.pathname
+        });
+      });
+      lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+    } catch (e) {
+      console.warn('LCP tracking not supported');
+    }
+
+    // Track First Input Delay (FID) via Web Vitals
+    try {
+      const fidObserver = new PerformanceObserver((list) => {
+        const entries = list.getEntries();
+        entries.forEach((entry) => {
+          gtag('event', 'page_performance', {
+            metric_name: 'FID',
+            metric_value: Math.round(entry.processingDuration),
+            page_path: window.location.pathname
+          });
+        });
+      });
+      fidObserver.observe({ entryTypes: ['first-input'] });
+    } catch (e) {
+      console.warn('FID tracking not supported');
+    }
+  },
+
+  /* ---------------------------------------------------------------- */
+  /*  ERROR TRACKING — catch and report JavaScript errors             */
+  /* ---------------------------------------------------------------- */
+  trackErrorTracking() {
+    if (typeof gtag === 'undefined') return;
+    
+    window.addEventListener('error', (event) => {
+      gtag('event', 'exception', {
+        description: `${event.filename}:${event.lineno}:${event.colno} - ${event.message}`,
+        fatal: false
+      });
+    });
+
+    window.addEventListener('unhandledrejection', (event) => {
+      gtag('event', 'exception', {
+        description: `Unhandled Promise Rejection: ${event.reason}`,
+        fatal: false
       });
     });
   },
