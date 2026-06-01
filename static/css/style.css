@@ -207,6 +207,20 @@ h4 { font-size: 1.35rem; }
     .feature-card { padding: 1.75rem 1.25rem; }
     .feature-title { font-size: 1.15rem; }
     .contact-grid { padding: 1.5rem; }
+
+@media (max-width: 768px) {
+    .contact-grid {
+        padding: 1rem;
+    }
+    
+    .contact-info {
+        padding: 2rem 1.5rem;
+    }
+    
+    .contact-form {
+        padding: 2rem 1.5rem;
+    }
+}
     .contact-info { padding: 2rem 1.25rem; }
     .contact-form { padding: 2rem 1.25rem; }
     .footer-grid { gap: 2rem; }
@@ -492,12 +506,18 @@ section.bg-secondary {
     transition: var(--transition-base);
 }
 
+[data-theme="dark"] .menu-toggle span {
+    background: var(--text-primary);
+    opacity: 0.9;
+}
+
 @media (min-width: 768px) {
     .menu-toggle { display: none; }
 }
 
 /* Mobile Menu */
 #mobile-menu {
+    padding: 2rem 0;
     position: fixed;
     top: var(--header-height);
     left: 0;
@@ -519,8 +539,19 @@ section.bg-secondary {
 }
 
 #mobile-menu .nav-link {
-    font-size: 1.75rem;
+    font-size: 1.35rem;
     font-weight: 600;
+    padding: 1rem 2rem;
+    text-align: center;
+    display: block;
+    width: 100%;
+}
+
+@media (max-width: 480px) {
+    #mobile-menu .nav-link {
+        font-size: 1.2rem;
+        padding: 0.85rem 1.5rem;
+    }
 }
 
 /* === HERO SECTION === */
@@ -1058,7 +1089,27 @@ section.bg-secondary {
 .members-table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 650px;
+}
+
+@media (max-width: 768px) {
+    .members-table {
+        font-size: 0.9rem;
+    }
+    
+    .members-table th {
+        padding: 1rem 0.75rem;
+        font-size: 0.65rem;
+    }
+    
+    .members-table td {
+        padding: 1rem 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    .member-role {
+        font-size: 0.65rem;
+        padding: 0.3rem 0.6rem;
+    }
 }
 
 .members-table th {
@@ -1252,6 +1303,21 @@ section.bg-secondary {
 
 .form-group {
     margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.form-input.error,
+.form-textarea.error {
+    border-color: #ef4444;
+    background: rgba(239, 68, 68, 0.05);
+}
+
+.error-message {
+    display: block;
+    color: #ef4444;
+    font-size: 0.75rem;
+    margin-top: 0.35rem;
+    font-weight: 500;
 }
 
 .form-label {

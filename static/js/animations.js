@@ -1,5 +1,6 @@
 /**
  * Animations - AOS, GLightbox, scroll animations
+ * Enhanced for mobile with proper performance optimization
  */
 
 const Animations = {
@@ -8,17 +9,31 @@ const Animations = {
         this.initGLightbox();
         this.initScrollObserver();
         this.setupEasterEgg();
+        this.setupParallaxEffects();
     },
 
     initAOS() {
         if (typeof AOS !== 'undefined') {
+            // Detect if device is mobile
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
             AOS.init({
-                duration: 600,
+                duration: isMobile ? 400 : 600,
                 once: true,
                 easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                offset: 40,
+                offset: isMobile ? 20 : 40,
                 delay: 50,
-                disable: 'mobile'
+                disable: false, // Enable animations on mobile with optimized settings
+                mirror: false,
+                anchorPlacement: 'top-bottom',
+                startEvent: 'DOMContentLoaded'
+            });
+            
+            // Refresh AOS after dynamic content loads
+            window.addEventListener('load', () => {
+                if (typeof AOS !== 'undefined') {
+                    AOS.refresh();
+                }
             });
         }
     },
@@ -30,14 +45,15 @@ const Animations = {
                 touchNavigation: true,
                 loop: true,
                 autoplayVideos: true,
-                zoomable: true
+                zoomable: true,
+                draggable: true
             });
         }
     },
 
     initScrollObserver() {
         const observerOptions = {
-            threshold: 0.1,
+            threshold: [0, 0.25, 0.5, 0.75, 1],
             rootMargin: '0px 0px -50px 0px'
         };
 
@@ -45,13 +61,41 @@ const Animations = {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
+                    // Trigger custom scroll event for parallax
+                    entry.target.dispatchEvent(new CustomEvent('scrollIntoView', { detail: entry }));
+                } else {
+                    entry.target.classList.remove('visible');
                 }
             });
         }, observerOptions);
 
-        document.querySelectorAll('.fade-in-up').forEach(el => {
+        document.querySelectorAll('.fade-in-up, [data-aos]').forEach(el => {
             observer.observe(el);
         });
+    },
+
+    setupParallaxEffects() {
+        // Lightweight parallax for hero section on scroll
+        const parallaxElements = document.querySelectorAll('[data-parallax]');
+        if (parallaxElements.length === 0) return;
+
+        let ticking = false;
+        const updateParallax = () => {
+            const scrollY = window.scrollY;
+            parallaxElements.forEach(el => {
+                const speed = el.dataset.parallax || 0.5;
+                const offset = scrollY * speed;
+                el.style.transform = `translateY(${offset}px)`;
+            });
+            ticking = false;
+        };
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        }, { passive: true });
     },
 
     setupEasterEgg() {
@@ -70,8 +114,9 @@ const Animations = {
             if (!cell) { setTimeout(apply, 200); return; }
             if (cell.dataset.easterEgg) return;
             cell.dataset.easterEgg = '1';
-            cell.title = '🌿';
+            cell.title = '🌿 Click to enter the Secret Garden';
             cell.style.cursor = `url("${leafSVG}") 12 12, pointer`;
+            cell.style.position = 'relative';
         };
 
         document.addEventListener('click', (e) => {

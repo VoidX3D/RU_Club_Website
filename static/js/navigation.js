@@ -17,14 +17,44 @@ const Navigation = {
 
         if (!menuBtn || !mobileMenu) return;
 
-        menuBtn.addEventListener('click', () => mobileMenu.classList.add('active'));
+        // Toggle menu open/close
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileMenu.classList.toggle('active');
+            menuBtn.setAttribute('aria-expanded', mobileMenu.classList.contains('active'));
+        });
 
+        // Close menu button
         if (menuClose) {
-            menuClose.addEventListener('click', () => mobileMenu.classList.remove('active'));
+            menuClose.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                menuBtn.setAttribute('aria-expanded', 'false');
+            });
         }
 
+        // Close menu when clicking links
         mobileMenu.querySelectorAll('.nav-link, .btn-join').forEach(link => {
-            link.addEventListener('click', () => mobileMenu.classList.remove('active'));
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                menuBtn.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // Close menu when pressing Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileMenu.classList.contains('active')) {
+                mobileMenu.classList.remove('active');
+                menuBtn.setAttribute('aria-expanded', 'false');
+                menuBtn.focus();
+            }
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target) && mobileMenu.classList.contains('active')) {
+                mobileMenu.classList.remove('active');
+                menuBtn.setAttribute('aria-expanded', 'false');
+            }
         });
     },
 
@@ -53,7 +83,9 @@ const Navigation = {
             resizeTimer = setTimeout(() => {
                 if (window.innerWidth >= 768) {
                     const mobileMenu = document.getElementById('mobile-menu');
+                    const menuBtn = document.getElementById('menu-toggle');
                     if (mobileMenu) mobileMenu.classList.remove('active');
+                    if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
                 }
             }, 150);
         });

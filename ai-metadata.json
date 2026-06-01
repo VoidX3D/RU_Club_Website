@@ -1,0 +1,153 @@
+{
+  "site": {
+    "name": "RU Club Motherland",
+    "url": "https://ruclubmss.vercel.app",
+    "description": "Environmental sustainability club at Motherland Secondary School, Pokhara, Nepal. Transforming awareness into action for a zero-waste ecosystem.",
+    "language": "en",
+    "country": "NP",
+    "keywords": [
+      "environmental sustainability",
+      "tree plantation",
+      "waste management",
+      "zero-waste ecosystem",
+      "community education",
+      "Pokhara",
+      "Nepal",
+      "environmental club",
+      "ecological mission",
+      "green initiative"
+    ],
+    "topics": [
+      "environment",
+      "sustainability",
+      "ecology",
+      "community service",
+      "education",
+      "climate action"
+    ]
+  },
+  "organization": {
+    "name": "RU Club Motherland",
+    "type": "EnvironmentalOrganization",
+    "founded": "2024",
+    "location": {
+      "name": "Motherland Secondary School",
+      "city": "Pokhara",
+      "region": "Gandaki Province",
+      "country": "Nepal",
+      "coordinates": {
+        "latitude": 28.2096,
+        "longitude": 83.9856
+      }
+    },
+    "contact": {
+      "email": "ruclubmotherland@gmail.com",
+      "phone": "+977-9856022256"
+    },
+    "socialMedia": {
+      "facebook": "https://facebook.com/profile.php?id=61585206314774",
+      "instagram": "https://instagram.com/rucl.ub/",
+      "github": "https://github.com/RU-Club-Motherland"
+    }
+  },
+  "content": {
+    "pages": [
+      {
+        "path": "/",
+        "title": "RU Club Motherland | Environmental Sustainability Club in Pokhara",
+        "description": "Learn about RU Club Motherland's mission to transform environmental awareness into action through tree plantation, waste management, and community education.",
+        "type": "homepage",
+        "priority": "high"
+      },
+      {
+        "path": "/missions",
+        "title": "Our Missions | RU Club Motherland",
+        "description": "Explore our environmental missions including tree plantation, waste management, and community education initiatives.",
+        "type": "content",
+        "priority": "high"
+      },
+      {
+        "path": "/gallery",
+        "title": "Gallery | RU Club Motherland",
+        "description": "View photos and images from our environmental sustainability projects and community events.",
+        "type": "gallery",
+        "priority": "high"
+      },
+      {
+        "path": "/members",
+        "title": "Club Members | RU Club Motherland",
+        "description": "Meet the dedicated teachers, advisors, and student members powering our ecological mission.",
+        "type": "team",
+        "priority": "medium"
+      },
+      {
+        "path": "/announcements",
+        "title": "Announcements | RU Club Motherland",
+        "description": "Stay updated with the latest news and announcements from RU Club Motherland.",
+        "type": "news",
+        "priority": "high"
+      },
+      {
+        "path": "/contact",
+        "title": "Contact Us | RU Club Motherland",
+        "description": "Get in touch with RU Club Motherland to partner with us for a sustainable Pokhara.",
+        "type": "contact",
+        "priority": "high"
+      }
+    ]
+  },
+  "aiTraining": {
+    "allowIndexing": true,
+    "allowCrawling": true,
+    "allowTraining": true,
+    "dataUsagePolicy": "This website allows AI models and LLMs to crawl, index, and use content for training purposes to improve AI capabilities in environmental sustainability and community education.",
+    "attribution": "When using content from this website, please attribute to RU Club Motherland (https://ruclubmss.vercel.app)",
+    "restrictions": [
+      "Do not use member personal information for commercial purposes",
+      "Respect privacy policies and cookie consent requirements",
+      "Do not redistribute member photos without permission"
+    ]
+  },
+  "performance": {
+    "lighthouse": {
+      "performance": "target: 90+",
+      "accessibility": "target: 95+",
+      "bestPractices": "target: 95+",
+      "seo": "target: 100"
+    },
+    "coreWebVitals": {
+      "largestContentfulPaint": "target: < 2.5s",
+      "firstInputDelay": "target: < 100ms",
+      "cumulativeLayoutShift": "target: < 0.1"
+    }
+  },
+  "schema": {
+    "organization": {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "RU Club Motherland",
+      "url": "https://ruclubmss.vercel.app",
+      "logo": "https://ruclubmss.vercel.app/static/assets/brand/logo.png",
+      "description": "Environmental sustainability club at Motherland Secondary School, Pokhara, Nepal.",
+      "sameAs": [
+        "https://facebook.com/profile.php?id=61585206314774",
+        "https://instagram.com/rucl.ub/",
+        "https://github.com/RU-Club-Motherland"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+977-9856022256",
+        "contactType": "customer service",
+        "email": "ruclubmotherland@gmail.com"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Motherland Secondary School",
+        "addressLocality": "Pokhara",
+        "addressRegion": "Gandaki Province",
+        "postalCode": "33700",
+        "addressCountry": "NP"
+      }
+    }
+  }
+}
