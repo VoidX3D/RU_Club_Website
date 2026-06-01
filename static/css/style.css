@@ -207,20 +207,6 @@ h4 { font-size: 1.35rem; }
     .feature-card { padding: 1.75rem 1.25rem; }
     .feature-title { font-size: 1.15rem; }
     .contact-grid { padding: 1.5rem; }
-
-@media (max-width: 768px) {
-    .contact-grid {
-        padding: 1rem;
-    }
-    
-    .contact-info {
-        padding: 2rem 1.5rem;
-    }
-    
-    .contact-form {
-        padding: 2rem 1.5rem;
-    }
-}
     .contact-info { padding: 2rem 1.25rem; }
     .contact-form { padding: 2rem 1.25rem; }
     .footer-grid { gap: 2rem; }
@@ -1496,7 +1482,16 @@ section.bg-secondary {
 .footer-social svg {
     width: 20px;
     height: 20px;
-    fill: white;
+    color: white;
+}
+
+.social-icon {
+    filter: brightness(0) invert(1);
+    transition: filter 0.3s ease;
+}
+
+[data-theme="dark"] .social-icon {
+    filter: brightness(1) invert(0);
 }
 
 .footer-title {

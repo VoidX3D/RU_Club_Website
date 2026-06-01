@@ -1,12 +1,11 @@
 /**
  * Components - Header/Footer loader + global UI
- * ---------------------------------------------
- * Loads header and footer HTML into placeholders,
- * then injects the cookie consent popup directly
- * into the body (not tied to any component).
+ * Enhanced with better error handling, caching, and performance
  */
 
 const Components = {
+    componentCache: {},
+    
     init() {
         this.injectCookieConsent();
         this.loadComponents();
@@ -25,7 +24,7 @@ const Components = {
         banner.setAttribute('aria-label', 'Cookie consent');
         banner.innerHTML = `
             <div class="cookie-icon">
-                <img src="static/assets/icons/cookie.svg" alt="Cookie" width="32" height="32">
+                <img src="/static/assets/icons/cookie.svg" alt="Cookie" width="32" height="32" loading="lazy">
             </div>
             <h3 class="cookie-title">We value your privacy</h3>
             <p class="cookie-text">This site uses cookies from Google Analytics to analyze traffic. No personal data is sold or shared. <a href="/consent">Learn more</a></p>
@@ -40,29 +39,65 @@ const Components = {
     },
 
     async loadComponents() {
-        await Promise.all([
-            this.loadComponent('header-placeholder', '/components/header.html'),
-            this.loadComponent('footer-placeholder', '/components/footer.html')
-        ]);
+        try {
+            await Promise.all([
+                this.loadComponent('header-placeholder', '/components/header.html'),
+                this.loadComponent('footer-placeholder', '/components/footer.html')
+            ]);
 
-        this.initAll();
+            this.initAll();
+        } catch (error) {
+            console.error('Failed to load components:', error);
+            // Still init other features even if components fail
+            this.initAll();
+        }
     },
 
     loadComponent(id, path) {
-        return fetch(path)
-            .then(res => res.text())
-            .then(data => {
-                const el = document.getElementById(id);
-                if (el) el.innerHTML = data;
+        return new Promise((resolve, reject) => {
+            const el = document.getElementById(id);
+            if (!el) {
+                console.warn(`Component placeholder not found: ${id}`);
+                resolve();
+                return;
+            }
+
+            // Check cache first
+            if (this.componentCache[path]) {
+                el.innerHTML = this.componentCache[path];
+                resolve();
+                return;
+            }
+
+            fetch(path, { 
+                signal: AbortSignal.timeout(5000) // 5 second timeout
             })
-            .catch(err => console.error('Component error:', err));
+                .then(res => {
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    return res.text();
+                })
+                .then(data => {
+                    // Cache the component
+                    this.componentCache[path] = data;
+                    el.innerHTML = data;
+                    resolve();
+                })
+                .catch(err => {
+                    console.error(`Component load error (${path}):`, err);
+                    // Provide fallback content
+                    el.innerHTML = '<p>Component failed to load</p>';
+                    resolve(); // Don't reject to allow other features to continue
+                });
+        });
     },
 
     initAll() {
-        Theme.init();
-        Navigation.init();
-        Animations.init();
-        Forms.init();
+        // Initialize all feature modules
+        if (typeof Theme !== 'undefined') Theme.init();
+        if (typeof Navigation !== 'undefined') Navigation.init();
+        if (typeof Animations !== 'undefined') Animations.init();
+        if (typeof Forms !== 'undefined') Forms.init();
+        
         this.initScrollTop();
         this.initCookieConsent();
     },
@@ -71,8 +106,15 @@ const Components = {
         const btn = document.getElementById('scroll-top');
         if (!btn) return;
 
+        let ticking = false;
         window.addEventListener('scroll', () => {
-            btn.classList.toggle('visible', window.scrollY > 400);
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    btn.classList.toggle('visible', window.scrollY > 400);
+                    ticking = false;
+                });
+                ticking = true;
+            }
         }, { passive: true });
 
         btn.addEventListener('click', () => {
@@ -96,6 +138,7 @@ const Components = {
             if (overlay) overlay.classList.remove('show');
         };
 
+        // Show banner after 600ms delay
         setTimeout(show, 600);
 
         const accept = document.getElementById('cookie-accept');
@@ -103,18 +146,29 @@ const Components = {
 
         if (accept) {
             accept.addEventListener('click', () => {
-                if (typeof Analytics !== 'undefined') Analytics.grantConsent();
-                else localStorage.setItem('cookie-consent', 'accepted');
+                if (typeof Analytics !== 'undefined') {
+                    Analytics.grantConsent();
+                } else {
+                    localStorage.setItem('cookie-consent', 'accepted');
+                }
                 hide();
             });
         }
 
         if (decline) {
             decline.addEventListener('click', () => {
-                if (typeof Analytics !== 'undefined') Analytics.denyConsent();
-                else localStorage.setItem('cookie-consent', 'declined');
+                if (typeof Analytics !== 'undefined') {
+                    Analytics.denyConsent();
+                } else {
+                    localStorage.setItem('cookie-consent', 'declined');
+                }
                 hide();
             });
+        }
+
+        // Close banner on overlay click
+        if (overlay) {
+            overlay.addEventListener('click', hide);
         }
     }
 };

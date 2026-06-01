@@ -134,51 +134,6 @@
 
     <footer id="footer-placeholder" class="main-footer"></footer>
 
-    <script>
-    (function() {
-        var leafSVG = 'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2724%27 height=%2724%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%230D9488%27 stroke-width=%271.5%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3E%3Cpath d=%27M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 17 3.5 19 2c1 2 2 4.5 2 8 0 5.5-4.78 10-10 10Z%27/%3E%3Cpath d=%27M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12%27/%3E%3C/svg%3E';
-
-        function findCell() {
-            var cells = document.querySelectorAll('td');
-            for (var i = 0; i < cells.length; i++) {
-                if (cells[i].textContent.indexOf('Sincere') !== -1) return cells[i];
-            }
-            return null;
-        }
-
-        function applyCursor() {
-            var cell = findCell();
-            if (!cell) { setTimeout(applyCursor, 200); return; }
-            if (cell.getAttribute('data-egg')) return;
-            cell.setAttribute('data-egg', '1');
-            cell.title = '\u{1F33F}';
-            cell.style.cursor = 'url("' + leafSVG + '") 12 12, pointer';
-        }
-
-        document.addEventListener('click', function(e) {
-            var td = e.target.closest('td');
-            if (!td || td.textContent.indexOf('Sincere') === -1) return;
-            e.stopPropagation();
-            window.location.href = '/secret-garden';
-        });
-
-        var lastTap = 0;
-        document.addEventListener('touchend', function(e) {
-            var td = e.target.closest('td');
-            if (!td || td.textContent.indexOf('Sincere') === -1) return;
-            var now = Date.now();
-            if (now - lastTap < 300) {
-                e.stopPropagation();
-                window.location.href = '/secret-garden';
-                e.preventDefault();
-            }
-            lastTap = now;
-        });
-
-        applyCursor();
-    })();
-    </script>
-
     <script defer src="/static/js/analytics.js"></script>
     <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script defer src="/static/js/theme.js"></script>
