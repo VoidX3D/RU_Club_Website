@@ -1,0 +1,67 @@
+name: Fix JSON Files
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**/*.json'
+  workflow_dispatch:
+
+jobs:
+  fix-json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fix mission list.json
+        run: |
+          # Remove truncation comments from list.json files
+          for f in src/mission/list.json src/announcements/list.json; do
+            if [ -f "$f" ]; then
+              # Remove lines containing "(line truncated" or "(truncated to"
+              sed -i '/(line truncated/d' "$f"
+              sed -i '/(truncated to/d' "$f"
+              # Remove any text after "..." that looks like a comment
+              sed -i 's/\.\.\.(.*$//' "$f"
+            fi
+          done
+
+      - name: Validate JSON files
+        run: |
+          # Check all JSON files are valid
+          for f in $(find src -name '*.json' -type f); do
+            if ! python3 -c "import json; json.load(open('$f'))" 2>/dev/null; then
+              echo "Invalid JSON: $f"
+              # Try to fix common issues
+              python3 << EOF
+import json
+import re
+import sys
+
+f = '$f'
+try:
+    with open(f, 'r') as file:
+        content = file.read()
+    # Fix common issues
+    content = re.sub(r'\([^)]*truncated[^)]*\)', '', content)
+    content = re.sub(r'\.{3,}[^\n]*', '...', content)
+    # Try to parse and re-save
+    data = json.loads(content)
+    with open(f, 'w') as file:
+        json.dump(data, file, indent=2)
+    print(f"Fixed: {f}")
+except Exception as e:
+    print(f"Could not fix {f}: {e}")
+    sys.exit(1)
+EOF
+            fi
+          done
+
+      - name: Commit and push fixes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git diff --quiet --cached || git commit -m "Auto-fix: JSON validation and cleanup"
+          git push
