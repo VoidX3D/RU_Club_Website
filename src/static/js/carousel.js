@@ -31,24 +31,5 @@ const Carousel = {
         });
     },
 
-    initPartnerSwiper() {
-        if (!document.querySelector('.partnerSwiper')) return;
-        if (typeof Swiper === 'undefined') {
-            console.warn('Swiper not loaded — skipping partner carousel init');
-            return;
-        }
-
-        new Swiper('.partnerSwiper', {
-            slidesPerView: 2,
-            spaceBetween: 20,
-            loop: true,
-            speed: 4000,
-            autoplay: { delay: 0, disableOnInteraction: false, pauseOnMouseEnter: true },
-            breakpoints: {
-                480: { slidesPerView: 3, spaceBetween: 24 },
-                768: { slidesPerView: 4, spaceBetween: 28 },
-                1024: { slidesPerView: 5, spaceBetween: 32 }
-            }
-        });
-    }
+    initPartnerSwiper() {} // No-op — replaced by CSS marquee
 };

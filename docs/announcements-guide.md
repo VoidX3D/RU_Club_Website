@@ -4,9 +4,9 @@ Each announcement is a single JSON file in `announcements/main/`.
 
 ## How to create an announcement
 
-1. Copy `_template.json` and rename it to something unique:
+1. Copy `_template.json` and rename it using the next sequential number:
    ```
-   cp announcements/main/_template.json announcements/main/clean-up-drive.json
+   cp announcements/main/_template.json announcements/main/announcement-02.json
    ```
 
 2. Fill in the fields. Only `id`, `title`, `date`, `summary`, and `description` are required.
@@ -19,7 +19,7 @@ Each announcement is a single JSON file in `announcements/main/`.
 
 | Field | Description |
 |-------|-------------|
-| `id` | Unique slug (lowercase, hyphens) |
+| `id` | Sequential name matching the filename (e.g. `announcement-01`) |
 | `title` | Display title |
 | `date` | Display date (e.g. June 5, 2026) |
 | `summary` | Short text for the card |

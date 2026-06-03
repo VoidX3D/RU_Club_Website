@@ -41,13 +41,13 @@ RU Club Motherland is a static HTML/CSS/JS site for an environmental sustainabil
 5. `data-loader.js` loads stats, partners, members, content from `/info/*.json`
 
 ## Adding a New Mission
-1. Create folder: `src/mission/your-mission-name/`
-2. Drop images + `info.json` inside
+1. Create folder: `src/mission/mission-NN/` (next sequential number)
+2. Drop images (`img-01.jpg`, `img-02.jpg`, ...) + `info.json` inside
 3. Push to `main` — GitHub workflow auto-updates `list.json`
 4. See `src/mission/README.md` for full details.
 
 ## Adding a New Announcement
-1. Create JSON: `src/announcements/main/your-announcement.json`
+1. Create JSON: `src/announcements/main/announcement-NN.json` (sequential number)
 2. Push to `main` — GitHub workflow auto-updates `list.json`
 3. See `src/announcements/README.md` for full details.
 

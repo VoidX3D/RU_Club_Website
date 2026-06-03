@@ -10,19 +10,27 @@ This file is for AI coding agents (Claude, Manus, Cursor, etc.) to understand an
 
 ## Architecture
 ```
-/                         → Root — all HTML pages (clean URLs)
-├── static/
-│   ├── css/
-│   │   ├── style.css     # Base: variables, reset, typography, all components
-│   │   └── responsive.css # All @media queries (imported by style.css)
-│   ├── js/                # 12 modules (see below)
-│   └── assets/
-├── components/            # header.html + footer.html (fetched by components.js)
-├── info/                  # JSON: content, members, stats, partners, site
-├── mission/               # Mission folders (images + info.json)
-├── announcements/         # JSON files + assets
-├── docs/                  # Documentation
-└── _redirects             # Cloudflare Pages routing
+/                         → Root — config files only
+├── src/                  → All source files (deployed via Vercel build)
+│   ├── *.html            → All HTML pages (clean URLs)
+│   ├── static/
+│   │   ├── css/
+│   │   │   ├── style.css     # Base: variables, reset, typography, all components
+│   │   │   ├── navbar.css    # Header/nav/mobile-menu styles
+│   │   │   └── responsive.css # All @media queries (imported by style.css)
+│   │   ├── js/                # 12 modules (see below)
+│   │   └── assets/
+│   ├── components/            # navbar.html + footer.html (fetched by components.js)
+│   ├── info/                  # JSON: content, members, stats, partners, site
+│   ├── mission/               # mission-NN/ folders (images + info.json)
+│   ├── announcements/         # announcement-NN.json files + assets
+│   ├── robots.txt
+│   └── sitemap.xml
+├── .github/workflows/
+├── vercel.json
+├── _redirects
+├── AGENTS.md
+└── LICENSE
 ```
 
 ## JS Module Pipeline (load order matters)
@@ -78,14 +86,14 @@ If adding new icons, ensure they have `class="icon-current"` and use `stroke="cu
 ## Adding Content
 
 ### New Announcement
-1. Create `announcements/main/your-id.json`
+1. Create `announcements/main/announcement-NN.json` (sequential number)
 2. Include fields: `id`, `title`, `tag`, `date`, `summary`, `image`, `active`
 3. Set `"active": true` to display
 4. Push to `main` — workflow auto-updates `list.json`
 5. If no image, put image in `announcements/assets/` or leave blank (uses `no-image.svg` fallback)
 
 ### New Mission
-1. Create `mission/your-mission/` folder
+1. Create `mission/mission-NN/` folder (next sequential number)
 2. Add images + `info.json` with `"show": true`
 3. Push to `main` — workflow auto-creates `list.json`
 

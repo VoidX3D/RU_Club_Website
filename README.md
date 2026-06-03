@@ -33,53 +33,61 @@ RU Club Motherland is a student-led environmental initiative at Motherland Secon
 
 ```
 /
-├── index.html              → Homepage (/)
-├── missions.html           → All missions (/missions)
-├── mission.html            → Single mission detail (/mission?id=xxx)
-├── members.html            → Team roster (/members)
-├── gallery.html            → Photo gallery (/gallery)
-├── contact.html            → Contact form (/contact)
-├── privacy.html            → Privacy policy (/privacy)
-├── consent.html            → Cookie consent info (/consent)
-├── license.html            → License page (/license)
-├── success.html            → Form submission success (/success)
-├── failed.html             → Form submission failure (/failed)
-├── secret-garden.html      → Easter egg page (/secret-garden)
-├── 404.html                → Styled error page (self-contained)
+├── src/                   → All source files (copied to root by Vercel build)
+│   ├── index.html
+│   ├── missions.html
+│   ├── mission.html
+│   ├── members.html
+│   ├── gallery.html
+│   ├── contact.html
+│   ├── privacy.html
+│   ├── consent.html
+│   ├── license.html
+│   ├── success.html
+│   ├── failed.html
+│   ├── secret-garden.html
+│   ├── 404.html
+│   │
+│   ├── static/
+│   │   ├── css/
+│   │   │   ├── style.css       # All styles
+│   │   │   ├── navbar.css      # Nav/mobile-menu styles
+│   │   │   └── responsive.css  # Media queries
+│   │   ├── js/
+│   │   │   ├── analytics.js
+│   │   │   ├── theme.js
+│   │   │   ├── navigation.js
+│   │   │   ├── animations.js
+│   │   │   ├── carousel.js
+│   │   │   ├── forms.js
+│   │   │   ├── missions.js
+│   │   │   ├── announcements.js
+│   │   │   ├── data-loader.js
+│   │   │   ├── components.js
+│   │   │   └── main.js
+│   │   └── assets/
+│   │       ├── brand/
+│   │       ├── icons/
+│   │       └── partners/
+│   │
+│   ├── info/                   → JSON data files
+│   ├── components/             → navbar.html, footer.html
+│   ├── mission/                → mission-NN/ folders
+│   │   ├── list.json
+│   │   └── README.md
+│   ├── announcements/
+│   │   ├── list.json
+│   │   ├── main/               → announcement-NN.json files
+│   │   └── README.md
+│   ├── robots.txt
+│   └── sitemap.xml
 │
-├── static/
-│   ├── css/style.css       → All styles (single file)
-│   ├── js/
-│   │   ├── analytics.js    → GA4 + event tracking
-│   │   ├── theme.js        → Light/dark mode toggle
-│   │   ├── navigation.js   → Mobile menu, scroll, active link
-│   │   ├── animations.js   → AOS, GLightbox, easter egg
-│   │   ├── carousel.js     → Swiper carousels
-│   │   ├── forms.js        → Dual-endpoint Formspree submit
-│   │   ├── missions.js     → Load & display missions
-│   │   ├── data-loader.js  → JSON data → DOM rendering
-│   │   ├── components.js   → Header/footer/cookie injection
-│   │   └── main.js         → Async bootstrap
-│   └── assets/
-│       ├── brand/          → logo.png, logo_icon.png
-│       ├── icons/          → SVG icons (sun, moon, menu, etc.)
-│       └── partners/       → Partner org logos
-│
-├── info/                   → JSON data files (content, members, stats, etc.)
-├── components/             → header.html, footer.html (loaded via JS)
-├── mission/                → Per-mission folders with images + info.json
-│   ├── list.json           → Auto-generated mission manifest
-│   └── README.md           → Mission management guide
-├── announcements/          → Club announcements and notices
-│   ├── list.json           → Announcement manifest
-│   ├── main/               → Individual announcement JSON files
-│   └── README.md           → Announcement management guide
-│
-├── .github/workflows/      → auto-mission.yml, auto-announcements.yml
-├── vercel.json             → Vercel config (Clean URLs, security, caching)
-├── _redirects              → Cloudflare Pages config (Clean URLs, redirects)
-├── sitemap.xml             → Search engine sitemap (clean URLs)
-└── robots.txt              → Crawler directives
+├── .github/workflows/
+├── vercel.json
+├── _redirects
+├── sitemap.xml
+├── robots.txt
+└── LICENSE
 ```
 
 ## Pages & URLs
@@ -121,21 +129,24 @@ The site automatically discovers new missions via GitHub Actions.
 
 ### Steps
 
-1. **Create a folder** under `mission/` with a hyphenated name:
+1. **Create a folder** under `src/mission/` using the next sequential number:
    ```
-   mission/your-mission-name/
+   src/mission/mission-04/
    ```
 
-2. **Add images** (`.jpg`, `.png`, or `.webp`) inside the folder.
+2. **Add images** (`.jpg`, `.png`, or `.webp`) inside the folder, named `img-01.jpg`, `img-02.jpg`, etc.
 
 3. **Create `info.json`** in the folder:
    ```json
    {
+     "id": "mission-04",
      "title": "Your Mission Title",
+     "slug": "mission-04",
      "description": "Short description (1-2 sentences)",
      "tag": "Tree Plantation",
      "date": "2026-05-30",
      "detail": "Full description of the mission activities and impact.",
+     "images": ["img-01.jpg", "img-02.jpg"],
      "show": true
    }
    ```
@@ -150,7 +161,7 @@ To hide a mission from the site, set `"show": false` in its `info.json`.
 
 ### Manual `list.json` Edit
 
-Edit `mission/list.json` directly to override auto-generated values or add custom fields. The workflow preserves any fields it doesn't recognize.
+Edit `src/mission/list.json` directly to override auto-generated values or add custom fields. The workflow preserves any fields it doesn't recognize.
 
 ## Editing Content
 
