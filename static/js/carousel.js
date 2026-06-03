@@ -10,16 +10,20 @@ const Carousel = {
 
         this.parkSwiperInstance = new Swiper('.parkSwiper', {
             loop: true,
-            autoplay: { delay: 3000, disableOnInteraction: false },
+            autoplay: { delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true },
             speed: 600,
             centeredSlides: true,
-            slidesPerView: 'auto',
-            spaceBetween: 30,
+            slidesPerView: 1,
+            spaceBetween: 20,
+            grabCursor: true,
             navigation: {
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev'
             },
-            pagination: { el: '.swiper-pagination', clickable: true }
+            pagination: { el: '.swiper-pagination', clickable: true },
+            breakpoints: {
+                640: { slidesPerView: 'auto', spaceBetween: 30 }
+            }
         });
     },
 

@@ -279,7 +279,7 @@ section.bg-secondary {
 }
 
 .logo img {
-    height: 44px;
+    height: 48px;
     width: auto;
     transition: transform var(--transition-base);
 }
@@ -295,7 +295,7 @@ section.bg-secondary {
 
 .logo-name {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.35rem;
+    font-size: 1.5rem;
     font-weight: 800;
     letter-spacing: -0.02em;
     color: var(--text-primary);
@@ -303,7 +303,7 @@ section.bg-secondary {
 }
 
 .logo-tag {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.15em;
@@ -317,11 +317,11 @@ section.bg-secondary {
 }
 
 .nav-link {
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     font-weight: 500;
     color: var(--text-secondary);
     position: relative;
-    padding: 0.5rem 0;
+    padding: 0.6rem 0;
 }
 
 .nav-link::after {
@@ -349,13 +349,13 @@ section.bg-secondary {
 .nav-github {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 0.5rem 1rem;
+    gap: 8px;
+    padding: 0.55rem 1.1rem;
     border-radius: var(--radius-full);
     border: 1.5px solid var(--border-light);
     background: var(--bg-secondary);
     color: var(--text-secondary);
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 600;
     transition: var(--transition-base);
 }
@@ -382,12 +382,12 @@ section.bg-secondary {
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 1.25rem;
 }
 
 .theme-toggle {
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
     border-radius: var(--radius-full);
     background: var(--bg-secondary);
     border: 1px solid var(--border-light);
@@ -407,9 +407,9 @@ section.bg-secondary {
 .btn-join {
     background: var(--brand-primary);
     color: white;
-    padding: 0.75rem 1.75rem;
+    padding: 0.8rem 2rem;
     border-radius: var(--radius-full);
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
