@@ -58,9 +58,9 @@
     .cookie-actions { flex-direction: column; }
     .missions-grid { grid-template-columns: 1fr !important; }
     .mission-gallery-grid { grid-template-columns: 1fr !important; }
-    .mobile-menu-body .nav-link { font-size: 1.35rem; padding: 1rem 2rem; }
-    .mobile-menu-footer .nav-github { min-height: 44px; justify-content: center; }
-    .mobile-menu-footer .btn-join { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    #mobile-menu .nav-link { font-size: 1.35rem; padding: 1rem 2rem; }
+    #mobile-menu .nav-github { margin: 0.5rem auto; min-height: 44px; min-width: 44px; display: flex; align-items: center; }
+    #mobile-menu .btn-join { min-height: 44px; display: flex; align-items: center; justify-content: center; }
     .scroll-top-btn { bottom: 1rem; right: 1rem; width: 40px; height: 40px; }
 }
 @media (max-width: 360px) {
@@ -76,32 +76,24 @@
 }
 @media (min-width: 768px) {
     .nav-desktop { display: flex; }
-    .header-actions .nav-github { display: inline-flex; }
-}
-
-@media (max-width: 767px) {
-    .header-actions .nav-github { display: none; }
 }
 
 @media (min-width: 768px) and (max-width: 900px) {
-    .header-actions .nav-github { display: none; }
     .nav-desktop { gap: 0.75rem; }
-    .header-actions .btn-join-desktop { padding: 0.6rem 1.25rem; font-size: 0.8rem; }
+    .btn-join-desktop { padding: 0.6rem 1.25rem; font-size: 0.8rem; }
 }
 
 @media (min-width: 768px) {
     .btn-join-desktop { display: inline-flex; }
 }
 @media (min-width: 768px) {
+    .md\:hidden { display: none; }
     .menu-toggle { display: none; }
 }
 @media (max-width: 480px) {
-    .mobile-menu-body .nav-link {
+    #mobile-menu .nav-link {
         font-size: 1.2rem;
         padding: 0.85rem 1.5rem;
-    }
-    .mobile-menu-footer {
-        padding: 1rem 1.5rem 2rem;
     }
 }
 @media (max-width: 768px) {
