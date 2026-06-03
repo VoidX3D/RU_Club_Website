@@ -89,7 +89,28 @@ const Forms = {
     },
 
     isValidEmail(email) {
-        // RFC 5322 compliant regex — no library needed, covers 99.9% of real cases
+        // Stripped-down practical check: must look like a real email, not just valid format
+        if (email.length > 254) return false;
+        const parts = email.split('@');
+        if (parts.length !== 2) return false;
+        const [local, domain] = parts;
+        if (local.length < 2 || local.length > 64) return false;
+        if (domain.length < 4 || domain.length > 255) return false;
+        // Must have at least one dot in domain with a proper TLD
+        const domainParts = domain.split('.');
+        if (domainParts.length < 2) return false;
+        const tld = domainParts[domainParts.length - 1];
+        if (tld.length < 2 || tld.length > 6) return false;
+        // TLD must be only letters
+        if (!/^[a-z]{2,6}$/i.test(tld)) return false;
+        // Reject obviously fake domains
+        const fakeDomains = ['example.com', 'test.com', 'domain.com', 'email.com', 'mail.com', 'fake.com', 'dummy.com', 'yopmail.com', 'tempmail.com'];
+        if (fakeDomains.includes(domain.toLowerCase())) return false;
+        // Local part must not start/end with dot or have consecutive dots
+        if (local.startsWith('.') || local.endsWith('.') || local.includes('..')) return false;
+        // Domain must not start/end with dot or have consecutive dots
+        if (domain.startsWith('.') || domain.endsWith('.') || domain.includes('..')) return false;
+        // Final format regex check
         return /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i.test(email);
     },
 
