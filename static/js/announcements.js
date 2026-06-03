@@ -64,13 +64,15 @@ const Announcements = {
       return;
     }
 
+    const NO_IMAGE = '/announcements/assets/no-image.svg';
+
     container.innerHTML = items.map((a, i) => {
-      const imgPath = a.image ? (a.image.startsWith('/') ? a.image : '/' + a.image) : '';
+      const imgPath = a.image ? (a.image.startsWith('/') ? a.image : '/' + a.image) : NO_IMAGE;
       return `
       <article class="announcement-card" data-aos="fade-up" data-aos-delay="${i * 100}">
-        ${imgPath ? `<div class="announcement-card-image">
-          <img src="${imgPath}" alt="${a.title}" loading="lazy">
-        </div>` : ''}
+        <div class="announcement-card-image">
+          <img src="${imgPath}" alt="${a.title}" loading="lazy"${a.image ? '' : ' class="announcement-no-image"'}>
+        </div>
         <div class="announcement-card-body">
           <div class="announcement-card-meta">
             <span class="announcement-tag">${a.tag}</span>
