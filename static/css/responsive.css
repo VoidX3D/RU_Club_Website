@@ -58,9 +58,9 @@
     .cookie-actions { flex-direction: column; }
     .missions-grid { grid-template-columns: 1fr !important; }
     .mission-gallery-grid { grid-template-columns: 1fr !important; }
-    #mobile-menu .nav-link { font-size: 1.35rem; padding: 1rem 2rem; }
-    #mobile-menu .nav-github { margin: 0.5rem auto; min-height: 44px; min-width: 44px; display: flex; align-items: center; }
-    #mobile-menu .btn-join { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    .mobile-menu-body .nav-link { font-size: 1.35rem; padding: 1rem 2rem; }
+    .mobile-menu-footer .nav-github { min-height: 44px; justify-content: center; }
+    .mobile-menu-footer .btn-join { min-height: 44px; display: flex; align-items: center; justify-content: center; }
     .scroll-top-btn { bottom: 1rem; right: 1rem; width: 40px; height: 40px; }
 }
 @media (max-width: 360px) {
@@ -84,9 +84,12 @@
     .menu-toggle { display: none; }
 }
 @media (max-width: 480px) {
-    #mobile-menu .nav-link {
+    .mobile-menu-body .nav-link {
         font-size: 1.2rem;
         padding: 0.85rem 1.5rem;
+    }
+    .mobile-menu-footer {
+        padding: 1rem 1.5rem 2rem;
     }
 }
 @media (max-width: 768px) {
@@ -142,15 +145,10 @@
 @media (min-width: 768px) {
     .footer-grid {
         grid-template-columns: 2fr 1fr 1fr;
+        gap: 3rem;
     }
 }
-@media (min-width: 768px) {
-    .md\:flex { display: flex; }
-    .md\:hidden { display: none; }
-}
-@media (min-width: 768px) {
-    .menu-close { display: none; }
-}
+
 @media (min-width: 768px) {
     .stats-grid {
         grid-template-columns: repeat(4, 1fr);
