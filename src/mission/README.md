@@ -7,7 +7,11 @@ Missions represent the core activities and projects undertaken by RU Club Mother
 ```
 mission/
 ├── list.json                 # Global index of all missions
-└── [mission-id]/             # Directory for a specific mission
+├── mission-01/               # Mission #01
+│   ├── info.json             # Detailed data for the mission
+│   └── img-01.jpg            # Mission images (img-01.jpg, img-02.jpg, ...)
+├── mission-02/               # Mission #02
+└── mission-03/               # Mission #03
     ├── info.json             # Detailed data for the mission
     ├── img-01.jpg             # Mission images (img-01.jpg, img-02.jpg, ...)
     └── img-02.jpg
@@ -15,20 +19,20 @@ mission/
 
 ## How to add a new mission
 
-1. **Create a new folder** under `mission/` using a unique ID (lowercase, hyphens):
+1. **Create a new folder** under `mission/` using the next sequential number:
    ```bash
-   mkdir mission/clean-up-drive
+   mkdir mission/mission-04
    ```
 
 2. **Add images** to that folder.
 
 3. **Create `info.json`** in your new folder. Use the following structure:
    ```json
-   {
-     "id": "clean-up-drive",
-     "title": "Clean-up Drive Title",
-     "slug": "clean-up-drive",
-     "tag": "Mission #04",
+    {
+      "id": "mission-04",
+      "title": "Clean-up Drive Title",
+      "slug": "mission-04",
+      "tag": "Mission #04",
      "date": "Month Year",
      "description": "One sentence summary.",
      "detail": "Long description (multiple paragraphs ok).",
@@ -48,16 +52,16 @@ mission/
 
 4. **Update `mission/list.json`** to include your mission in the index:
    ```json
-   {
-     "id": "clean-up-drive",
-     "slug": "clean-up-drive",
-     "title": "Clean-up Drive Title",
-     "tag": "Mission #04",
+    {
+      "id": "mission-04",
+      "slug": "mission-04",
+      "title": "Clean-up Drive Title",
+      "tag": "Mission #04",
      "date": "Month Year",
      "description": "One sentence summary.",
      "detail": "The beginning of the long description...",
      "imageCount": 2,
-      "featured": "mission/clean-up-drive/img-01.jpg",
+      "featured": "mission/mission-04/img-01.jpg",
      "show": true
    }
    ```
@@ -67,7 +71,7 @@ mission/
 | Field | Description |
 |-------|-------------|
 | `id` | Must match the folder name. |
-| `slug` | Used in the URL (`/mission?id=slug`). Usually same as ID. |
+| `slug` | Used in the URL (`/mission?id=slug`). Syncs with the folder name. |
 | `tag` | Usually "Mission #XX". |
 | `featured` | (In `list.json`) Path to the main image shown in the grid. |
 | `stats` | (In `info.json`) Key-value pairs shown in the mission sidebar. |
