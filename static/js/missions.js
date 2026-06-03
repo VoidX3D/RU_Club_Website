@@ -32,7 +32,7 @@ const Missions = {
     container.innerHTML = missions.map(m => `
       <div class="gallery-card" data-aos="fade-up">
         <div class="gallery-image">
-          <img src="/${m.featured}" alt="${m.title}" loading="lazy">
+          <img src="${m.featured ? '/' + m.featured : '/static/assets/brand/logo.png'}" alt="${m.title}" loading="lazy">
           <div class="gallery-overlay">
             <a href="/mission?id=${m.slug}" class="btn-primary">View Mission</a>
           </div>

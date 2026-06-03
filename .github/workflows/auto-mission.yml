@@ -39,7 +39,7 @@ jobs:
 
           missions = []
           for folder in sorted(MISSION.iterdir()):
-              if not folder.is_dir() or folder.name.startswith("."):
+              if not folder.is_dir() or folder.name.startswith(".") or folder.name.startswith("_"):
                   continue
               info_file = folder / "info.json"
               if not info_file.exists():

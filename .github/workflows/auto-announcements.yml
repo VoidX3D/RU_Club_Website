@@ -46,7 +46,7 @@ jobs:
               exit(0)
 
           for file in sorted(MAIN.iterdir()):
-              if not file.name.endswith(".json") or file.name.startswith("."):
+              if not file.name.endswith(".json") or file.name.startswith(".") or file.name.startswith("_"):
                   continue
               try:
                   data = json.loads(file.read_text())

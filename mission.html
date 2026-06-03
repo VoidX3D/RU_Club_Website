@@ -282,7 +282,7 @@
         document.getElementById('mission-date').textContent = mission.date;
         document.getElementById('mission-description').textContent = mission.detail;
 
-        const infoRes = await fetch('mission/' + mission.id + '/info.json');
+        const infoRes = await fetch('/mission/' + mission.id + '/info.json');
         const info = await infoRes.json();
 
         if (info.stats) {
@@ -303,7 +303,7 @@
         if (info.images && info.images.length) {
           const gallery = document.getElementById('mission-gallery');
           gallery.innerHTML = info.images.map(img =>
-            '<a href="mission/' + mission.id + '/' + img + '" class="glightbox" data-gallery="mission"><img src="mission/' + mission.id + '/' + img + '" alt="' + mission.title + '" loading="lazy"></a>'
+            '<a href="/mission/' + mission.id + '/' + img + '" class="glightbox" data-gallery="mission"><img src="/mission/' + mission.id + '/' + img + '" alt="' + mission.title + '" loading="lazy"></a>'
           ).join('');
 
           if (typeof GLightbox !== 'undefined') {
