@@ -1,0 +1,9 @@
+# RU Club Motherland - robots.txt (ruclub.vercel.app)
+User-agent: *
+Allow: /
+Disallow: /static/
+Disallow: /*.json$
+
+Crawl-delay: 1
+
+Sitemap: https://ruclub.vercel.app/sitemap.xml

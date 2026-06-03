@@ -44,7 +44,5 @@ Allow: /
 # Crawl delay for respectful crawling
 Crawl-delay: 1
 
-# Sitemaps
+# Sitemaps (each domain should use its own sitemap)
 Sitemap: https://ruclubmss.vercel.app/sitemap.xml
-Sitemap: https://ruclubmss.vercel.app/sitemap-ruclub.xml
-Sitemap: https://ruclubmss.vercel.app/sitemap-motherland.xml
