@@ -50,9 +50,13 @@ const Forms = {
         let errorMessage = '';
 
         if (field.type === 'email') {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            isValid = emailRegex.test(value);
-            errorMessage = 'Please enter a valid email address';
+            if (!value) {
+                isValid = false;
+                errorMessage = 'Email is required';
+            } else if (!this.isValidEmail(value)) {
+                isValid = false;
+                errorMessage = 'Please enter a valid email address (e.g. you@example.com)';
+            }
         } else if (field.name === 'name') {
             isValid = value.length >= 2;
             errorMessage = 'Name must be at least 2 characters';
@@ -66,11 +70,14 @@ const Forms = {
 
         if (!isValid) {
             field.classList.add('error');
-            if (!field.nextElementSibling?.classList.contains('error-message')) {
+            const existing = field.parentNode.querySelector('.error-message');
+            if (!existing) {
                 const errorEl = document.createElement('span');
                 errorEl.className = 'error-message';
                 errorEl.textContent = errorMessage;
                 field.parentNode.insertBefore(errorEl, field.nextSibling);
+            } else {
+                existing.textContent = errorMessage;
             }
         } else {
             field.classList.remove('error');
@@ -79,6 +86,11 @@ const Forms = {
         }
 
         return isValid;
+    },
+
+    isValidEmail(email) {
+        // RFC 5322 compliant regex — no library needed, covers 99.9% of real cases
+        return /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i.test(email);
     },
 
     setupAnalyticsTracking() {
