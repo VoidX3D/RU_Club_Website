@@ -1,57 +1,50 @@
 <div class="header-inner container">
-  <a href="/" class="logo">
-    <img src="/static/assets/brand/logo_icon.png" alt="RU Club Motherland" width="40" height="40">
-    <div class="logo-text">
-      <span class="logo-name">RU CLUB</span>
-      <span class="logo-tag">Motherland</span>
-    </div>
-  </a>
-
-  <nav class="nav-desktop" id="nav-desktop">
-    <a href="/" class="nav-link" data-nav>Home</a>
-    <a href="/announcements" class="nav-link" data-nav>Announcements</a>
-    <a href="/missions" class="nav-link" data-nav>Missions</a>
-    <a href="/gallery" class="nav-link" data-nav>Gallery</a>
-    <a href="/members" class="nav-link" data-nav>Members</a>
-    <a href="/contact" class="nav-link" data-nav>Contact</a>
-  </nav>
-
-  <div class="header-actions">
-    <a href="https://github.com/RU-Club-Motherland" target="_blank" rel="noopener noreferrer" class="nav-github" aria-label="GitHub">
-      <img src="/static/assets/icons/github.svg" alt="" width="16" height="16">
-      <span>GitHub</span>
+    <a href="/" class="logo">
+        <img src="/static/assets/brand/logo_icon.png" alt="RU Club Motherland logo" width="40" height="40">
+        <div class="logo-text">
+            <span class="logo-name">RU CLUB</span>
+            <span class="logo-tag">Motherland</span>
+        </div>
     </a>
-    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-      <img id="theme-icon-sun" src="/static/assets/icons/sun.svg" alt="Light mode" width="18" height="18" class="theme-icon" style="display:none;">
-      <img id="theme-icon-moon" src="/static/assets/icons/moon.svg" alt="Dark mode" width="18" height="18" class="theme-icon">
-    </button>
-    <a href="/contact" class="btn-join btn-join-desktop">Join Us</a>
-    <button id="menu-toggle" class="menu-toggle" aria-label="Menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
+
+    <nav class="nav-desktop">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/announcements" class="nav-link">Announcements</a>
+        <a href="/missions" class="nav-link">Missions</a>
+        <a href="/gallery" class="nav-link">Gallery</a>
+        <a href="/members" class="nav-link">Members</a>
+        <a href="/contact" class="nav-link">Contact</a>
+        <a href="https://github.com/RU-Club-Motherland" target="_blank" rel="noopener noreferrer" class="nav-github" aria-label="GitHub">
+            <img src="/static/assets/icons/github.svg" alt="GitHub icon" width="16" height="16">
+            <span>GitHub</span>
+        </a>
+    </nav>
+
+    <div class="header-actions">
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+            <img id="theme-icon-sun" src="/static/assets/icons/sun.svg" alt="Light mode" width="20" height="20" class="theme-icon" style="display:none;">
+            <img id="theme-icon-moon" src="/static/assets/icons/moon.svg" alt="Dark mode" width="20" height="20" class="theme-icon">
+        </button>
+        <a href="/contact" class="btn-join btn-join-desktop">Join Us</a>
+        <button id="menu-toggle" class="menu-toggle md:hidden" aria-label="Menu">
+            <img src="/static/assets/icons/menu.svg" alt="Menu" width="24" height="24" class="icon-current">
+        </button>
+    </div>
 </div>
 
-<div id="mobile-overlay" class="mobile-overlay"></div>
-<nav id="mobile-menu" class="mobile-menu" aria-hidden="true">
-  <div class="mobile-menu-header">
+<nav id="mobile-menu">
     <button id="menu-close" class="menu-close" aria-label="Close menu">
-      <img src="/static/assets/icons/close.svg" alt="" width="24" height="24" class="icon-current">
+        <img src="/static/assets/icons/close.svg" alt="Close" width="24" height="24" class="icon-current">
     </button>
-  </div>
-  <div class="mobile-menu-body">
-    <a href="/" class="nav-link" data-nav>Home</a>
-    <a href="/announcements" class="nav-link" data-nav>Announcements</a>
-    <a href="/missions" class="nav-link" data-nav>Missions</a>
-    <a href="/gallery" class="nav-link" data-nav>Gallery</a>
-    <a href="/members" class="nav-link" data-nav>Members</a>
-    <a href="/contact" class="nav-link" data-nav>Contact</a>
-  </div>
-  <div class="mobile-menu-footer">
-    <a href="https://github.com/RU-Club-Motherland" target="_blank" rel="noopener noreferrer" class="nav-github">
-      <img src="/static/assets/icons/github.svg" alt="" width="16" height="16">
-      <span>GitHub</span>
+    <a href="/" class="nav-link">Home</a>
+    <a href="/announcements" class="nav-link">Announcements</a>
+    <a href="/missions" class="nav-link">Missions</a>
+    <a href="/gallery" class="nav-link">Gallery</a>
+    <a href="/members" class="nav-link">Members</a>
+    <a href="/contact" class="nav-link">Contact</a>
+    <a href="https://github.com/RU-Club-Motherland" target="_blank" rel="noopener noreferrer" class="nav-github" style="margin:1rem auto;">
+        <img src="/static/assets/icons/github.svg" alt="" width="16" height="16">
+        <span>GitHub</span>
     </a>
     <a href="/contact" class="btn-join">Join Us</a>
-  </div>
 </nav>
