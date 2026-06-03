@@ -88,8 +88,7 @@ loadScript() {
             'allow_ad_personalization_signals': true,
             linker: {
                 domains: [
-                    'ruclubmss.vercel.app',
-                    'ru-club-motherland.vercel.app'
+                    'ruclubmss.vercel.app'
                 ]
             }
         });
@@ -158,10 +157,77 @@ trackPageView() {
 
     // Check if referrer is our own domain → mark as internal
     let referrerSource = document.referrer || 'direct';
+    let trafficMedium = 'none';
+    let trafficSource = 'direct';
     try {
         const refUrl = new URL(document.referrer);
+        const hostname = refUrl.hostname.replace('www.', '');
         if (refUrl.hostname === window.location.hostname) {
             referrerSource = 'internal';
+        } else if (hostname.includes('facebook.com') || hostname.includes('fb.com') || hostname.includes('fb.me')) {
+            referrerSource = 'facebook';
+            trafficMedium = 'social';
+            trafficSource = 'facebook';
+        } else if (hostname.includes('instagram.com')) {
+            referrerSource = 'instagram';
+            trafficMedium = 'social';
+            trafficSource = 'instagram';
+        } else if (hostname.includes('youtube.com') || hostname.includes('youtu.be')) {
+            referrerSource = 'youtube';
+            trafficMedium = 'social';
+            trafficSource = 'youtube';
+        } else if (hostname.includes('twitter.com') || hostname.includes('x.com')) {
+            referrerSource = 'twitter';
+            trafficMedium = 'social';
+            trafficSource = 'twitter';
+        } else if (hostname.includes('linkedin.com')) {
+            referrerSource = 'linkedin';
+            trafficMedium = 'social';
+            trafficSource = 'linkedin';
+        } else if (hostname.includes('t.me') || hostname.includes('telegram.org')) {
+            referrerSource = 'telegram';
+            trafficMedium = 'social';
+            trafficSource = 'telegram';
+        } else if (hostname.includes('whatsapp.com')) {
+            referrerSource = 'whatsapp';
+            trafficMedium = 'social';
+            trafficSource = 'whatsapp';
+        } else if (hostname.includes('tiktok.com')) {
+            referrerSource = 'tiktok';
+            trafficMedium = 'social';
+            trafficSource = 'tiktok';
+        } else if (hostname.includes('reddit.com')) {
+            referrerSource = 'reddit';
+            trafficMedium = 'social';
+            trafficSource = 'reddit';
+        } else if (hostname.includes('messenger.com')) {
+            referrerSource = 'messenger';
+            trafficMedium = 'social';
+            trafficSource = 'messenger';
+        } else if (hostname.includes('google.')) {
+            referrerSource = 'google';
+            trafficMedium = 'organic';
+            trafficSource = 'google';
+        } else if (hostname.includes('bing.com')) {
+            referrerSource = 'bing';
+            trafficMedium = 'organic';
+            trafficSource = 'bing';
+        } else if (hostname.includes('yahoo.com')) {
+            referrerSource = 'yahoo';
+            trafficMedium = 'organic';
+            trafficSource = 'yahoo';
+        } else if (hostname.includes('duckduckgo.com')) {
+            referrerSource = 'duckduckgo';
+            trafficMedium = 'organic';
+            trafficSource = 'duckduckgo';
+        } else if (hostname.includes('yandex.com') || hostname.includes('yandex.ru')) {
+            referrerSource = 'yandex';
+            trafficMedium = 'organic';
+            trafficSource = 'yandex';
+        } else {
+            referrerSource = hostname;
+            trafficMedium = 'referral';
+            trafficSource = hostname;
         }
     } catch (_) {}
 
@@ -172,14 +238,15 @@ trackPageView() {
         page_path: window.location.pathname,
         page_type: pageType,
         referrer: referrerSource,
-        referrer_source: referrerSource,
+        traffic_source: utm.source || trafficSource,
+        traffic_medium: utm.medium || trafficMedium,
         user_language: navigator.language,
         screen_resolution: `${window.screen.width}x${window.screen.height}`,
         viewport_size: `${window.innerWidth}x${window.innerHeight}`,
         device_type: this.getDeviceType()
     };
 
-    // Attach UTM params if present
+    // UTM overrides referrer-based source if present
     if (utm.source) eventParams.traffic_source = utm.source;
     if (utm.medium) eventParams.traffic_medium = utm.medium;
     if (utm.campaign) eventParams.traffic_campaign = utm.campaign;
