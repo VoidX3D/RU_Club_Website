@@ -239,9 +239,21 @@ section.bg-secondary {
     padding-top: calc(var(--header-height) + 2rem);
     position: relative;
     overflow: hidden;
-    background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%), 
+    background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.5) 100%), 
                 url('/static/assets/images/heroimg-bg.jpeg') center/120% no-repeat;
-    background-color: #1a1a1a;
+    background-color: var(--bg-primary);
+}
+
+.hero-title,
+.hero-subtitle,
+.hero-badge-text {
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero-badge {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.3);
 }
 
 .hero > * {
