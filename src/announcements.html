@@ -60,7 +60,25 @@
     }
     </script>
 
-
+    <style>
+      .announcements-hero {
+        padding: calc(var(--header-height) + 4rem) 0 3rem;
+        text-align: center;
+        background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+      }
+      .announcements-hero h1 {
+        font-size: clamp(2.5rem, 8vw, 4.5rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        margin-bottom: 1rem;
+      }
+      .announcements-hero p {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        max-width: 550px;
+        margin: 0 auto;
+      }
+    </style>
 
     <script type="application/ld+json">
     {
