@@ -236,11 +236,11 @@ section.bg-secondary {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: var(--header-height);
+    padding-top: calc(var(--header-height) + 2rem);
     position: relative;
     overflow: hidden;
-    background: linear-gradient(180deg, var(--bg-primary) 0%, rgba(0,0,0,0.3) 100%), 
-                url('/static/assets/images/heroimg-bg.webp') center/cover no-repeat;
+    background: linear-gradient(180deg, var(--bg-primary) 0%, rgba(0,0,0,0.5) 100%), 
+                url('/static/assets/images/heroimg-bg.webp') center/120% no-repeat;
     background-color: var(--bg-primary);
 }
 
