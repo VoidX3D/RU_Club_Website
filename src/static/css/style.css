@@ -239,42 +239,11 @@ section.bg-secondary {
     padding-top: var(--header-height);
     position: relative;
     overflow: hidden;
-    background-color: var(--bg-primary);
-}
-
-.hero-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center center;
-    z-index: -1;
-    opacity: 0.35;
+    background: url('/static/assets/images/heroimg-bg.webp') center/cover no-repeat var(--bg-primary);
 }
 
 .hero > * {
     position: relative;
-    z-index: 1;
-}
-
-.hero > * {
-    position: relative;
-    z-index: 1;
-}
-
-
-
-.hero::before {
-    content: '';
-    position: absolute;
-    top: -30%;
-    right: -20%;
-    width: 70%;
-    height: 140%;
-    background: radial-gradient(ellipse, rgba(13, 148, 136, 0.06) 0%, transparent 60%);
-    pointer-events: none;
     z-index: 1;
 }
 
