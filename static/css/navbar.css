@@ -135,8 +135,12 @@
 .nav-github img {
     width: 16px;
     height: 16px;
-    filter: brightness(0.6);
+    filter: brightness(0);
     transition: filter 0.3s ease;
+}
+
+[data-theme="dark"] .nav-github img {
+    filter: brightness(0) invert(1);
 }
 
 .nav-github:hover {
