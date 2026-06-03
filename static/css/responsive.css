@@ -78,9 +78,9 @@
     .nav-desktop { display: flex; }
 }
 
-@media (min-width: 768px) and (max-width: 900px) {
+@media (min-width: 768px) and (max-width: 1000px) {
     .nav-desktop { gap: 0.75rem; }
-    .btn-join-desktop { padding: 0.6rem 1.25rem; font-size: 0.8rem; }
+    .btn-join-desktop { padding: 0.5rem 1rem; font-size: 0.8rem; }
 }
 
 @media (min-width: 768px) {
