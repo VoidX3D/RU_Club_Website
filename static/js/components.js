@@ -92,10 +92,10 @@ const Components = {
     },
 
     initAll() {
-        // Initialize all feature modules
         if (typeof Theme !== 'undefined') Theme.init();
         if (typeof Navigation !== 'undefined') Navigation.init();
         if (typeof Animations !== 'undefined') Animations.init();
+        if (typeof Mobile !== 'undefined') Mobile.init();
         if (typeof Forms !== 'undefined') Forms.init();
         
         this.initScrollTop();
