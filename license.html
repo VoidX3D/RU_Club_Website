@@ -62,8 +62,30 @@
       .legal-content pre { background: var(--bg-secondary); padding: 2rem; border-radius: var(--radius-lg); overflow-x: auto; font-size: 0.85rem; line-height: 1.7; color: var(--text-secondary); border: 1px solid var(--border-light); margin: 1.75rem 0; white-space: pre-wrap; }
       @media (max-width: 480px) { .legal-content { padding: 0.25rem 0 1.5rem; } }
       .page-header { padding: 0; }
-      .page-header .back-link { margin-bottom: 0.5rem; }
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1.25rem;
+        background: var(--bg-secondary);
+        border: 1.5px solid var(--border-light);
+        border-radius: var(--radius-full);
+        color: var(--brand-primary);
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        transition: var(--transition-base);
+        text-decoration: none;
+      }
+      .back-link:hover {
+        background: var(--brand-primary);
+        color: #fff;
+        border-color: var(--brand-primary);
+        transform: translateY(-2px);
+      }
       .page-header .page-title { margin-bottom: 0.25rem; }
+      main { padding-top: 0; }
+      section { padding: 0; }
       main { padding-top: 0; }
       section { padding: 0; }
     </style>
