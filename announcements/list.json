@@ -16,14 +16,5 @@
     "summary": "Every member MUST prepare one DIY decorative item from upcycled/waste materials. Strict deadline this Thursday.",
     "image": "/announcements/assets/event01.jpg",
     "active": true
-  },
-  {
-    "id": "imp-notice",
-    "title": "Test Announcement",
-    "tag": "Notice",
-    "date": "Jun 2, 2026",
-    "summary": "This is a test announcement! ",
-    "image": "announcements/assets/event01.jpg",
-    "active": true
   }
 ]
