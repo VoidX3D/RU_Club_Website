@@ -1,8 +1,8 @@
 [
-  { "src": "static/assets/partners/motherland.png", "alt": "Motherland Secondary School", "name": "Motherland" },
-  { "src": "static/assets/partners/pokhara_mun.png", "alt": "Pokhara Metropolitan City", "name": "Pokhara Mun" },
-  { "src": "static/assets/partners/gov_nepal.png", "alt": "Government of Nepal", "name": "Government" },
-  { "src": "static/assets/partners/doko.png", "alt": "Doko Recyclers", "name": "Doko Recyclers" },
-  { "src": "static/assets/partners/undp.png", "alt": "United Nations Development Programme", "name": "UNDP" },
-  { "src": "static/assets/partners/koica.png", "alt": "KOICA Nepal", "name": "KOICA" }
+  { "src": "/static/assets/partners/motherland.png", "alt": "Motherland Secondary School", "name": "Motherland" },
+  { "src": "/static/assets/partners/pokhara_mun.png", "alt": "Pokhara Metropolitan City", "name": "Pokhara Mun" },
+  { "src": "/static/assets/partners/gov_nepal.png", "alt": "Government of Nepal", "name": "Government" },
+  { "src": "/static/assets/partners/doko.png", "alt": "Doko Recyclers", "name": "Doko Recyclers" },
+  { "src": "/static/assets/partners/undp.png", "alt": "United Nations Development Programme", "name": "UNDP" },
+  { "src": "/static/assets/partners/koica.png", "alt": "KOICA Nepal", "name": "KOICA" }
 ]

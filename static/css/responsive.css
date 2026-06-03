@@ -58,48 +58,12 @@
     .cookie-actions { flex-direction: column; }
     .missions-grid { grid-template-columns: 1fr !important; }
     .mission-gallery-grid { grid-template-columns: 1fr !important; }
-    #mobile-menu .nav-link { font-size: 1.35rem; padding: 1rem 2rem; }
-    #mobile-menu .nav-github { margin: 0.5rem auto; min-height: 44px; min-width: 44px; display: flex; align-items: center; }
-    #mobile-menu .btn-join { min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    .mobile-menu .nav-link { font-size: 1.2rem; padding: 0.85rem 1.5rem; }
+    .mobile-menu .nav-github { margin: 0.5rem auto; min-height: 44px; min-width: 44px; display: flex; align-items: center; }
+    .mobile-menu .btn-join { min-height: 44px; display: flex; align-items: center; justify-content: center; }
     .scroll-top-btn { bottom: 1rem; right: 1rem; width: 40px; height: 40px; }
-}
-@media (max-width: 360px) {
-    .container { padding: 0 0.65rem; }
-    .hero-title { font-size: 1.8rem; }
-    .hero-badge { padding: 0.4rem 0.75rem; }
-    .hero-buttons { flex-direction: column; align-items: center; }
-    .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
-    .stats-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-    .footer-logo { width: 42px; height: 42px; }
-    .footer-brand-name { font-size: 1.1rem; }
-    .gallery-grid { min-width: 0; }
-}
-@media (min-width: 768px) {
-    .nav-desktop { display: flex; }
-}
-
-@media (min-width: 768px) and (max-width: 1000px) {
-    .nav-desktop { gap: 0.7rem; }
-    .nav-link { font-size: 0.9rem; padding: 0.4rem 0; }
-    .nav-github { font-size: 0.8rem; padding: 0.4rem 0.8rem; gap: 5px; }
-    .nav-github img { width: 14px; height: 14px; }
-    .logo-name { font-size: 1.15rem; }
-    .logo img { height: 36px; }
-    .btn-join-desktop { padding: 0.5rem 1rem; font-size: 0.78rem; }
-}
-
-@media (min-width: 768px) {
-    .btn-join-desktop { display: inline-flex; }
-}
-@media (min-width: 768px) {
-    .md\:hidden { display: none; }
-    .menu-toggle { display: none; }
-}
-@media (max-width: 480px) {
-    #mobile-menu .nav-link {
-        font-size: 1.2rem;
-        padding: 0.85rem 1.5rem;
-    }
+    .mobile-menu-footer .nav-github { margin: 0.5rem auto; min-height: 44px; min-width: 44px; display: flex; align-items: center; }
+    .mobile-menu-footer .btn-join { min-height: 44px; display: flex; align-items: center; justify-content: center; }
 }
 @media (max-width: 768px) {
     .parkSwiper {
@@ -188,6 +152,8 @@
     }
 }
 @media (min-width: 768px) {
+    .nav-desktop { display: flex; }
+    .menu-toggle { display: none; }
     .footer-grid {
         grid-template-columns: 2fr 1fr 1fr;
         gap: 3rem;

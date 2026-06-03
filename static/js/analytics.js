@@ -17,13 +17,18 @@ const Analytics = {
   pageStartTime: Date.now(),
 
   /* ---------------------------------------------------------------- */
-  /*  INIT — the party starter                                        */
+  /*  GET ACTIVE IDS — declined → only primary, accepted → both       */
+  /* ---------------------------------------------------------------- */
+  getActiveIds() {
+    const consent = localStorage.getItem('cookie-consent');
+    if (consent === 'accepted') return this.GA_MEASUREMENT_IDS;
+    return [this.GA_MEASUREMENT_IDS[0]];
+  },
+
+  /* ---------------------------------------------------------------- */
+  /*  INIT — loads GA with consent-aware ID set                       */
   /* ---------------------------------------------------------------- */
   init() {
-    if (this.isDisabled()) {
-      console.info('🍪 Analytics declined — respecting your privacy like a responsible adult.');
-      return;
-    }
     this.loadScript();
     this.setupConsent();
     this.trackPageView();
@@ -41,18 +46,10 @@ const Analytics = {
   },
 
   /* ---------------------------------------------------------------- */
-  /*  GUARD — checks if the user said "no thanks" to cookies          */
-  /* ---------------------------------------------------------------- */
-  isDisabled() {
-    const consent = localStorage.getItem('cookie-consent');
-    return consent === 'declined';
-  },
-
-  /* ---------------------------------------------------------------- */
-  /*  LOAD SCRIPT — summons the Google Analytics deity                */
+  /*  LOAD SCRIPT — loads gtag.js for the primary ID, configures all  */
   /* ---------------------------------------------------------------- */
   loadScript() {
-    const ids = this.GA_MEASUREMENT_IDS;
+    const ids = this.getActiveIds();
     if (!ids || ids.length === 0) {
       console.info('📊 GA4 placeholder detected — no data sent.');
       return;
@@ -394,6 +391,15 @@ const Analytics = {
     localStorage.setItem('cookie-consent', 'accepted');
     if (typeof gtag !== 'undefined') {
       gtag('consent', 'update', { analytics_storage: 'granted' });
+      // If only primary was loaded, add secondary now
+      if (this.GA_MEASUREMENT_IDS.length > 1 && !window._gaSecondaryLoaded) {
+        gtag('config', this.GA_MEASUREMENT_IDS[1], {
+          send_page_view: false,
+          'allow_google_signals': true,
+          'allow_ad_personalization_signals': true
+        });
+        window._gaSecondaryLoaded = true;
+      }
       this.trackPageView();
     }
     console.info('🍪 Cookies accepted. Analytics engaged. Nom nom nom.');

@@ -3,7 +3,7 @@
   "shortName": "RU Club",
   "tagline": "Environmental Sustainability Club",
   "description": "Environmental sustainability club at Motherland Secondary School, Pokhara, Nepal. Transforming awareness into action for a zero-waste ecosystem.",
-  "url": "/",
+  "url": "https://ruclubmss.vercel.app",
   "logo": "/static/assets/brand/logo.png",
   "logoIcon": "/static/assets/brand/logo_icon.png",
   "email": "ruclubmotherland@gmail.com",
@@ -20,7 +20,31 @@
     "facebook": "https://facebook.com/profile.php?id=61585206314774",
     "instagram": "https://instagram.com/rucl.ub/"
   },
+  "github": "https://github.com/RU-Club-Motherland",
   "copyright": "2026",
   "managedBy": "Motherland Secondary School",
-  "madeBy": "Sincere Bhattarai"
+  "madeBy": "Sincere Bhattarai",
+  "nav": [
+    { "label": "Home", "href": "/" },
+    { "label": "Announcements", "href": "/announcements" },
+    { "label": "Missions", "href": "/missions" },
+    { "label": "Gallery", "href": "/gallery" },
+    { "label": "Members", "href": "/members" },
+    { "label": "Contact", "href": "/contact" }
+  ],
+  "footerQuickLinks": [
+    { "label": "Home", "href": "/" },
+    { "label": "Announcements", "href": "/announcements" },
+    { "label": "Missions", "href": "/missions" },
+    { "label": "Gallery", "href": "/gallery" },
+    { "label": "Members", "href": "/members" },
+    { "label": "Contact", "href": "/contact" },
+    { "label": "Privacy Policy", "href": "/privacy" },
+    { "label": "Cookie Policy", "href": "/consent" },
+    { "label": "License", "href": "/license" }
+  ],
+  "cookie": {
+    "title": "We value your privacy",
+    "text": "This site uses cookies from Google Analytics to analyze traffic. No personal data is sold or shared."
+  }
 }
