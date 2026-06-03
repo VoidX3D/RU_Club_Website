@@ -106,6 +106,9 @@
 
 </head>
 <body>
+
+    <header id="header-placeholder" class="main-header"></header>
+
     <main class="status-page">
         <div data-aos="fade-up">
             <div class="status-icon failed">&#10007;</div>
@@ -118,13 +121,12 @@
         </div>
     </main>
 
+    <footer id="footer-placeholder" class="main-footer"></footer>
+
     <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script defer src="/static/js/theme.js"></script>
+    <script defer src="/static/js/navigation.js"></script>
     <script defer src="/static/js/analytics.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            if (typeof AOS !== 'undefined') AOS.init({ duration: 600, once: true });
-        });
-    </script>
+    <script defer src="/static/js/components.js"></script>
 </body>
 </html>
