@@ -9,8 +9,8 @@ mission/
 ├── list.json                 # Global index of all missions
 └── [mission-id]/             # Directory for a specific mission
     ├── info.json             # Detailed data for the mission
-    ├── img1.jpg              # Mission images
-    └── img2.jpg
+    ├── img-01.jpg             # Mission images (img-01.jpg, img-02.jpg, ...)
+    └── img-02.jpg
 ```
 
 ## How to add a new mission
@@ -32,10 +32,10 @@ mission/
      "date": "Month Year",
      "description": "One sentence summary.",
      "detail": "Long description (multiple paragraphs ok).",
-     "images": [
-       "img1.jpg",
-       "img2.jpg"
-     ],
+      "images": [
+        "img-01.jpg",
+        "img-02.jpg"
+      ],
      "stats": {
        "volunteers": "20+",
        "areasSurveyed": "10+",
@@ -57,7 +57,7 @@ mission/
      "description": "One sentence summary.",
      "detail": "The beginning of the long description...",
      "imageCount": 2,
-     "featured": "mission/clean-up-drive/img1.jpg",
+      "featured": "mission/clean-up-drive/img-01.jpg",
      "show": true
    }
    ```
