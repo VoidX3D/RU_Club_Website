@@ -1,4 +1,6 @@
 {
+  "buildCommand": "cp -r src/* .",
+  "outputDirectory": ".",
   "cleanUrls": true,
   "trailingSlash": false
 }

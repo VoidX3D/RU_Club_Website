@@ -4,8 +4,8 @@ on:
   push:
     branches: [main]
     paths:
-      - 'announcements/main/**'
-      - '!announcements/list.json'
+      - 'src/announcements/main/**'
+      - '!src/announcements/list.json'
   workflow_dispatch:
 
 concurrency:
@@ -27,8 +27,8 @@ jobs:
           import json, re
           from pathlib import Path
 
-          MAIN = Path("announcements/main")
-          LIST_PATH = Path("announcements/list.json")
+          MAIN = Path("src/announcements/main")
+          LIST_PATH = Path("src/announcements/list.json")
 
           existing = {}
           if LIST_PATH.exists():
@@ -83,7 +83,7 @@ jobs:
         run: |
           git config user.name "Announcement Bot"
           git config user.email "bot@ruclubmss.vercel.app"
-          git add announcements/list.json
+          git add src/announcements/list.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else

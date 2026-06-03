@@ -4,8 +4,8 @@ on:
   push:
     branches: [main]
     paths:
-      - 'mission/**'
-      - '!mission/list.json'
+      - 'src/mission/**'
+      - '!src/mission/list.json'
   workflow_dispatch:
 
 concurrency:
@@ -27,7 +27,7 @@ jobs:
           import json, re
           from pathlib import Path
 
-          MISSION = Path("mission")
+          MISSION = Path("src/mission")
           LIST_PATH = MISSION / "list.json"
 
           existing = {}
@@ -100,7 +100,7 @@ jobs:
         run: |
           git config user.name "Mission Bot"
           git config user.email "bot@ruclubmss.vercel.app"
-          git add mission/list.json mission/*/info.json
+          git add src/mission/list.json src/mission/*/info.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else

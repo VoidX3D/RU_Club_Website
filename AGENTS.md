@@ -8,43 +8,48 @@ RU Club Motherland is a static HTML/CSS/JS site for an environmental sustainabil
 - Swiper 11 for carousels
 - AOS 2.3 for scroll animations
 - GLightbox for image lightbox
-- Formspree for contact form (dual-endpoint)
+- Formspree for contact form
 - Google Analytics GA4 (Dual-Tag: G-HWFPCZ4W1Q, G-HJTLGVDNYK)
 
 ## Architecture
 ```
-/                   → Root — all HTML pages (clean URLs via Vercel)
-├── static/
-│   ├── css/style.css      → Single CSS file
-│   ├── js/                → 10 JS modules (analytics, theme, nav, etc.)
-│   └── assets/            → brand/, icons/, partners/
-├── info/                  → JSON data (content, members, stats, etc.)
-├── components/            → header.html + footer.html (loaded by components.js)
-├── mission/               → Per-mission folders with images + info.json
-├── announcements/         → Per-announcement JSON files
-├── .github/workflows/     → auto-mission.yml, auto-announcements.yml
-├── vercel.json            → Clean URLs, security headers, caching
-├── _redirects             → Cloudflare Pages routing & redirects
-├── sitemap.xml            → Clean URLs
-└── robots.txt
+/                   → Root — config files only
+├── src/            → All source files (deployed via Vercel build)
+│   ├── *.html          → All HTML pages (clean URLs)
+│   ├── static/
+│   │   ├── css/style.css   → Single CSS file
+│   │   ├── js/             → 12 JS modules
+│   │   └── assets/         → brand/, icons/, partners/, images/
+│   ├── info/               → JSON data (content, members, stats, site)
+│   ├── components/         → navbar.html + footer.html (loaded by components.js)
+│   ├── mission/            → Per-mission folders with images + info.json
+│   ├── announcements/      → Per-announcement JSON files
+│   ├── robots.txt
+│   └── sitemap.xml
+├── .github/workflows/ → auto-mission.yml, auto-announcements.yml
+├── vercel.json        → Build command copies src/ to root, clean URLs
+├── _redirects         → Cloudflare Pages routing & redirects
+├── AGENTS.md
+└── LICENSE
+```
 
 ## Data Flow
-1. `components.js` fetches `/components/header.html` and `/components/footer.html` into placeholders
+1. `components.js` fetches `/components/navbar.html` and `/components/footer.html` into placeholders
 2. `main.js` triggers data loading per page
 3. `missions.js` loads `/mission/list.json` then per-mission `/mission/[id]/info.json`
 4. `announcements.js` loads `/announcements/list.json` then per-announcement `/announcements/main/[id].json`
 5. `data-loader.js` loads stats, partners, members, content from `/info/*.json`
 
 ## Adding a New Mission
-1. Create folder: `mission/your-mission-name/`
+1. Create folder: `src/mission/your-mission-name/`
 2. Drop images + `info.json` inside
 3. Push to `main` — GitHub workflow auto-updates `list.json`
-4. See `mission/README.md` for full details.
+4. See `src/mission/README.md` for full details.
 
 ## Adding a New Announcement
-1. Create JSON: `announcements/main/your-announcement.json`
+1. Create JSON: `src/announcements/main/your-announcement.json`
 2. Push to `main` — GitHub workflow auto-updates `list.json`
-3. See `announcements/README.md` for full details.
+3. See `src/announcements/README.md` for full details.
 
 ## Key Conventions
 - All icons are SVG files in `/static/assets/icons/` — never hardcode SVGs in HTML/JS
@@ -57,10 +62,10 @@ RU Club Motherland is a static HTML/CSS/JS site for an environmental sustainabil
 - GA4 ID in `static/js/analytics.js:15` — single source of truth
 
 ## Build/Deploy
-- No build step — pure static files
+- Build step: `vercel.json` runs `cp -r src/* .` to copy all source to root
 - Vercel auto-deploys from `main` branch
 - Cloudflare Pages auto-deploys from `main` branch
-- `vercel.json` configures clean URLs, security headers, caching for Vercel
+- `vercel.json` configures build command, clean URLs, and caching
 - `_redirects` configures clean URLs and trailing slash behavior for Cloudflare
 
 ## SEO
