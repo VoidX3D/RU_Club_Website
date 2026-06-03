@@ -62,9 +62,39 @@
 
     <style>
       .announcement-detail-header {
-        padding: calc(var(--header-height) + 4rem) 0 2rem;
+        padding: calc(var(--header-height) + 3rem) 0 1.5rem;
         text-align: center;
         background: var(--bg-secondary);
+      }
+      .announcement-detail-header .announcement-tag {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--brand-primary);
+        margin-bottom: 0.75rem;
+      }
+      .announcement-detail-header h1 {
+        font-size: clamp(1.8rem, 5vw, 3.5rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        margin-bottom: 0.75rem;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .announcement-detail-header .announcement-date {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+      }
+      .announcement-detail-header .announcement-status {
+        margin-left: 0.5rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        background: var(--brand-primary);
+        color: white;
+        padding: 0.25rem 0.6rem;
+        border-radius: var(--radius-full);
       }
       .announcement-detail-header .announcement-tag {
         font-size: 0.7rem;
