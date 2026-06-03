@@ -17,3 +17,5 @@ node_modules/
 
 # Vercel
 .vercel/
+announcements/README.md
+mission/README.md
