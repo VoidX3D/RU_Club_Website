@@ -202,6 +202,17 @@ section.bg-secondary {
 
 
 
+/* Header placeholder prevents layout shift before JS loads */
+#header-placeholder {
+    min-height: var(--header-height);
+    display: block;
+}
+
+#footer-placeholder {
+    min-height: 200px;
+    display: block;
+}
+
 /* === HEADER === */
 .main-header {
     position: fixed;
