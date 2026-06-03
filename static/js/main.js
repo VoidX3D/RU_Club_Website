@@ -25,6 +25,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 DataLoader.renderMembers('members-core', 'core'),
                 DataLoader.renderMembers('members-general', 'general')
             ]);
+            // Setup easter egg click on member rows
+            document.querySelectorAll('.easter-row').forEach(row => {
+                row.addEventListener('click', () => {
+                    window.location.href = '/secret-garden';
+                });
+            });
         }
 
         // Always init partner swiper if container exists
@@ -38,18 +44,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Load missions grid if present
         if (document.getElementById('missions-grid')) {
-            Missions.renderMissionsGrid('missions-grid');
+            await Missions.renderMissionsGrid('missions-grid');
         }
 
         // Load announcements if present
         if (document.getElementById('announcements-list')) {
-            console.log('Main: Rendering announcements...');
             await Announcements.renderCards('announcements-list');
         }
 
         // Update missions stats page from JSON data
         if (document.getElementById('stat-missions')) {
-            Missions.updateStats();
+            await Missions.updateStats();
         }
     } catch (error) {
         console.error('Main initialization error:', error);

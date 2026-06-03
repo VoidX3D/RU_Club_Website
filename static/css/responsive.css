@@ -158,6 +158,7 @@
 @media (min-width: 768px) {
     .nav-desktop { display: flex; }
     .menu-toggle { display: none; }
+    .btn-join-desktop { display: inline-flex; }
     .footer-grid {
         grid-template-columns: 2fr 1fr 1fr;
         gap: 3rem;

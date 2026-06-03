@@ -2,31 +2,25 @@ const Announcements = {
   list: null,
 
   async loadList() {
-    console.log('Announcements: Loading list.json...');
     if (this.list) {
-      console.log('Announcements: List already loaded');
       return this.list;
     }
     try {
       const res = await fetch('/announcements/list.json');
-      console.log('Announcements: Fetch response status:', res.status);
       this.list = await res.json();
-      console.log('Announcements: List loaded successfully:', this.list);
       return this.list;
     } catch (e) {
-      console.error('Announcements: Failed to load list.json:', e);
+      console.error('Failed to load announcements list:', e);
       return [];
     }
   },
 
   active() {
     if (!this.list) {
-      console.warn('Announcements: List not loaded yet');
+      console.warn('Announcements: list not loaded yet');
       return [];
     }
-    const activeItems = this.list.filter(a => a.active !== false);
-    console.log('Announcements: Active items:', activeItems);
-    return activeItems;
+    return this.list.filter(a => a.active !== false);
   },
 
   async get(id) {

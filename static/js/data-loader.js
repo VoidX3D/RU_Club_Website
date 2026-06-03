@@ -64,9 +64,11 @@ const DataLoader = {
       const num = String(i + 1).padStart(2, '0');
       const serialClass = group === 'general' ? 'serial-num-light' : 'serial-num';
       const roleClass = roleTypeMap[m.type] || 'role-member';
-      return `<tr>
+      const isEaster = m.name === 'Sincere Bhattarai';
+      const nameClass = isEaster ? 'member-name member-easter' : (group !== 'general' ? 'member-name' : '');
+      return `<tr${isEaster ? ' class="easter-row"' : ''}>
         <td><span class="${serialClass}">${num}</span></td>
-        <td class="${group !== 'general' ? 'member-name' : ''}">${m.name}</td>
+        <td class="${nameClass}">${m.name}</td>
         ${hasClass ? `<td class="member-class">${m.class || ''}</td>` : ''}
         <td><span class="member-role ${roleClass}">${m.type ? m.role : 'General Member'}</span></td>
       </tr>`;
@@ -89,6 +91,10 @@ const DataLoader = {
   async renderContent() {
     const content = await this.getContent();
     if (!content) return;
+    if (!content.hero || !content.intro || !content.features || !content.cta || !content.mission) {
+      console.warn('DataLoader: content.json missing section');
+      return;
+    }
 
     // Hero
     this.setText('hero-badge-text', content.hero.badge);

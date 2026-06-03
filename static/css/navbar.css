@@ -42,6 +42,7 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    padding: 0 1.5rem;
 }
 
 .logo {
@@ -152,7 +153,11 @@
 }
 
 .nav-github:hover img {
-    filter: brightness(1) saturate(1);
+    filter: brightness(0) invert(1);
+}
+
+[data-theme="dark"] .nav-github:hover img {
+    filter: brightness(0) invert(1);
 }
 
 .header-actions {

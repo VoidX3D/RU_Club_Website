@@ -7,6 +7,10 @@ const Carousel = {
 
     initParkSwiper() {
         if (!document.querySelector('.parkSwiper')) return;
+        if (typeof Swiper === 'undefined') {
+            console.warn('Swiper not loaded — skipping carousel init');
+            return;
+        }
 
         this.parkSwiperInstance = new Swiper('.parkSwiper', {
             loop: true,
@@ -29,6 +33,10 @@ const Carousel = {
 
     initPartnerSwiper() {
         if (!document.querySelector('.partnerSwiper')) return;
+        if (typeof Swiper === 'undefined') {
+            console.warn('Swiper not loaded — skipping partner carousel init');
+            return;
+        }
 
         new Swiper('.partnerSwiper', {
             slidesPerView: 2,

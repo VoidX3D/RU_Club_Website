@@ -4,12 +4,11 @@
  */
 
 const Forms = {
-    OLD_FORM_ENDPOINT: 'https://formspree.io/f/xjgzzwej',
     FORM_ENDPOINT: 'https://formspree.io/f/xnjrrwbp',
 
     init() {
         this.setupSmoothScroll();
-        this.setupDualSubmit();
+        this.setupSubmit();
         this.setupFormValidation();
         this.setupAnalyticsTracking();
     },
@@ -108,7 +107,7 @@ const Forms = {
         }
     },
 
-    setupDualSubmit() {
+    setupSubmit() {
         const form = document.getElementById('contact-form');
         if (!form) return;
 
@@ -162,12 +161,6 @@ const Forms = {
                 if (!result.ok) {
                     throw new Error(result.error || 'Formspree returned error');
                 }
-
-                fetch(this.OLD_FORM_ENDPOINT, {
-                    method: 'POST',
-                    body: formData,
-                    headers: { 'Accept': 'application/json' }
-                }).catch(() => {});
 
                 this.trackEvent('form_submit_success', {
                     form_name: 'contact_form',
