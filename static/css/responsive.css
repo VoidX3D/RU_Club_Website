@@ -70,8 +70,8 @@
         padding: 1.5rem 0 3rem !important;
     }
     .parkSwiper .swiper-slide {
-        width: 90vw;
-        max-width: 90vw;
+        width: 80vw;
+        max-width: 80vw;
         aspect-ratio: 16/10;
     }
     .swiper-button-next,

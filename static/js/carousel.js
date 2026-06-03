@@ -13,8 +13,8 @@ const Carousel = {
             autoplay: { delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true },
             speed: 600,
             centeredSlides: true,
-            slidesPerView: 1,
-            spaceBetween: 20,
+            slidesPerView: 1.15,
+            spaceBetween: 16,
             grabCursor: true,
             navigation: {
                 nextEl: '.swiper-button-next',
@@ -22,7 +22,7 @@ const Carousel = {
             },
             pagination: { el: '.swiper-pagination', clickable: true },
             breakpoints: {
-                640: { slidesPerView: 'auto', spaceBetween: 30 }
+                640: { slidesPerView: 'auto', spaceBetween: 30, centeredSlides: true }
             }
         });
     },
@@ -32,7 +32,7 @@ const Carousel = {
 
         new Swiper('.partnerSwiper', {
             slidesPerView: 2,
-            spaceBetween: 24,
+            spaceBetween: 20,
             loop: true,
             speed: 4000,
             autoplay: { delay: 0, disableOnInteraction: false, pauseOnMouseEnter: true },
