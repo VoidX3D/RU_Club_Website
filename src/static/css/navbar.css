@@ -45,12 +45,6 @@
     padding: 0 1.5rem;
 }
 
-.header-left {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-}
-
 .logo {
     display: flex;
     align-items: center;
@@ -115,16 +109,12 @@
 
 .header-gh:hover {
     border-color: var(--brand-primary);
-    background: var(--bg-card);
+    background: var(--brand-primary);
     transform: translateY(-1px);
     box-shadow: var(--shadow-md);
 }
 
 .header-gh:hover img {
-    filter: brightness(0) invert(1);
-}
-
-[data-theme="dark"] .header-gh:hover img {
     filter: brightness(0) invert(1);
 }
 

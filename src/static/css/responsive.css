@@ -11,8 +11,6 @@
     section { padding: 4rem 0; }
     .container { padding: 0 1rem; }
     .header-inner { padding: 0 0.75rem; }
-    .header-gh { width: 38px; height: 38px; }
-    .header-gh img { width: 16px; height: 16px; }
     .logo img { height: 40px; }
     .logo-name { font-size: 1.25rem; }
     .logo-tag { font-size: 0.65rem; }
@@ -40,8 +38,6 @@
     section { padding: 4rem 0; }
     .container { padding: 0 0.85rem; }
     .header-inner { padding: 0 0.5rem; }
-    .header-gh { width: 36px; height: 36px; }
-    .header-gh img { width: 14px; height: 14px; }
     .logo img { height: 36px; }
     .logo-name { font-size: 1.1rem; }
     .logo-tag { font-size: 0.6rem; }
