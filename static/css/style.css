@@ -1111,9 +1111,19 @@ section.bg-secondary {
 }
 
 .footer-social a:hover {
-    background: var(--brand-primary);
     transform: translateY(-3px);
+    filter: brightness(1.15);
 }
+
+.footer-social a[href*="facebook"] { background: #1877F2; }
+.footer-social a[href*="instagram"] { background: linear-gradient(135deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D); }
+.footer-social a[href*="mailto"] { background: #EA4335; }
+.footer-social a[href*="github"] { background: #333; }
+
+[data-theme="dark"] .footer-social a[href*="facebook"] { background: #1877F2; }
+[data-theme="dark"] .footer-social a[href*="instagram"] { background: linear-gradient(135deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D); }
+[data-theme="dark"] .footer-social a[href*="mailto"] { background: #EA4335; }
+[data-theme="dark"] .footer-social a[href*="github"] { background: #333; }
 
 .footer-social a img {
     width: 20px;
@@ -1126,7 +1136,7 @@ section.bg-secondary {
 }
 
 [data-theme="dark"] .social-icon {
-    filter: brightness(1) invert(0);
+    filter: brightness(0) invert(1);
 }
 
 .social-icon:hover {
@@ -1590,11 +1600,6 @@ section.bg-secondary {
 }
 
 /* === ICON HELPERS === */
-
-.social-icon:hover {
-    transform: scale(1.2);
-    opacity: 0.85;
-}
 
 /* === FOOTER HEART === */
 .footer-heart {
