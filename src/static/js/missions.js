@@ -114,5 +114,66 @@ const Missions = {
       console.error('Failed to load mission images:', e);
       return 0;
     }
+  },
+
+  async renderGallery(containerId) {
+    await this.load();
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const missions = this.shown();
+    if (!missions.length) {
+      container.innerHTML = '<div style="text-align:center;padding:3rem 0;color:var(--text-secondary);">No gallery images available yet.</div>';
+      return;
+    }
+
+    // Collect all images from all missions
+    const allImages = [];
+    for (const m of missions) {
+      try {
+        const res = await fetch(`/mission/${m.id}/info.json`);
+        const info = await res.json();
+        if (Array.isArray(info.images)) {
+          info.images.forEach(img => {
+            allImages.push({
+              src: `/mission/${m.id}/${img}`,
+              title: m.title || '',
+              missionId: m.id,
+              slug: m.slug || m.id
+            });
+          });
+        }
+      } catch (e) {
+        console.warn('[Gallery] Failed to load images for', m.id, e);
+      }
+    }
+
+    if (!allImages.length) {
+      container.innerHTML = '<div style="text-align:center;padding:3rem 0;color:var(--text-secondary);">No gallery images available yet.</div>';
+      return;
+    }
+
+    // Render image grid
+    container.innerHTML = allImages.map((img, i) => {
+      const caption = img.title ? `data-glightbox="description: ${img.title}"` : '';
+      return `
+        <a href="${img.src}" class="glightbox gallery-img-link" data-gallery="mission-gallery" ${caption}>
+          <img src="${img.src}" alt="${img.title || 'Mission photo'}" loading="lazy" class="gallery-img">
+        </a>
+      `;
+    }).join('');
+
+    console.log(`[Gallery] Rendered ${allImages.length} images from ${missions.length} missions`);
+
+    // Init GLightbox if available
+    if (typeof GLightbox !== 'undefined') {
+      GLightbox({
+        selector: '.glightbox[data-gallery="mission-gallery"]',
+        touchNavigation: true,
+        loop: true,
+        zoomable: true,
+        draggable: true
+      });
+    }
   }
 };

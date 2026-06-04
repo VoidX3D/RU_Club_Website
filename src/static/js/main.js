@@ -48,6 +48,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             await Missions.renderMissionsGrid('missions-grid');
         }
 
+        // Load gallery if present (pure image grid)
+        if (document.getElementById('gallery-grid')) {
+            await Missions.renderGallery('gallery-grid');
+        }
+
         // Load announcements if present
         if (document.getElementById('announcements-list')) {
             await Announcements.renderCards('announcements-list');
