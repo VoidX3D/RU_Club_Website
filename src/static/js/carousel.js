@@ -20,7 +20,7 @@ const Carousel = {
             autoplay: { delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true },
             speed: 600,
             centeredSlides: true,
-            slidesPerView: 1.15,
+            slidesPerView: 1,
             spaceBetween: 16,
             grabCursor: true,
             navigation: {
