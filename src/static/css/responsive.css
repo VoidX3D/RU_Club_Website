@@ -2,9 +2,19 @@
    RU CLUB MOTHERLAND - RESPONSIVE STYLES
    ======================================== */
 
+/* iPhone and small devices */
+@supports (-webkit-touch-callout: none) or (not (overflow: overlay)) {
+    @media (max-width: 480px) {
+        .hero {
+            min-height: -webkit-fill-available;
+        }
+    }
+}
+
 @media (max-width: 768px) {
     :root { --header-height: 70px; }
-    body { font-size: 16px; }
+    body { font-size: 16px; -webkit-text-size-adjust: 100%; }
+    html { -webkit-overflow-scrolling: touch; }
     h1 { font-size: 2.5rem; }
     h2 { font-size: 2rem; }
     h3 { font-size: 1.5rem; }
