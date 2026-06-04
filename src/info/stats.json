@@ -1,6 +1,18 @@
 [
-  { "value": "90kg+", "label": "Waste Collected" },
-  { "value": "20+", "label": "Surveyed Areas" },
-  { "value": "25+", "label": "Active Members" },
-  { "value": "5+", "label": "Partner Organizations" }
+  {
+    "value": "90kg+",
+    "label": "Waste Collected"
+  },
+  {
+    "value": "20+",
+    "label": "Surveyed Areas"
+  },
+  {
+    "value": "25+",
+    "label": "Active Members"
+  },
+  {
+    "value": "5+",
+    "label": "Partner Organizations"
+  }
 ]

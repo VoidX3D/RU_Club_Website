@@ -25,23 +25,68 @@
   "managedBy": "Motherland Secondary School",
   "madeBy": "Sincere Bhattarai",
   "nav": [
-    { "label": "Home", "href": "/" },
-    { "label": "Announcements", "href": "/announcements" },
-    { "label": "Missions", "href": "/missions" },
-    { "label": "Gallery", "href": "/gallery" },
-    { "label": "Members", "href": "/members" },
-    { "label": "Contact", "href": "/contact" }
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "Announcements",
+      "href": "/announcements"
+    },
+    {
+      "label": "Missions",
+      "href": "/missions"
+    },
+    {
+      "label": "Gallery",
+      "href": "/gallery"
+    },
+    {
+      "label": "Members",
+      "href": "/members"
+    },
+    {
+      "label": "Contact",
+      "href": "/contact"
+    }
   ],
   "footerQuickLinks": [
-    { "label": "Home", "href": "/" },
-    { "label": "Announcements", "href": "/announcements" },
-    { "label": "Missions", "href": "/missions" },
-    { "label": "Gallery", "href": "/gallery" },
-    { "label": "Members", "href": "/members" },
-    { "label": "Contact", "href": "/contact" },
-    { "label": "Privacy Policy", "href": "/privacy" },
-    { "label": "Cookie Policy", "href": "/consent" },
-    { "label": "License", "href": "/license" }
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "Announcements",
+      "href": "/announcements"
+    },
+    {
+      "label": "Missions",
+      "href": "/missions"
+    },
+    {
+      "label": "Gallery",
+      "href": "/gallery"
+    },
+    {
+      "label": "Members",
+      "href": "/members"
+    },
+    {
+      "label": "Contact",
+      "href": "/contact"
+    },
+    {
+      "label": "Privacy Policy",
+      "href": "/privacy"
+    },
+    {
+      "label": "Cookie Policy",
+      "href": "/consent"
+    },
+    {
+      "label": "License",
+      "href": "/license"
+    }
   ],
   "cookie": {
     "title": "We value your privacy",
