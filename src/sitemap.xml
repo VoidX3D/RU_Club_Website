@@ -31,6 +31,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ruclubmss.vercel.app/gallery-view</loc>
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://ruclubmss.vercel.app/contact</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>

@@ -58,7 +58,7 @@ const Gallery = {
           <div class="gallery-image">
             <img src="${featured}" alt="${mission.title || ''}" loading="lazy">
             <div class="gallery-overlay">
-              <a href="/mission?id=${mid}" class="btn-primary">View Gallery</a>
+              <a href="/gallery-view?id=${mid}" class="btn-primary">View Gallery</a>
             </div>
           </div>
           <div class="gallery-content">

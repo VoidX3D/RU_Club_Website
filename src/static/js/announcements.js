@@ -105,7 +105,7 @@ async function renderDetail() {
     return;
   }
 
-  document.title = announcement.title + ' | RU Club Motherland';
+    document.title = (announcement.title || 'Announcement') + ' | RU Club Motherland';
   const safeDesc = (announcement.summary || announcement.description || '').substring(0, 160);
 
   const m = (sel, attr, val) => { const e = document.querySelector(sel); if (e) e[attr] = val; };

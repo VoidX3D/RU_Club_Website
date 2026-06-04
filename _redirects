@@ -8,6 +8,7 @@
 /contact         /contact.html         200
 /success         /success.html         200
 /failed          /failed.html          200
+/gallery-view    /gallery-view.html    200
 /secret-garden   /secret-garden.html   200
 /privacy         /privacy.html         200
 /consent         /consent.html         200

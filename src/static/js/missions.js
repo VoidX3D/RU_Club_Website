@@ -65,8 +65,8 @@ const Missions = {
         if (info.stats) {
           const v = parseInt(info.stats.volunteers) || 0;
           const s = parseInt(info.stats.areasSurveyed) || 0;
-          totalVolunteers = Math.max(totalVolunteers, v);
-          totalSurveyed = Math.max(totalSurveyed, s);
+          totalVolunteers += v;
+          totalSurveyed += s;
         }
       } catch (e) { console.warn('Failed to load stats for', m.id, e); }
     }

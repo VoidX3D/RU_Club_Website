@@ -887,10 +887,6 @@ section.bg-secondary {
     background: var(--bg-secondary);
 }
 
-.gallery-mission-card:hover .gallery-mission-image img {
-    transform: scale(1.05);
-}
-
 .gallery-mission-image img {
     width: 100%;
     height: 100%;
@@ -991,7 +987,7 @@ section.bg-secondary {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: var(--brand);
+    color: var(--brand-primary);
     background: var(--brand-light);
     padding: 0.25rem 0.75rem;
     border-radius: var(--radius-full);
@@ -1013,12 +1009,6 @@ section.bg-secondary {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
     gap: 2.25rem;
-}
-
-.gallery-empty {
-    text-align: center;
-    padding: 3rem 0;
-    color: var(--text-secondary);
 }
 
 .gallery-card {
@@ -1058,12 +1048,15 @@ section.bg-secondary {
     position: absolute;
     inset: 0;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: center;
-    padding: 1.75rem;
+    padding: 1.5rem;
     opacity: 0;
     transition: var(--transition-base);
     z-index: 2;
+    background: rgba(0, 0, 0, 0.1);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
 }
 
 .gallery-card:hover .gallery-overlay {
@@ -1071,19 +1064,28 @@ section.bg-secondary {
 }
 
 .gallery-overlay .btn-primary {
-    background: var(--bg-card);
-    color: var(--text-primary);
-    backdrop-filter: blur(8px);
-    border: 1px solid var(--border-light);
-    font-size: 0.85rem;
-    padding: 0.6rem 1.25rem;
-    box-shadow: var(--shadow-lg);
+    background: var(--brand-primary);
+    color: white;
+    font-size: 1.05rem;
+    font-weight: 700;
+    padding: 0.85rem 2rem;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--radius-full);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(13, 148, 136, 0.35);
+    transform: translateY(8px);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .gallery-overlay .btn-primary:hover {
-    background: var(--brand-primary);
-    color: white;
+    background: white;
+    color: var(--brand-primary);
     border-color: var(--brand-primary);
+    transform: translateY(0) scale(1.08);
+    box-shadow: 0 12px 40px rgba(13, 148, 136, 0.45);
 }
 
 .gallery-content {
@@ -1120,32 +1122,6 @@ section.bg-secondary {
     font-size: 1rem;
     color: var(--text-secondary);
     line-height: 1.6;
-}
-
-/* === GALLERY IMAGE GRID === */
-.gallery-img-link {
-    display: block;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    aspect-ratio: 4/3;
-    background: var(--bg-secondary);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
-
-.gallery-img-link:hover {
-    transform: scale(1.03);
-    box-shadow: var(--shadow-xl);
-}
-
-.gallery-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s ease;
-}
-
-.gallery-img-link:hover .gallery-img {
-    transform: scale(1.08);
 }
 
 /* === MEMBERS TABLE === */
@@ -1611,7 +1587,7 @@ section.bg-secondary {
 
 .footer-links a:hover {
     color: var(--footer-text);
-    padding-left: 6px;
+    padding-left: 4px;
 }
 
 .footer-address {
@@ -1901,6 +1877,7 @@ section.bg-secondary {
     inset: 0;
     z-index: 9997;
     background: rgba(0,0,0,0.5);
+    -webkit-backdrop-filter: blur(4px);
     backdrop-filter: blur(4px);
     opacity: 0;
     pointer-events: none;

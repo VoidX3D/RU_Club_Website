@@ -5,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="format-detection" content="telephone=no">
     <meta name="mobile-web-app-capable" content="yes">
-    <title>Announcements | RU Club Motherland</title>
-    <meta name="description" content="Latest announcements from RU Club Motherland — events, updates, and notices for members and the community.">
+    <title>Gallery View | RU Club Motherland</title>
+    <meta name="description" content="View mission photos from RU Club Motherland environmental projects.">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://ruclubmss.vercel.app/announcements">
+    <link rel="canonical" href="https://ruclubmss.vercel.app/gallery-view">
 
-    <meta property="og:title" content="Announcements | RU Club Motherland">
-    <meta property="og:description" content="Latest announcements from RU Club Motherland — events, updates, and notices for members and the community.">
+    <meta property="og:title" content="Gallery View | RU Club Motherland">
+    <meta property="og:description" content="View mission photos from RU Club Motherland environmental projects.">
     <meta property="og:image" content="/static/assets/brand/logo.png">
-    <meta property="og:url" content="https://ruclubmss.vercel.app/announcements">
+    <meta property="og:url" content="https://ruclubmss.vercel.app/gallery-view">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="RU Club Motherland">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Announcements | RU Club Motherland">
-    <meta name="twitter:description" content="Latest announcements from RU Club Motherland — events, updates, and notices for members and the community.">
+    <meta name="twitter:title" content="Gallery View | RU Club Motherland">
+    <meta name="twitter:description" content="View mission photos from RU Club Motherland environmental projects.">
     <meta name="twitter:image" content="/static/assets/brand/logo.png">
 
     <meta name="author" content="RU Club Motherland">
@@ -40,6 +40,7 @@
     <link rel="stylesheet" href="/static/css/responsive.css" media="print" onload="this.media='all'">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" media="print" onload="this.media='all'">
     <link rel="manifest" href="/site.webmanifest">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/static/assets/brand/logo_icon.png">
@@ -49,7 +50,13 @@
             document.documentElement.setAttribute('data-theme', theme);
         })();
     </script>
-
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js');
+            });
+        }
+    </script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -64,7 +71,6 @@
       "description": "Environmental sustainability club at Motherland Secondary School, Pokhara, Nepal."
     }
     </script>
-
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -73,51 +79,108 @@
       "url": "https://ruclubmss.vercel.app"
     }
     </script>
-
-    <style>
-      .announcements-hero {
-        padding: calc(var(--header-height) + 4rem) 0 3rem;
-        text-align: center;
-        background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
-      }
-      .announcements-hero h1 {
-        font-size: clamp(2.5rem, 8vw, 4.5rem);
-        font-weight: 800;
-        letter-spacing: -0.03em;
-        margin-bottom: 1rem;
-      }
-      .announcements-hero p {
-        font-size: 1.1rem;
-        color: var(--text-secondary);
-        max-width: 550px;
-        margin: 0 auto;
-      }
-    </style>
-
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ruclubmss.vercel.app" },
-        { "@type": "ListItem", "position": 2, "name": "Announcements", "item": "https://ruclubmss.vercel.app/announcements" }
+        { "@type": "ListItem", "position": 2, "name": "Gallery", "item": "https://ruclubmss.vercel.app/gallery" },
+        { "@type": "ListItem", "position": 3, "name": "Gallery View", "item": "https://ruclubmss.vercel.app/gallery-view" }
       ]
     }
     </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["ImageGallery", "CollectionPage"],
+      "name": "Gallery View | RU Club Motherland",
+      "description": "View mission photos from RU Club Motherland environmental projects.",
+      "url": "/gallery-view"
+    }
+    </script>
 
+    <style>
+      .gv-header {
+        padding: calc(var(--header-height) + 4rem) 0 2rem;
+        text-align: center;
+        background: var(--bg-secondary);
+      }
+      .gv-header .gv-tag {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--brand-primary);
+        margin-bottom: 0.75rem;
+      }
+      .gv-header h1 {
+        font-size: clamp(2rem, 6vw, 3.5rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        margin-bottom: 0.75rem;
+      }
+      .gv-header .gv-date {
+        font-size: 0.9rem;
+        color: var(--text-tertiary);
+      }
+      .gv-gallery {
+        padding: 3rem 0 5rem;
+      }
+      .gv-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1rem;
+      }
+      .gv-grid a {
+        display: block;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        aspect-ratio: 16/10;
+        background: var(--bg-card);
+        border: 1px solid var(--border-light);
+        transition: var(--transition-base);
+      }
+      .gv-grid a:hover {
+        border-color: var(--brand-light);
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-4px);
+      }
+      .gv-grid img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+      }
+      .gv-grid a:hover img {
+        transform: scale(1.05);
+      }
+      .gv-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: var(--transition-base);
+      }
+      .gv-back:hover {
+        color: var(--brand-primary);
+      }
+      .gv-empty {
+        text-align: center;
+        padding: 4rem 0;
+        color: var(--text-tertiary);
+      }
+    </style>
 
     <noscript>
         <link rel="stylesheet" href="/static/css/navbar.css">
         <link rel="stylesheet" href="/static/css/responsive.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
     </noscript>
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js');
-            });
-        }
-    </script>
     <meta name="theme-color" content="#0D9488">
     <meta name="msapplication-TileColor" content="#0D9488">
 </head>
@@ -134,20 +197,26 @@
             <div class="skeleton skeleton-icon" style="margin-left:12px;"></div>
             <div class="skeleton skeleton-icon"></div>
         </div>
-</header>
-    <main>
-        <section class="announcements-hero">
+    </header>
+    <main id="gv-content">
+        <div class="gv-header">
             <div class="container">
-                <h1 data-aos="fade-up">Announcements</h1>
-                <p data-aos="fade-up" data-aos-delay="100">Stay up to date with the latest from RU Club Motherland.</p>
+                <p class="gv-tag" id="gv-tag"></p>
+                <h1 id="gv-title"></h1>
+                <p class="gv-date" id="gv-date"></p>
             </div>
-        </section>
+        </div>
 
-        <section>
+        <div class="gv-gallery">
             <div class="container">
-                <div class="announcements-list" id="announcements-list"></div>
+                <a href="/gallery" class="gv-back" id="gv-back-link">&larr; Back to Gallery</a>
+                <div class="gv-grid" id="gv-grid"></div>
+                <div class="gv-empty" id="gv-empty" style="display:none;">
+                    <p>No photos available for this mission.</p>
+                    <a href="/gallery" class="btn-primary" style="margin-top:1rem;display:inline-block;">Back to Gallery</a>
+                </div>
             </div>
-        </section>
+        </div>
     </main>
 
     <footer id="footer-placeholder" class="main-footer">
@@ -159,14 +228,15 @@
                 <div class="skeleton skeleton-text" style="width:150px;"></div>
             </div>
         </div>
-</footer>
+    </footer>
     <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
     <script defer src="/static/js/theme.js"></script>
     <script defer src="/static/js/navigation.js"></script>
     <script defer src="/static/js/animations.js"></script>
     <script defer src="/static/js/mobile.js"></script>
     <script defer src="/static/js/components.js"></script>
-    <script defer src="/static/js/announcements.js"></script>
+    <script defer src="/static/js/gallery-view.js"></script>
     <script async src="/static/js/analytics.js"></script>
 </body>
 </html>

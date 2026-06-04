@@ -57,6 +57,15 @@ const Analytics = {
     this.trackUserInteraction();
     this.trackPagePerformance();
     this.trackErrorTracking();
+    this.trackUserProperties();
+    this.trackSocialShares();
+    this.trackVisibility();
+    this.trackClicks();
+    this.trackCarousel();
+    this.trackGalleryCards();
+    this.trackSession();
+    this.trackNavigation();
+    this.trackTextSelection();
   },
 
 /* ---------------------------------------------------------------- */
@@ -147,13 +156,19 @@ trackPageView() {
     let pageType = 'other';
     if (path === '/' || path === '') pageType = 'home';
     else if (path.includes('missions')) pageType = 'missions';
+    else if (path.includes('mission')) pageType = 'mission_detail';
     else if (path.includes('members')) pageType = 'members';
+    else if (path.includes('gallery-view')) pageType = 'gallery_view';
     else if (path.includes('gallery')) pageType = 'gallery';
     else if (path.includes('announcements')) pageType = 'announcements';
+    else if (path.includes('announcement')) pageType = 'announcement_detail';
     else if (path.includes('contact')) pageType = 'contact';
     else if (path.includes('success')) pageType = 'success';
     else if (path.includes('failed')) pageType = 'failed';
     else if (path.includes('secret-garden')) pageType = 'secret_garden';
+    else if (path.includes('privacy')) pageType = 'privacy';
+    else if (path.includes('consent')) pageType = 'consent';
+    else if (path.includes('license')) pageType = 'license';
 
     // Check if referrer is our own domain → mark as internal
     let referrerSource = document.referrer || 'direct';
@@ -482,21 +497,21 @@ trackPageView() {
       console.warn('LCP tracking not supported');
     }
 
-    // Track First Input Delay (FID) via Web Vitals
+    // Track Interaction to Next Paint (INP) via Web Vitals
     try {
-      const fidObserver = new PerformanceObserver((list) => {
+      const inpObserver = new PerformanceObserver((list) => {
         const entries = list.getEntries();
         entries.forEach((entry) => {
           gtag('event', 'page_performance', {
-            metric_name: 'FID',
-            metric_value: Math.round(entry.processingDuration),
+            metric_name: 'INP',
+            metric_value: Math.round(entry.duration),
             page_path: window.location.pathname
           });
         });
       });
-      fidObserver.observe({ entryTypes: ['first-input'] });
+      inpObserver.observe({ entryTypes: ['event'] });
     } catch (e) {
-      console.warn('FID tracking not supported');
+      console.warn('INP tracking not supported');
     }
   },
 
@@ -545,9 +560,256 @@ trackPageView() {
   denyConsent() {
     localStorage.setItem('cookie-consent', 'declined');
     console.info('🍪 Cookies declined. Your secrets are safe with us.');
+  },
+
+  /* ---------------------------------------------------------------- */
+  /*  USER PROPERTIES — rich device & connection profiling            */
+  /* ---------------------------------------------------------------- */
+  trackUserProperties() {
+    if (typeof gtag === 'undefined') return;
+
+    const props = {
+      user_language: navigator.language || 'unknown',
+      user_timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'unknown',
+      screen_resolution: `${window.screen.width}x${window.screen.height}`,
+      viewport_size: `${window.innerWidth}x${window.innerHeight}`,
+      color_depth: window.screen.colorDepth || 'unknown',
+      device_memory: navigator.deviceMemory || 'unknown',
+      hardware_concurrency: navigator.hardwareConcurrency || 'unknown',
+      platform: navigator.platform || 'unknown',
+      cookie_enabled: navigator.cookieEnabled,
+      do_not_track: navigator.doNotTrack || 'unspecified',
+      touch_supported: 'ontouchstart' in window,
+      connection_type: 'unknown',
+      effective_bandwidth: 'unknown',
+      rtt: 'unknown',
+      session_count: parseInt(localStorage.getItem('ruclub_session_count') || '0'),
+      time_of_day: new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 17 ? 'afternoon' : new Date().getHours() < 21 ? 'evening' : 'night',
+      day_of_week: ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][new Date().getDay()],
+      is_return_visitor: localStorage.getItem('ruclub_visited_before') === 'true' ? 'returning' : 'new'
+    };
+
+    if (navigator.connection) {
+      props.connection_type = navigator.connection.effectiveType || 'unknown';
+      props.effective_bandwidth = navigator.connection.downlink || 'unknown';
+      props.rtt = navigator.connection.rtt || 'unknown';
+      navigator.connection.addEventListener('change', () => {
+        gtag('event', 'connection_change', {
+          connection_type: navigator.connection.effectiveType,
+          bandwidth: navigator.connection.downlink,
+          rtt: navigator.connection.rtt
+        });
+      });
+    }
+
+    gtag('event', 'user_properties', props);
+  },
+
+  /* ---------------------------------------------------------------- */
+  /*  SOCIAL SHARES — track share button clicks                       */
+  /* ---------------------------------------------------------------- */
+  trackSocialShares() {
+    if (typeof gtag === 'undefined') return;
+    document.addEventListener('click', e => {
+      const link = e.target.closest('a[href*="facebook.com/share"], a[href*="twitter.com/share"], a[href*="linkedin.com/share"], a[href*="wa.me"], a[href*="web.whatsapp.com"]');
+      if (link) {
+        const platform = link.href.includes('facebook') ? 'facebook' :
+                         link.href.includes('twitter') || link.href.includes('x.com') ? 'twitter' :
+                         link.href.includes('linkedin') ? 'linkedin' : 'whatsapp';
+        gtag('event', 'social_share', {
+          platform: platform,
+          url: link.href,
+          page_path: window.location.pathname
+        });
+      }
+    });
+  },
+
+  /* ---------------------------------------------------------------- */
+  /*  VISIBILITY — track tab focus/blur for engagement                */
+  /* ---------------------------------------------------------------- */
+  trackVisibility() {
+    if (typeof gtag === 'undefined') return;
+    let hiddenTime = 0;
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        hiddenTime = Date.now();
+        gtag('event', 'tab_hidden', { page_path: window.location.pathname });
+      } else {
+        const away = Math.round((Date.now() - hiddenTime) / 1000);
+        gtag('event', 'tab_visible', {
+          away_duration: away + 's',
+          page_path: window.location.pathname
+        });
+      }
+    });
+
+    window.addEventListener('blur', () => {
+      gtag('event', 'window_blur', { page_path: window.location.pathname });
+    });
+
+    window.addEventListener('focus', () => {
+      gtag('event', 'window_focus', { page_path: window.location.pathname });
+    });
+  },
+
+  /* ---------------------------------------------------------------- */
+  /*  CLICK TRACKING — detailed engagement analytics                  */
+  /* ---------------------------------------------------------------- */
+  trackClicks() {
+    if (typeof gtag === 'undefined') return;
+    document.addEventListener('click', e => {
+      const target = e.target;
+      const tag = target.tagName.toLowerCase();
+      const id = target.id ? `#${target.id}` : '';
+      const classes = target.className ? `.${target.className.split(' ').join('.')}` : '';
+
+      gtag('event', 'click_detail', {
+        element_tag: tag,
+        element_id: target.id || '(none)',
+        element_class: target.className || '(none)',
+        element_text: (target.textContent || '').trim().slice(0, 80),
+        click_x: e.clientX,
+        click_y: e.clientY,
+        page_x: e.pageX,
+        page_y: e.pageY,
+        page_path: window.location.pathname
+      });
+    }, { passive: true });
+  },
+
+  /* ---------------------------------------------------------------- */
+  /*  CAROUSEL — track Swiper interactions                            */
+  /* ---------------------------------------------------------------- */
+  trackCarousel() {
+    if (typeof gtag === 'undefined') return;
+    const swiperEl = document.querySelector('.parkSwiper');
+    if (!swiperEl) return;
+
+    document.addEventListener('click', e => {
+      const next = e.target.closest('.swiper-button-next');
+      const prev = e.target.closest('.swiper-button-prev');
+      if (next || prev) {
+        gtag('event', 'carousel_nav', {
+          direction: next ? 'next' : 'prev',
+          page_path: window.location.pathname
+        });
+      }
+    });
+
+    const slides = swiperEl.querySelectorAll('.swiper-slide');
+    slides.forEach(slide => {
+      slide.addEventListener('click', () => {
+        const img = slide.querySelector('img');
+        gtag('event', 'carousel_slide_click', {
+          image_alt: img?.alt || 'unknown',
+          page_path: window.location.pathname
+        });
+      });
+    });
+  },
+
+  /* ---------------------------------------------------------------- */
+  /*  GALLERY CARDS — track mission & gallery card interactions       */
+  /* ---------------------------------------------------------------- */
+  trackGalleryCards() {
+    if (typeof gtag === 'undefined') return;
+    document.addEventListener('click', e => {
+      const card = e.target.closest('.gallery-card, .gallery-mission-card');
+      if (!card) return;
+
+      const img = card.querySelector('img');
+      const title = card.querySelector('.gallery-title, .gallery-mission-title');
+      const link = card.querySelector('a[href]');
+
+      gtag('event', 'card_click', {
+        card_type: card.classList.contains('gallery-card') ? 'gallery_card' : 'mission_card',
+        card_title: title?.textContent?.trim()?.slice(0, 100) || 'unknown',
+        card_image: img?.src || '',
+        card_link: link?.getAttribute('href') || '',
+        page_path: window.location.pathname
+      });
+    });
+  },
+
+  /* ---------------------------------------------------------------- */
+  /*  SESSION — increment & track session count                       */
+  /* ---------------------------------------------------------------- */
+  trackSession() {
+    const count = parseInt(localStorage.getItem('ruclub_session_count') || '0');
+    localStorage.setItem('ruclub_session_count', (count + 1).toString());
+    localStorage.setItem('ruclub_visited_before', 'true');
+
+    const firstVisit = localStorage.getItem('ruclub_first_visit');
+    if (!firstVisit) {
+      localStorage.setItem('ruclub_first_visit', new Date().toISOString());
+    }
+
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'session_info', {
+        session_number: count + 1,
+        first_visit: firstVisit || new Date().toISOString(),
+        previous_visit: localStorage.getItem('ruclub_last_visit') || 'first_visit',
+        pages_this_session: parseInt(sessionStorage.getItem('ruclub_pages_in_session') || '0') + 1
+      });
+    }
+
+    sessionStorage.setItem('ruclub_pages_in_session',
+      (parseInt(sessionStorage.getItem('ruclub_pages_in_session') || '0') + 1).toString());
+    localStorage.setItem('ruclub_last_visit', new Date().toISOString());
+  },
+
+  /* ---------------------------------------------------------------- */
+  /*  NAVIGATION — track internal navigation behavior                 */
+  /* ---------------------------------------------------------------- */
+  trackNavigation() {
+    if (typeof gtag === 'undefined') return;
+    document.addEventListener('click', e => {
+      const link = e.target.closest('a');
+      if (!link || !link.href) return;
+      try {
+        const url = new URL(link.href);
+        if (url.hostname === window.location.hostname || !url.hostname) {
+          gtag('event', 'internal_nav', {
+            destination: url.pathname,
+            link_text: (link.textContent || '').trim().slice(0, 80),
+            nav_type: link.closest('.main-nav') ? 'main_nav' :
+                     link.closest('.footer-links') ? 'footer' :
+                     link.closest('.mobile-menu') ? 'mobile_menu' : 'inline',
+            page_path: window.location.pathname
+          });
+        }
+      } catch (_) {}
+    });
+  },
+
+  /* ---------------------------------------------------------------- */
+  /*  TEXT SELECTION — track when users select text (engagement)      */
+  /* ---------------------------------------------------------------- */
+  trackTextSelection() {
+    if (typeof gtag === 'undefined') return;
+    let selectionTimeout;
+    document.addEventListener('mouseup', () => {
+      clearTimeout(selectionTimeout);
+      selectionTimeout = setTimeout(() => {
+        const selection = window.getSelection();
+        const text = selection?.toString()?.trim();
+        if (text && text.length > 10) {
+          gtag('event', 'text_selection', {
+            selected_length: text.length,
+            selected_preview: text.slice(0, 100),
+            page_path: window.location.pathname
+          });
+        }
+      }, 500);
+    });
   }
+
 };
 
-// Auto-init — because remembering to call things is hard.
-// This runs right after the script loads (defer guarantees DOM is ready).
-document.addEventListener('DOMContentLoaded', () => Analytics.init());
+// Auto-init — works regardless of script load timing (async or defer).
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => Analytics.init());
+} else {
+  Analytics.init();
+}
