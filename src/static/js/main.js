@@ -35,8 +35,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Load missions carousel — populate slides first, then init Swiper
         if (document.getElementById('missions-carousel')) {
-            await Missions.renderCarousel('missions-carousel');
-            Carousel.initParkSwiper();
+            const slideCount = await Missions.renderCarousel('missions-carousel');
+            Carousel.initParkSwiper(slideCount);
         }
 
         // Load missions grid if present

@@ -4,9 +4,7 @@
    "If at first you don't succeed, call it version 1.0"
    — Some developer who definitely wasn't us
    ======================================== */
-
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
-@import url('./responsive.css');
+/* No @import — linked directly in HTML for better performance */
 
 /* ----------------------------------------------------------------
    PERFORMANCE BOOST — GPU go brrrrr
@@ -239,7 +237,9 @@ section.bg-secondary {
     padding-top: calc(var(--header-height) + 2rem);
     position: relative;
     overflow: hidden;
-    background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.5) 100%);
+    background: 
+        linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.5) 100%),
+        url('/static/assets/images/heroimg-bg.jpeg') center/cover no-repeat;
     background-color: #0a0a0a;
 }
 
@@ -261,7 +261,9 @@ section.bg-secondary {
     .hero {
         min-height: auto;
         padding: calc(var(--header-height) + 3rem) 1.5rem 4rem;
-        background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 100%);
+        background: 
+            linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 100%),
+            url('/static/assets/images/heroimg-bg.jpeg') center/cover no-repeat;
     }
 }
 

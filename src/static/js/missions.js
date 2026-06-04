@@ -76,13 +76,13 @@ const Missions = {
     if (el('stat-waste')) el('stat-waste').textContent = totalSurveyed + '+';
   },
 
-  async renderCarousel(containerId) {
+    async renderCarousel(containerId) {
     await this.load();
     const container = document.getElementById(containerId);
-    if (!container) return;
+    if (!container) return 0;
 
     const shown = this.shown();
-    if (!shown.length) return;
+    if (!shown.length) return 0;
 
     // Pick a random mission from shown
     const mission = shown[Math.floor(Math.random() * shown.length)];
@@ -104,8 +104,11 @@ const Missions = {
       if (labelEl) labelEl.textContent = mission.tag;
       if (titleEl) titleEl.textContent = mission.title;
       if (subtitleEl) subtitleEl.textContent = mission.description;
+
+      return info.images ? info.images.length : 0;
     } catch (e) {
       console.error('Failed to load mission images:', e);
+      return 0;
     }
   }
 };
