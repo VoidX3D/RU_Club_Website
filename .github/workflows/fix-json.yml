@@ -7,61 +7,69 @@ on:
       - 'src/**/*.json'
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
 jobs:
   fix-json:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Fix mission list.json
+      - name: Validate and fix all JSON files
         run: |
-          # Remove truncation comments from list.json files
-          for f in src/mission/list.json src/announcements/list.json; do
-            if [ -f "$f" ]; then
-              # Remove lines containing "(line truncated" or "(truncated to"
-              sed -i '/(line truncated/d' "$f"
-              sed -i '/(truncated to/d' "$f"
-              # Remove any text after "..." that looks like a comment
-              sed -i 's/\.\.\.(.*$//' "$f"
-            fi
-          done
+          python3 << 'PYEOF'
+          import json, re, sys
+          from pathlib import Path
 
-      - name: Validate JSON files
-        run: |
-          # Check all JSON files are valid
-          for f in $(find src -name '*.json' -type f); do
-            if ! python3 -c "import json; json.load(open('$f'))" 2>/dev/null; then
-              echo "Invalid JSON: $f"
-              # Try to fix common issues
-              python3 << EOF
-import json
-import re
-import sys
+          fixed = 0
+          for f in sorted(Path("src").rglob("*.json")):
+              if ".git" in str(f):
+                  continue
+              try:
+                  raw = f.read_text()
+              except Exception as e:
+                  print(f"⚠️  Cannot read {f}: {e}")
+                  continue
 
-f = '$f'
-try:
-    with open(f, 'r') as file:
-        content = file.read()
-    # Fix common issues
-    content = re.sub(r'\([^)]*truncated[^)]*\)', '', content)
-    content = re.sub(r'\.{3,}[^\n]*', '...', content)
-    # Try to parse and re-save
-    data = json.loads(content)
-    with open(f, 'w') as file:
-        json.dump(data, file, indent=2)
-    print(f"Fixed: {f}")
-except Exception as e:
-    print(f"Could not fix {f}: {e}")
-    sys.exit(1)
-EOF
-            fi
-          done
+              # Remove truncation artifacts
+              clean = re.sub(r'\([^)]*(truncat|trimm|\.\.\.)[^)]*\)', '', raw, flags=re.I)
+              clean = re.sub(r'\.{4,}\s*[^\n"]*', '', clean)
+
+              try:
+                  data = json.loads(clean)
+              except json.JSONDecodeError:
+                  try:
+                      data = json.loads(raw)
+                  except json.JSONDecodeError:
+                      print(f"❌  Invalid JSON: {f}")
+                      continue
+
+              # Re-serialize to canonical format
+              out = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
+              if out != raw:
+                  f.write_text(out)
+                  fixed += 1
+                  print(f"✅  Fixed: {f}")
+
+          if fixed == 0:
+              print("No JSON files needed fixing")
+          else:
+              print(f"\n✔  Fixed {fixed} JSON file(s)")
+          PYEOF
 
       - name: Commit and push fixes
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config user.name "JSON Fix Bot"
+          git config user.email "bot@ruclubmss.vercel.app"
           git add -A
-          git diff --quiet --cached || git commit -m "Auto-fix: JSON validation and cleanup"
-          git push
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: auto-fix JSON files [skip ci]"
+            git push
+          fi

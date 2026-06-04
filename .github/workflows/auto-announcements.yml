@@ -33,18 +33,14 @@ jobs:
           existing = {}
           if LIST_PATH.exists():
               with open(LIST_PATH) as f:
-                  try:
-                      existing_list = json.load(f)
-                      for entry in existing_list:
-                          existing[entry["id"]] = entry
-                  except Exception:
-                      pass
+                  for entry in json.load(f):
+                      existing[entry["id"]] = entry
 
-          announcements = []
           if not MAIN.exists():
               print("No announcements/main/ directory — skipping")
               exit(0)
 
+          announcements = []
           for file in sorted(MAIN.iterdir()):
               if not file.name.endswith(".json") or file.name.startswith(".") or file.name.startswith("_"):
                   continue
@@ -56,7 +52,6 @@ jobs:
 
               slug = re.sub(r'[^a-z0-9-]', '', data.get("id", file.stem).lower().replace(' ', '-'))
 
-              # Preserve existing active value if not explicitly set in the JSON file
               active = data.get("active")
               if not isinstance(active, bool):
                   active = existing.get(slug, {}).get("active", True)
@@ -71,9 +66,9 @@ jobs:
                   "active": active
               }
 
+              status = "🆕" if slug not in existing else "✅"
+              print(f"{status}  {slug}: {entry['title']} {'(active)' if entry['active'] else '(inactive)'}")
               announcements.append(entry)
-              status = "✅" if entry["active"] else "🔴"
-              print(f"{status}  {slug}: {entry['title']}")
 
           announcements.sort(key=lambda a: a.get("date", ""), reverse=True)
           LIST_PATH.write_text(json.dumps(announcements, indent=2, ensure_ascii=False) + "\n")
@@ -87,6 +82,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "chore: auto-update announcement list"
+            git commit -m "chore: auto-update announcement list [skip ci]"
             git push
           fi
