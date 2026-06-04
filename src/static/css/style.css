@@ -549,6 +549,7 @@ section.bg-secondary {
     transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     position: relative;
+    z-index: 1;
 }
 
 [data-theme="dark"] .parkSwiper .swiper-slide {
@@ -559,6 +560,18 @@ section.bg-secondary {
     opacity: 1;
     transform: scale(1);
     box-shadow: var(--shadow-2xl), 0 0 60px rgba(13, 148, 136, 0.18);
+    z-index: 2;
+}
+
+.parkSwiper .swiper-slide-next,
+.parkSwiper .swiper-slide-prev {
+    opacity: 0.5;
+    transform: scale(0.92);
+}
+
+[data-theme="dark"] .parkSwiper .swiper-slide-next,
+[data-theme="dark"] .parkSwiper .swiper-slide-prev {
+    opacity: 0.35;
 }
 
 .parkSwiper .swiper-slide img {
