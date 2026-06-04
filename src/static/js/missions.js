@@ -117,55 +117,65 @@ const Missions = {
   },
 
   async renderGallery(containerId) {
+    console.log('[Gallery] Loading...');
     await this.load();
     const container = document.getElementById(containerId);
-    if (!container) return;
+    if (!container) {
+      console.warn('[Gallery] Container not found:', containerId);
+      return;
+    }
 
     const missions = this.shown();
+    console.log(`[Gallery] Found ${missions.length} missions`);
     if (!missions.length) {
       container.innerHTML = '<div style="text-align:center;padding:3rem 0;color:var(--text-secondary);">No gallery images available yet.</div>';
       return;
     }
 
-    // Collect all images from all missions
     const allImages = [];
     for (const m of missions) {
+      if (!m.id && !m.slug) {
+        console.warn('[Gallery] Mission missing id/slug:', m);
+        continue;
+      }
+      const mid = m.id || m.slug;
       try {
-        const res = await fetch(`/mission/${m.id}/info.json`);
+        const res = await fetch(`/mission/${mid}/info.json`);
+        if (!res.ok) {
+          console.warn(`[Gallery] HTTP ${res.status} for ${mid}`);
+          continue;
+        }
         const info = await res.json();
         if (Array.isArray(info.images)) {
           info.images.forEach(img => {
             allImages.push({
-              src: `/mission/${m.id}/${img}`,
+              src: `/mission/${mid}/${img}`,
               title: m.title || '',
-              missionId: m.id,
-              slug: m.slug || m.id
+              missionId: mid
             });
           });
+        } else {
+          console.warn(`[Gallery] No images array in ${mid}/info.json`);
         }
       } catch (e) {
-        console.warn('[Gallery] Failed to load images for', m.id, e);
+        console.warn('[Gallery] Failed to load images for', mid, e);
       }
     }
 
     if (!allImages.length) {
       container.innerHTML = '<div style="text-align:center;padding:3rem 0;color:var(--text-secondary);">No gallery images available yet.</div>';
+      console.warn('[Gallery] No images collected from any mission');
       return;
     }
 
-    // Render image grid
-    container.innerHTML = allImages.map((img, i) => {
-      const caption = img.title ? `data-glightbox="description: ${img.title}"` : '';
-      return `
-        <a href="${img.src}" class="glightbox gallery-img-link" data-gallery="mission-gallery" ${caption}>
+    container.innerHTML = allImages.map((img, i) => `
+        <a href="${img.src}" class="glightbox gallery-img-link" data-gallery="mission-gallery"${img.title ? ` data-glightbox="description: ${img.title}"` : ''}>
           <img src="${img.src}" alt="${img.title || 'Mission photo'}" loading="lazy" class="gallery-img">
         </a>
-      `;
-    }).join('');
+      `).join('');
 
     console.log(`[Gallery] Rendered ${allImages.length} images from ${missions.length} missions`);
 
-    // Init GLightbox if available
     if (typeof GLightbox !== 'undefined') {
       GLightbox({
         selector: '.glightbox[data-gallery="mission-gallery"]',
@@ -174,6 +184,9 @@ const Missions = {
         zoomable: true,
         draggable: true
       });
+      console.log('[Gallery] GLightbox initialized');
+    } else {
+      console.warn('[Gallery] GLightbox not available');
     }
   }
 };

@@ -1,5 +1,5 @@
-const CACHE = 'ruclub-v1';
-const STATIC_CACHE = 'ruclub-static-v1';
+const CACHE = 'ruclub-v2';
+const STATIC_CACHE = 'ruclub-static-v2';
 
 const PRECACHE_URLS = [
   '/',
@@ -34,7 +34,9 @@ const HTML_URLS = [
   '/secret-garden',
   '/404',
   '/failed',
-  '/success'
+  '/success',
+  '/mission',
+  '/announcement'
 ];
 
 // Precache core assets on install
