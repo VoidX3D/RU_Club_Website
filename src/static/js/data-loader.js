@@ -40,7 +40,7 @@ const DataLoader = {
     const card = p => `<div class="partner-card">
       <img src="${p.src}" alt="${p.alt}" loading="lazy">
     </div>`;
-    container.innerHTML = [...partners, ...partners, ...partners].map(card).join('');
+    container.innerHTML = [...partners, ...partners].map(card).join('');
   },
 
   async renderMembers(containerId, group) {

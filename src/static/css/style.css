@@ -656,7 +656,7 @@ section.bg-secondary {
 
 /* === PARTNERS === */
 .partners {
-    padding: 5rem 0;
+    padding: 4rem 0 4.5rem;
     background: var(--bg-secondary);
     position: relative;
     overflow: hidden;
@@ -667,15 +667,15 @@ section.bg-secondary {
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(ellipse 600px 300px at 20% 50%, rgba(13,148,136,0.06) 0%, transparent 70%),
-        radial-gradient(ellipse 600px 300px at 80% 50%, rgba(13,148,136,0.04) 0%, transparent 70%);
+        radial-gradient(ellipse 700px 400px at 15% 50%, rgba(13,148,136,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 700px 400px at 85% 50%, rgba(13,148,136,0.05) 0%, transparent 70%);
     pointer-events: none;
 }
 
 [data-theme="dark"] .partners::before {
     background:
-        radial-gradient(ellipse 600px 300px at 20% 50%, rgba(20,184,166,0.08) 0%, transparent 70%),
-        radial-gradient(ellipse 600px 300px at 80% 50%, rgba(20,184,166,0.06) 0%, transparent 70%);
+        radial-gradient(ellipse 700px 400px at 15% 50%, rgba(20,184,166,0.1) 0%, transparent 70%),
+        radial-gradient(ellipse 700px 400px at 85% 50%, rgba(20,184,166,0.07) 0%, transparent 70%);
 }
 
 .partners-container {
@@ -693,26 +693,18 @@ section.bg-secondary {
     text-transform: uppercase;
     letter-spacing: 0.3em;
     color: var(--brand-primary);
-    margin-bottom: 0.75rem;
-}
-
-.partners-title {
-    text-align: center;
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
 }
 
 .partners-track-wrap {
     overflow: hidden;
-    mask-image: linear-gradient(90deg, transparent 0, #000 6rem, #000 calc(100% - 6rem), transparent 100%);
-    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6rem, #000 calc(100% - 6rem), transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 5rem, #000 calc(100% - 5rem), transparent 100%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 5rem, #000 calc(100% - 5rem), transparent 100%);
 }
 
 .partners-track {
     display: flex;
-    gap: 1.5rem;
+    gap: 2rem;
     width: max-content;
     animation: partnersMarquee 40s linear infinite;
 }
@@ -723,7 +715,7 @@ section.bg-secondary {
 
 @keyframes partnersMarquee {
     from { transform: translateX(0); }
-    to   { transform: translateX(-33.33%); }
+    to   { transform: translateX(-50%); }
 }
 
 .partner-card {
@@ -748,23 +740,46 @@ section.bg-secondary {
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    background: linear-gradient(135deg, rgba(13,148,136,0.05), transparent 50%);
+    background: linear-gradient(135deg, rgba(13,148,136,0.06), transparent 50%);
     opacity: 0;
     transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.partner-card::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, transparent 40%, rgba(13,148,136,0.15), transparent 60%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
 [data-theme="dark"] .partner-card {
-    background: var(--bg-card);
-    border-color: var(--border-light);
+    background: rgba(255,255,255,0.03);
+    border-color: rgba(255,255,255,0.06);
+}
+
+[data-theme="dark"] .partner-card::after {
+    background: linear-gradient(135deg, transparent 40%, rgba(20,184,166,0.25), transparent 60%);
 }
 
 .partner-card:hover {
-    border-color: var(--brand-light);
-    transform: translateY(-4px) scale(1.04);
-    box-shadow: var(--shadow-lg), 0 0 35px rgba(13, 148, 136, 0.12);
+    border-color: transparent;
+    transform: translateY(-6px) scale(1.05);
+    box-shadow: var(--shadow-lg), 0 0 40px rgba(13, 148, 136, 0.15);
 }
 
 .partner-card:hover::before {
+    opacity: 1;
+}
+
+.partner-card:hover::after {
     opacity: 1;
 }
 
@@ -772,13 +787,18 @@ section.bg-secondary {
     max-height: 48px;
     max-width: 130px;
     object-fit: contain;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     z-index: 1;
+    filter: saturate(0.9);
+}
+
+[data-theme="dark"] .partner-card img {
+    filter: saturate(1) brightness(0.95);
 }
 
 .partner-card:hover img {
-    transform: scale(1.1);
+    transform: scale(1.12);
 }
 
 /* === INTRODUCTION === */

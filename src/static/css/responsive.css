@@ -67,7 +67,8 @@
     .gallery-mission-body { padding: 1.25rem 1rem 0; }
     .gallery-mission-title { font-size: 1.15rem; }
     .partner-card { width: 140px; height: 80px; }
-    .partners-title { font-size: 1.35rem; }
+    .partner-card img { max-height: 36px; max-width: 100px; }
+    .partners-track { gap: 1rem; }
     .stats-grid { gap: 1.25rem; }
     .stat-number { font-size: 2rem; }
     .stat-label { font-size: 0.8rem; }
