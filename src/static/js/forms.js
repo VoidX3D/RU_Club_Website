@@ -11,6 +11,7 @@ const Forms = {
         this.setupSubmit();
         this.setupFormValidation();
         this.setupAnalyticsTracking();
+        console.log('[Forms] initialized');
     },
 
     setupSmoothScroll() {

@@ -9,6 +9,7 @@ const Animations = {
         this.initGLightbox();
         this.initScrollObserver();
         this.setupParallaxEffects();
+        console.log('[Animations] initialized');
     },
 
     initAOS() {

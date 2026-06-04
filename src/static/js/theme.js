@@ -15,6 +15,7 @@ const Theme = {
         html.setAttribute('data-theme', savedTheme);
         this.setupToggle();
         this.updateIcon(savedTheme);
+        console.log('[Theme] initialized, theme:', savedTheme);
     },
 
     /* If only real life had a dark mode toggle... */

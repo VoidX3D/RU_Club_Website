@@ -8,7 +8,11 @@
 // Wait for DOM to be ready
 document.addEventListener('DOMContentLoaded', async () => {
     try {
+        console.log('[Main] DOM ready — initializing');
         Components.init();
+
+        // Report data loading status (non-blocking)
+        DataLoader.loadAll();
 
         // Load data-driven content (only on pages with matching containers)
         if (document.getElementById('home-stats')) {

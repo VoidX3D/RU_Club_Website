@@ -8,7 +8,7 @@ const Carousel = {
     initParkSwiper(slideCount) {
         if (!document.querySelector('.parkSwiper')) return;
         if (typeof Swiper === 'undefined') {
-            console.warn('Swiper not loaded — skipping carousel init');
+            console.warn('[Carousel] Swiper not loaded — skipping');
             return;
         }
 

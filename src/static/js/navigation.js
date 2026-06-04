@@ -14,6 +14,7 @@ const Navigation = {
         this.setupHeaderScroll();
         this.setActiveLink();
         this.setupResizeHandler();
+        console.log('[Navigation] initialized');
     },
 
     async loadSiteData() {

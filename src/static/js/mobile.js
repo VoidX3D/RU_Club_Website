@@ -10,6 +10,7 @@ const Mobile = {
             this.fixTouchInteractions();
             this.disableHeavyEffects();
         }
+        console.log('[Mobile] initialized' + (this.isMobile ? ' (mobile mode)' : ''));
     },
 
     optimizeAnimations() {

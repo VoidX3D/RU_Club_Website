@@ -6,6 +6,7 @@ const Components = {
         await this.loadSiteData();
         this.injectCookieConsent();
         this.loadComponents();
+        console.log('[Components] initialized');
     },
 
     async loadSiteData() {

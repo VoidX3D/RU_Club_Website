@@ -140,6 +140,18 @@ const DataLoader = {
     if (el) el.textContent = text;
   },
 
+  async loadAll() {
+    const results = await Promise.allSettled([
+      this.getSite(),
+      this.getContent(),
+      this.getStats(),
+      this.getPartners(),
+      this.getMembers()
+    ]);
+    const loaded = results.filter(r => r.status === 'fulfilled' && r.value).length;
+    console.log(`[DataLoader] ${loaded}/${results.length} data sources loaded`);
+  },
+
   setHTML(id, html) {
     const el = document.getElementById(id);
     if (el) el.innerHTML = html;
