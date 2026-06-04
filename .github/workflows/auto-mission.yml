@@ -79,7 +79,6 @@ jobs:
                   "description": info.get("description", ""),
                   "tag": info.get("tag", ""),
                   "date": info.get("date", ""),
-                  "detail": info.get("detail", ""),
                   "show": show
               }
 

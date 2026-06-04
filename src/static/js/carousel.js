@@ -14,6 +14,7 @@ const Carousel = {
 
         this.parkSwiperInstance = new Swiper('.parkSwiper', {
             loop: true,
+            watchOverflow: true,
             autoplay: { delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true },
             speed: 600,
             centeredSlides: true,
