@@ -154,13 +154,15 @@ const Forms = {
                 if (elapsed < 60000) {
                     const remaining = Math.ceil((60000 - elapsed) / 1000);
                     this.trackEvent('form_rate_limited', { remaining_seconds: remaining });
-                    btn = form.querySelector('.btn-submit');
-                    btn.textContent = `Wait ${remaining}s`;
-                    btn.disabled = true;
-                    setTimeout(() => {
-                        btn.disabled = false;
-                        btn.textContent = 'Send Message';
-                    }, remaining * 1000);
+                    const rateBtn = form.querySelector('.btn-submit');
+                    if (rateBtn) {
+                        rateBtn.textContent = `Wait ${remaining}s`;
+                        rateBtn.disabled = true;
+                        setTimeout(() => {
+                            rateBtn.disabled = false;
+                            rateBtn.textContent = 'Send Message';
+                        }, remaining * 1000);
+                    }
                     return;
                 }
             }

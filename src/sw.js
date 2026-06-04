@@ -22,7 +22,7 @@ const PRECACHE_URLS = [
   '/static/assets/brand/logo_icon.png'
 ];
 
-const HMTL_URLS = [
+const HTML_URLS = [
   '/announcements',
   '/contact',
   '/missions',
@@ -31,7 +31,10 @@ const HMTL_URLS = [
   '/privacy',
   '/consent',
   '/license',
-  '/secret-garden'
+  '/secret-garden',
+  '/404',
+  '/failed',
+  '/success'
 ];
 
 // Precache core assets on install
@@ -43,7 +46,7 @@ self.addEventListener('install', event => {
       // Prefetch HTML pages in background
       return caches.open(CACHE).then(cache => {
         return Promise.allSettled(
-          HMTL_URLS.map(url =>
+          HTML_URLS.map(url =>
             fetch(url).then(r => {
               if (r.ok) cache.put(url, r);
             }).catch(() => {})

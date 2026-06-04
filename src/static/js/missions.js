@@ -32,18 +32,18 @@ const Missions = {
     container.innerHTML = missions.map(m => `
       <div class="gallery-card" data-aos="fade-up">
         <div class="gallery-image">
-          <img src="${m.featured ? (m.featured.startsWith('/') ? m.featured : '/' + m.featured) : '/static/assets/brand/logo.png'}" alt="${m.title}" loading="lazy">
+          <img src="${m.featured ? (m.featured.startsWith('/') ? m.featured : '/' + m.featured) : '/static/assets/brand/logo.png'}" alt="${m.title || 'Mission image'}" loading="lazy">
           <div class="gallery-overlay">
-            <a href="/mission?id=${m.slug}" class="btn-primary">View Mission</a>
+            <a href="/mission?id=${m.slug || m.id || ''}" class="btn-primary">View Mission</a>
           </div>
         </div>
         <div class="gallery-content">
           <div class="gallery-meta">
-            <span class="gallery-tag">${m.tag}</span>
-            <span class="gallery-date">${m.date}</span>
+            <span class="gallery-tag">${m.tag || ''}</span>
+            <span class="gallery-date">${m.date || ''}</span>
           </div>
-          <h3 class="gallery-title">${m.title}</h3>
-          <p class="gallery-desc">${m.description}</p>
+          <h3 class="gallery-title">${m.title || ''}</h3>
+          <p class="gallery-desc">${m.description || ''}</p>
         </div>
       </div>
     `).join('');
@@ -91,9 +91,13 @@ const Missions = {
       const infoRes = await fetch(`/mission/${mission.id}/info.json`);
       const info = await infoRes.json();
 
+      if (!Array.isArray(info.images)) {
+        console.warn('No images found for mission:', mission.id);
+        return 0;
+      }
       container.innerHTML = info.images.map((img, i) => `
         <div class="swiper-slide">
-          <img src="/mission/${mission.id}/${img}" alt="${mission.title} - ${mission.description}" loading="${i === 0 ? 'eager' : 'lazy'}" ${i === 0 ? 'fetchpriority="high"' : ''}>
+          <img src="/mission/${mission.id}/${img}" alt="${mission.title || ''} - ${(mission.description || '').substring(0, 80)}" loading="${i === 0 ? 'eager' : 'lazy'}" ${i === 0 ? 'fetchpriority="high"' : ''}>
         </div>
       `).join('');
 
@@ -103,9 +107,9 @@ const Missions = {
       const subtitleEl = document.getElementById('mission-subtitle');
       if (labelEl) labelEl.textContent = mission.tag;
       if (titleEl) titleEl.textContent = mission.title;
-      if (subtitleEl) subtitleEl.textContent = mission.description;
+      if (subtitleEl) subtitleEl.textContent = mission.description || '';
 
-      return info.images ? info.images.length : 0;
+      return info.images.length;
     } catch (e) {
       console.error('Failed to load mission images:', e);
       return 0;

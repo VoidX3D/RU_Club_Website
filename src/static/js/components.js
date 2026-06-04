@@ -78,7 +78,7 @@ const Components = {
             const loc = this.siteData.location || {};
             contactContainer.innerHTML = `
                 <li><a href="mailto:${this.siteData.email}">${this.siteData.email}</a></li>
-                <li><a href="tel:${(this.siteData.phone || '').replace(/\s/g, '')}">${this.siteData.phone}</a></li>
+                <li><a href="tel:${((this.siteData.phone) || '').replace(/\s/g, '')}">${this.siteData.phone || ''}</a></li>
                 <li><span class="footer-address"><strong>${loc.school || ''}</strong><br>${loc.ward || ''}<br>${loc.district || ''}, ${loc.province || ''}<br>${loc.country || ''}</span></li>
             `;
         }

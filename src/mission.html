@@ -203,6 +203,8 @@
             });
         }
     </script>
+    <meta name="theme-color" content="#0D9488">
+    <meta name="msapplication-TileColor" content="#0D9488">
 </head>
 <body>
 
@@ -285,67 +287,94 @@
 
     <script>
       document.addEventListener('DOMContentLoaded', async function() {
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get('id');
-        if (!id) {
-          document.getElementById('mission-content').innerHTML = '<div class="container" style="padding: 6rem 0; text-align:center;"><p>Mission not found.</p><a href="/missions" class="btn-primary" style="margin-top:1rem;display:inline-block;">View All Missions</a></div>';
-          document.querySelector('meta[name="robots"]').content = 'noindex, nofollow';
-          return;
-        }
-
-        let mission = await Missions.getMission(id);
-        if (!mission) {
-          const all = await Missions.load();
-          mission = all.missions.find(m => m.id === id) || null;
-        }
-        if (!mission) {
-          document.getElementById('mission-content').innerHTML = '<div class="container" style="padding: 6rem 0; text-align:center;"><p>Mission not found.</p><a href="/missions" class="btn-primary" style="margin-top:1rem;display:inline-block;">View All Missions</a></div>';
-          document.querySelector('meta[name="robots"]').content = 'noindex, nofollow';
-          return;
-        }
-
-        document.title = mission.title + ' | RU Club Motherland';
-        document.querySelector('meta[name="description"]').content = (mission.detail || mission.description).substring(0, 160);
-        document.querySelector('link[rel="canonical"]').href = '/mission?id=' + mission.slug;
-        document.querySelector('meta[property="og:title"]').content = mission.title + ' | RU Club Motherland';
-        document.querySelector('meta[property="og:description"]').content = (mission.detail || mission.description).substring(0, 160);
-        document.querySelector('meta[property="og:url"]').content = '/mission?id=' + mission.slug;
-        document.querySelector('meta[name="twitter:title"]').content = mission.title + ' | RU Club Motherland';
-        document.querySelector('meta[name="twitter:description"]').content = (mission.detail || mission.description).substring(0, 160);
-
-        document.getElementById('mission-tag').textContent = mission.tag;
-        document.getElementById('mission-title').textContent = mission.title;
-        document.getElementById('mission-date').textContent = mission.date;
-
-        const infoRes = await fetch('/mission/' + mission.id + '/info.json');
-        const info = await infoRes.json();
-
-        document.getElementById('mission-description').textContent = info.detail || mission.description;
-
-        if (info.stats) {
-          const statsContainer = document.getElementById('mission-stats');
-          statsContainer.innerHTML = Object.entries(info.stats).map(([key, val]) => {
-            const label = key.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
-            return '<div class="mission-stat-item"><span class="mission-stat-label">' + label + '</span><span class="mission-stat-value">' + val + '</span></div>';
-          }).join('');
-        }
-
-        if (info.partners && info.partners.length) {
-          const partnersContainer = document.getElementById('mission-partners');
-          partnersContainer.innerHTML = info.partners.map(p => '<span class="mission-partner-item">' + p + '</span>').join('');
-        } else {
-          document.getElementById('mission-partners-card').style.display = 'none';
-        }
-
-        if (info.images && info.images.length) {
-          const gallery = document.getElementById('mission-gallery');
-          gallery.innerHTML = info.images.map(img =>
-            '<a href="/mission/' + mission.id + '/' + img + '" class="glightbox" data-gallery="mission"><img src="/mission/' + mission.id + '/' + img + '" alt="' + mission.title + '" loading="lazy"></a>'
-          ).join('');
-
-          if (typeof GLightbox !== 'undefined') {
-            GLightbox({ selector: '.glightbox', touchNavigation: true, loop: true });
+        try {
+          const params = new URLSearchParams(window.location.search);
+          const id = params.get('id');
+          if (!id) {
+            document.getElementById('mission-content').innerHTML = '<div class="container" style="padding: 6rem 0; text-align:center;"><p>Mission not found.</p><a href="/missions" class="btn-primary" style="margin-top:1rem;display:inline-block;">View All Missions</a></div>';
+            const robots = document.querySelector('meta[name="robots"]');
+            if (robots) robots.content = 'noindex, nofollow';
+            return;
           }
+
+          let mission = await Missions.getMission(id);
+          if (!mission) {
+            const all = await Missions.load();
+            mission = all.missions.find(m => m.id === id) || null;
+          }
+          if (!mission) {
+            document.getElementById('mission-content').innerHTML = '<div class="container" style="padding: 6rem 0; text-align:center;"><p>Mission not found.</p><a href="/missions" class="btn-primary" style="margin-top:1rem;display:inline-block;">View All Missions</a></div>';
+            const robots = document.querySelector('meta[name="robots"]');
+            if (robots) robots.content = 'noindex, nofollow';
+            return;
+          }
+
+          const safeDesc = (mission.detail || mission.description || '').substring(0, 160);
+
+          document.title = (mission.title || 'Mission') + ' | RU Club Motherland';
+          const metaDesc = document.querySelector('meta[name="description"]');
+          if (metaDesc) metaDesc.content = safeDesc;
+          const canonical = document.querySelector('link[rel="canonical"]');
+          if (canonical) canonical.href = '/mission?id=' + mission.slug;
+          const ogTitle = document.querySelector('meta[property="og:title"]');
+          if (ogTitle) ogTitle.content = (mission.title || 'Mission') + ' | RU Club Motherland';
+          const ogDesc = document.querySelector('meta[property="og:description"]');
+          if (ogDesc) ogDesc.content = safeDesc;
+          const ogUrl = document.querySelector('meta[property="og:url"]');
+          if (ogUrl) ogUrl.content = '/mission?id=' + mission.slug;
+          const twTitle = document.querySelector('meta[name="twitter:title"]');
+          if (twTitle) twTitle.content = (mission.title || 'Mission') + ' | RU Club Motherland';
+          const twDesc = document.querySelector('meta[name="twitter:description"]');
+          if (twDesc) twDesc.content = safeDesc;
+
+          const tagEl = document.getElementById('mission-tag');
+          if (tagEl) tagEl.textContent = mission.tag || '';
+          const titleEl = document.getElementById('mission-title');
+          if (titleEl) titleEl.textContent = mission.title || '';
+          const dateEl = document.getElementById('mission-date');
+          if (dateEl) dateEl.textContent = mission.date || '';
+
+          const infoRes = await fetch('/mission/' + mission.id + '/info.json');
+          if (!infoRes.ok) throw new Error('HTTP ' + infoRes.status);
+          const info = await infoRes.json();
+
+          const descEl = document.getElementById('mission-description');
+          if (descEl) descEl.textContent = info.detail || mission.description || '';
+
+          if (info.stats && typeof info.stats === 'object') {
+            const statsContainer = document.getElementById('mission-stats');
+            if (statsContainer) {
+              statsContainer.innerHTML = Object.entries(info.stats).map(([key, val]) => {
+                const label = key.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
+                return '<div class="mission-stat-item"><span class="mission-stat-label">' + label + '</span><span class="mission-stat-value">' + val + '</span></div>';
+              }).join('');
+            }
+          }
+
+          if (info.partners && info.partners.length) {
+            const partnersContainer = document.getElementById('mission-partners');
+            if (partnersContainer) {
+              partnersContainer.innerHTML = info.partners.map(p => '<span class="mission-partner-item">' + p + '</span>').join('');
+            }
+          } else {
+            const partnersCard = document.getElementById('mission-partners-card');
+            if (partnersCard) partnersCard.style.display = 'none';
+          }
+
+          if (Array.isArray(info.images) && info.images.length) {
+            const gallery = document.getElementById('mission-gallery');
+            if (gallery) {
+              gallery.innerHTML = info.images.map(img =>
+                '<a href="/mission/' + mission.id + '/' + img + '" class="glightbox" data-gallery="mission"><img src="/mission/' + mission.id + '/' + img + '" alt="' + (mission.title || 'Mission') + '" loading="lazy"></a>'
+              ).join('');
+
+              if (typeof GLightbox !== 'undefined') {
+                GLightbox({ selector: '.glightbox', touchNavigation: true, loop: true });
+              }
+            }
+          }
+        } catch (e) {
+          console.error('Failed to render mission:', e);
         }
       });
     </script>

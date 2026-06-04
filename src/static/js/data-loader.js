@@ -96,22 +96,22 @@ const DataLoader = {
     }
 
     // Hero
-    this.setText('hero-badge-text', content.hero.badge);
-    this.setHTML('hero-title-line1', content.hero.titleLine1);
-    this.setHTML('hero-title-line2', content.hero.titleLine2);
-    this.setHTML('hero-subtitle', content.hero.subtitle);
+    this.setText('hero-badge-text', content.hero.badge || '');
+    this.setHTML('hero-title-line1', content.hero.titleLine1 || '');
+    this.setHTML('hero-title-line2', content.hero.titleLine2 || '');
+    this.setHTML('hero-subtitle', content.hero.subtitle || '');
 
     // Intro
-    this.setHTML('intro-label', content.intro.label);
-    this.setHTML('intro-title', content.intro.title);
+    this.setHTML('intro-label', content.intro.label || '');
+    this.setHTML('intro-title', content.intro.title || '');
     const introContainer = document.getElementById('intro-paragraphs');
-    if (introContainer) {
+    if (introContainer && Array.isArray(content.intro.paragraphs)) {
       introContainer.innerHTML = content.intro.paragraphs.map(p => `<p class="intro-text">${p}</p>`).join('');
     }
 
     // Features
-    this.setHTML('features-label', content.features.label);
-    this.setHTML('features-title', content.features.title);
+    this.setHTML('features-label', content.features.label || '');
+    this.setHTML('features-title', content.features.title || '');
     const featuresContainer = document.getElementById('features-cards');
     if (featuresContainer && content.features.cards) {
       featuresContainer.innerHTML = content.features.cards.map((c, i) => `
@@ -126,13 +126,13 @@ const DataLoader = {
     }
 
     // CTA
-    this.setHTML('cta-title', content.cta.title);
-    this.setHTML('cta-subtitle', content.cta.subtitle);
+    this.setHTML('cta-title', content.cta.title || '');
+    this.setHTML('cta-subtitle', content.cta.subtitle || '');
 
     // Mission section
-    this.setHTML('mission-label', content.mission.label);
-    this.setHTML('mission-title', content.mission.title);
-    this.setHTML('mission-subtitle', content.mission.subtitle);
+    this.setHTML('mission-label', content.mission.label || '');
+    this.setHTML('mission-title', content.mission.title || '');
+    this.setHTML('mission-subtitle', content.mission.subtitle || '');
   },
 
   setText(id, text) {
