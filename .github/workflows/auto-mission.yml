@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ruclub-main
   cancel-in-progress: true
 
 permissions:
@@ -24,7 +24,7 @@ jobs:
       - name: Scan mission folders and build list.json
         run: |
           python3 << 'PYEOF'
-          import json, re
+          import json
           from pathlib import Path
 
           MISSION = Path("src/mission")
@@ -40,7 +40,7 @@ jobs:
 
           missions = []
           for folder in sorted(MISSION.iterdir()):
-              if not folder.is_dir() or folder.name.startswith(".") or folder.name.startswith("_"):
+              if not folder.is_dir() or folder.name.startswith("."):
                   continue
 
               info_file = folder / "info.json"
@@ -63,7 +63,8 @@ jobs:
               else:
                   info = json.loads(info_file.read_text())
 
-              slug = re.sub(r'[^a-z0-9-]', '', (info.get("slug") or folder.name).lower().replace(' ', '-'))
+              slug = (info.get("slug") or folder.name).lower().replace(" ", "-")
+              slug = "".join(c for c in slug if c.isalnum() or c == "-")
 
               image_count = 0
               for ext in IMG_EXTS:
@@ -84,7 +85,6 @@ jobs:
                   "imageCount": image_count
               }
 
-              # Set featured image
               if image_count > 0:
                   for ext in IMG_EXTS:
                       matches = sorted(folder.glob(ext))
@@ -97,10 +97,7 @@ jobs:
                       if k not in mission:
                           mission[k] = v
 
-              if slug not in existing:
-                  print(f"🆕  {slug}: {mission['title']} ({image_count} images)")
-              else:
-                  print(f"✅  {slug}: {mission['title']} ({image_count} images)")
+              print(f"{'🆕' if slug not in existing else '✅'}  {slug}: {mission['title']} ({image_count} images)")
               missions.append(mission)
 
           missions.sort(key=lambda m: m.get("date", ""), reverse=True)

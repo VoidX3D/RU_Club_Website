@@ -37,10 +37,9 @@ const DataLoader = {
     if (!container) return;
     const partners = await this.getPartners();
     if (!partners) return;
-    const slide = p => `<div class="partner-card">
-      <img src="${p.src}" alt="${p.alt}" class="partner-logo" loading="lazy">
-    </div>`;
-    container.innerHTML = [...partners, ...partners].map(slide).join('');
+    container.innerHTML = partners.map(p => `<div class="partner-card">
+      <img src="${p.src}" alt="${p.alt}" loading="lazy">
+    </div>`).join('');
   },
 
   async renderMembers(containerId, group) {

@@ -1,18 +1,12 @@
 name: Optimize Images
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/**/*.jpg'
-      - 'src/**/*.jpeg'
-      - 'src/**/*.png'
-  workflow_dispatch:
   schedule:
     - cron: '0 6 * * 0'
+  workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ruclub-main
   cancel-in-progress: true
 
 permissions:
@@ -49,7 +43,7 @@ jobs:
         run: |
           git config user.name "Image Optimizer"
           git config user.email "bot@ruclubmss.vercel.app"
-          git add -A
+          git add src/static/assets/ src/mission/*/img-*
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else

@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ruclub-main
   cancel-in-progress: true
 
 permissions:
@@ -24,7 +24,7 @@ jobs:
       - name: Scan announcement JSONs and build list.json
         run: |
           python3 << 'PYEOF'
-          import json, re
+          import json
           from pathlib import Path
 
           MAIN = Path("src/announcements/main")
@@ -42,7 +42,7 @@ jobs:
 
           announcements = []
           for file in sorted(MAIN.iterdir()):
-              if not file.name.endswith(".json") or file.name.startswith(".") or file.name.startswith("_"):
+              if not file.name.endswith(".json") or file.name.startswith("."):
                   continue
               try:
                   data = json.loads(file.read_text())
@@ -50,7 +50,8 @@ jobs:
                   print(f"⚠️  Skipping {file.name}: invalid JSON ({e})")
                   continue
 
-              slug = re.sub(r'[^a-z0-9-]', '', data.get("id", file.stem).lower().replace(' ', '-'))
+              slug = (data.get("id") or file.stem).lower().replace(" ", "-")
+              slug = "".join(c for c in slug if c.isalnum() or c == "-")
 
               active = data.get("active")
               if not isinstance(active, bool):
@@ -66,14 +67,12 @@ jobs:
                   "active": active
               }
 
-              # Preserve extra fields (status, tags, etc.) from existing entry
               if slug in existing:
                   for k, v in existing[slug].items():
                       if k not in entry:
                           entry[k] = v
 
-              status = "🆕" if slug not in existing else "✅"
-              print(f"{status}  {slug}: {entry['title']} {'(active)' if entry['active'] else '(inactive)'}")
+              print(f"{'🆕' if slug not in existing else '✅'}  {slug}: {entry['title']} {'(active)' if entry['active'] else '(inactive)'}")
               announcements.append(entry)
 
           announcements.sort(key=lambda a: a.get("date", ""), reverse=True)

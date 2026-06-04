@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ruclub-main
   cancel-in-progress: true
 
 permissions:
@@ -23,33 +23,20 @@ jobs:
       - name: Validate and fix all JSON files
         run: |
           python3 << 'PYEOF'
-          import json, re, sys
+          import json
           from pathlib import Path
 
           fixed = 0
           for f in sorted(Path("src").rglob("*.json")):
               if ".git" in str(f):
                   continue
+              raw = f.read_text()
               try:
-                  raw = f.read_text()
-              except Exception as e:
-                  print(f"⚠️  Cannot read {f}: {e}")
+                  data = json.loads(raw)
+              except json.JSONDecodeError as e:
+                  print(f"❌  Invalid JSON: {f} — {e}")
                   continue
 
-              # Remove truncation artifacts
-              clean = re.sub(r'\([^)]*(truncat|trimm|\.\.\.)[^)]*\)', '', raw, flags=re.I)
-              clean = re.sub(r'\.{4,}\s*[^\n"]*', '', clean)
-
-              try:
-                  data = json.loads(clean)
-              except json.JSONDecodeError:
-                  try:
-                      data = json.loads(raw)
-                  except json.JSONDecodeError:
-                      print(f"❌  Invalid JSON: {f}")
-                      continue
-
-              # Re-serialize to canonical format
               out = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
               if out != raw:
                   f.write_text(out)
@@ -62,7 +49,7 @@ jobs:
               print(f"\n✔  Fixed {fixed} JSON file(s)")
           PYEOF
 
-      - name: Commit and push fixes
+      - name: Commit fixes
         run: |
           git config user.name "JSON Fix Bot"
           git config user.email "bot@ruclubmss.vercel.app"

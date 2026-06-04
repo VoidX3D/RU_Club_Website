@@ -5,7 +5,7 @@ const Components = {
     async init() {
         await this.loadSiteData();
         this.injectCookieConsent();
-        this.loadComponents();
+        await this.loadComponents();
         console.log('[Components] initialized');
     },
 
@@ -93,38 +93,25 @@ const Components = {
         }
     },
 
-    loadComponent(id, path) {
-        return new Promise((resolve, reject) => {
-            const el = document.getElementById(id);
-            if (!el) {
-                resolve();
-                return;
-            }
+    async loadComponent(id, path) {
+        const el = document.getElementById(id);
+        if (!el) return;
 
-            if (this.componentCache[path]) {
-                el.innerHTML = this.componentCache[path];
-                resolve();
-                return;
-            }
+        if (this.componentCache[path]) {
+            el.innerHTML = this.componentCache[path];
+            return;
+        }
 
-            fetch(path, {
-                signal: AbortSignal.timeout(5000)
-            })
-                .then(res => {
-                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                    return res.text();
-                })
-                .then(data => {
-                    this.componentCache[path] = data;
-                    el.innerHTML = data;
-                    resolve();
-                })
-                .catch(err => {
-                    console.error(`Component load error (${path}):`, err);
-                    el.innerHTML = '<p>Component failed to load</p>';
-                    resolve();
-                });
-        });
+        try {
+            const res = await fetch(path, { signal: AbortSignal.timeout(8000) });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const html = await res.text();
+            this.componentCache[path] = html;
+            el.innerHTML = html;
+        } catch (err) {
+            console.error(`Component load error (${path}):`, err);
+            el.innerHTML = '';
+        }
     },
 
     initAll() {

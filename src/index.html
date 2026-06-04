@@ -91,13 +91,6 @@
       "description": "Environmental sustainability club at Motherland Secondary School, Pokhara, Nepal. Transforming awareness into action for a zero-waste ecosystem."
     }
     </script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js');
-            });
-        }
-    </script>
     <!-- JSON-LD Structured Data: WebSite (homepage only) -->
     <script type="application/ld+json">
     {
@@ -112,13 +105,6 @@
       }
     }
     </script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js');
-            });
-        }
-    </script>
     <!-- JSON-LD Structured Data: BreadcrumbList -->
     <script type="application/ld+json">
     {
@@ -128,13 +114,6 @@
         { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ruclubmss.vercel.app" }
       ]
     }
-    </script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js');
-            });
-        }
     </script>
     <!-- JSON-LD Structured Data: WebPage -->
     <script type="application/ld+json">
@@ -226,9 +205,8 @@
         <section class="partners">
             <div class="partners-container">
                 <p class="partners-label">Trusted By</p>
-                <div class="partners-track-wrap">
-                    <div class="partners-track" id="home-partners"></div>
-                </div>
+                <h2 class="partners-title">Our Partners & Collaborators</h2>
+                <div class="partners-grid" id="home-partners"></div>
             </div>
         </section>
 

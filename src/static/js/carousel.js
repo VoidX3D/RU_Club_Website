@@ -1,7 +1,3 @@
-/**
- * Carousel - Swiper initialization
- */
-
 const Carousel = {
     parkSwiperInstance: null,
 
@@ -17,8 +13,13 @@ const Carousel = {
         this.parkSwiperInstance = new Swiper('.parkSwiper', {
             loop: shouldLoop,
             watchOverflow: true,
-            autoplay: { delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true },
-            speed: 600,
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true
+            },
+            speed: 800,
+            parallax: true,
             centeredSlides: true,
             slidesPerView: 1,
             spaceBetween: 16,
@@ -27,12 +28,23 @@ const Carousel = {
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev'
             },
-            pagination: { el: '.swiper-pagination', clickable: true },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+                dynamicBullets: false
+            },
             breakpoints: {
-                640: { slidesPerView: 'auto', spaceBetween: 30, centeredSlides: true }
+                640: {
+                    slidesPerView: 'auto',
+                    spaceBetween: 30,
+                    centeredSlides: true
+                }
+            },
+            on: {
+                init: function() {
+                    console.log('[Carousel] initialized');
+                }
             }
         });
-    },
-
-    initPartnerSwiper() {}
+    }
 };
