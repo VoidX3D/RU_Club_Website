@@ -9,7 +9,9 @@
     { "name": "Anmol Lamichhane", "class": "7B", "role": "Campaign Lead", "type": "coord" },
     { "name": "Aawishkar Pandit", "class": "9B", "role": "Content & Act. Documentation Coordinator", "type": "coord" },
     { "name": "Bibek Neupane", "class": "9D", "role": "Logistics Coordinator", "type": "coord" },
-    { "name": "Ojasvi Tripathi", "class": "8B", "role": "DIY Lead", "type": "coord" }
+    { "name": "Ojasvi Tripathi", "class": "8B", "role": "DIY Lead", "type": "coord" },
+    { "name": "Sincere Bhattarai", "class": "10C", "role": "Event Lead", "type": "coord" }
+
   ],
   "general": [
     { "name": "Sailesh Tiwari", "class": "6B", "role": "General Member" },
@@ -20,7 +22,6 @@
     { "name": "Prasamsha Gautam", "class": "10D", "role": "General Member" },
     { "name": "Dipshika Karki", "class": "10D", "role": "General Member" },
     { "name": "Prasamsha Subedi", "class": "10D", "role": "General Member" },
-    { "name": "Sincere Bhattarai", "class": "10C", "role": "General Member" },
     { "name": "Anushka Aryal", "class": "9C", "role": "General Member" },
     { "name": "Anusha Thapa", "class": "9A", "role": "General Member" },
     { "name": "Sarbesh Adhikari", "class": "9C", "role": "General Member" },
