@@ -240,8 +240,8 @@ section.bg-secondary {
     position: relative;
     overflow: hidden;
     background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.5) 100%), 
-                url('/static/assets/images/heroimg-bg.jpeg') center/120% no-repeat;
-    background-color: var(--bg-primary);
+                url('/static/assets/images/heroimg-bg.jpeg') center/cover no-repeat;
+    background-color: #0a0a0a;
 }
 
 .hero-title,
@@ -256,6 +256,15 @@ section.bg-secondary {
 .hero-badge {
     background: rgba(255,255,255,0.15);
     border-color: rgba(255,255,255,0.3);
+}
+
+@media (max-width: 768px) {
+    .hero {
+        min-height: auto;
+        padding: calc(var(--header-height) + 3rem) 1.5rem 4rem;
+        background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 100%), 
+                    url('/static/assets/images/heroimg-bg.jpeg') center/cover no-repeat;
+    }
 }
 
 .hero > * {
