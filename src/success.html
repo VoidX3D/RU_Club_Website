@@ -27,6 +27,7 @@
         })();
     </script>
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="manifest" href="/site.webmanifest">
     <link rel="icon" href="/static/assets/brand/logo_icon.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/static/assets/brand/logo_icon.png">
     <style>
@@ -78,6 +79,16 @@
                 navigator.serviceWorker.register('/sw.js');
             });
         }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "RU Club Motherland",
+      "url": "https://ruclubmss.vercel.app",
+      "logo": "/static/assets/brand/logo.png",
+      "description": "Environmental sustainability club at Motherland Secondary School, Pokhara, Nepal."
+    }
     </script>
 </head>
 <body>

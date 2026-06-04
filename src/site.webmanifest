@@ -1,0 +1,18 @@
+{
+  "name": "RU Club Motherland",
+  "short_name": "RU Club",
+  "description": "Environmental sustainability club at Motherland Secondary School, Pokhara, Nepal.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0D9488",
+  "theme_color": "#0D9488",
+  "icons": [
+    {
+      "src": "/static/assets/brand/logo_icon.png",
+      "sizes": "200x165",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["education", "environment"],
+  "lang": "en"
+}
