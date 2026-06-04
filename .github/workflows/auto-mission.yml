@@ -36,14 +36,18 @@ jobs:
                   for m in json.load(f).get("missions", []):
                       existing[m["slug"]] = m
 
+          IMG_EXTS = ("*.jpg", "*.jpeg", "*.png", "*.webp")
+
           missions = []
           for folder in sorted(MISSION.iterdir()):
               if not folder.is_dir() or folder.name.startswith(".") or folder.name.startswith("_"):
                   continue
+
               info_file = folder / "info.json"
               if not info_file.exists():
-                  images = sorted(folder.glob("*.[jJ][pP][gG]")) + sorted(folder.glob("*.[jJ][pP][eE][gG]")) + \
-                           sorted(folder.glob("*.[pP][nN][gG]")) + sorted(folder.glob("*.[wW][eE][bB][pP]"))
+                  images = []
+                  for ext in IMG_EXTS:
+                      images.extend(folder.glob(ext))
                   if not images:
                       print(f"⚠️  Skipping {folder.name}: no info.json and no images")
                       continue
@@ -61,8 +65,9 @@ jobs:
 
               slug = re.sub(r'[^a-z0-9-]', '', (info.get("slug") or folder.name).lower().replace(' ', '-'))
 
-              image_count = len(list(folder.glob("*.[jJ][pP][gG]")) + list(folder.glob("*.[jJ][pP][eE][gG]")) +
-                                  list(folder.glob("*.[pP][nN][gG]")) + list(folder.glob("*.[wW][eE][bB][pP]")))
+              image_count = 0
+              for ext in IMG_EXTS:
+                  image_count += len(list(folder.glob(ext)))
 
               show = info.get("show")
               if not isinstance(show, bool):
@@ -75,8 +80,17 @@ jobs:
                   "description": info.get("description", ""),
                   "tag": info.get("tag", ""),
                   "date": info.get("date", ""),
-                  "show": show
+                  "show": show,
+                  "imageCount": image_count
               }
+
+              # Set featured image
+              if image_count > 0:
+                  for ext in IMG_EXTS:
+                      matches = sorted(folder.glob(ext))
+                      if matches:
+                          mission["featured"] = f"/mission/{slug}/{matches[0].name}"
+                          break
 
               if slug in existing:
                   for k, v in existing[slug].items():

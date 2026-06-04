@@ -9,7 +9,7 @@
       "date": "May 2025",
       "show": true,
       "imageCount": 19,
-      "featured": "mission/mission-01/img-01.jpg"
+      "featured": "/mission/mission-01/img-01.jpg"
     },
     {
       "slug": "mission-03",
@@ -20,7 +20,7 @@
       "date": "22 Dec 2025",
       "show": true,
       "imageCount": 6,
-      "featured": "mission/mission-03/img-01.jpg"
+      "featured": "/mission/mission-03/img-01.jpg"
     },
     {
       "slug": "mission-02",
@@ -31,7 +31,7 @@
       "date": "21 Dec 2025",
       "show": true,
       "imageCount": 4,
-      "featured": "mission/mission-02/img-01.jpg"
+      "featured": "/mission/mission-02/img-01.jpg"
     }
   ]
 }

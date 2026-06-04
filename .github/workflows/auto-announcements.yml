@@ -66,6 +66,12 @@ jobs:
                   "active": active
               }
 
+              # Preserve extra fields (status, tags, etc.) from existing entry
+              if slug in existing:
+                  for k, v in existing[slug].items():
+                      if k not in entry:
+                          entry[k] = v
+
               status = "🆕" if slug not in existing else "✅"
               print(f"{status}  {slug}: {entry['title']} {'(active)' if entry['active'] else '(inactive)'}")
               announcements.append(entry)
