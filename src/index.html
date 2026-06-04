@@ -67,7 +67,13 @@
             document.documentElement.setAttribute('data-theme', theme);
         })();
     </script>
-
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js');
+            });
+        }
+    </script>
     <!-- JSON-LD Structured Data: Organization (site-wide) -->
     <script type="application/ld+json">
     {
@@ -84,7 +90,13 @@
       "description": "Environmental sustainability club at Motherland Secondary School, Pokhara, Nepal. Transforming awareness into action for a zero-waste ecosystem."
     }
     </script>
-
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js');
+            });
+        }
+    </script>
     <!-- JSON-LD Structured Data: WebSite (homepage only) -->
     <script type="application/ld+json">
     {
@@ -99,7 +111,13 @@
       }
     }
     </script>
-
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js');
+            });
+        }
+    </script>
     <!-- JSON-LD Structured Data: BreadcrumbList -->
     <script type="application/ld+json">
     {
@@ -110,7 +128,13 @@
       ]
     }
     </script>
-
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js');
+            });
+        }
+    </script>
     <!-- JSON-LD Structured Data: WebPage -->
     <script type="application/ld+json">
     {
