@@ -92,7 +92,7 @@ Each HTML page only loads the JS modules it needs:
 - **index.html** (10): theme, navigation, animations, carousel, forms, missions, mobile, components, main, analytics
 - **members.html** (7): theme, navigation, animations, data-loader, mobile, components, main, analytics
 - **missions.html** (8): theme, navigation, animations, missions, data-loader, mobile, components, main, analytics
-- **mission.html** (10): theme, navigation, animations, carousel, forms, missions, data-loader, mobile, components, main, analytics
+- **mission.html** (7): theme, navigation, animations, missions, data-loader, mobile, components, analytics
 - **gallery.html** (7): theme, navigation, animations, mobile, components, gallery, analytics
 - **announcements.html** (7): theme, navigation, animations, announcements, mobile, components, analytics
 - **announcement.html** (7): theme, navigation, animations, announcements, mobile, components, analytics

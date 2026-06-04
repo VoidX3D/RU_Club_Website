@@ -1,7 +1,7 @@
 const Gallery = {
   async init() {
     console.log('[Gallery] init');
-    await this.renderGrouped('gallery-grid');
+    await this.renderGrid('gallery-grid');
   },
 
   async loadMissions() {
@@ -18,7 +18,7 @@ const Gallery = {
     return missions.filter(m => m.show !== false);
   },
 
-  async renderGrouped(containerId) {
+  async renderGrid(containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
@@ -30,7 +30,6 @@ const Gallery = {
       return;
     }
 
-    let totalImages = 0;
     const loadPromises = missions.map(async (m) => {
       const mid = m.id || m.slug;
       if (!mid) return null;
@@ -39,7 +38,6 @@ const Gallery = {
         if (!res.ok) return null;
         const info = await res.json();
         if (!Array.isArray(info.images) || !info.images.length) return null;
-        totalImages += info.images.length;
         return { mission: m, mid, images: info.images, info };
       } catch {
         return null;
@@ -54,36 +52,38 @@ const Gallery = {
     }
 
     container.innerHTML = results.map(({ mission, mid, images }) => {
-      const imgPath = images[0];
-      const featured = `/mission/${mid}/${imgPath}`;
+      const first = images[0];
+      const featured = `/mission/${mid}/${first}`;
       return `
-        <div class="gallery-mission-card" data-aos="fade-up">
-          <div class="gallery-mission-image">
+        <div class="gallery-card" data-aos="fade-up">
+          <div class="gallery-image">
             <img src="${featured}" alt="${mission.title || ''}" loading="lazy">
-            <div class="gallery-mission-overlay">
-              <span class="gallery-mission-tag">${mission.tag || 'Mission'}</span>
-              <span class="gallery-mission-date">${mission.date || ''}</span>
+            <div class="gallery-overlay">
+              <a href="${featured}" class="glightbox btn-primary" data-gallery="gallery-${mid}" data-description="${mission.title || ''}">View Gallery</a>
             </div>
           </div>
-          <div class="gallery-mission-body">
-            <h3 class="gallery-mission-title">${mission.title || ''}</h3>
-            <p class="gallery-mission-desc">${mission.description || ''}</p>
+          <div class="gallery-content">
+            <div class="gallery-meta">
+              <span class="gallery-tag">${mission.tag || 'Mission'}</span>
+              <span class="gallery-date">${mission.date || ''}</span>
+            </div>
+            <h3 class="gallery-title">${mission.title || ''}</h3>
+            <p class="gallery-desc">${mission.description || ''}</p>
           </div>
-          <div class="gallery-mission-images">
-            ${images.map(img => `
-              <a href="/mission/${mid}/${img}" class="glightbox gallery-img-link" data-gallery="mission-gallery" data-description="${mission.title || ''}">
-                <img src="/mission/${mid}/${img}" alt="${mission.title || 'Mission photo'}" loading="lazy" class="gallery-img">
-              </a>
-            `).join('')}
-          </div>
+          ${images.slice(1).map(img => `
+            <a href="/mission/${mid}/${img}" class="glightbox gallery-hidden-link" data-gallery="gallery-${mid}" data-description="${mission.title || ''}" style="display:none;"></a>
+          `).join('')}
         </div>`;
     }).join('');
 
-    console.log('[Gallery] Rendered', totalImages, 'images across', results.length, 'missions');
+    const imageCount = results.reduce((sum, r) => sum + r.images.length, 0);
+    console.log('[Gallery] Rendered', imageCount, 'images across', results.length, 'missions');
+
+    if (typeof AOS !== 'undefined') AOS.refresh();
 
     if (typeof GLightbox !== 'undefined') {
       GLightbox({
-        selector: '.glightbox[data-gallery="mission-gallery"]',
+        selector: '.glightbox[data-gallery^="gallery-"]',
         touchNavigation: true,
         loop: true,
         zoomable: true,

@@ -47,6 +47,7 @@ const Missions = {
         </div>
       </div>
     `).join('');
+    if (typeof AOS !== 'undefined') AOS.refresh();
   },
 
   async updateStats() {

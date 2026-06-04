@@ -62,8 +62,6 @@
     .page-title { font-size: clamp(2rem, 10vw, 2.75rem); }
     .page-subtitle { font-size: 1rem; padding: 0 0.5rem; }
     .gallery-grid { padding: 0; }
-    .gallery-mission-image { aspect-ratio: 16/9; }
-    .gallery-mission-images { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.5rem; padding: 1rem 1rem 1.25rem; }
     .gallery-mission-body { padding: 1.25rem 1rem 0; }
     .gallery-mission-title { font-size: 1.15rem; }
     .partner-card { width: 140px; height: 80px; }

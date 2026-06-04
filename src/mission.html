@@ -32,8 +32,6 @@
     <link rel="stylesheet" href="/static/css/responsive.css" media="print" onload="this.media='all'">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" media="print" onload="this.media='all'">
     <link rel="manifest" href="/site.webmanifest">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/static/assets/brand/logo_icon.png">
@@ -153,30 +151,6 @@
         color: var(--text-secondary);
         margin: 0.2rem;
       }
-      .mission-gallery {
-        padding: 3rem 0;
-        background: var(--bg-secondary);
-      }
-      .mission-gallery-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 1rem;
-      }
-      .mission-gallery-grid a {
-        display: block;
-        border-radius: var(--radius-lg);
-        overflow: hidden;
-        aspect-ratio: 16/10;
-      }
-      .mission-gallery-grid img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.4s ease;
-      }
-      .mission-gallery-grid a:hover img {
-        transform: scale(1.05);
-      }
     </style>
     <!-- JSON-LD Structured Data: BreadcrumbList -->
     <script type="application/ld+json">
@@ -196,8 +170,6 @@
         <link rel="stylesheet" href="/static/css/navbar.css">
         <link rel="stylesheet" href="/static/css/responsive.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap">
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
     </noscript>
     <script>
         if ('serviceWorker' in navigator) {
@@ -236,6 +208,9 @@
             <div class="container">
                 <div class="mission-layout">
                     <div>
+                        <div class="mission-featured" id="mission-featured" style="display:none; margin-bottom: 2rem; border-radius: var(--radius-xl); overflow: hidden; aspect-ratio: 16/9; background: var(--bg-secondary);">
+                            <img id="mission-featured-img" src="" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+                        </div>
                         <p class="mission-description" id="mission-description"></p>
                     </div>
                     <div class="mission-sidebar">
@@ -252,16 +227,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="mission-gallery" id="mission-gallery-section">
-            <div class="container">
-                <div class="section-header">
-                    <p class="section-label">Gallery</p>
-                    <h2 class="section-title">Mission Photos</h2>
-                </div>
-                <div class="mission-gallery-grid" id="mission-gallery"></div>
-            </div>
-        </div>
     </main>
 
     <footer id="footer-placeholder" class="main-footer">
@@ -275,18 +240,13 @@
         </div>
 </footer>
     <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
     <script defer src="/static/js/theme.js"></script>
     <script defer src="/static/js/navigation.js"></script>
     <script defer src="/static/js/animations.js"></script>
-    <script defer src="/static/js/carousel.js"></script>
-    <script defer src="/static/js/forms.js"></script>
     <script defer src="/static/js/missions.js"></script>
     <script defer src="/static/js/data-loader.js"></script>
     <script defer src="/static/js/mobile.js"></script>
     <script defer src="/static/js/components.js"></script>
-    <script defer src="/static/js/main.js"></script>
 
     <script>
       document.addEventListener('DOMContentLoaded', async function() {
@@ -315,27 +275,19 @@
           const safeDesc = (mission.detail || mission.description || '').substring(0, 160);
 
           document.title = (mission.title || 'Mission') + ' | RU Club Motherland';
-          const metaDesc = document.querySelector('meta[name="description"]');
-          if (metaDesc) metaDesc.content = safeDesc;
-          const canonical = document.querySelector('link[rel="canonical"]');
-          if (canonical) canonical.href = '/mission?id=' + mission.slug;
-          const ogTitle = document.querySelector('meta[property="og:title"]');
-          if (ogTitle) ogTitle.content = (mission.title || 'Mission') + ' | RU Club Motherland';
-          const ogDesc = document.querySelector('meta[property="og:description"]');
-          if (ogDesc) ogDesc.content = safeDesc;
-          const ogUrl = document.querySelector('meta[property="og:url"]');
-          if (ogUrl) ogUrl.content = '/mission?id=' + mission.slug;
-          const twTitle = document.querySelector('meta[name="twitter:title"]');
-          if (twTitle) twTitle.content = (mission.title || 'Mission') + ' | RU Club Motherland';
-          const twDesc = document.querySelector('meta[name="twitter:description"]');
-          if (twDesc) twDesc.content = safeDesc;
+          const m = (sel, attr, val) => { const e = document.querySelector(sel); if (e) e[attr] = val; };
+          m('meta[name="description"]', 'content', safeDesc);
+          m('link[rel="canonical"]', 'href', '/mission?id=' + mission.slug);
+          m('meta[property="og:title"]', 'content', (mission.title || 'Mission') + ' | RU Club Motherland');
+          m('meta[property="og:description"]', 'content', safeDesc);
+          m('meta[property="og:url"]', 'content', '/mission?id=' + mission.slug);
+          m('meta[name="twitter:title"]', 'content', (mission.title || 'Mission') + ' | RU Club Motherland');
+          m('meta[name="twitter:description"]', 'content', safeDesc);
 
-          const tagEl = document.getElementById('mission-tag');
-          if (tagEl) tagEl.textContent = mission.tag || '';
-          const titleEl = document.getElementById('mission-title');
-          if (titleEl) titleEl.textContent = mission.title || '';
-          const dateEl = document.getElementById('mission-date');
-          if (dateEl) dateEl.textContent = mission.date || '';
+          const s = (id, val) => { const e = document.getElementById(id); if (e) e.textContent = val || ''; };
+          s('mission-tag', mission.tag);
+          s('mission-title', mission.title);
+          s('mission-date', mission.date);
 
           const infoRes = await fetch('/mission/' + mission.id + '/info.json');
           if (!infoRes.ok) throw new Error('HTTP ' + infoRes.status);
@@ -343,6 +295,16 @@
 
           const descEl = document.getElementById('mission-description');
           if (descEl) descEl.textContent = info.detail || mission.description || '';
+
+          if (Array.isArray(info.images) && info.images.length) {
+            const featured = document.getElementById('mission-featured');
+            const img = document.getElementById('mission-featured-img');
+            if (featured && img) {
+              img.src = '/mission/' + mission.id + '/' + info.images[0];
+              img.alt = mission.title || 'Mission';
+              featured.style.display = 'block';
+            }
+          }
 
           if (info.stats && typeof info.stats === 'object') {
             const statsContainer = document.getElementById('mission-stats');
@@ -362,19 +324,6 @@
           } else {
             const partnersCard = document.getElementById('mission-partners-card');
             if (partnersCard) partnersCard.style.display = 'none';
-          }
-
-          if (Array.isArray(info.images) && info.images.length) {
-            const gallery = document.getElementById('mission-gallery');
-            if (gallery) {
-              gallery.innerHTML = info.images.map(img =>
-                '<a href="/mission/' + mission.id + '/' + img + '" class="glightbox" data-gallery="mission"><img src="/mission/' + mission.id + '/' + img + '" alt="' + (mission.title || 'Mission') + '" loading="lazy"></a>'
-              ).join('');
-
-              if (typeof GLightbox !== 'undefined') {
-                GLightbox({ selector: '.glightbox', touchNavigation: true, loop: true });
-              }
-            }
           }
         } catch (e) {
           console.error('Failed to render mission:', e);
