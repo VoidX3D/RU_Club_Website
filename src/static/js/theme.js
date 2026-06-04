@@ -18,7 +18,6 @@ const Theme = {
         console.log('[Theme] initialized, theme:', savedTheme);
     },
 
-    /* If only real life had a dark mode toggle... */
     setupToggle() {
         const themeBtn = document.getElementById('theme-toggle');
         if (!themeBtn) return;
@@ -33,7 +32,6 @@ const Theme = {
         });
     },
 
-    /* Sun goes to sleep, moon says "my turn." */
     updateIcon(theme) {
         const sun = document.getElementById('theme-icon-sun');
         const moon = document.getElementById('theme-icon-moon');
