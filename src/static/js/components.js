@@ -5,6 +5,21 @@ const Components = {
     async init() {
         if (this._initialized) return;
         this._initialized = true;
+
+        // Cache-bust on version change
+        const VERSION = '1.0.1';
+        const stored = localStorage.getItem('ruclub-version');
+        if (stored !== VERSION) {
+            localStorage.setItem('ruclub-version', VERSION);
+            if ('caches' in window) {
+                caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k))));
+            }
+            if (stored) {
+                window.location.reload();
+                return;
+            }
+        }
+
         await this.loadSiteData();
         this.injectCookieConsent();
         await this.loadComponents();

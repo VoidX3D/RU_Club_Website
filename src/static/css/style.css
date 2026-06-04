@@ -198,6 +198,7 @@ img {
     max-width: 100%;
     height: auto;
     display: block;
+    vertical-align: middle;
 }
 
 button {
@@ -659,7 +660,7 @@ section.bg-secondary {
     padding: 4rem 0 4.5rem;
     background: var(--bg-secondary);
     position: relative;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .partners::before {
@@ -1054,17 +1055,33 @@ section.bg-secondary {
 .gallery-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
     display: flex;
     align-items: flex-end;
     justify-content: center;
     padding: 1.75rem;
     opacity: 0;
     transition: var(--transition-base);
+    z-index: 2;
 }
 
 .gallery-card:hover .gallery-overlay {
     opacity: 1;
+}
+
+.gallery-overlay .btn-primary {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border-light);
+    font-size: 0.85rem;
+    padding: 0.6rem 1.25rem;
+    box-shadow: var(--shadow-lg);
+}
+
+.gallery-overlay .btn-primary:hover {
+    background: var(--brand-primary);
+    color: white;
+    border-color: var(--brand-primary);
 }
 
 .gallery-content {
