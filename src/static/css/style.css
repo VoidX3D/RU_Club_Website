@@ -534,8 +534,16 @@ section.bg-secondary {
     background: linear-gradient(90deg, transparent, var(--border-light), transparent);
 }
 
+.carousel {
+    overflow: visible;
+}
+
 .parkSwiper {
-    padding: 3rem 0 5rem !important;
+    padding: 2.5rem 0 4rem !important;
+}
+
+.parkSwiper .swiper-wrapper {
+    align-items: center;
 }
 
 .parkSwiper .swiper-slide {
@@ -545,35 +553,40 @@ section.bg-secondary {
     border-radius: var(--radius-2xl);
     overflow: hidden;
     box-shadow: var(--shadow-lg);
-    opacity: 0.6;
-    transform: scale(0.88);
-    transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0.5;
+    transform: scale(0.85);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     position: relative;
     z-index: 1;
     background: var(--bg-secondary);
+    filter: blur(2px) saturate(0.7);
 }
 
 [data-theme="dark"] .parkSwiper .swiper-slide {
-    opacity: 0.5;
+    opacity: 0.4;
+    filter: blur(2px) saturate(0.5);
 }
 
 .parkSwiper .swiper-slide-active {
     opacity: 1;
     transform: scale(1);
-    box-shadow: var(--shadow-2xl), 0 0 60px rgba(13, 148, 136, 0.18);
+    box-shadow: var(--shadow-2xl), 0 0 80px rgba(13, 148, 136, 0.2);
     z-index: 2;
+    filter: blur(0) saturate(1);
 }
 
 .parkSwiper .swiper-slide-next,
 .parkSwiper .swiper-slide-prev {
-    opacity: 0.75;
-    transform: scale(0.92);
+    opacity: 0.7;
+    transform: scale(0.9);
+    filter: blur(1px) saturate(0.85);
 }
 
 [data-theme="dark"] .parkSwiper .swiper-slide-next,
 [data-theme="dark"] .parkSwiper .swiper-slide-prev {
-    opacity: 0.65;
+    opacity: 0.55;
+    filter: blur(1px) saturate(0.65);
 }
 
 .parkSwiper .swiper-slide img {
@@ -589,24 +602,25 @@ section.bg-secondary {
 
 /* Pagination */
 .parkSwiper .swiper-pagination {
-    bottom: 12px !important;
+    bottom: 4px !important;
     display: flex;
     justify-content: center;
     gap: 8px;
 }
 
 .parkSwiper .swiper-pagination-bullet {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     background: var(--border-medium);
     opacity: 0.5;
     margin: 0 !important;
     border-radius: 50%;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
 }
 
 .parkSwiper .swiper-pagination-bullet-active {
-    width: 28px;
+    width: 24px;
     border-radius: var(--radius-full);
     background: var(--brand-primary);
     opacity: 1;
@@ -615,19 +629,27 @@ section.bg-secondary {
 /* Arrows */
 .swiper-button-next,
 .swiper-button-prev {
-    width: 48px !important;
-    height: 48px !important;
+    width: 44px !important;
+    height: 44px !important;
     background: var(--bg-card) !important;
     border-radius: 50% !important;
     border: 1px solid var(--border-light) !important;
     box-shadow: var(--shadow-md) !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: all 0.3s ease !important;
+    opacity: 0 !important;
+    transform: translateY(-50%) scale(0.9) !important;
+}
+
+.parkSwiper:hover .swiper-button-next,
+.parkSwiper:hover .swiper-button-prev {
+    opacity: 1 !important;
+    transform: translateY(-50%) scale(1) !important;
 }
 
 .swiper-button-next::after,
 .swiper-button-prev::after {
-    font-size: 20px !important;
-    font-weight: 800 !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
     color: var(--text-primary) !important;
 }
 
@@ -635,7 +657,7 @@ section.bg-secondary {
 .swiper-button-prev:hover {
     background: var(--brand-primary) !important;
     border-color: var(--brand-primary) !important;
-    transform: scale(1.12) !important;
+    transform: translateY(-50%) scale(1.1) !important;
     box-shadow: var(--shadow-lg), 0 0 25px rgba(13, 148, 136, 0.25) !important;
 }
 
@@ -644,15 +666,12 @@ section.bg-secondary {
     color: white !important;
 }
 
-.swiper-button-next { right: 16px !important; }
-.swiper-button-prev { left: 16px !important; }
-
 .swiper-button-next {
-    right: 24px !important;
+    right: 16px !important;
 }
 
 .swiper-button-prev {
-    left: 24px !important;
+    left: 16px !important;
 }
 
 

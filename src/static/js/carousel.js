@@ -8,17 +8,17 @@ const Carousel = {
             return;
         }
 
-        const shouldLoop = slideCount >= 6;
+        const shouldLoop = slideCount >= 4;
 
         this.parkSwiperInstance = new Swiper('.parkSwiper', {
             loop: shouldLoop,
             watchOverflow: true,
             autoplay: {
-                delay: 4000,
+                delay: 5000,
                 disableOnInteraction: false,
                 pauseOnMouseEnter: true
             },
-            speed: 800,
+            speed: 700,
             parallax: true,
             centeredSlides: true,
             slidesPerView: 1,
@@ -31,18 +31,22 @@ const Carousel = {
             pagination: {
                 el: '.swiper-pagination',
                 clickable: true,
-                dynamicBullets: false
+                dynamicBullets: false,
+                dynamicMainBullets: 3
             },
             breakpoints: {
                 640: {
                     slidesPerView: 'auto',
-                    spaceBetween: 30,
+                    spaceBetween: 24,
                     centeredSlides: true
                 }
             },
             on: {
                 init: function() {
-                    console.log('[Carousel] initialized');
+                    if (typeof AOS !== 'undefined') AOS.refresh();
+                },
+                slideChangeTransitionEnd: function() {
+                    if (typeof AOS !== 'undefined') AOS.refresh();
                 }
             }
         });
