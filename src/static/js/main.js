@@ -11,8 +11,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.log('[Main] DOM ready — initializing');
         await Components.init();
 
-        DataLoader.loadAll();
-
         // Load data-driven content (only on pages with matching containers)
         if (document.getElementById('home-stats')) {
             await Promise.all([
@@ -28,7 +26,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 DataLoader.renderMembers('members-core', 'core'),
                 DataLoader.renderMembers('members-general', 'general')
             ]);
-            // Setup easter egg click on member rows
             document.querySelectorAll('.easter-row').forEach(row => {
                 row.addEventListener('click', () => {
                     window.location.href = '/secret-garden';
@@ -36,23 +33,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
 
-        // Load missions carousel — populate slides first, then init Swiper
         if (document.getElementById('missions-carousel')) {
             const slideCount = await Missions.renderCarousel('missions-carousel');
             Carousel.initParkSwiper(slideCount);
         }
 
-        // Load missions grid if present
         if (document.getElementById('missions-grid')) {
             await Missions.renderMissionsGrid('missions-grid');
         }
 
-        // Load announcements if present
         if (document.getElementById('announcements-list')) {
             await Announcements.renderCards('announcements-list');
         }
 
-        // Update missions stats page from JSON data
         if (document.getElementById('stat-missions')) {
             await Missions.updateStats();
         }

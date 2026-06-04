@@ -191,3 +191,5 @@ const Components = {
         }
     }
 };
+
+document.addEventListener('DOMContentLoaded', () => Components.init());
