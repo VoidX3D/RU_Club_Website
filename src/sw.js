@@ -1,5 +1,5 @@
-const CACHE = 'ruclub-v2';
-const STATIC_CACHE = 'ruclub-static-v2';
+const CACHE = 'ruclub-v3';
+const STATIC_CACHE = 'ruclub-static-v3';
 
 const PRECACHE_URLS = [
   '/',
@@ -92,9 +92,9 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Static assets (CSS, JS, images, JSON): Cache First
+  // Static assets (CSS, JS, images, JSON): Network First (cache fallback when offline)
   if (path.match(/\.(css|js|json|jpg|jpeg|png|webp|gif|svg|ico|woff2?)$/)) {
-    event.respondWith(cacheFirst(request));
+    event.respondWith(networkFirst(request));
     return;
   }
 
