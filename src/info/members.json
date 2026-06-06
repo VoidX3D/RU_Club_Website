@@ -2,7 +2,7 @@
   "type": "members",
   "id": "members",
   "title": "members",
-  "updated": 1780732715438,
+  "updated": 1780733157873,
   "teachers": [
     {
       "name": "Narayan Baral",
@@ -59,8 +59,20 @@
     },
     {
       "name": "Abhinav Basnet",
-      "class": "8B",
+      "class": "9B",
       "role": "Documentation Coordinator",
+      "type": "coord"
+    },
+    {
+      "name": "Darsh Kashyap",
+      "class": "8B",
+      "role": "Communication Coordinator",
+      "type": "coord"
+    },
+    {
+      "name": "Aakriti Gurung",
+      "class": "9B",
+      "role": "Finance Coordinator",
       "type": "coord"
     }
   ],
@@ -173,8 +185,8 @@
   ],
   "stats": {
     "teachers": 3,
-    "core": 7,
+    "core": 9,
     "general": 21,
-    "total": 31
+    "total": 33
   }
 }
