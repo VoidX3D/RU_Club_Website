@@ -22,7 +22,7 @@ export default function Privacy() {
       <SEOHead
         title="Privacy Policy"
         description="Privacy Policy for RU Club Motherland website. Learn how we collect, use, and protect your personal data."
-        url="https://ru.motherland.edu.np/privacy"
+        url="https://ruclubmss.vercel.app/privacy"
       />
 
       <div className="min-h-screen py-20">

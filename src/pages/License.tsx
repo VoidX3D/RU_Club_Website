@@ -17,7 +17,7 @@ export default function License() {
       <SEOHead
         title="License"
         description="License and usage terms for RU Club Motherland website content, images, and materials."
-        url="https://ru.motherland.edu.np/license"
+        url="https://ruclubmss.vercel.app/license"
       />
 
       <div className="min-h-screen py-20">

@@ -16,7 +16,7 @@ export default function Consent() {
       <SEOHead
         title="Cookie Policy"
         description="Cookie consent policy for RU Club Motherland. Learn how we use cookies and manage your preferences."
-        url="https://ru.motherland.edu.np/consent"
+        url="https://ruclubmss.vercel.app/consent"
       />
 
       <div className="min-h-screen py-20">
