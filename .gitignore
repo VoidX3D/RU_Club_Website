@@ -1,6 +1,9 @@
-# OS files
+# OS
 .DS_Store
 Thumbs.db
+
+# Build
+dist/
 
 # IDE
 .vscode/
@@ -8,14 +11,15 @@ Thumbs.db
 *.swp
 *.swo
 
-# Environment
+# Env
 .env
 .env.local
 
-# Dependencies (if any)
+# Dependencies
 node_modules/
 
 # Vercel
 .vercel/
-announcements/README.md
-mission/README.md
+
+# Build artifacts
+*.tsbuildinfo

@@ -69,7 +69,7 @@ export default function MissionDetail() {
         image={images[0] || mission.images?.[0] || undefined}
       />
 
-      <article className="pt-[70px] md:pt-[100px] min-h-screen">
+      <article className="min-h-screen">
         <div className="w-full px-4 sm:px-6 py-12">
           <div className="max-w-5xl mx-auto">
           <Link
@@ -113,14 +113,51 @@ export default function MissionDetail() {
               </div>
             )}
 
-            {mission.stats && Object.keys(mission.stats).length > 0 && (
+            {mission.stats && mission.stats.length > 0 && (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                {Object.entries(mission.stats).map(([key, value]) => (
-                  <div key={key} className="p-4 rounded-xl bg-surface-secondary dark:bg-dark-surface-tertiary text-center">
-                    <div className="text-xl font-display font-bold text-brand-600 dark:text-brand-400">{value}</div>
-                    <div className="text-xs text-text-muted dark:text-dark-text-muted mt-1 capitalize">{key.replace(/_/g, ' ')}</div>
+                {mission.stats.map((s) => (
+                  <div key={s.label} className="p-4 rounded-xl bg-surface-secondary dark:bg-dark-surface-tertiary text-center">
+                    <div className="text-xl font-display font-bold text-brand-600 dark:text-brand-400">{s.value}</div>
+                    <div className="text-xs text-text-muted dark:text-dark-text-muted mt-1">{s.label}</div>
                   </div>
                 ))}
+              </div>
+            )}
+
+            {mission.goals && mission.goals.length > 0 && (
+              <div className="mb-8 p-6 rounded-2xl bg-surface-secondary dark:bg-dark-surface-tertiary">
+                <h3 className="font-display font-semibold text-lg text-text-primary dark:text-dark-text-primary mb-3">Goals</h3>
+                <ul className="space-y-2">
+                  {mission.goals.map((goal, i) => (
+                    <li key={i} className="flex items-start gap-2 text-text-secondary dark:text-dark-text-secondary">
+                      <span className="w-5 h-5 rounded-full bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center shrink-0 mt-0.5">
+                        <span className="text-xs font-bold text-brand-600 dark:text-brand-400">{i + 1}</span>
+                      </span>
+                      {goal}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {mission.timeline && mission.timeline.length > 0 && (
+              <div className="mb-8 p-6 rounded-2xl bg-surface-secondary dark:bg-dark-surface-tertiary">
+                <h3 className="font-display font-semibold text-lg text-text-primary dark:text-dark-text-primary mb-3">Timeline</h3>
+                <div className="space-y-4">
+                  {mission.timeline.map((entry, i) => (
+                    <div key={i} className="flex items-start gap-3">
+                      <div className="flex flex-col items-center">
+                        <div className="w-3 h-3 rounded-full bg-brand-500 shrink-0" />
+                        {i < mission.timeline!.length - 1 && <div className="w-0.5 flex-1 bg-brand-200 dark:bg-brand-900/50 mt-1" />}
+                      </div>
+                      <div>
+                        <p className="font-semibold text-text-primary dark:text-dark-text-primary">{entry.title}</p>
+                        {entry.date && <p className="text-xs text-text-muted dark:text-dark-text-muted">{entry.date}</p>}
+                        {entry.description && <p className="text-sm text-text-secondary dark:text-dark-text-secondary mt-1">{entry.description}</p>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </motion.div>

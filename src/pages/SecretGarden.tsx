@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 import { useEffect, useState } from 'react'
+import { track } from '@vercel/analytics'
 
 const skills = [
   'HTML/CSS', 'JavaScript/TypeScript', 'React', 'Node.js',
@@ -11,6 +12,7 @@ export default function SecretGarden() {
   const [cursor, setCursor] = useState({ x: 0, y: 0 })
 
   useEffect(() => {
+    track('page_view', { page: '/secret-garden' })
     const handleMove = (e: MouseEvent) => setCursor({ x: e.clientX, y: e.clientY })
     window.addEventListener('mousemove', handleMove)
     return () => window.removeEventListener('mousemove', handleMove)

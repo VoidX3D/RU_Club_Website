@@ -15,10 +15,11 @@ export function formatDate(date: string) {
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || ''
 const STORAGE_BASE = supabaseUrl
-  ? `${supabaseUrl}/storage/v1/object/public/ruclub`
+  ? `${supabaseUrl}/storage/v1/object/public/ruclub/static/assets/`
   : ''
 
 export function storageUrl(path: string): string {
   if (!path || path.startsWith('http')) return path
-  return `${STORAGE_BASE}${path}`
+  const p = path.startsWith('/') ? path.slice(1) : path
+  return `${STORAGE_BASE}${p}`
 }

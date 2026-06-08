@@ -14,7 +14,7 @@ export default function Announcements() {
     <>
       <SEOHead title="Announcements" />
 
-      <section className="pt-[70px] md:pt-[100px] py-20">
+      <section className="py-20">
         <div className="w-full px-4 sm:px-6">
           <div className="text-center mb-12">
             <motion.p

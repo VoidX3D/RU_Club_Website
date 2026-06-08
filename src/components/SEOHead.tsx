@@ -23,7 +23,7 @@ export default function SEOHead({
   const siteTagline = config?.tagline || 'Environmental Sustainability Club in Pokhara'
   const siteDesc = config?.description || 'Environmental sustainability club at Motherland Secondary School, Pokhara.'
   const siteUrl = config?.url || 'https://ruclubmss.vercel.app'
-  const siteImage = storageUrl(config?.logo || '/static/assets/brand/logo.png')
+  const siteImage = config?.logo ? storageUrl(config.logo) : ''
 
   const finalTitle = title
     ? title.includes('|') ? title : `${title} | ${siteName}`

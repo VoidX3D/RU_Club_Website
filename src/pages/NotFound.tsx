@@ -6,7 +6,7 @@ export default function NotFound() {
     <>
       <SEOHead title="404 - Page Not Found" description="The page you're looking for doesn't exist." />
 
-      <div className="min-h-screen flex items-center justify-center pt-[70px] md:pt-[100px]">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center px-4 sm:px-6">
           <div className="text-8xl sm:text-9xl font-display font-bold gradient-text mb-4">404</div>
           <h1 className="text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary mb-3">

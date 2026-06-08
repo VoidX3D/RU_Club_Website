@@ -1,193 +1,409 @@
 import { createClient } from '@supabase/supabase-js'
 import type {
-  SiteConfig, Content, Stat, Partner,
-  MembersData, MissionEntry, MissionInfo, GalleryImage,
+  Stat, Partner, Member, MembersData,
+  MissionEntry, MissionInfo, MissionTimeline,
   AnnouncementEntry, AnnouncementFull,
+  GalleryImage, ContactFormData,
+  HeroContent, IntroContent, FeatureCard, CTAContent, MissionSectionContent,
 } from '@/types'
+import { storageUrl } from './utils'
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || ''
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
-const STORAGE_BASE = supabaseUrl
-  ? `${supabaseUrl}/storage/v1/object/public/ruclub`
-  : ''
-
-function handleError(error: { message?: string; code?: string } | null): void {
-  if (!error) return
-  const msg = error.message || ''
-  if (msg.includes('Could not find the table') || msg.includes('does not exist') || msg.includes('relation') || msg.includes('does not exist')) {
-    console.warn('Supabase table not found. Run supabase-migration.sql in Supabase SQL Editor.')
-    return
+// ============================================================
+// Error handling
+// ============================================================
+export class DataError extends Error {
+  constructor(
+    message: string,
+    public readonly table?: string,
+    public readonly code?: string
+  ) {
+    super(message)
+    this.name = 'DataError'
   }
-  console.error('Supabase error:', msg)
 }
 
-export function getImageUrl(path?: string | null): string | undefined {
-  if (!path) return undefined
-  if (path.startsWith('http')) return path
-  return `${STORAGE_BASE}${path}`
+type ErrorResult<T> = { data: T; error: null } | { data: null; error: DataError }
+
+function classifyError(err: unknown, table: string): DataError {
+  if (err instanceof DataError) return err
+  const msg = err instanceof Error ? err.message : String(err)
+  const code = (err as { code?: string })?.code
+
+  if (msg.includes('Could not find the table') || msg.includes('does not exist') || msg.includes('relation') || msg.includes('does not exist')) {
+    return new DataError(`Table "${table}" not found. Run migration SQL in Supabase.`, table, 'NOT_FOUND')
+  }
+  if (msg.includes('network') || msg.includes('fetch') || msg.includes('NetworkError') || msg.includes('ERR_CONNECTION')) {
+    return new DataError('Network error — check internet connection and Supabase status.', table, 'NETWORK')
+  }
+  if (msg.includes('JWT') || msg.includes('jwt') || msg.includes('auth') || msg.includes('unauthorized') || msg.includes('401')) {
+    return new DataError('Authentication error — check Supabase API keys.', table, 'AUTH')
+  }
+  if (msg.includes('timeout') || msg.includes('timed out')) {
+    return new DataError('Request timed out.', table, 'TIMEOUT')
+  }
+  return new DataError(msg, table, code)
 }
 
-export function getMissionImageUrl(missionId: string, filename: string): string {
-  return `${STORAGE_BASE}/static/assets/mission/${missionId}/${filename}`
-}
-
-async function safeQuery<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
+async function query<T>(fn: () => Promise<T>, table: string): Promise<T | null> {
   try {
     return await fn()
-  } catch (err: unknown) {
-    handleError(err instanceof Error ? { message: err.message } : { message: String(err) })
-    return fallback
+  } catch (err) {
+    const de = classifyError(err, table)
+    console.error(`[DB] ${de.table ? de.table + ': ' : ''}${de.message}`)
+    return null
   }
 }
 
-// --- Site Config ---
-export async function getSiteConfig(): Promise<SiteConfig | null> {
-  return safeQuery(async () => {
-    const { data } = await supabase
-      .from('site_config')
-      .select('name, short_name, tagline, description, url, logo, logo_icon, email, phone, location, social, github, copyright, managed_by, made_by, nav, footer_quick_links, cookie')
+// ============================================================
+// HERO
+// ============================================================
+export async function getHeroContent(): Promise<HeroContent | null> {
+  return query(async () => {
+    const { data, error } = await supabase
+      .from('hero_content')
+      .select('*')
+      .eq('id', 1)
       .single()
+    if (error) throw error
     if (!data) return null
     return {
-      name: data.name, shortName: data.short_name, tagline: data.tagline,
-      description: data.description, url: data.url, logo: data.logo,
-      logoIcon: data.logo_icon, email: data.email, phone: data.phone,
-      location: data.location as SiteConfig['location'],
-      social: data.social as SiteConfig['social'], github: data.github,
-      copyright: data.copyright, managedBy: data.managed_by, madeBy: data.made_by,
-      nav: data.nav as SiteConfig['nav'],
-      footerQuickLinks: data.footer_quick_links as SiteConfig['footerQuickLinks'],
-      cookie: data.cookie as SiteConfig['cookie'],
+      badge: data.badge,
+      titleLine1: data.title_line1,
+      titleLine2: data.title_line2,
+      subtitle: data.subtitle,
+      ctaPrimary: data.cta_primary,
+      ctaSecondary: data.cta_secondary,
+      bgImage: data.bg_image ? storageUrl(data.bg_image) : undefined,
     }
-  }, null)
+  }, 'hero_content')
 }
 
-// --- Content ---
-export async function getContent(): Promise<Content | null> {
-  return safeQuery(async () => {
-    const { data } = await supabase.from('content').select('hero, intro, features, cta, mission').single()
+// ============================================================
+// INTRO
+// ============================================================
+export async function getIntroContent(): Promise<IntroContent | null> {
+  return query(async () => {
+    const { data, error } = await supabase
+      .from('intro_content')
+      .select('*')
+      .eq('id', 1)
+      .single()
+    if (error) throw error
+    if (!data) return null
+
+    const { data: paragraphs } = await supabase
+      .from('intro_paragraphs')
+      .select('content')
+      .eq('intro_id', 1)
+      .order('sort_order')
+
+    return {
+      label: data.label,
+      title: data.title,
+      paragraphs: (paragraphs || []).map((p: { content: string }) => p.content),
+    }
+  }, 'intro_content')
+}
+
+// ============================================================
+// FEATURES
+// ============================================================
+export async function getFeatureCards(): Promise<FeatureCard[] | null> {
+  return query(async () => {
+    const { data, error } = await supabase
+      .from('feature_cards')
+      .select('title, description, icon')
+      .order('sort_order')
+    if (error) throw error
+    return data as FeatureCard[] | null
+  }, 'feature_cards')
+}
+
+// ============================================================
+// CTA
+// ============================================================
+export async function getCTAContent(): Promise<CTAContent | null> {
+  return query(async () => {
+    const { data, error } = await supabase
+      .from('cta_content')
+      .select('*')
+      .eq('id', 1)
+      .single()
+    if (error) throw error
     if (!data) return null
     return {
-      hero: data.hero as Content['hero'], intro: data.intro as Content['intro'],
-      features: data.features as Content['features'], cta: data.cta as Content['cta'],
-      mission: data.mission as Content['mission'],
+      title: data.title,
+      subtitle: data.subtitle,
+      primaryBtn: data.primary_btn,
+      secondaryBtn: data.secondary_btn,
     }
-  }, null)
+  }, 'cta_content')
 }
 
-// --- Stats ---
+// ============================================================
+// MISSION SECTION
+// ============================================================
+export async function getMissionSectionContent(): Promise<MissionSectionContent | null> {
+  return query(async () => {
+    const { data, error } = await supabase
+      .from('mission_section')
+      .select('*')
+      .eq('id', 1)
+      .single()
+    if (error) throw error
+    if (!data) return null
+    return {
+      label: data.label,
+      title: data.title,
+      subtitle: data.subtitle,
+    }
+  }, 'mission_section')
+}
+
+// ============================================================
+// STATS
+// ============================================================
 export async function getStats(): Promise<Stat[] | null> {
-  return safeQuery(async () => {
-    const { data } = await supabase.from('stats').select('value, label').order('sort_order')
+  return query(async () => {
+    const { data, error } = await supabase
+      .from('stats')
+      .select('value, label')
+      .order('sort_order')
+    if (error) throw error
     return data as Stat[] | null
-  }, null)
+  }, 'stats')
 }
 
-// --- Partners ---
+// ============================================================
+// MEMBERS
+// ============================================================
+export async function getMembers(): Promise<MembersData | null> {
+  return query(async () => {
+    const { data, error } = await supabase
+      .from('members')
+      .select('name, class, role, member_type, group_name, image')
+      .order('sort_order')
+    if (error) throw error
+    if (!data || data.length === 0) return null
+
+    const mapRow = (r: { name: string; class?: string; role: string; member_type: string; group_name: string; image?: string }): Member => ({
+      name: r.name,
+      class: r.class || undefined,
+      role: r.role,
+      memberType: r.member_type as Member['memberType'],
+      groupName: r.group_name as Member['groupName'],
+      image: r.image ? storageUrl(r.image) : undefined,
+    })
+
+    const teachers = data.filter((r: { group_name: string }) => r.group_name === 'teachers').map(mapRow)
+    const core = data.filter((r: { group_name: string }) => r.group_name === 'core').map(mapRow)
+    const general = data.filter((r: { group_name: string }) => r.group_name === 'general').map(mapRow)
+
+    return {
+      teachers,
+      core,
+      general,
+      stats: {
+        teachers: teachers.length,
+        core: core.length,
+        general: general.length,
+        total: data.length,
+      },
+    }
+  }, 'members')
+}
+
+// ============================================================
+// PARTNERS
+// ============================================================
 export async function getPartners(): Promise<Partner[] | null> {
-  return safeQuery(async () => {
-    const { data } = await supabase.from('partners').select('src, alt, name').order('sort_order')
+  return query(async () => {
+    const { data, error } = await supabase
+      .from('partners')
+      .select('src, alt, name')
+      .order('sort_order')
+    if (error) throw error
     if (!data) return null
     return data.map((p: { src: string; alt: string; name: string }) => ({
       ...p,
-      src: getImageUrl(p.src) || p.src,
+      src: storageUrl(p.src),
     })) as Partner[]
-  }, null)
+  }, 'partners')
 }
 
-// --- Members ---
-export async function getMembers(): Promise<MembersData | null> {
-  return safeQuery(async () => {
-    const { data } = await supabase.from('members').select('teachers, core, general, stats').single()
-    if (!data) return null
-    return {
-      teachers: data.teachers as MembersData['teachers'],
-      core: data.core as MembersData['core'],
-      general: data.general as MembersData['general'],
-      stats: data.stats as MembersData['stats'],
-    }
-  }, null)
-}
-
-// --- Missions ---
+// ============================================================
+// MISSIONS
+// ============================================================
 export async function getMissionList(): Promise<MissionEntry[] | null> {
-  return safeQuery(async () => {
-    const { data } = await supabase
+  return query(async () => {
+    const { data, error } = await supabase
       .from('missions')
       .select('id, title, slug, tag, date, description, show, featured')
       .eq('show', true)
       .order('date', { ascending: false, nullsFirst: false })
+    if (error) throw error
     if (!data) return null
-    return data.map((m) => ({ ...m, featured: getImageUrl(m.featured) || m.featured }))
-  }, null)
+    return data.map((m: { id: string; slug: string; title: string; tag?: string; date?: string; description: string; show?: boolean; featured?: string }) => ({
+      id: m.id,
+      slug: m.slug,
+      title: m.title,
+      tag: m.tag,
+      date: m.date,
+      description: m.description,
+      show: m.show,
+      featured: m.featured ? storageUrl(m.featured) : undefined,
+    }))
+  }, 'missions')
 }
 
 export async function getMissionInfo(slug: string): Promise<MissionInfo | null> {
-  return safeQuery(async () => {
-    const { data } = await supabase.from('missions').select('*').eq('slug', slug).single()
+  return query(async () => {
+    const { data, error } = await supabase
+      .from('missions')
+      .select('*')
+      .eq('slug', slug)
+      .single()
+    if (error) throw error
     if (!data) return null
-    const rawImages = (data.images || []) as string[]
+
+    const [imgRes, statRes, partRes, goalRes, timeRes, particRes, budgRes] = await Promise.all([
+      supabase.from('mission_images').select('url, alt').eq('mission_id', data.id).order('sort_order'),
+      supabase.from('mission_stats').select('label, value').eq('mission_id', data.id).order('sort_order'),
+      supabase.from('mission_partners').select('name').eq('mission_id', data.id).order('sort_order'),
+      supabase.from('mission_goals').select('goal').eq('mission_id', data.id).order('sort_order'),
+      supabase.from('mission_timeline').select('title, date, description').eq('mission_id', data.id).order('sort_order'),
+      supabase.from('mission_participants').select('group_name, participant_count').eq('mission_id', data.id).order('sort_order'),
+      supabase.from('mission_budget').select('item, amount').eq('mission_id', data.id).order('sort_order'),
+    ])
+
     return {
-      id: data.id, title: data.title, slug: data.slug, tag: data.tag,
-      date: data.date, description: data.description, detail: data.detail,
-      images: rawImages.map((f) => getMissionImageUrl(data.slug, f)),
-      stats: data.stats as Record<string, string> | undefined,
-      partners: data.partners as string[] | undefined, show: data.show,
+      id: data.id,
+      title: data.title,
+      slug: data.slug,
+      tag: data.tag,
+      date: data.date,
+      description: data.description,
+      detail: data.detail,
+      images: (imgRes.data || []).map((i: { url: string }) => storageUrl(`mission/${data.slug}/${i.url}`)),
+      stats: (statRes.data || []).map((s: { label: string; value: string }) => ({ label: s.label, value: s.value })),
+      partners: (partRes.data || []).map((p: { name: string }) => p.name),
+      goals: (goalRes.data || []).map((g: { goal: string }) => g.goal),
+      timeline: (timeRes.data || []) as MissionTimeline[],
+      participants: (particRes.data || []).map((p: { group_name: string; participant_count: string }) => p),
+      budget: (budgRes.data || []).map((b: { item: string; amount?: string }) => b),
     }
-  }, null)
+  }, 'missions')
 }
 
-export async function getMissionImages(missionId: string) {
-  return safeQuery(async () => {
-    const { data } = await supabase.from('missions').select('images').eq('id', missionId).single()
-    if (!data?.images) return null
-    const images = data.images as string[]
-    return images.map((img, i) => ({
-      id: `${missionId}-${i}`,
-      url: getMissionImageUrl(missionId, img),
-      alt: `Mission image ${i + 1}`,
-    }))
-  }, null)
+export async function getMissionImages(missionId: string): Promise<GalleryImage[] | null> {
+  return query(async () => {
+    const [mRes, iRes] = await Promise.all([
+      supabase.from('missions').select('title, slug').eq('id', missionId).single(),
+      supabase.from('mission_images').select('url, alt, sort_order').eq('mission_id', missionId).order('sort_order'),
+    ])
+    if (mRes.error) throw new DataError(`Mission not found: ${missionId}`, 'missions')
+    if (iRes.error) throw iRes.error
+    if (!iRes.data || iRes.data.length === 0) return null
+
+    const mission = mRes.data
+    return iRes.data.map((img: { url: string; alt: string; sort_order: number }) => {
+      const url = storageUrl(`mission/${mission.slug}/${img.url}`)
+      return {
+        id: `${missionId}-${img.sort_order}`,
+        url,
+        alt: img.alt || `${mission.title} - Image ${img.sort_order}`,
+        missionTitle: mission.title,
+        missionSlug: mission.slug,
+        downloadUrl: url,
+      }
+    })
+  }, 'mission_images')
 }
 
-// --- Announcements ---
+// ============================================================
+// ANNOUNCEMENTS
+// ============================================================
 export async function getAnnouncementList(): Promise<AnnouncementEntry[] | null> {
-  return safeQuery(async () => {
-    const { data } = await supabase
+  return query(async () => {
+    const { data, error } = await supabase
       .from('announcements')
       .select('id, title, tag, date, day, summary, image, active, status')
       .eq('active', true)
       .order('date', { ascending: false, nullsFirst: false })
+    if (error) throw error
     if (!data) return null
-    return data.map((a) => ({ ...a, image: getImageUrl(a.image) || a.image }))
-  }, null)
+    return data.map((a: { id: string; title: string; tag?: string; date: string; day?: string; summary: string; image?: string; active?: boolean; status?: string }) => ({
+      id: a.id,
+      title: a.title,
+      tag: a.tag,
+      date: a.date,
+      day: a.day,
+      summary: a.summary,
+      image: a.image ? storageUrl(a.image) : undefined,
+      active: a.active,
+      status: a.status,
+    }))
+  }, 'announcements')
 }
 
 export async function getAnnouncementDetail(id: string): Promise<AnnouncementFull | null> {
-  return safeQuery(async () => {
-    const { data } = await supabase.from('announcements').select('*').eq('id', id).single()
+  return query(async () => {
+    const { data, error } = await supabase
+      .from('announcements')
+      .select('*')
+      .eq('id', id)
+      .single()
+    if (error) throw error
     if (!data) return null
+
+    const { data: tags } = await supabase
+      .from('announcement_tags')
+      .select('tag')
+      .eq('announcement_id', id)
+      .order('sort_order')
+
+    const { data: gallery } = await supabase
+      .from('announcement_gallery')
+      .select('url, alt')
+      .eq('announcement_id', id)
+      .order('sort_order')
+
     return {
-      ...data,
-      image: getImageUrl(data.image) || data.image,
-      tags: data.tags as string[] | undefined,
-      gallery: data.gallery as string[] | undefined,
+      id: data.id,
+      title: data.title,
+      tag: data.tag,
+      date: data.date,
+      day: data.day,
+      summary: data.summary,
+      description: data.description,
+      image: data.image ? storageUrl(data.image) : undefined,
+      active: data.active,
+      status: data.status,
+      deadline: data.deadline,
+      issuedBy: data.issued_by,
+      importance: data.importance,
+      instructions: data.instructions,
+      tags: (tags || []).map((t: { tag: string }) => t.tag),
+      gallery: (gallery || []).map((g: { url: string }) => storageUrl(g.url)),
     }
-  }, null)
+  }, 'announcements')
 }
 
-// --- Contact Form ---
-export async function submitContactForm(formData: {
-  name: string; email: string; subject: string; message: string
-}) {
+// ============================================================
+// CONTACT FORM
+// ============================================================
+export async function submitContactForm(formData: ContactFormData): Promise<ErrorResult<boolean>> {
   try {
     const { error } = await supabase.from('contact_submissions').insert([formData])
-    return { error }
-  } catch (err: unknown) {
-    handleError(err instanceof Error ? { message: err.message } : { message: String(err) })
-    return { error: null }
+    if (error) throw error
+    return { data: true, error: null }
+  } catch (err) {
+    const de = classifyError(err, 'contact_submissions')
+    return { data: null, error: de }
   }
 }

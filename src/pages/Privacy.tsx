@@ -5,7 +5,7 @@ export default function Privacy() {
     <>
       <SEOHead title="Privacy Policy" description="Privacy Policy for RU Club Motherland website." url="https://ru.motherland.edu.np/privacy" />
 
-      <div className="pt-[70px] md:pt-[100px] min-h-screen py-20">
+      <div className="min-h-screen py-20">
         <div className="w-full px-4 sm:px-6">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary mb-6">Privacy Policy</h1>

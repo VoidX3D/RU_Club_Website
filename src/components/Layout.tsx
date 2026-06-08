@@ -9,6 +9,7 @@ import SEOHead from './SEOHead'
 import { useEffect } from 'react'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
+import '@/styles/home.css'
 
 export default function Layout() {
   const { theme, toggleTheme } = useTheme()
@@ -27,10 +28,8 @@ export default function Layout() {
   }, [])
 
   useEffect(() => {
-    if (!isSecretGarden) {
-      AOS.refresh()
-      window.scrollTo(0, 0)
-    }
+    AOS.refresh()
+    window.scrollTo(0, 0)
   }, [location.pathname])
 
   const isHome = location.pathname === '/'
@@ -47,7 +46,7 @@ export default function Layout() {
     <SiteConfigProvider>
       <SEOHead />
       <Navbar theme={theme} toggleTheme={toggleTheme} />
-      <main className={isHome ? '' : 'pt-[70px] md:pt-[100px] min-h-screen'}>
+      <main className={isHome ? '' : 'min-h-screen pt-[80px] md:pt-[120px]'}>
         <Outlet />
       </main>
       <Footer />

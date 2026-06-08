@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useCallback } from 'react'
 import { getMissionList } from '@/lib/supabase'
 import { useSiteData } from '@/hooks/useSiteData'
-import { storageUrl } from '@/lib/utils'
+
 import SEOHead from '@/components/SEOHead'
 import type { MissionEntry } from '@/types'
 
@@ -15,7 +15,7 @@ export default function Missions() {
     <>
       <SEOHead title="Missions" />
 
-      <section className="pt-[70px] md:pt-[100px] py-20">
+      <section className="py-20">
         <div className="w-full px-4 sm:px-6">
           <div className="text-center mb-12">
             <motion.p
@@ -64,7 +64,7 @@ export default function Missions() {
                   >
                     <div className="aspect-video overflow-hidden bg-surface-tertiary dark:bg-dark-surface-tertiary">
                       <img
-                        src={mission.featured || storageUrl('/static/assets/brand/logo.png')}
+                        src={mission.featured || ''}
                         alt={mission.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         loading="lazy"

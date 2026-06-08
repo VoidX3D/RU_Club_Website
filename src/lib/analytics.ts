@@ -1,10 +1,11 @@
+import { track } from '@vercel/analytics'
+
 const GA_MEASUREMENT_IDS = ['G-HWFPCZ4W1Q', 'G-HJTLGVDNYK']
 
 declare global {
   interface Window {
     dataLayer: unknown[]
     gtag: (...args: unknown[]) => void
-    va?: (event: string, data?: Record<string, unknown>) => void
   }
 }
 
@@ -26,7 +27,7 @@ export function initAnalytics() {
 
   window.dataLayer = window.dataLayer || []
   window.gtag = function () {
-    dataLayer.push(arguments)
+    window.dataLayer.push(arguments)
   }
 
   gtag('consent', 'default', { analytics_storage: 'denied' })
@@ -52,19 +53,10 @@ export function initAnalytics() {
     gtag('consent', 'update', { analytics_storage: 'granted' })
   }
 
-  // Vercel Analytics
-  const va = document.createElement('script')
-  va.defer = true
-  va.src = '/_vercel/insights/script.js'
-  document.head.appendChild(va)
+  track('page_view', { page: window.location.pathname })
 
-  // Track scroll depth
   trackScrollDepth()
-
-  // Track outbound links
   trackOutboundLinks()
-
-  // Track downloads
   trackDownloads()
 }
 
@@ -87,9 +79,7 @@ function trackScrollDepth() {
               page_title: document.title,
             })
           }
-          if (typeof window.va !== 'undefined') {
-            window.va('scroll', { depth: t, path: window.location.pathname })
-          }
+          track('scroll', { depth: t, path: window.location.pathname })
         }
       }
     }
@@ -111,9 +101,7 @@ function trackOutboundLinks() {
         link_domain: new URL(url).hostname,
       })
     }
-    if (typeof window.va !== 'undefined') {
-      window.va('outbound_link', { url })
-    }
+    track('outbound_link', { url })
   })
 }
 
@@ -132,9 +120,7 @@ function trackDownloads() {
         link_text: target.textContent?.trim() || '',
       })
     }
-    if (typeof window.va !== 'undefined') {
-      window.va('download', { url })
-    }
+    track('download', { url })
   })
 }
 

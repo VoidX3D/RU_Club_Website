@@ -13,14 +13,14 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
   const location = useLocation()
   const config = useSiteConfig()
 
-  const navItems = config?.nav || []
+  const navItems = config?.navItems || []
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-border dark:border-dark-border bg-white/90 dark:bg-dark-surface/90 backdrop-blur-xl">
       <div className="flex items-center justify-between h-[70px] md:h-[100px] px-4 sm:px-6">
         <Link to="/" className="flex items-center gap-3 shrink-0">
           <img
-            src={config?.logoIcon ? storageUrl(config.logoIcon) : storageUrl('/static/assets/brand/logo_icon.png')}
+            src={config?.logoIcon ? storageUrl(config.logoIcon) : ''}
             alt={config?.shortName || 'RU Club'}
             className="w-10 h-10 md:w-12 md:h-12 object-contain"
           />
