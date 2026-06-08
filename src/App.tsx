@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { useEffect } from 'react'
 import { HelmetProvider } from 'react-helmet-async'
 import Layout from '@/components/Layout'
 import ErrorBoundary from '@/components/ErrorBoundary'
@@ -15,6 +16,11 @@ import License from '@/pages/License'
 import Consent from '@/pages/Consent'
 import SecretGarden from '@/pages/SecretGarden'
 import NotFound from '@/pages/NotFound'
+
+function AdminRedirect() {
+  useEffect(() => { window.location.href = 'https://ru-admin-site.vercel.app/' }, [])
+  return null
+}
 
 export default function App() {
   return (
@@ -38,6 +44,7 @@ export default function App() {
               <Route path="/license" element={<License />} />
               <Route path="/consent" element={<Consent />} />
               <Route path="/secret-garden" element={<SecretGarden />} />
+              <Route path="/admin" element={<AdminRedirect />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
