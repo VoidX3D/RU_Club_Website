@@ -20,7 +20,7 @@ export default function Announcements() {
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-brand-600 dark:text-brand-400 font-semibold text-sm tracking-wider uppercase"
+              className="text-brand-600 dark:text-brand-400 font-semibold text-xs tracking-wider uppercase"
             >
               Updates
             </motion.p>
@@ -28,7 +28,7 @@ export default function Announcements() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="mt-2 text-4xl sm:text-5xl font-display font-bold text-text-primary dark:text-dark-text-primary"
+              className="mt-1 text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary"
             >
               Announcements
             </motion.h1>

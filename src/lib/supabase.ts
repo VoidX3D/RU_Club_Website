@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import type {
   SiteConfig, Content, Stat, Partner,
-  MembersData, MissionEntry, MissionInfo,
+  MembersData, MissionEntry, MissionInfo, GalleryImage,
   AnnouncementEntry, AnnouncementFull,
 } from '@/types'
 

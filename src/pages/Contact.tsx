@@ -62,7 +62,7 @@ export default function Contact() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="mt-2 text-4xl sm:text-5xl font-display font-bold text-text-primary dark:text-dark-text-primary"
+              className="mt-1 text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary"
             >
               Contact Us
             </motion.h1>
@@ -70,7 +70,7 @@ export default function Contact() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="mt-3 text-lg text-text-secondary dark:text-dark-text-secondary"
+              className="mt-2 text-base text-text-secondary dark:text-dark-text-secondary"
             >
               Have questions or want to join? We&apos;d love to hear from you.
             </motion.p>

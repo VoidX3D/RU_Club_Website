@@ -21,7 +21,7 @@ export default function Missions() {
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-brand-600 dark:text-brand-400 font-semibold text-sm tracking-wider uppercase"
+              className="text-brand-600 dark:text-brand-400 font-semibold text-xs tracking-wider uppercase"
             >
               Our Work
             </motion.p>
@@ -29,7 +29,7 @@ export default function Missions() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="mt-2 text-4xl sm:text-5xl font-display font-bold text-text-primary dark:text-dark-text-primary"
+              className="mt-1 text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary"
             >
               Environmental Missions
             </motion.h1>
@@ -37,7 +37,7 @@ export default function Missions() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="mt-3 text-lg text-text-secondary dark:text-dark-text-secondary max-w-3xl mx-auto"
+              className="mt-2 text-base text-text-secondary dark:text-dark-text-secondary max-w-3xl mx-auto"
             >
               From park clean-ups to recycling workshops — see how we're making a difference.
             </motion.p>
@@ -70,23 +70,23 @@ export default function Missions() {
                         loading="lazy"
                       />
                     </div>
-                    <div className="p-6">
-                      <div className="flex items-center gap-2 mb-2">
+                    <div className="p-5">
+                      <div className="flex items-center gap-2 mb-1.5">
                         {mission.tag && (
-                          <span className="text-xs font-semibold text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/50 px-2 py-0.5 rounded-full">
+                          <span className="text-[10px] font-semibold text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/50 px-2 py-0.5 rounded-full">
                             {mission.tag}
                           </span>
                         )}
                         {mission.date && (
-                          <span className="text-xs text-text-muted dark:text-dark-text-muted">
+                          <span className="text-[10px] text-text-muted dark:text-dark-text-muted">
                             {mission.date}
                           </span>
                         )}
                       </div>
-                      <h3 className="font-display font-semibold text-xl text-text-primary dark:text-dark-text-primary group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                      <h3 className="font-display font-semibold text-lg text-text-primary dark:text-dark-text-primary group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
                         {mission.title}
                       </h3>
-                      <p className="mt-1.5 text-base text-text-secondary dark:text-dark-text-secondary line-clamp-2">
+                      <p className="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary line-clamp-2">
                         {mission.description}
                       </p>
                     </div>

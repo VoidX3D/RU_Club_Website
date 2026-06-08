@@ -174,6 +174,15 @@ export interface AnnouncementFull {
   gallery?: string[];
 }
 
+export interface GalleryImage {
+  id: string;
+  url: string;
+  alt: string;
+  missionTitle: string;
+  missionSlug: string;
+  downloadUrl: string;
+}
+
 export interface GalleryMission {
   slug: string;
   id: string;

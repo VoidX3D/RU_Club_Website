@@ -49,9 +49,9 @@ export default function Members() {
               <thead>
                 <tr className="bg-surface-secondary dark:bg-dark-surface-tertiary">
                   {cfg.headers.map((h) => (
-                    <th
+                      <th
                       key={h}
-                      className={`text-left text-xs font-bold text-text-muted dark:text-dark-text-muted uppercase tracking-wider px-4 py-3 ${h === '#' ? 'w-14' : ''}`}
+                      className={`text-left text-[10px] font-bold text-text-muted dark:text-dark-text-muted uppercase tracking-wider px-3 py-2.5 ${h === '#' ? 'w-10' : ''}`}
                     >
                       {h}
                     </th>
@@ -66,34 +66,34 @@ export default function Members() {
                       key={member.name}
                       className="hover:bg-surface-secondary dark:hover:bg-dark-surface-tertiary transition-colors"
                     >
-                      <td className="px-4 py-3">
-                        <span className="text-sm text-text-muted dark:text-dark-text-muted font-mono">
+                      <td className="px-3 py-2.5">
+                        <span className="text-xs text-text-muted dark:text-dark-text-muted font-mono">
                           {String(i + 1).padStart(2, '0')}
                         </span>
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-3 py-2.5">
                           {isDev ? (
-                            <Link to="/secret-garden" className="text-base font-semibold text-brand-600 dark:text-brand-400 hover:underline">
+                            <Link to="/secret-garden" className="text-sm font-semibold text-brand-600 dark:text-brand-400 hover:underline">
                               {member.name}
                             </Link>
                           ) : (
-                            <span className="text-base font-semibold text-text-primary dark:text-dark-text-primary">
+                            <span className="text-sm font-semibold text-text-primary dark:text-dark-text-primary">
                               {member.name}
                             </span>
                           )}
                         </td>
                       {hasClass && (
-                        <td className="px-4 py-3">
-                          <span className="text-sm text-text-secondary dark:text-dark-text-secondary">{member.class || '-'}</span>
+                        <td className="px-3 py-2.5">
+                          <span className="text-xs text-text-secondary dark:text-dark-text-secondary">{member.class || '-'}</span>
                         </td>
                       )}
-                      <td className="px-4 py-3">
+                      <td className="px-3 py-2.5">
                         {isDev ? (
-                          <span className="inline-flex text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">
+                          <span className="inline-flex text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">
                             Developer &amp; Event Lead
                           </span>
                         ) : (
-                          <span className={`inline-flex text-xs font-semibold px-2 py-0.5 rounded-full ${roleStyles[member.type || 'member'] || roleStyles.member}`}>
+                          <span className={`inline-flex text-[10px] font-semibold px-2 py-0.5 rounded-full ${roleStyles[member.type || 'member'] || roleStyles.member}`}>
                             {member.role}
                           </span>
                         )}
@@ -119,7 +119,7 @@ export default function Members() {
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-brand-600 dark:text-brand-400 font-semibold text-sm tracking-wider uppercase"
+              className="text-brand-600 dark:text-brand-400 font-semibold text-xs tracking-wider uppercase"
             >
               Our Team
             </motion.p>
@@ -127,7 +127,7 @@ export default function Members() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="mt-2 text-4xl sm:text-5xl font-display font-bold text-text-primary dark:text-dark-text-primary"
+              className="mt-1 text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary"
             >
               Meet the Members
             </motion.h1>
@@ -136,7 +136,7 @@ export default function Members() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
-                className="mt-3 text-lg text-text-secondary dark:text-dark-text-secondary"
+                className="mt-2 text-base text-text-secondary dark:text-dark-text-secondary"
               >
                 {members.stats.total} members &middot; {members.stats.teachers} teachers &middot; {members.stats.core} core &middot; {members.stats.general} general
               </motion.p>

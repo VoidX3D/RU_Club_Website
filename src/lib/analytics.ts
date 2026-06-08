@@ -1,12 +1,21 @@
 const GA_MEASUREMENT_IDS = ['G-HWFPCZ4W1Q', 'G-HJTLGVDNYK']
+
+declare global {
+  interface Window {
+    dataLayer: unknown[]
+    gtag: (...args: unknown[]) => void
+    va?: (event: string, data?: Record<string, unknown>) => void
+  }
+}
+
 let initialized = false
+let scrollTracked = new Set<string>()
 
 export function initAnalytics() {
   if (initialized) return
   initialized = true
 
   const consent = localStorage.getItem('cookie-consent')
-
   const ids = consent === 'accepted' ? GA_MEASUREMENT_IDS : [GA_MEASUREMENT_IDS[0]]
   const firstId = ids[0]
 
@@ -17,7 +26,6 @@ export function initAnalytics() {
 
   window.dataLayer = window.dataLayer || []
   window.gtag = function () {
-    // @ts-expect-error
     dataLayer.push(arguments)
   }
 
@@ -37,17 +45,97 @@ export function initAnalytics() {
     page_title: document.title,
     page_location: window.location.href,
     page_path: window.location.pathname,
+    page_referrer: document.referrer || undefined,
   })
 
   if (consent === 'accepted') {
     gtag('consent', 'update', { analytics_storage: 'granted' })
   }
 
-  // Load Vercel Analytics
+  // Vercel Analytics
   const va = document.createElement('script')
   va.defer = true
   va.src = '/_vercel/insights/script.js'
   document.head.appendChild(va)
+
+  // Track scroll depth
+  trackScrollDepth()
+
+  // Track outbound links
+  trackOutboundLinks()
+
+  // Track downloads
+  trackDownloads()
+}
+
+function trackScrollDepth() {
+  let maxDepth = 0
+  const handler = () => {
+    const scrollTop = window.scrollY
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight
+    const depth = Math.round((scrollTop / docHeight) * 100)
+    if (depth > maxDepth) {
+      maxDepth = depth
+      const thresholds = [25, 50, 75, 90, 100]
+      for (const t of thresholds) {
+        if (depth >= t && !scrollTracked.has(`${t}_${window.location.pathname}`)) {
+          scrollTracked.add(`${t}_${window.location.pathname}`)
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'scroll_depth', {
+              percent: t,
+              page_path: window.location.pathname,
+              page_title: document.title,
+            })
+          }
+          if (typeof window.va !== 'undefined') {
+            window.va('scroll', { depth: t, path: window.location.pathname })
+          }
+        }
+      }
+    }
+  }
+  window.addEventListener('scroll', handler, { passive: true })
+}
+
+function trackOutboundLinks() {
+  document.addEventListener('click', (e) => {
+    const target = (e.target as HTMLElement).closest('a')
+    if (!target || !target.href) return
+    const url = target.href
+    if (url.includes(window.location.hostname)) return
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'click', {
+        event_category: 'outbound',
+        event_label: url,
+        link_url: url,
+        link_domain: new URL(url).hostname,
+      })
+    }
+    if (typeof window.va !== 'undefined') {
+      window.va('outbound_link', { url })
+    }
+  })
+}
+
+function trackDownloads() {
+  document.addEventListener('click', (e) => {
+    const target = (e.target as HTMLElement).closest('a')
+    if (!target || !target.href) return
+    const url = target.href
+    const extensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.pdf', '.zip', '.mp4']
+    const isDownload = extensions.some((ext) => url.toLowerCase().includes(ext))
+    if (!isDownload && target.download === '') return
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'file_download', {
+        file_url: url,
+        file_name: url.split('/').pop() || 'unknown',
+        link_text: target.textContent?.trim() || '',
+      })
+    }
+    if (typeof window.va !== 'undefined') {
+      window.va('download', { url })
+    }
+  })
 }
 
 export function grantConsent() {
