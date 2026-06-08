@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ru.motherland.edu.np/sitemap.xml

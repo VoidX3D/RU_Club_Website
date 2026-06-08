@@ -1,0 +1,120 @@
+import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
+import { useCallback } from 'react'
+import { getAnnouncementList } from '@/lib/supabase'
+import { useSiteData } from '@/hooks/useSiteData'
+import SEOHead from '@/components/SEOHead'
+import type { AnnouncementEntry } from '@/types'
+
+export default function Announcements() {
+  const fetcher = useCallback(() => getAnnouncementList(), [])
+  const { data: announcements, loading } = useSiteData<AnnouncementEntry[]>(fetcher)
+
+  return (
+    <>
+      <SEOHead
+        title="Announcements"
+        description="Stay updated with the latest announcements from RU Club Motherland."
+        url="https://ru.motherland.edu.np/announcements"
+      />
+
+      <section className="py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-brand-600 dark:text-brand-400 font-medium text-sm tracking-wider uppercase"
+            >
+              Updates
+            </motion.p>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="mt-2 text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary"
+            >
+              Announcements
+            </motion.h1>
+          </div>
+
+          {loading ? (
+            <div className="space-y-4">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="rounded-2xl bg-surface-secondary dark:bg-dark-surface-tertiary animate-pulse h-32" />
+              ))}
+            </div>
+          ) : announcements?.length === 0 ? (
+            <div className="text-center py-20">
+              <p className="text-text-muted dark:text-dark-text-muted">No announcements at this time.</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {announcements?.map((announcement, i) => (
+                <motion.div
+                  key={announcement.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                >
+                  <Link
+                    to={`/announcement/${announcement.id}`}
+                    className="group block p-6 rounded-2xl bg-white dark:bg-dark-surface-secondary border border-border dark:border-dark-border hover:border-brand-500/50 transition-all duration-300 glow-card"
+                  >
+                    <div className="flex items-start gap-4">
+                      {announcement.image && (
+                        <div className="hidden sm:block w-20 h-20 rounded-xl overflow-hidden shrink-0 bg-surface-tertiary dark:bg-dark-surface-tertiary">
+                          <img
+                            src={announcement.image}
+                            alt=""
+                            className="w-full h-full object-cover"
+                            loading="lazy"
+                          />
+                        </div>
+                      )}
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          {announcement.tag && (
+                            <span className="text-xs font-medium text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/50 px-2 py-0.5 rounded-full">
+                              {announcement.tag}
+                            </span>
+                          )}
+                          <span className="text-xs text-text-muted dark:text-dark-text-muted">{announcement.date}</span>
+                          {announcement.status === 'urgent' && (
+                            <span className="text-xs font-medium text-red-500 bg-red-50 dark:bg-red-950/50 px-2 py-0.5 rounded-full">
+                              Urgent
+                            </span>
+                          )}
+                        </div>
+                        <h2 className="font-display font-semibold text-lg text-text-primary dark:text-dark-text-primary group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                          {announcement.title}
+                        </h2>
+                        <p className="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary line-clamp-2">
+                          {announcement.summary}
+                        </p>
+                      </div>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="shrink-0 text-text-muted group-hover:text-brand-600 transition-colors mt-1"
+                      >
+                        <polyline points="9 18 15 12 9 6" />
+                      </svg>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+    </>
+  )
+}
