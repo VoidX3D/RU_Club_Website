@@ -69,8 +69,9 @@ export default function MissionDetail() {
         image={images[0] || mission.images?.[0] || undefined}
       />
 
-      <article className="pt-16 min-h-screen">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <article className="pt-[70px] md:pt-[100px] min-h-screen">
+        <div className="w-full px-4 sm:px-6 py-12">
+          <div className="max-w-5xl mx-auto">
           <Link
             to="/missions"
             className="inline-flex items-center gap-2 text-sm text-text-secondary dark:text-dark-text-secondary hover:text-brand-600 dark:hover:text-brand-400 transition-colors mb-6"
@@ -174,6 +175,7 @@ export default function MissionDetail() {
               </div>
             </motion.div>
           )}
+        </div>
         </div>
       </article>
 

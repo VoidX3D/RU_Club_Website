@@ -39,8 +39,8 @@ export default function Members() {
         className="mb-12 last:mb-0"
       >
         <div className="mb-6">
-          <p className="text-brand-600 dark:text-brand-400 font-medium text-sm tracking-wider uppercase">{cfg.label}</p>
-          <h2 className="text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary mt-1">{cfg.title}</h2>
+          <p className="text-brand-600 dark:text-brand-400 font-semibold text-sm tracking-wider uppercase">{cfg.label}</p>
+          <h2 className="mt-1 text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary">{cfg.title}</h2>
         </div>
 
         <div className="overflow-hidden rounded-2xl border border-border dark:border-dark-border bg-white dark:bg-dark-surface-secondary">
@@ -51,7 +51,7 @@ export default function Members() {
                   {cfg.headers.map((h) => (
                     <th
                       key={h}
-                      className={`text-left text-xs font-semibold text-text-muted dark:text-dark-text-muted uppercase tracking-wider px-4 py-3 ${h === '#' ? 'w-14' : ''}`}
+                      className={`text-left text-xs font-bold text-text-muted dark:text-dark-text-muted uppercase tracking-wider px-4 py-3 ${h === '#' ? 'w-14' : ''}`}
                     >
                       {h}
                     </th>
@@ -73,11 +73,11 @@ export default function Members() {
                       </td>
                       <td className="px-4 py-3">
                           {isDev ? (
-                            <Link to="/secret-garden" className="text-sm font-medium text-brand-600 dark:text-brand-400 hover:underline">
+                            <Link to="/secret-garden" className="text-base font-semibold text-brand-600 dark:text-brand-400 hover:underline">
                               {member.name}
                             </Link>
                           ) : (
-                            <span className="text-sm font-medium text-text-primary dark:text-dark-text-primary">
+                            <span className="text-base font-semibold text-text-primary dark:text-dark-text-primary">
                               {member.name}
                             </span>
                           )}
@@ -89,11 +89,11 @@ export default function Members() {
                       )}
                       <td className="px-4 py-3">
                         {isDev ? (
-                          <span className="inline-flex text-xs font-medium px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">
+                          <span className="inline-flex text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">
                             Developer &amp; Event Lead
                           </span>
                         ) : (
-                          <span className={`inline-flex text-xs font-medium px-2 py-0.5 rounded-full ${roleStyles[member.type || 'member'] || roleStyles.member}`}>
+                          <span className={`inline-flex text-xs font-semibold px-2 py-0.5 rounded-full ${roleStyles[member.type || 'member'] || roleStyles.member}`}>
                             {member.role}
                           </span>
                         )}
@@ -113,13 +113,13 @@ export default function Members() {
     <>
       <SEOHead title="Members" />
 
-      <section className="py-20">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="pt-[70px] md:pt-[100px] py-20">
+        <div className="w-full px-4 sm:px-6">
           <div className="text-center mb-12">
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-brand-600 dark:text-brand-400 font-medium text-sm tracking-wider uppercase"
+              className="text-brand-600 dark:text-brand-400 font-semibold text-sm tracking-wider uppercase"
             >
               Our Team
             </motion.p>
@@ -144,7 +144,7 @@ export default function Members() {
           </div>
 
           {loading ? (
-            <div className="space-y-12">
+            <div className="space-y-12 max-w-6xl mx-auto">
               {[1, 2, 3].map((i) => (
                 <div key={i} className="animate-pulse space-y-4">
                   <div className="h-6 bg-surface-secondary dark:bg-dark-surface-tertiary rounded w-1/4" />
@@ -153,11 +153,11 @@ export default function Members() {
               ))}
             </div>
           ) : (
-            <>
+            <div className="max-w-6xl mx-auto">
               {renderTable('teachers')}
               {renderTable('core')}
               {renderTable('general')}
-            </>
+            </div>
           )}
         </div>
       </section>

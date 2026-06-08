@@ -15,13 +15,13 @@ export default function Gallery() {
     <>
       <SEOHead title="Gallery" />
 
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="pt-[70px] md:pt-[100px] py-20">
+        <div className="w-full px-4 sm:px-6">
           <div className="text-center mb-12">
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-brand-600 dark:text-brand-400 font-medium text-sm tracking-wider uppercase"
+              className="text-brand-600 dark:text-brand-400 font-semibold text-sm tracking-wider uppercase"
             >
               Moments
             </motion.p>
@@ -50,7 +50,7 @@ export default function Gallery() {
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
               {missions?.map((mission, i) => (
                 <motion.div
                   key={mission.id}
@@ -73,7 +73,7 @@ export default function Gallery() {
                     <div className="p-5">
                       <div className="flex items-center gap-2 mb-1">
                         {mission.tag && (
-                          <span className="text-xs font-medium text-brand-600 dark:text-brand-400">
+                          <span className="text-xs font-semibold text-brand-600 dark:text-brand-400">
                             {mission.tag}
                           </span>
                         )}

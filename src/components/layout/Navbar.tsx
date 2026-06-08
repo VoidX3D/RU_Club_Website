@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { cn } from '@/lib/utils'
+import { cn, storageUrl } from '@/lib/utils'
 import { useSiteConfig } from '@/hooks/useSiteConfig'
 
 interface NavbarProps {
@@ -17,10 +17,10 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-border dark:border-dark-border bg-white/90 dark:bg-dark-surface/90 backdrop-blur-xl">
-      <div className="flex items-center justify-between h-[70px] md:h-[100px] px-4 sm:px-6 md:px-8">
+      <div className="flex items-center justify-between h-[70px] md:h-[100px] px-4 sm:px-6">
         <Link to="/" className="flex items-center gap-3 shrink-0">
           <img
-            src={config?.logoIcon ? `${config.logoIcon.startsWith('http') ? '' : ''}${config.logoIcon.startsWith('http') ? config.logoIcon : `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/ruclub${config.logoIcon}`}` : `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/ruclub/static/assets/brand/logo_icon.png`}
+            src={config?.logoIcon ? storageUrl(config.logoIcon) : storageUrl('/static/assets/brand/logo_icon.png')}
             alt={config?.shortName || 'RU Club'}
             className="w-10 h-10 md:w-12 md:h-12 object-contain"
           />
@@ -34,13 +34,13 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
           </div>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8 mx-auto">
+        <nav className="hidden md:flex items-center gap-10 mx-auto">
           {navItems.map((item) => (
             <Link
               key={item.href}
               to={item.href}
               className={cn(
-                'text-sm font-medium transition-colors relative py-1',
+                'text-base font-semibold transition-colors relative py-1 tracking-wide',
                 location.pathname === item.href
                   ? 'text-brand-600 dark:text-brand-400'
                   : 'text-text-secondary dark:text-dark-text-secondary hover:text-text-primary dark:hover:text-dark-text-primary'

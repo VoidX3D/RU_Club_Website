@@ -15,13 +15,13 @@ export default function Missions() {
     <>
       <SEOHead title="Missions" />
 
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="pt-[70px] md:pt-[100px] py-20">
+        <div className="w-full px-4 sm:px-6">
           <div className="text-center mb-12">
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-brand-600 dark:text-brand-400 font-medium text-sm tracking-wider uppercase"
+              className="text-brand-600 dark:text-brand-400 font-semibold text-sm tracking-wider uppercase"
             >
               Our Work
             </motion.p>
@@ -37,7 +37,7 @@ export default function Missions() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="mt-3 text-lg text-text-secondary dark:text-dark-text-secondary max-w-2xl mx-auto"
+              className="mt-3 text-lg text-text-secondary dark:text-dark-text-secondary max-w-3xl mx-auto"
             >
               From park clean-ups to recycling workshops — see how we're making a difference.
             </motion.p>
@@ -50,7 +50,7 @@ export default function Missions() {
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
               {missions?.map((mission, i) => (
                 <motion.div
                   key={mission.id}
@@ -73,7 +73,7 @@ export default function Missions() {
                     <div className="p-6">
                       <div className="flex items-center gap-2 mb-2">
                         {mission.tag && (
-                          <span className="text-xs font-medium text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/50 px-2 py-0.5 rounded-full">
+                          <span className="text-xs font-semibold text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/50 px-2 py-0.5 rounded-full">
                             {mission.tag}
                           </span>
                         )}
@@ -98,7 +98,7 @@ export default function Missions() {
 
           {!loading && missions?.length === 0 && (
             <div className="text-center py-20">
-              <p className="text-text-muted dark:text-dark-text-muted">No missions published yet.</p>
+              <p className="text-base text-text-muted dark:text-dark-text-muted">No missions published yet.</p>
             </div>
           )}
         </div>

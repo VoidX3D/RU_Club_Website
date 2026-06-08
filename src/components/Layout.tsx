@@ -47,7 +47,7 @@ export default function Layout() {
     <SiteConfigProvider>
       <SEOHead />
       <Navbar theme={theme} toggleTheme={toggleTheme} />
-      <main className={isHome ? '' : 'pt-20 min-h-screen'}>
+      <main className={isHome ? '' : 'pt-[70px] md:pt-[100px] min-h-screen'}>
         <Outlet />
       </main>
       <Footer />

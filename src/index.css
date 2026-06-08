@@ -84,8 +84,9 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-.dark body,
-body.dark {
+:root.dark body,
+html.dark body,
+.dark body {
   background-color: var(--color-dark-surface);
   color: var(--color-dark-text-primary);
 }
@@ -95,12 +96,12 @@ body.dark {
   color: white;
 }
 
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-.scrollbar-hide {
-  -ms-overflow-style: none;
+html {
   scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+html::-webkit-scrollbar {
+  display: none;
 }
 
 .gradient-text {

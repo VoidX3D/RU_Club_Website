@@ -14,13 +14,13 @@ export default function Announcements() {
     <>
       <SEOHead title="Announcements" />
 
-      <section className="py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="pt-[70px] md:pt-[100px] py-20">
+        <div className="w-full px-4 sm:px-6">
           <div className="text-center mb-12">
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-brand-600 dark:text-brand-400 font-medium text-sm tracking-wider uppercase"
+              className="text-brand-600 dark:text-brand-400 font-semibold text-sm tracking-wider uppercase"
             >
               Updates
             </motion.p>
@@ -35,17 +35,17 @@ export default function Announcements() {
           </div>
 
           {loading ? (
-            <div className="space-y-4">
+            <div className="space-y-4 max-w-5xl mx-auto">
               {[1, 2, 3].map((i) => (
                 <div key={i} className="rounded-2xl bg-surface-secondary dark:bg-dark-surface-tertiary animate-pulse h-32" />
               ))}
             </div>
           ) : announcements?.length === 0 ? (
             <div className="text-center py-20">
-              <p className="text-text-muted dark:text-dark-text-muted">No announcements at this time.</p>
+              <p className="text-base text-text-muted dark:text-dark-text-muted">No announcements at this time.</p>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-4 max-w-5xl mx-auto">
               {announcements?.map((announcement, i) => (
                 <motion.div
                   key={announcement.id}
@@ -71,13 +71,13 @@ export default function Announcements() {
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2 mb-1.5">
                           {announcement.tag && (
-                            <span className="text-xs font-medium text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/50 px-2 py-0.5 rounded-full">
+                            <span className="text-xs font-semibold text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/50 px-2 py-0.5 rounded-full">
                               {announcement.tag}
                             </span>
                           )}
                           <span className="text-xs text-text-muted dark:text-dark-text-muted">{announcement.date}</span>
                           {announcement.status === 'urgent' && (
-                            <span className="text-xs font-medium text-red-500 bg-red-50 dark:bg-red-950/50 px-2 py-0.5 rounded-full">
+                            <span className="text-xs font-semibold text-red-500 bg-red-50 dark:bg-red-950/50 px-2 py-0.5 rounded-full">
                               Urgent
                             </span>
                           )}
