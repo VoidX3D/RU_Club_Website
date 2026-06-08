@@ -17,6 +17,7 @@ export const footerLinks: FooterLink[] = [
   { label: 'Gallery', href: '/gallery', section: 'quick' },
   { label: 'Members', href: '/members', section: 'quick' },
   { label: 'Contact', href: '/contact', section: 'quick' },
+  { label: 'Admin Panel', href: '/admin', section: 'quick' },
   { label: 'Privacy Policy', href: '/privacy', section: 'legal' },
   { label: 'Cookie Policy', href: '/consent', section: 'legal' },
   { label: 'License', href: '/license', section: 'legal' },
