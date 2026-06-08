@@ -20,9 +20,19 @@ export default function Contact() {
     setSubmitting(true)
     setError('')
     try {
-      const { error: err } = await submitContactForm(formData)
-      if (err) {
-        setError(err.message)
+      const [dbResult] = await Promise.allSettled([
+        submitContactForm(formData),
+        fetch('https://formspree.io/f/xjgzzwej', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(formData),
+        }),
+      ])
+      if (dbResult.status === 'rejected' || (dbResult.status === 'fulfilled' && dbResult.value?.error)) {
+        const msg = dbResult.status === 'rejected'
+          ? dbResult.reason?.message || 'Failed to send message.'
+          : dbResult.value?.error?.message || 'Failed to send message.'
+        setError(msg)
         setSubmitting(false)
         return
       }
