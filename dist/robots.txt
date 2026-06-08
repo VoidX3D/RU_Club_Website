@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ruclubmss.vercel.app/sitemap.xml

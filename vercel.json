@@ -1,6 +1,11 @@
 {
-  "buildCommand": "cp -r src/* .",
-  "outputDirectory": ".",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/admin", "destination": "https://ru-admin-site.vercel.app/", "permanent": false },
+    { "source": "/admin/(.*)", "destination": "https://ru-admin-site.vercel.app/", "permanent": false }
+  ],
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }

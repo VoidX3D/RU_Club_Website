@@ -1,0 +1,189 @@
+import { useEffect, useState, useRef } from 'react'
+import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
+import { getMissionList, getMissionImages } from '@/lib/supabase'
+import SEOHead from '@/components/SEOHead'
+import type { MissionEntry, GalleryImage } from '@/types'
+
+interface MissionGroup {
+  mission: MissionEntry
+  images: GalleryImage[]
+}
+
+async function loadGroupedMissions(entries: MissionEntry[]): Promise<MissionGroup[]> {
+  const groups: MissionGroup[] = []
+  for (const m of entries) {
+    const imgs = await getMissionImages(m.id)
+    if (imgs && imgs.length > 0) {
+      groups.push({
+        mission: m,
+        images: imgs.map((img) => ({
+          id: img.id,
+          url: img.url,
+          alt: img.alt,
+          missionTitle: m.title,
+          missionSlug: m.slug,
+          downloadUrl: img.url,
+        })),
+      })
+    }
+  }
+  return groups
+}
+
+export default function Gallery() {
+  const [groups, setGroups] = useState<MissionGroup[]>([])
+  const [loading, setLoading] = useState(true)
+  const [lightboxGroupIdx, setLightboxGroupIdx] = useState(-1)
+  const [lightboxImageIdx, setLightboxImageIdx] = useState(0)
+  const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({})
+  const totalImages = groups.reduce((sum, g) => sum + g.images.length, 0)
+
+  useEffect(() => {
+    getMissionList().then(async (data) => {
+      if (!data) { setLoading(false); return }
+      const grouped = await loadGroupedMissions(data)
+      setGroups(grouped)
+      setLoading(false)
+    })
+  }, [])
+
+  const openLightbox = (gIdx: number, iIdx: number) => {
+    setLightboxGroupIdx(gIdx)
+    setLightboxImageIdx(iIdx)
+  }
+  const closeLightbox = () => setLightboxGroupIdx(-1)
+
+  const currentGroup = lightboxGroupIdx >= 0 ? groups[lightboxGroupIdx] : null
+  const currentImg = currentGroup ? currentGroup.images[lightboxImageIdx] : null
+
+  const handleDownload = async (url: string, filename: string) => {
+    try {
+      const res = await fetch(url)
+      const blob = await res.blob()
+      const blobUrl = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = blobUrl
+      a.download = filename
+      a.click()
+      URL.revokeObjectURL(blobUrl)
+    } catch {
+      window.open(url, '_blank')
+    }
+  }
+
+  return (
+    <>
+      <SEOHead title="Gallery" />
+
+      <section className="py-20">
+        <div className="w-full px-4 sm:px-6">
+          <div className="text-center mb-12">
+            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-brand-600 dark:text-brand-400 font-semibold text-xs tracking-wider uppercase">Moments</motion.p>
+            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mt-1 text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary">Photo Gallery</motion.h1>
+            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="mt-2 text-base text-text-secondary dark:text-dark-text-secondary">{groups.length} missions &middot; {totalImages} images</motion.p>
+          </div>
+
+          {loading ? (
+            <div className="space-y-12 max-w-7xl mx-auto">
+              {[1, 2, 3].map((g) => (
+                <div key={g}>
+                  <div className="h-5 w-48 bg-surface-secondary dark:bg-dark-surface-tertiary rounded animate-pulse mb-4" />
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                    {[1, 2, 3, 4].map((i) => (
+                      <div key={i} className="aspect-[4/3] rounded-xl bg-surface-secondary dark:bg-dark-surface-tertiary animate-pulse" />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : groups.length === 0 ? (
+            <div className="text-center py-20">
+              <p className="text-base text-text-muted dark:text-dark-text-muted">No images available yet.</p>
+            </div>
+          ) : (
+            <div className="max-w-7xl mx-auto space-y-14">
+              {groups.map((group, gIdx) => (
+                <div key={group.mission.id} ref={(el) => { sectionRefs.current[group.mission.id] = el }}>
+                  <div className="flex items-end justify-between mb-5" data-aos="fade-up">
+                    <div>
+                      <Link to={`/mission/${group.mission.slug}`} className="inline-flex items-center gap-2 group/link">
+                        <h2 className="text-2xl sm:text-3xl font-display font-bold text-text-primary dark:text-dark-text-primary group-hover/link:text-brand-600 transition-colors">{group.mission.title}</h2>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-text-muted group-hover/link:text-brand-600 transition-colors"><polyline points="9 18 15 12 9 6"/></svg>
+                      </Link>
+                      <p className="text-xs text-text-muted dark:text-dark-text-muted mt-0.5">{group.images.length} image{group.images.length > 1 ? 's' : ''}{group.mission.date ? ` · ${group.mission.date}` : ''}</p>
+                    </div>
+                  </div>
+                  <div data-aos="fade-up" data-aos-delay="50" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                    {group.images.map((img, iIdx) => (
+                      <motion.button
+                        key={img.id}
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: iIdx * 0.05 }}
+                        onClick={() => openLightbox(gIdx, iIdx)}
+                        className="group relative aspect-[4/3] rounded-xl overflow-hidden bg-surface-tertiary dark:bg-dark-surface-tertiary cursor-pointer"
+                      >
+                        <img
+                          src={img.url}
+                          alt={img.alt}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
+                          <span className="text-white text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity px-2 text-center line-clamp-1">{img.alt}</span>
+                        </div>
+                      </motion.button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {currentImg && currentGroup && (
+        <div className="fixed inset-0 z-50 bg-black/95 flex flex-col" onClick={closeLightbox}>
+          <div className="flex items-center justify-between px-4 sm:px-6 py-3 shrink-0" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center gap-3 min-w-0">
+              <Link to={`/mission/${currentGroup.mission.slug}`} className="text-sm text-white/70 hover:text-white truncate hover:underline">{currentGroup.mission.title}</Link>
+              <span className="text-white/40 text-xs shrink-0">{lightboxImageIdx + 1} / {currentGroup.images.length}</span>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                onClick={() => handleDownload(currentImg.downloadUrl, `${currentGroup.mission.slug}-${lightboxImageIdx + 1}.jpg`)}
+                className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors cursor-pointer"
+                title="Download"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </button>
+              <button onClick={closeLightbox} className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors cursor-pointer" title="Close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+          </div>
+          <div className="flex-1 flex items-center justify-center p-4 min-h-0" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={(e) => { e.stopPropagation(); setLightboxImageIdx((prev) => prev > 0 ? prev - 1 : currentGroup.images.length - 1) }}
+              className="absolute left-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors cursor-pointer z-10"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <img
+              src={currentImg.url}
+              alt={currentImg.alt}
+              className="max-h-full max-w-full object-contain rounded-lg"
+            />
+            <button
+              onClick={(e) => { e.stopPropagation(); setLightboxImageIdx((prev) => prev < currentGroup.images.length - 1 ? prev + 1 : 0) }}
+              className="absolute right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors cursor-pointer z-10"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+        </div>
+      )}
+    </>
+  )
+}
