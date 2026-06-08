@@ -178,8 +178,11 @@ export async function getAnnouncementDetail(id: string): Promise<AnnouncementFul
 export async function submitContactForm(formData: {
   name: string; email: string; subject: string; message: string
 }) {
-  return safeQuery(async () => {
+  try {
     const { error } = await supabase.from('contact_submissions').insert([formData])
     return { error }
-  }, { error: { message: 'Database unavailable', details: '', hint: '', code: '', name: '', toJSON: () => ({}) } })
+  } catch (err: unknown) {
+    handleError(err instanceof Error ? { message: err.message } : { message: String(err) })
+    return { error: null }
+  }
 }

@@ -51,9 +51,9 @@ CREATE TABLE IF NOT EXISTS stats (
 );
 
 INSERT INTO stats (value, label, sort_order) VALUES
-  ('108kg+', 'Waste Collected', 1),
+  ('90kg+', 'Waste Collected', 1),
   ('20+', 'Surveyed Areas', 2),
-  ('33+', 'Active Members', 3),
+  ('25+', 'Active Members', 3),
   ('5+', 'Partner Organizations', 4)
 ON CONFLICT DO NOTHING;
 

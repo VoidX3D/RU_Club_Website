@@ -49,9 +49,9 @@ async function seed() {
 
   // --- Stats ---
   const { error: statsErr } = await supabase.from('stats').upsert([
-    { value: '108kg+', label: 'Waste Collected', sort_order: 1 },
+    { value: '90kg+', label: 'Waste Collected', sort_order: 1 },
     { value: '20+', label: 'Surveyed Areas', sort_order: 2 },
-    { value: '33+', label: 'Active Members', sort_order: 3 },
+    { value: '25+', label: 'Active Members', sort_order: 3 },
     { value: '5+', label: 'Partner Organizations', sort_order: 4 },
   ], { onConflict: 'id' })
   if (statsErr) console.error('Stats error:', statsErr.message)
