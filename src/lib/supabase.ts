@@ -181,5 +181,5 @@ export async function submitContactForm(formData: {
   return safeQuery(async () => {
     const { error } = await supabase.from('contact_submissions').insert([formData])
     return { error }
-  }, { error: { message: 'Database unavailable', details: '', hint: '', code: '', toJSON: () => ({}) } })
+  }, { error: { message: 'Database unavailable', details: '', hint: '', code: '', name: '', toJSON: () => ({}) } })
 }
