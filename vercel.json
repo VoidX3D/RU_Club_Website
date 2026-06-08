@@ -3,5 +3,9 @@
   "outputDirectory": "dist",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/admin", "destination": "https://ru-admin-site.vercel.app/", "permanent": false },
+    { "source": "/admin/(.*)", "destination": "https://ru-admin-site.vercel.app/", "permanent": false }
+  ],
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
