@@ -24,7 +24,7 @@ export default function MissionDetail() {
       if (imgs) {
         setImages(imgs.map((i) => i.url))
       } else if (info?.images) {
-        setImages(info.images.map((f) => `/static/assets/mission/${slug}/${f}`))
+        setImages(info.images)
       }
       setLoading(false)
     }).catch(() => setLoading(false))
@@ -49,7 +49,7 @@ export default function MissionDetail() {
     return (
       <div className="pt-16 min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-display font-bold text-text-primary dark:text-dark-text-primary">Mission not found</h1>
+          <h1 className="text-3xl font-display font-bold text-text-primary dark:text-dark-text-primary">Mission not found</h1>
           <Link to="/missions" className="mt-4 inline-flex text-brand-600 hover:underline">Back to missions</Link>
         </div>
       </div>
@@ -66,8 +66,7 @@ export default function MissionDetail() {
       <SEOHead
         title={mission.title}
         description={mission.description}
-        image={images[0] || mission.images?.[0] || '/static/assets/brand/logo.png'}
-        url={`https://ru.motherland.edu.np/mission/${mission.slug}`}
+        image={images[0] || mission.images?.[0] || undefined}
       />
 
       <article className="pt-16 min-h-screen">
@@ -97,17 +96,17 @@ export default function MissionDetail() {
               )}
             </div>
 
-            <h1 className="text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary mb-4">
+            <h1 className="text-4xl sm:text-5xl font-display font-bold text-text-primary dark:text-dark-text-primary mb-4">
               {mission.title}
             </h1>
 
-            <p className="text-lg text-text-secondary dark:text-dark-text-secondary leading-relaxed mb-8">
+            <p className="text-xl text-text-secondary dark:text-dark-text-secondary leading-relaxed mb-8">
               {mission.description}
             </p>
 
             {mission.detail && (
               <div className="prose prose-lg dark:prose-invert max-w-none mb-8">
-                <p className="text-text-secondary dark:text-dark-text-secondary leading-relaxed whitespace-pre-line">
+                <p className="text-text-secondary dark:text-dark-text-secondary leading-relaxed whitespace-pre-line text-lg">
                   {mission.detail}
                 </p>
               </div>
@@ -131,7 +130,7 @@ export default function MissionDetail() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <h2 className="text-xl font-display font-semibold text-text-primary dark:text-dark-text-primary mb-4">
+              <h2 className="text-2xl font-display font-semibold text-text-primary dark:text-dark-text-primary mb-4">
                 Gallery
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">

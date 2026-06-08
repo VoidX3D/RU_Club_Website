@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS site_config (
   email text not null default 'ruclubmotherland@gmail.com',
   phone text not null default '+977 9856022256',
   location jsonb not null default '{"school":"Motherland Secondary School","city":"Pokhara","ward":"Pokhara Metropolitan City - 7","district":"Kaski","province":"Gandaki Province","country":"Nepal"}',
-  social jsonb not null default '{"facebook":"https://facebook.com/profile.php?id=61585206314774","instagram":"https://instagram.com/rucl.ub/"}',
+  social jsonb not null default '{"facebook":"https://facebook.com/profile.php?id=61585206314774","instagram":"https://instagram.com/sincerebhattarai/"}',
   github text not null default 'https://github.com/RU-Club-Motherland',
   copyright text not null default '2026',
   managed_by text not null default 'Motherland Secondary School',
@@ -85,8 +85,40 @@ CREATE TABLE IF NOT EXISTS members (
   updated_at timestamptz default now()
 );
 
-INSERT INTO members (id) VALUES (1)
-ON CONFLICT DO NOTHING;
+INSERT INTO members (id, teachers, core, general, stats) VALUES (1, '[
+  {"name": "Narayan Baral", "role": "Patron", "type": "patron"},
+  {"name": "Ananda Sharma", "role": "Advisor", "type": "advisor"},
+  {"name": "Srijana Gautam Acharya", "role": "Advisor", "type": "advisor"}
+]', '[
+  {"name": "Anuradha Sharma", "class": "8B", "role": "Club Coordinator \\u0026 Act. Event Lead", "type": "coord"},
+  {"name": "Anmol Lamichhane", "class": "7B", "role": "Campaign Lead", "type": "coord"},
+  {"name": "Aawishkar Pandit", "class": "9B", "role": "Content \\u0026 Act. Documentation Coordinator", "type": "coord"},
+  {"name": "Bibek Neupane", "class": "9D", "role": "Logistics Coordinator", "type": "coord"},
+  {"name": "Ojasvi Tripathi", "class": "8B", "role": "DIY Lead", "type": "coord"},
+  {"name": "Sincere Bhattarai", "class": "10C", "role": "Event Lead", "type": "coord"}
+]', '[
+  {"name": "Sailesh Tiwari", "class": "6B", "role": "General Member"},
+  {"name": "Kritika Acharya", "class": "8B", "role": "General Member"},
+  {"name": "Anamika Dhakal", "class": "8A", "role": "General Member"},
+  {"name": "Riya Khadka", "class": "8B", "role": "General Member"},
+  {"name": "Alice Gurung", "class": "8A", "role": "General Member"},
+  {"name": "Grace Gurung", "class": "8B", "role": "General Member"},
+  {"name": "Soniya Bhandari", "class": "8B", "role": "General Member"},
+  {"name": "Subham Rai", "class": "8A", "role": "General Member"},
+  {"name": "Kriti Shrestha", "class": "6A", "role": "General Member"},
+  {"name": "Richa Acharya", "class": "7B", "role": "General Member"},
+  {"name": "Khushbu Paudel", "class": "7B", "role": "General Member"},
+  {"name": "Binita Chhetri", "class": "7B", "role": "General Member"},
+  {"name": "Salina Chhetri", "class": "7B", "role": "General Member"},
+  {"name": "Prinsa Gurung", "class": "7B", "role": "General Member"},
+  {"name": "Karan Rawat", "class": "8A", "role": "General Member"},
+  {"name": "Ayush Raut", "class": "8A", "role": "General Member"},
+  {"name": "Anish Basnet", "class": "8A", "role": "General Member"},
+  {"name": "Nischal Poudel", "class": "9D", "role": "General Member"},
+  {"name": "Ayush Chhetri", "class": "8B", "role": "General Member"},
+  {"name": "Sagar Tamang", "class": "8B", "role": "General Member"},
+  {"name": "Anjali Gurung", "class": "8B", "role": "General Member"}
+]', '{"teachers":3,"core":6,"general":21,"total":30}') ON CONFLICT DO NOTHING;
 
 -- 6. missions
 CREATE TABLE IF NOT EXISTS missions (
@@ -131,7 +163,8 @@ CREATE TABLE IF NOT EXISTS mission_images (
   mission_id text not null references missions(id) on delete cascade,
   url text not null,
   alt text not null default '',
-  sort_order int not null default 0
+  sort_order int not null default 0,
+  UNIQUE(mission_id, url)
 );
 
 -- 8. announcements

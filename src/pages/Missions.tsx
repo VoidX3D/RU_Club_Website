@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useCallback } from 'react'
 import { getMissionList } from '@/lib/supabase'
 import { useSiteData } from '@/hooks/useSiteData'
+import { storageUrl } from '@/lib/utils'
 import SEOHead from '@/components/SEOHead'
 import type { MissionEntry } from '@/types'
 
@@ -12,11 +13,7 @@ export default function Missions() {
 
   return (
     <>
-      <SEOHead
-        title="Missions"
-        description="Explore our environmental missions — tree plantation, waste management, and community education initiatives."
-        url="https://ru.motherland.edu.np/missions"
-      />
+      <SEOHead title="Missions" />
 
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -32,7 +29,7 @@ export default function Missions() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="mt-2 text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary"
+              className="mt-2 text-4xl sm:text-5xl font-display font-bold text-text-primary dark:text-dark-text-primary"
             >
               Environmental Missions
             </motion.h1>
@@ -40,7 +37,7 @@ export default function Missions() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="mt-3 text-text-secondary dark:text-dark-text-secondary max-w-2xl mx-auto"
+              className="mt-3 text-lg text-text-secondary dark:text-dark-text-secondary max-w-2xl mx-auto"
             >
               From park clean-ups to recycling workshops — see how we're making a difference.
             </motion.p>
@@ -67,13 +64,13 @@ export default function Missions() {
                   >
                     <div className="aspect-video overflow-hidden bg-surface-tertiary dark:bg-dark-surface-tertiary">
                       <img
-                        src={mission.featured || '/static/assets/brand/logo.png'}
+                        src={mission.featured || storageUrl('/static/assets/brand/logo.png')}
                         alt={mission.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         loading="lazy"
                       />
                     </div>
-                    <div className="p-5">
+                    <div className="p-6">
                       <div className="flex items-center gap-2 mb-2">
                         {mission.tag && (
                           <span className="text-xs font-medium text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/50 px-2 py-0.5 rounded-full">
@@ -86,10 +83,10 @@ export default function Missions() {
                           </span>
                         )}
                       </div>
-                      <h3 className="font-display font-semibold text-lg text-text-primary dark:text-dark-text-primary group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                      <h3 className="font-display font-semibold text-xl text-text-primary dark:text-dark-text-primary group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
                         {mission.title}
                       </h3>
-                      <p className="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary line-clamp-2">
+                      <p className="mt-1.5 text-base text-text-secondary dark:text-dark-text-secondary line-clamp-2">
                         {mission.description}
                       </p>
                     </div>

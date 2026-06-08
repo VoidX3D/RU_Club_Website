@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react'
 import { grantConsent, denyConsent } from '@/lib/analytics'
+import { useSiteConfig } from '@/hooks/useSiteConfig'
 
 export default function CookieConsent() {
   const [visible, setVisible] = useState(false)
+  const config = useSiteConfig()
+
+  const cookieConfig = config?.cookie || { title: 'We value your privacy', text: 'This site uses cookies from Google Analytics to analyze traffic. No personal data is sold or shared.' }
 
   useEffect(() => {
     const consent = localStorage.getItem('cookie-consent')
@@ -33,10 +37,10 @@ export default function CookieConsent() {
           </svg>
           <div>
             <h3 className="font-display font-semibold text-text-primary dark:text-dark-text-primary">
-              We value your privacy
+              {cookieConfig.title}
             </h3>
             <p className="text-sm text-text-secondary dark:text-dark-text-secondary mt-1 leading-relaxed">
-              This site uses cookies from Google Analytics to analyze traffic. No personal data is sold or shared.
+              {cookieConfig.text}
             </p>
           </div>
         </div>

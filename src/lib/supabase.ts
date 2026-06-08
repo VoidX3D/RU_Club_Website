@@ -10,6 +10,10 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
+const STORAGE_BASE = supabaseUrl
+  ? `${supabaseUrl}/storage/v1/object/public/ruclub`
+  : ''
+
 function handleError(error: { message?: string; code?: string } | null): void {
   if (!error) return
   const msg = error.message || ''
@@ -20,19 +24,14 @@ function handleError(error: { message?: string; code?: string } | null): void {
   console.error('Supabase error:', msg)
 }
 
-const STORAGE_BASE = supabaseUrl
-  ? `${supabaseUrl}/storage/v1/object/public`
-  : ''
-
 export function getImageUrl(path?: string | null): string | undefined {
   if (!path) return undefined
-  return `${STORAGE_BASE}/ruclub${path}` || path
+  if (path.startsWith('http')) return path
+  return `${STORAGE_BASE}${path}`
 }
 
 export function getMissionImageUrl(missionId: string, filename: string): string {
-  const storageUrl = `${STORAGE_BASE}/ruclub/static/assets/mission/${missionId}/${filename}`
-  const localUrl = `/static/assets/mission/${missionId}/${filename}`
-  return supabaseUrl ? storageUrl : localUrl
+  return `${STORAGE_BASE}/static/assets/mission/${missionId}/${filename}`
 }
 
 async function safeQuery<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
@@ -91,7 +90,11 @@ export async function getStats(): Promise<Stat[] | null> {
 export async function getPartners(): Promise<Partner[] | null> {
   return safeQuery(async () => {
     const { data } = await supabase.from('partners').select('src, alt, name').order('sort_order')
-    return data as Partner[] | null
+    if (!data) return null
+    return data.map((p: { src: string; alt: string; name: string }) => ({
+      ...p,
+      src: getImageUrl(p.src) || p.src,
+    })) as Partner[]
   }, null)
 }
 
@@ -126,10 +129,12 @@ export async function getMissionInfo(slug: string): Promise<MissionInfo | null> 
   return safeQuery(async () => {
     const { data } = await supabase.from('missions').select('*').eq('slug', slug).single()
     if (!data) return null
+    const rawImages = (data.images || []) as string[]
     return {
       id: data.id, title: data.title, slug: data.slug, tag: data.tag,
       date: data.date, description: data.description, detail: data.detail,
-      images: data.images || [], stats: data.stats as Record<string, string> | undefined,
+      images: rawImages.map((f) => getMissionImageUrl(data.slug, f)),
+      stats: data.stats as Record<string, string> | undefined,
       partners: data.partners as string[] | undefined, show: data.show,
     }
   }, null)

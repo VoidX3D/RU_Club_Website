@@ -40,7 +40,7 @@ export default function Members() {
       >
         <div className="mb-6">
           <p className="text-brand-600 dark:text-brand-400 font-medium text-sm tracking-wider uppercase">{cfg.label}</p>
-          <h2 className="text-2xl sm:text-3xl font-display font-bold text-text-primary dark:text-dark-text-primary mt-1">{cfg.title}</h2>
+          <h2 className="text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary mt-1">{cfg.title}</h2>
         </div>
 
         <div className="overflow-hidden rounded-2xl border border-border dark:border-dark-border bg-white dark:bg-dark-surface-secondary">
@@ -59,18 +59,20 @@ export default function Members() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border dark:divide-dark-border">
-                {items.map((member: Member, i: number) => (
-                  <tr
-                    key={member.name}
-                    className="hover:bg-surface-secondary dark:hover:bg-dark-surface-tertiary transition-colors"
-                  >
-                    <td className="px-4 py-3">
-                      <span className="text-sm text-text-muted dark:text-dark-text-muted font-mono">
-                        {String(i + 1).padStart(2, '0')}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3">
-                          {member.name === 'Sincere Bhattarai' ? (
+                {items.map((member: Member, i: number) => {
+                  const isDev = member.name === 'Sincere Bhattarai'
+                  return (
+                    <tr
+                      key={member.name}
+                      className="hover:bg-surface-secondary dark:hover:bg-dark-surface-tertiary transition-colors"
+                    >
+                      <td className="px-4 py-3">
+                        <span className="text-sm text-text-muted dark:text-dark-text-muted font-mono">
+                          {String(i + 1).padStart(2, '0')}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3">
+                          {isDev ? (
                             <Link to="/secret-garden" className="text-sm font-medium text-brand-600 dark:text-brand-400 hover:underline">
                               {member.name}
                             </Link>
@@ -80,24 +82,25 @@ export default function Members() {
                             </span>
                           )}
                         </td>
-                    {hasClass && (
-                      <td className="px-4 py-3">
-                        <span className="text-sm text-text-secondary dark:text-dark-text-secondary">{member.class || '-'}</span>
-                      </td>
-                    )}
-                    <td className="px-4 py-3">
-                      {member.name === 'Sincere Bhattarai' ? (
-                        <span className="inline-flex text-xs font-medium px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">
-                          Developer &amp; Event Lead
-                        </span>
-                      ) : (
-                        <span className={`inline-flex text-xs font-medium px-2 py-0.5 rounded-full ${roleStyles[member.type || 'member'] || roleStyles.member}`}>
-                          {member.role}
-                        </span>
+                      {hasClass && (
+                        <td className="px-4 py-3">
+                          <span className="text-sm text-text-secondary dark:text-dark-text-secondary">{member.class || '-'}</span>
+                        </td>
                       )}
-                    </td>
-                  </tr>
-                ))}
+                      <td className="px-4 py-3">
+                        {isDev ? (
+                          <span className="inline-flex text-xs font-medium px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">
+                            Developer &amp; Event Lead
+                          </span>
+                        ) : (
+                          <span className={`inline-flex text-xs font-medium px-2 py-0.5 rounded-full ${roleStyles[member.type || 'member'] || roleStyles.member}`}>
+                            {member.role}
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                  )
+                })}
               </tbody>
             </table>
           </div>
@@ -108,11 +111,7 @@ export default function Members() {
 
   return (
     <>
-      <SEOHead
-        title="Members"
-        description="Meet the teachers, core team, and general members of RU Club Motherland."
-        url="https://ru.motherland.edu.np/members"
-      />
+      <SEOHead title="Members" />
 
       <section className="py-20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -128,7 +127,7 @@ export default function Members() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="mt-2 text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary"
+              className="mt-2 text-4xl sm:text-5xl font-display font-bold text-text-primary dark:text-dark-text-primary"
             >
               Meet the Members
             </motion.h1>
@@ -137,9 +136,9 @@ export default function Members() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
-                className="mt-3 text-text-secondary dark:text-dark-text-secondary"
+                className="mt-3 text-lg text-text-secondary dark:text-dark-text-secondary"
               >
-                {members.stats.total} members · {members.stats.teachers} teachers · {members.stats.core} core · {members.stats.general} general
+                {members.stats.total} members &middot; {members.stats.teachers} teachers &middot; {members.stats.core} core &middot; {members.stats.general} general
               </motion.p>
             )}
           </div>

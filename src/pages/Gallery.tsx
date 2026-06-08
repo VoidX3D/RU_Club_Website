@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useCallback } from 'react'
 import { getMissionList } from '@/lib/supabase'
 import { useSiteData } from '@/hooks/useSiteData'
+import { storageUrl } from '@/lib/utils'
 import SEOHead from '@/components/SEOHead'
 import type { MissionEntry } from '@/types'
 
@@ -12,11 +13,7 @@ export default function Gallery() {
 
   return (
     <>
-      <SEOHead
-        title="Gallery"
-        description="Browse our photo gallery showcasing environmental missions, events, and activities."
-        url="https://ru.motherland.edu.np/gallery"
-      />
+      <SEOHead title="Gallery" />
 
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -32,7 +29,7 @@ export default function Gallery() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="mt-2 text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary"
+              className="mt-2 text-4xl sm:text-5xl font-display font-bold text-text-primary dark:text-dark-text-primary"
             >
               Photo Gallery
             </motion.h1>
@@ -40,7 +37,7 @@ export default function Gallery() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="mt-3 text-text-secondary dark:text-dark-text-secondary"
+              className="mt-3 text-lg text-text-secondary dark:text-dark-text-secondary"
             >
               A visual journey through our environmental initiatives.
             </motion.p>
@@ -67,26 +64,21 @@ export default function Gallery() {
                   >
                     <div className="aspect-[4/3] overflow-hidden bg-surface-tertiary dark:bg-dark-surface-tertiary">
                       <img
-                        src={mission.featured || '/static/assets/brand/logo.png'}
+                        src={mission.featured || storageUrl('/static/assets/brand/logo.png')}
                         alt={mission.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         loading="lazy"
                       />
                     </div>
-                    <div className="p-4">
+                    <div className="p-5">
                       <div className="flex items-center gap-2 mb-1">
                         {mission.tag && (
                           <span className="text-xs font-medium text-brand-600 dark:text-brand-400">
                             {mission.tag}
                           </span>
                         )}
-                        {mission.imageCount && (
-                          <span className="text-xs text-text-muted dark:text-dark-text-muted">
-                            {mission.imageCount} photos
-                          </span>
-                        )}
                       </div>
-                      <h3 className="font-display font-semibold text-text-primary dark:text-dark-text-primary group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                      <h3 className="font-display font-semibold text-lg text-text-primary dark:text-dark-text-primary group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
                         {mission.title}
                       </h3>
                     </div>

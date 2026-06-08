@@ -12,3 +12,13 @@ export function formatDate(date: string) {
     day: 'numeric',
   })
 }
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || ''
+const STORAGE_BASE = supabaseUrl
+  ? `${supabaseUrl}/storage/v1/object/public/ruclub`
+  : ''
+
+export function storageUrl(path: string): string {
+  if (!path || path.startsWith('http')) return path
+  return `${STORAGE_BASE}${path}`
+}

@@ -12,11 +12,7 @@ export default function Announcements() {
 
   return (
     <>
-      <SEOHead
-        title="Announcements"
-        description="Stay updated with the latest announcements from RU Club Motherland."
-        url="https://ru.motherland.edu.np/announcements"
-      />
+      <SEOHead title="Announcements" />
 
       <section className="py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -32,7 +28,7 @@ export default function Announcements() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="mt-2 text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary"
+              className="mt-2 text-4xl sm:text-5xl font-display font-bold text-text-primary dark:text-dark-text-primary"
             >
               Announcements
             </motion.h1>
@@ -86,10 +82,10 @@ export default function Announcements() {
                             </span>
                           )}
                         </div>
-                        <h2 className="font-display font-semibold text-lg text-text-primary dark:text-dark-text-primary group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                        <h2 className="font-display font-semibold text-xl text-text-primary dark:text-dark-text-primary group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
                           {announcement.title}
                         </h2>
-                        <p className="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary line-clamp-2">
+                        <p className="mt-1 text-base text-text-secondary dark:text-dark-text-secondary line-clamp-2">
                           {announcement.summary}
                         </p>
                       </div>

@@ -24,7 +24,7 @@ export default function AnnouncementDetail() {
   if (loading) {
     return (
       <div className="pt-16 min-h-screen">
-        <div className="max-w-3xl mx-auto px-4 py-12">
+        <div className="max-w-4xl mx-auto px-4 py-12">
           <div className="animate-pulse space-y-6">
             <div className="h-8 bg-surface-secondary dark:bg-dark-surface-tertiary rounded w-1/2" />
             <div className="h-4 bg-surface-secondary dark:bg-dark-surface-tertiary rounded w-1/3" />
@@ -39,7 +39,7 @@ export default function AnnouncementDetail() {
     return (
       <div className="pt-16 min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-display font-bold text-text-primary dark:text-dark-text-primary">Announcement not found</h1>
+          <h1 className="text-3xl font-display font-bold text-text-primary dark:text-dark-text-primary">Announcement not found</h1>
           <Link to="/announcements" className="mt-4 inline-flex text-brand-600 hover:underline">Back to announcements</Link>
         </div>
       </div>
@@ -51,12 +51,11 @@ export default function AnnouncementDetail() {
       <SEOHead
         title={announcement.title}
         description={announcement.summary}
-        image={announcement.image || '/static/assets/brand/logo.png'}
-        url={`https://ru.motherland.edu.np/announcement/${announcement.id}`}
+        image={announcement.image || undefined}
       />
 
       <article className="pt-16 min-h-screen">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <Link
             to="/announcements"
             className="inline-flex items-center gap-2 text-sm text-text-secondary dark:text-dark-text-secondary hover:text-brand-600 dark:hover:text-brand-400 transition-colors mb-6"
@@ -84,7 +83,7 @@ export default function AnnouncementDetail() {
               )}
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-display font-bold text-text-primary dark:text-dark-text-primary mb-4">
+            <h1 className="text-4xl sm:text-5xl font-display font-bold text-text-primary dark:text-dark-text-primary mb-4">
               {announcement.title}
             </h1>
 
@@ -130,12 +129,12 @@ export default function AnnouncementDetail() {
             )}
 
             <div className="prose prose-lg dark:prose-invert max-w-none">
-              <p className="text-lg font-medium text-text-primary dark:text-dark-text-primary mb-4">
+              <p className="text-xl font-medium text-text-primary dark:text-dark-text-primary mb-4">
                 {announcement.summary}
               </p>
 
               {announcement.description && (
-                <p className="text-text-secondary dark:text-dark-text-secondary leading-relaxed whitespace-pre-line">
+                <p className="text-text-secondary dark:text-dark-text-secondary leading-relaxed whitespace-pre-line text-lg">
                   {announcement.description}
                 </p>
               )}

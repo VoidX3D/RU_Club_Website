@@ -4,6 +4,7 @@ import Footer from './layout/Footer'
 import CookieConsent from './CookieConsent'
 import { useTheme } from '@/hooks/useTheme'
 import { usePageTracking } from '@/hooks/usePageTracking'
+import { SiteConfigProvider } from '@/hooks/useSiteConfig'
 import SEOHead from './SEOHead'
 import { useEffect } from 'react'
 import AOS from 'aos'
@@ -13,6 +14,8 @@ export default function Layout() {
   const { theme, toggleTheme } = useTheme()
   const location = useLocation()
   usePageTracking()
+
+  const isSecretGarden = location.pathname === '/secret-garden'
 
   useEffect(() => {
     AOS.init({
@@ -24,14 +27,24 @@ export default function Layout() {
   }, [])
 
   useEffect(() => {
-    AOS.refresh()
-    window.scrollTo(0, 0)
+    if (!isSecretGarden) {
+      AOS.refresh()
+      window.scrollTo(0, 0)
+    }
   }, [location.pathname])
 
   const isHome = location.pathname === '/'
 
+  if (isSecretGarden) {
+    return (
+      <SiteConfigProvider>
+        <Outlet />
+      </SiteConfigProvider>
+    )
+  }
+
   return (
-    <>
+    <SiteConfigProvider>
       <SEOHead />
       <Navbar theme={theme} toggleTheme={toggleTheme} />
       <main className={isHome ? '' : 'pt-20 min-h-screen'}>
@@ -39,6 +52,6 @@ export default function Layout() {
       </main>
       <Footer />
       <CookieConsent />
-    </>
+    </SiteConfigProvider>
   )
 }

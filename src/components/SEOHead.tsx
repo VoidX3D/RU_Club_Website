@@ -1,4 +1,6 @@
 import { Helmet } from 'react-helmet-async'
+import { storageUrl } from '@/lib/utils'
+import { useSiteConfig } from '@/hooks/useSiteConfig'
 
 interface SEOHeadProps {
   title?: string
@@ -9,27 +11,42 @@ interface SEOHeadProps {
 }
 
 export default function SEOHead({
-  title = 'RU Club Motherland | Environmental Sustainability Club in Pokhara',
-  description = 'RU Club Motherland is an environmental sustainability club at Motherland Secondary School, Pokhara. Transforming awareness into action through tree plantation, waste management, and education.',
-  image = '/static/assets/brand/logo.png',
-  url = 'https://ru.motherland.edu.np',
+  title,
+  description,
+  image,
+  url,
   type = 'website',
 }: SEOHeadProps) {
-  const fullTitle = title.includes('|') ? title : `${title} | RU Club Motherland`
+  const config = useSiteConfig()
+
+  const siteName = config?.name || 'RU Club Motherland'
+  const siteTagline = config?.tagline || 'Environmental Sustainability Club in Pokhara'
+  const siteDesc = config?.description || 'Environmental sustainability club at Motherland Secondary School, Pokhara.'
+  const siteUrl = config?.url || 'https://ruclubmss.vercel.app'
+  const siteImage = storageUrl(config?.logo || '/static/assets/brand/logo.png')
+
+  const finalTitle = title
+    ? title.includes('|') ? title : `${title} | ${siteName}`
+    : `${siteName} | ${siteTagline}`
+  const finalDesc = description || siteDesc
+  const finalImage = image || siteImage
+  const finalUrl = url || siteUrl
 
   return (
     <Helmet>
-      <title>{fullTitle}</title>
-      <meta name="description" content={description} />
-      <meta property="og:title" content={fullTitle} />
-      <meta property="og:description" content={description} />
-      <meta property="og:image" content={image} />
-      <meta property="og:url" content={url} />
+      <title>{finalTitle}</title>
+      <meta name="description" content={finalDesc} />
+      <meta property="og:title" content={finalTitle} />
+      <meta property="og:description" content={finalDesc} />
+      <meta property="og:image" content={finalImage} />
+      <meta property="og:url" content={finalUrl} />
       <meta property="og:type" content={type} />
-      <meta name="twitter:title" content={fullTitle} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={image} />
-      <link rel="canonical" href={url} />
+      <meta property="og:site_name" content={siteName} />
+      <meta name="twitter:title" content={finalTitle} />
+      <meta name="twitter:description" content={finalDesc} />
+      <meta name="twitter:image" content={finalImage} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <link rel="canonical" href={finalUrl} />
     </Helmet>
   )
 }
