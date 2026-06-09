@@ -117,6 +117,7 @@ function MissionCarousel() {
   const activeMissions = missions?.filter(m => m.show !== false) || []
   const latestMission = activeMissions[0]
 
+  const sectionLabel = latestMission ? 'Our Latest Mission' : ms.label
   const sectionTitle = latestMission?.title || ms.title
   const sectionSubtitle = latestMission?.description || ms.subtitle
 
@@ -133,7 +134,7 @@ function MissionCarousel() {
           ) : (
             <>
               <p className="text-brand-600 dark:text-brand-400 font-semibold text-xs tracking-[0.2em] uppercase mb-4">
-                {ms.label}
+                {sectionLabel}
               </p>
               <h2 className="text-[clamp(2.75rem,6vw,4.25rem)] font-display font-extrabold tracking-tight text-text-primary dark:text-dark-text-primary">
                 {sectionTitle}

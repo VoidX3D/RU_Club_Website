@@ -77,9 +77,9 @@ export const ctaContent = {
 }
 
 export const missionSectionContent = {
-  label: 'Our Mission',
-  title: 'Basundhara Park Project',
-  subtitle: 'Comprehensive ecological restoration in Pokhara',
+  label: 'Our Latest Mission',
+  title: 'Latest Mission',
+  subtitle: 'Check out our most recent mission and impact.',
 }
 
 // Static path helper — logo/icons always use static assets, NOT DB
