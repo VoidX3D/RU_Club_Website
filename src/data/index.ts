@@ -27,7 +27,6 @@ export const socialLinks: SocialLink[] = [
   { platform: 'instagram', url: 'https://instagram.com/rucl.ub/' },
   { platform: 'github', url: 'https://github.com/RU-Club-Motherland' },
   { platform: 'email', url: 'ruclubmotherland@gmail.com' },
-  { platform: 'globe', url: 'https://ubuntu-sincere.vercel.app' },
 ]
 
 // ============================================================
