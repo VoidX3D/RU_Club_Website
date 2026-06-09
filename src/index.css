@@ -42,6 +42,7 @@
   --animate-float: float 6s ease-in-out infinite;
   --animate-pulse-slow: pulse-slow 4s ease-in-out infinite;
   --animate-scroll: scroll 30s linear infinite;
+  --animate-spin-slow: spin-slow 6s linear infinite;
 
   @keyframes fade-in {
     from { opacity: 0; }
@@ -74,6 +75,10 @@
   @keyframes scroll {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
+  }
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
   }
 }
 
