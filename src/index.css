@@ -86,7 +86,6 @@ body {
   font-family: var(--font-sans);
   background-color: var(--color-surface);
   color: var(--color-text-primary);
-  transition: background-color 0.3s, color 0.3s;
 }
 
 :root.dark body,

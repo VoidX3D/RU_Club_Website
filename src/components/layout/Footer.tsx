@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useSiteConfig } from '@/hooks/useSiteConfig'
+import { useDBStatus } from '@/hooks/useDBStatus'
 
 const socialIcons: Record<string, React.ReactNode> = {
   facebook: <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>,
@@ -12,9 +13,17 @@ const socialIcons: Record<string, React.ReactNode> = {
   globe: <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>,
 }
 
+const statusConfig: Record<string, { dot: string; label: string }> = {
+  checking: { dot: 'bg-yellow-400', label: 'DB: Checking…' },
+  online: { dot: 'bg-green-400', label: 'DB: Online' },
+  offline: { dot: 'bg-red-400', label: 'DB: Offline' },
+}
+
 export default function Footer() {
   const currentYear = new Date().getFullYear()
   const config = useSiteConfig()
+  const dbStatus = useDBStatus()
+  const s = statusConfig[dbStatus]
 
   const quickLinks = config?.footerLinks?.filter(l => l.section === 'quick') || []
   const legalLinks = config?.footerLinks?.filter(l => l.section === 'legal') || []
@@ -122,9 +131,15 @@ export default function Footer() {
           <p className="text-sm text-text-muted dark:text-dark-text-muted text-center sm:text-left">
             &copy; {config?.copyright || currentYear} {config?.name || 'RU Club Motherland'}. Managed by {config?.managedBy || 'Motherland Secondary School'}. All rights reserved.
           </p>
-          <p className="text-sm text-text-muted dark:text-dark-text-muted">
-            Made with care by <Link to="/secret-garden" className="text-brand-500 hover:text-brand-600 dark:hover:text-brand-400 transition-colors font-semibold">{config?.madeBy || 'Sincere Bhattarai'}</Link>
-          </p>
+          <div className="flex items-center gap-4">
+            <span className="flex items-center gap-1.5 text-xs text-text-muted dark:text-dark-text-muted" title={s.label}>
+              <span className={`inline-block w-2 h-2 rounded-full ${s.dot} ${dbStatus === 'checking' ? 'animate-pulse' : ''}`} />
+              {s.label}
+            </span>
+            <p className="text-sm text-text-muted dark:text-dark-text-muted">
+              Made with care by <Link to="/secret-garden" className="text-brand-500 hover:text-brand-600 dark:hover:text-brand-400 transition-colors font-semibold">{config?.madeBy || 'Sincere Bhattarai'}</Link>
+            </p>
+          </div>
         </div>
       </div>
     </footer>

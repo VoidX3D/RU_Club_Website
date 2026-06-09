@@ -2,6 +2,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import Navbar from './layout/Navbar'
 import Footer from './layout/Footer'
 import CookieConsent from './CookieConsent'
+import ConnectionStatus from './ConnectionStatus'
 import { useTheme } from '@/hooks/useTheme'
 import { usePageTracking } from '@/hooks/usePageTracking'
 import { SiteConfigProvider } from '@/hooks/useSiteConfig'
@@ -42,6 +43,7 @@ export default function Layout() {
   return (
     <SiteConfigProvider>
       <SEOHead />
+      <ConnectionStatus />
       <Navbar theme={theme} toggleTheme={toggleTheme} />
       <main className="min-h-screen pt-[70px] md:pt-[100px] flex flex-col">
         <div className="flex-1">

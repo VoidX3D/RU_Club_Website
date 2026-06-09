@@ -35,7 +35,7 @@ function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0a0a0a]">
       <div className="absolute inset-0 bg-gradient-to-b from-black/15 to-black/50 z-[1]" />
-      <img src={h.bgImage} alt="" className="absolute inset-0 w-full h-full object-cover" />
+      <img src={h.bgImage} alt="" className="absolute inset-0 w-full h-full object-cover" fetchPriority="high" loading="eager" />
       <div className="relative z-10 w-full px-4 sm:px-6 text-center py-20">
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 border border-white/20 shadow-lg text-brand-300 text-sm md:text-base font-bold uppercase tracking-widest mb-8"
@@ -114,19 +114,35 @@ function MissionCarousel() {
   const [prevEl, setPrevEl] = useState<HTMLButtonElement | null>(null)
   const [nextEl, setNextEl] = useState<HTMLButtonElement | null>(null)
 
+  const activeMissions = missions?.filter(m => m.show !== false) || []
+  const latestMission = activeMissions[0]
+
+  const sectionTitle = latestMission?.title || ms.title
+  const sectionSubtitle = latestMission?.description || ms.subtitle
+
   return (
     <section className="py-20 bg-surface-secondary dark:bg-dark-surface-secondary overflow-hidden">
       <div className="w-full px-4 sm:px-6">
         <div className="text-center mb-12" data-aos="fade-up">
-          <p className="text-brand-600 dark:text-brand-400 font-semibold text-xs tracking-[0.2em] uppercase mb-4">
-            {ms.label}
-          </p>
-          <h2 className="text-[clamp(2.75rem,6vw,4.25rem)] font-display font-extrabold tracking-tight text-text-primary dark:text-dark-text-primary">
-            {ms.title}
-          </h2>
-          <p className="mt-4 text-base text-text-secondary dark:text-dark-text-secondary max-w-xl mx-auto">
-            {ms.subtitle}
-          </p>
+          {loading ? (
+            <>
+              <div className="h-3 w-24 bg-surface-tertiary dark:bg-dark-surface-tertiary rounded animate-pulse mx-auto mb-4" />
+              <div className="h-10 w-96 max-w-full bg-surface-tertiary dark:bg-dark-surface-tertiary rounded animate-pulse mx-auto mb-3" />
+              <div className="h-5 w-72 max-w-full bg-surface-tertiary dark:bg-dark-surface-tertiary rounded animate-pulse mx-auto" />
+            </>
+          ) : (
+            <>
+              <p className="text-brand-600 dark:text-brand-400 font-semibold text-xs tracking-[0.2em] uppercase mb-4">
+                {ms.label}
+              </p>
+              <h2 className="text-[clamp(2.75rem,6vw,4.25rem)] font-display font-extrabold tracking-tight text-text-primary dark:text-dark-text-primary">
+                {sectionTitle}
+              </h2>
+              <p className="mt-4 text-base text-text-secondary dark:text-dark-text-secondary max-w-xl mx-auto">
+                {sectionSubtitle}
+              </p>
+            </>
+          )}
           <Link to="/missions" className="inline-block mt-6 text-sm font-semibold text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 transition-colors">
             View All Missions &rarr;
           </Link>
@@ -136,7 +152,7 @@ function MissionCarousel() {
           <div className="max-w-5xl mx-auto">
             <div className="aspect-video rounded-2xl bg-surface-tertiary dark:bg-dark-surface-tertiary animate-pulse" />
           </div>
-        ) : missions && missions.filter(m => m.show !== false).length > 0 ? (
+        ) : activeMissions.length > 0 ? (
           <div data-aos="fade-up" data-aos-delay="100" className="mission-arrows">
             <Swiper
               modules={[Navigation, Pagination, Autoplay]}
@@ -148,18 +164,24 @@ function MissionCarousel() {
               navigation={{ prevEl, nextEl }}
               pagination={{ clickable: true }}
               grabCursor
-              loop={missions.length >= 4}
+              loop={activeMissions.length >= 4}
               watchOverflow
               breakpoints={{
                 640: { slidesPerView: 'auto', spaceBetween: 24, centeredSlides: true }
               }}
               className="mission-carousel !pb-14"
             >
-              {missions.filter(m => m.show !== false).map((m) => (
+              {activeMissions.map((m) => (
                 <SwiperSlide key={m.id}>
                   <Link to={`/mission/${m.slug}`} className="group block w-full h-full rounded-2xl md:rounded-3xl overflow-hidden relative bg-surface-tertiary dark:bg-dark-surface-tertiary">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
-                    <img src={m.featured || ''} alt={m.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+                    {m.featured ? (
+                      <img src={m.featured} alt={m.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+                    ) : (
+                      <div className="w-full h-full bg-surface-tertiary dark:bg-dark-surface-tertiary flex items-center justify-center">
+                        <span className="text-text-muted dark:text-dark-text-muted text-sm">No image</span>
+                      </div>
+                    )}
                     <div className="absolute bottom-0 left-0 right-0 z-20 p-4 sm:p-6 md:p-8">
                       {m.tag && (
                         <span className="inline-block text-[10px] font-bold uppercase tracking-[0.1em] text-white bg-brand-600 px-3 py-1 rounded-full mb-2">{m.tag}</span>
@@ -179,8 +201,12 @@ function MissionCarousel() {
             </button>
           </div>
         ) : (
-          <div className="text-center py-12">
-            <p className="text-text-muted dark:text-dark-text-muted">No missions loaded. Check database connection.</p>
+          <div className="max-w-5xl mx-auto text-center py-16">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-surface-tertiary dark:bg-dark-surface-tertiary flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-text-muted dark:text-dark-text-muted"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <p className="text-text-muted dark:text-dark-text-muted text-lg font-medium">No missions yet</p>
+            <p className="text-text-muted dark:text-dark-text-muted text-sm mt-1">Check back soon for upcoming missions.</p>
           </div>
         )}
       </div>

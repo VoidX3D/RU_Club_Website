@@ -31,13 +31,22 @@ export default class ErrorBoundary extends Component<Props, State> {
               <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
             </svg>
             <h2 className="text-xl font-display font-bold text-text-primary dark:text-dark-text-primary mb-2">Something went wrong</h2>
-            <p className="text-text-secondary dark:text-dark-text-secondary mb-6">{this.state.error?.message || 'An unexpected error occurred'}</p>
-            <button
-              onClick={() => window.location.reload()}
-              className="px-6 py-3 rounded-xl bg-brand-600 text-white font-medium hover:bg-brand-700 transition-all"
-            >
-              Reload Page
-            </button>
+            <p className="text-text-secondary dark:text-dark-text-secondary mb-2">{this.state.error?.message || 'An unexpected error occurred'}</p>
+            <p className="text-xs text-text-muted dark:text-dark-text-muted mb-6">This might be a temporary issue. Try reloading.</p>
+            <div className="flex gap-3 justify-center">
+              <button
+                onClick={() => window.location.reload()}
+                className="px-6 py-3 rounded-xl bg-brand-600 text-white font-medium hover:bg-brand-700 transition-all"
+              >
+                Reload Page
+              </button>
+              <button
+                onClick={() => this.setState({ hasError: false, error: null })}
+                className="px-6 py-3 rounded-xl border border-border dark:border-dark-border text-text-secondary dark:text-dark-text-secondary font-medium hover:bg-surface-tertiary dark:hover:bg-dark-surface-tertiary transition-all"
+              >
+                Try Again
+              </button>
+            </div>
           </div>
         </div>
       )
