@@ -163,7 +163,7 @@ function MissionCarousel() {
               navigation={{ prevEl, nextEl }}
               pagination={{ clickable: true }}
               grabCursor
-              loop={activeMissions.length >= 4}
+              loop={true}
               watchOverflow
               breakpoints={{
                 640: { slidesPerView: 'auto', spaceBetween: 24, centeredSlides: true }

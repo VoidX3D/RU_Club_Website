@@ -1,34 +1,35 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { getMissionList, getMissionImages } from '@/lib/supabase'
+import { getAllGalleryImages } from '@/lib/supabase'
 import SEOHead from '@/components/SEOHead'
-import type { MissionEntry, GalleryImage } from '@/types'
+import type { GalleryImage } from '@/types'
 
 interface MissionGroup {
-  mission: MissionEntry
+  missionId: string
+  title: string
+  slug: string
+  date?: string
   images: GalleryImage[]
 }
 
-async function loadGroupedMissions(entries: MissionEntry[]): Promise<MissionGroup[]> {
-  const groups: MissionGroup[] = []
-  for (const m of entries) {
-    const imgs = await getMissionImages(m.slug)
-    if (imgs && imgs.length > 0) {
-      groups.push({
-        mission: m,
-        images: imgs.map((img) => ({
-          id: img.id,
-          url: img.url,
-          alt: img.alt,
-          missionTitle: m.title,
-          missionSlug: m.slug,
-          downloadUrl: img.url,
-        })),
+const PER_PAGE = 3
+
+function groupImages(imgs: GalleryImage[]): MissionGroup[] {
+  const map = new Map<string, MissionGroup>()
+  for (const img of imgs) {
+    const key = img.missionSlug
+    if (!map.has(key)) {
+      map.set(key, {
+        missionId: img.id.split('-')[0],
+        title: img.missionTitle,
+        slug: img.missionSlug,
+        images: [],
       })
     }
+    map.get(key)!.images.push(img)
   }
-  return groups
+  return Array.from(map.values())
 }
 
 export default function Gallery() {
@@ -37,14 +38,17 @@ export default function Gallery() {
   const [error, setError] = useState<string | null>(null)
   const [lightboxGroupIdx, setLightboxGroupIdx] = useState(-1)
   const [lightboxImageIdx, setLightboxImageIdx] = useState(0)
+  const [visible, setVisible] = useState(PER_PAGE)
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({})
-  const totalImages = groups.reduce((sum, g) => sum + g.images.length, 0)
+
+  const totalImages = useMemo(() => groups.reduce((s, g) => s + g.images.length, 0), [groups])
+  const visibleGroups = groups.slice(0, visible)
+  const hasMore = visible < groups.length
 
   useEffect(() => {
-    getMissionList().then(async (data) => {
-      if (!data) { setError('Could not load missions. Check database connection.'); setLoading(false); return }
-      const grouped = await loadGroupedMissions(data)
-      setGroups(grouped)
+    getAllGalleryImages().then((data) => {
+      if (!data) { setError('Could not load gallery images. Check database connection.'); setLoading(false); return }
+      setGroups(groupImages(data))
       setLoading(false)
     }).catch((err) => {
       setError(err instanceof Error ? err.message : 'Failed to load gallery.')
@@ -58,7 +62,7 @@ export default function Gallery() {
   }
   const closeLightbox = () => setLightboxGroupIdx(-1)
 
-  const currentGroup = lightboxGroupIdx >= 0 ? groups[lightboxGroupIdx] : null
+  const currentGroup = lightboxGroupIdx >= 0 && lightboxGroupIdx < visibleGroups.length ? visibleGroups[lightboxGroupIdx] : null
   const currentImg = currentGroup ? currentGroup.images[lightboxImageIdx] : null
 
   const handleDownload = async (url: string, filename: string) => {
@@ -117,34 +121,46 @@ export default function Gallery() {
               <p className="text-base text-text-muted dark:text-dark-text-muted">No images available yet.</p>
             </div>
           ) : (
-            <div className="max-w-7xl mx-auto space-y-14">
-              {groups.map((group, gIdx) => (
-                <div key={group.mission.id} ref={(el) => { sectionRefs.current[group.mission.id] = el }}>
-                  <div className="flex items-end justify-between mb-5" data-aos="fade-up">
-                    <div>
-                      <Link to={`/mission/${group.mission.slug}`} className="inline-flex items-center gap-2 group/link">
-                        <h2 className="text-2xl sm:text-3xl font-display font-bold text-text-primary dark:text-dark-text-primary group-hover/link:text-brand-600 transition-colors">{group.mission.title}</h2>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-text-muted group-hover/link:text-brand-600 transition-colors"><polyline points="9 18 15 12 9 6"/></svg>
-                      </Link>
-                      <p className="text-xs text-text-muted dark:text-dark-text-muted mt-0.5">{group.images.length} image{group.images.length > 1 ? 's' : ''}{group.mission.date ? ` · ${group.mission.date}` : ''}</p>
+            <>
+              <div className="max-w-7xl mx-auto space-y-14">
+                {visibleGroups.map((group, gIdx) => (
+                  <div key={group.slug} ref={(el) => { sectionRefs.current[group.slug] = el }}>
+                    <div className="flex items-end justify-between mb-5" data-aos="fade-up">
+                      <div>
+                        <Link to={`/mission/${group.slug}`} className="inline-flex items-center gap-2 group/link">
+                          <h2 className="text-2xl sm:text-3xl font-display font-bold text-text-primary dark:text-dark-text-primary group-hover/link:text-brand-600 transition-colors">{group.title}</h2>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-text-muted group-hover/link:text-brand-600 transition-colors"><polyline points="9 18 15 12 9 6"/></svg>
+                        </Link>
+                        <p className="text-xs text-text-muted dark:text-dark-text-muted mt-0.5">{group.images.length} image{group.images.length > 1 ? 's' : ''}</p>
+                      </div>
+                    </div>
+                    <div data-aos="fade-up" data-aos-delay="50" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                      {group.images.map((img, iIdx) => (
+                        <motion.button key={img.id} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: iIdx * 0.05 }}
+                          onClick={() => openLightbox(gIdx, iIdx)}
+                          className="group relative aspect-[4/3] rounded-xl overflow-hidden bg-surface-tertiary dark:bg-dark-surface-tertiary cursor-pointer"
+                        >
+                          <img src={img.url} alt={img.alt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
+                            <span className="text-white text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity px-2 text-center line-clamp-1">{img.alt}</span>
+                          </div>
+                        </motion.button>
+                      ))}
                     </div>
                   </div>
-                  <div data-aos="fade-up" data-aos-delay="50" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                    {group.images.map((img, iIdx) => (
-                      <motion.button key={img.id} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: iIdx * 0.05 }}
-                        onClick={() => openLightbox(gIdx, iIdx)}
-                        className="group relative aspect-[4/3] rounded-xl overflow-hidden bg-surface-tertiary dark:bg-dark-surface-tertiary cursor-pointer"
-                      >
-                        <img src={img.url} alt={img.alt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
-                          <span className="text-white text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity px-2 text-center line-clamp-1">{img.alt}</span>
-                        </div>
-                      </motion.button>
-                    ))}
-                  </div>
+                ))}
+              </div>
+              {hasMore && (
+                <div className="text-center mt-12">
+                  <button onClick={() => setVisible((v) => v + PER_PAGE)}
+                    className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-brand-600 text-white font-semibold text-sm uppercase tracking-wider hover:bg-brand-700 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brand-600/30 cursor-pointer"
+                  >
+                    Load More
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                  </button>
                 </div>
-              ))}
-            </div>
+              )}
+            </>
           )}
         </div>
       </section>
@@ -153,11 +169,11 @@ export default function Gallery() {
         <div className="fixed inset-0 z-50 bg-black/95 flex flex-col" onClick={closeLightbox}>
           <div className="flex items-center justify-between px-4 sm:px-6 py-3 shrink-0" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center gap-3 min-w-0">
-              <Link to={`/mission/${currentGroup.mission.slug}`} className="text-sm text-white/70 hover:text-white truncate hover:underline">{currentGroup.mission.title}</Link>
+              <Link to={`/mission/${currentGroup.slug}`} className="text-sm text-white/70 hover:text-white truncate hover:underline">{currentGroup.title}</Link>
               <span className="text-white/40 text-xs shrink-0">{lightboxImageIdx + 1} / {currentGroup.images.length}</span>
             </div>
             <div className="flex items-center gap-2 shrink-0">
-              <button onClick={() => handleDownload(currentImg.downloadUrl, `${currentGroup.mission.slug}-${lightboxImageIdx + 1}.jpg`)}
+              <button onClick={() => handleDownload(currentImg.downloadUrl, `${currentGroup.slug}-${lightboxImageIdx + 1}.jpg`)}
                 className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors cursor-pointer" title="Download">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
               </button>

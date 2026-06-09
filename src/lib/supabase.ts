@@ -230,6 +230,35 @@ export async function getMissionImages(slug: string): Promise<GalleryImage[] | n
   }, 'mission_images')
 }
 
+export async function getAllGalleryImages(): Promise<GalleryImage[] | null> {
+  return query(async () => {
+    const [missionsRes, imagesRes] = await Promise.all([
+      supabase.from('missions').select('id, title, slug').eq('show', true),
+      supabase.from('mission_images').select('url, alt, sort_order, mission_id').order('sort_order'),
+    ])
+
+    if (missionsRes.error) throw missionsRes.error
+    if (imagesRes.error) throw imagesRes.error
+    if (!imagesRes.data || imagesRes.data.length === 0) return null
+
+    const missionMap = new Map(missionsRes.data?.map((m: { id: string; title: string; slug: string }) => [m.id, m]) || [])
+
+    return imagesRes.data.map((img: { url: string; alt: string; sort_order: number; mission_id: string }) => {
+      const m = missionMap.get(img.mission_id)
+      if (!m) return null
+      const url = storageUrl(`mission/${m.slug}/${img.url}`)
+      return {
+        id: `${img.mission_id}-${img.sort_order}`,
+        url,
+        alt: img.alt || `${m.title} - Image ${img.sort_order}`,
+        missionTitle: m.title,
+        missionSlug: m.slug,
+        downloadUrl: url,
+      }
+    }).filter(Boolean) as GalleryImage[]
+  }, 'mission_images')
+}
+
 // ============================================================
 // ANNOUNCEMENTS
 // ============================================================
