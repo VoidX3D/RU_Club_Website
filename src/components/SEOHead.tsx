@@ -1,5 +1,4 @@
 import { Helmet } from 'react-helmet-async'
-import { storageUrl } from '@/lib/utils'
 import { useSiteConfig } from '@/hooks/useSiteConfig'
 
 interface SEOHeadProps {
@@ -22,8 +21,8 @@ export default function SEOHead({
   const siteName = config?.name || 'RU Club Motherland'
   const siteTagline = config?.tagline || 'Environmental Sustainability Club in Pokhara'
   const siteDesc = config?.description || 'Environmental sustainability club at Motherland Secondary School, Pokhara.'
-  const siteUrl = config?.url || 'https://ruclubmss.vercel.app'
-  const siteImage = config?.logo ? storageUrl(config.logo) : ''
+  const siteUrl = config?.url || 'https://ruclub.motherland.edu.np'
+  const siteImage = config?.logo || ''
 
   const finalTitle = title
     ? title.includes('|') ? title : `${title} | ${siteName}`
