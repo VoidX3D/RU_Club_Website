@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { useEffect } from 'react'
 import { HelmetProvider } from 'react-helmet-async'
 import Layout from '@/components/Layout'
+import LegalLayout from '@/components/layout/LegalLayout'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import Home from '@/pages/Home'
 import Missions from '@/pages/Missions'
@@ -18,7 +18,12 @@ import SecretGarden from '@/pages/SecretGarden'
 import NotFound from '@/pages/NotFound'
 
 function AdminRedirect() {
-  useEffect(() => { window.location.href = 'https://ru-admin-site.vercel.app/' }, [])
+  const isDev = import.meta.env.DEV
+  if (isDev) {
+    window.location.href = 'https://ru-admin-site.vercel.app/'
+  } else {
+    window.location.href = 'https://ru-admin-site.vercel.app/'
+  }
   return null
 }
 
@@ -33,19 +38,18 @@ export default function App() {
               <Route path="/missions" element={<Missions />} />
               <Route path="/mission/:slug" element={<MissionDetail />} />
               <Route path="/gallery" element={<Gallery />} />
-              <Route path="/gallery-view" element={<Gallery />} />
               <Route path="/announcements" element={<Announcements />} />
               <Route path="/announcement/:id" element={<AnnouncementDetail />} />
               <Route path="/members" element={<Members />} />
               <Route path="/contact" element={<Contact />} />
-              <Route path="/success" element={<Contact />} />
-              <Route path="/failed" element={<Contact />} />
-              <Route path="/privacy" element={<Privacy />} />
-              <Route path="/license" element={<License />} />
-              <Route path="/consent" element={<Consent />} />
               <Route path="/secret-garden" element={<SecretGarden />} />
               <Route path="/admin" element={<AdminRedirect />} />
               <Route path="*" element={<NotFound />} />
+            </Route>
+            <Route element={<LegalLayout />}>
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/license" element={<License />} />
+              <Route path="/consent" element={<Consent />} />
             </Route>
           </Routes>
         </ErrorBoundary>
