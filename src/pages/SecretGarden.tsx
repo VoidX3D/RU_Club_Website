@@ -261,7 +261,6 @@ export default function SecretGarden() {
         <title>About — VoidX3D | RU Club Motherland</title>
         <meta name="description" content="About Sincere Bhattarai (VoidX3D) — Student, Developer & Environmental Advocate at Motherland Secondary School, Pokhara." />
         <meta name="robots" content="noindex" />
-        <style>{`html::-webkit-scrollbar { display: none; } html { scrollbar-width: none; }`}</style>
       </Helmet>
 
       <ParticleCanvas />

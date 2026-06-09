@@ -1,3 +1,4 @@
+import SEOHead from '@/components/SEOHead'
 import { Link } from 'react-router-dom'
 
 const sections = [
@@ -14,6 +15,7 @@ const sections = [
 export default function License() {
   return (
     <>
+      <SEOHead title="License" description="License information for RU Club Motherland website content, code, and brand assets." />
       <h1 className="!text-4xl sm:!text-5xl !font-display !font-bold !mb-2">License</h1>
       <p className="!text-sm !text-text-muted dark:!text-dark-text-muted !mt-0 !mb-8">
         Copyright &copy; {new Date().getFullYear()} RU Club Motherland

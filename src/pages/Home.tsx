@@ -335,7 +335,7 @@ function CTASection() {
 export default function Home() {
   return (
     <>
-      <SEOHead title="Home" />
+      <SEOHead title="Home" description="RU Club Motherland — Environmental Sustainability Club at Motherland Secondary School, Pokhara, Nepal. Join us in creating a zero-waste ecosystem." />
       <HeroSection />
       <StatsSection />
       <MissionCarousel />

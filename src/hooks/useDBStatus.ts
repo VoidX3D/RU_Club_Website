@@ -25,10 +25,12 @@ export function useDBStatus(): DBStatus {
       }
     }
 
+    const handleOnline = () => check()
+
     check()
     interval = setInterval(check, 30000)
 
-    window.addEventListener('online', () => check())
+    window.addEventListener('online', handleOnline)
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') check()
     })
@@ -36,7 +38,7 @@ export function useDBStatus(): DBStatus {
     return () => {
       mounted = false
       clearInterval(interval)
-      window.removeEventListener('online', () => check())
+      window.removeEventListener('online', handleOnline)
     }
   }, [])
 

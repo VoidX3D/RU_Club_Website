@@ -122,6 +122,14 @@ export default function Members() {
                 </div>
               ))}
             </div>
+          ) : !members ? (
+            <div className="max-w-6xl mx-auto text-center py-20">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-surface-tertiary dark:bg-dark-surface-tertiary flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-text-muted dark:text-dark-text-muted"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <p className="text-text-muted dark:text-dark-text-muted text-lg font-medium">No members loaded</p>
+              <p className="text-text-muted dark:text-dark-text-muted text-sm mt-1">Check database connection.</p>
+            </div>
           ) : (
             <div className="max-w-6xl mx-auto">
               {renderTable('teachers')}

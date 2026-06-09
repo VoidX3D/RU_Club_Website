@@ -5,14 +5,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function formatDate(date: string) {
-  return new Date(date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-}
-
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || ''
 const STORAGE_BASE = supabaseUrl
   ? `${supabaseUrl}/storage/v1/object/public/ruclub/static/assets/`

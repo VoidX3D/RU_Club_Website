@@ -6,7 +6,7 @@ import SEOHead from '@/components/SEOHead'
 import LegalNav from './LegalNav'
 
 export default function LegalLayout() {
-  useTheme()
+  const { theme, toggleTheme } = useTheme()
   usePageTracking()
 
   return (

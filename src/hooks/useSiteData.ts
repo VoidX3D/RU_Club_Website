@@ -1,14 +1,32 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 export function useSiteData<T>(fetcher: () => Promise<T | null>) {
   const [data, setData] = useState<T | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  const fetch = useCallback(() => {
+    setLoading(true)
+    setError(null)
+    fetcher()
+      .then((result) => {
+        setData(result)
+        setError(null)
+      })
+      .catch((err: unknown) => {
+        const msg = err instanceof Error ? err.message : 'Failed to load data'
+        setError(msg)
+        setData(null)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }, [fetcher])
+
   useEffect(() => {
     let mounted = true
 
-    const fetch = () => {
+    const run = () => {
       setLoading(true)
       setError(null)
       fetcher()
@@ -30,14 +48,14 @@ export function useSiteData<T>(fetcher: () => Promise<T | null>) {
         })
     }
 
-    fetch()
+    run()
 
     const handleReconnect = () => {
-      if (navigator.onLine) fetch()
+      if (navigator.onLine) run()
     }
 
     const handleVisibility = () => {
-      if (document.visibilityState === 'visible' && navigator.onLine) fetch()
+      if (document.visibilityState === 'visible' && navigator.onLine) run()
     }
 
     window.addEventListener('online', handleReconnect)
@@ -46,9 +64,9 @@ export function useSiteData<T>(fetcher: () => Promise<T | null>) {
     return () => {
       mounted = false
       window.removeEventListener('online', handleReconnect)
-      document.removeEventListener('visibilitychange', handleVisibility)
+      window.removeEventListener('visibilitychange', handleVisibility)
     }
   }, [fetcher])
 
-  return { data, loading, error, refetch: () => fetcher() }
+  return { data, loading, error, refetch: fetch }
 }

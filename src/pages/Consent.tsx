@@ -1,3 +1,4 @@
+import SEOHead from '@/components/SEOHead'
 import { grantConsent, denyConsent } from '@/lib/analytics'
 import { Link } from 'react-router-dom'
 
@@ -12,6 +13,7 @@ const sections = [
 export default function Consent() {
   return (
     <>
+      <SEOHead title="Cookie Policy" description="Cookie policy for RU Club Motherland — learn about our use of Google Analytics cookies and manage your preferences." />
       <h1 className="!text-4xl sm:!text-5xl !font-display !font-bold !mb-2">Cookie Policy</h1>
       <p className="!text-sm !text-text-muted dark:!text-dark-text-muted !mt-0 !mb-8">
         Manage your cookie preferences

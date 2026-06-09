@@ -27,14 +27,20 @@ export default function Contact() {
     setSubmitting(true)
     setError('')
     try {
-      const [dbResult] = await Promise.allSettled([
+      const results = await Promise.allSettled([
         submitContactForm(formData),
         fetch('https://formspree.io/f/xjgzzwej', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           body: JSON.stringify(formData),
         }),
+        fetch('https://formspree.io/f/xnjrrwbp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(formData),
+        }),
       ])
+      const dbResult = results[0]
       if (dbResult.status === 'rejected' || (dbResult.status === 'fulfilled' && dbResult.value?.error)) {
         const msg = dbResult.status === 'rejected'
           ? dbResult.reason?.message || 'Failed to send message.'
@@ -53,7 +59,7 @@ export default function Contact() {
 
   return (
     <>
-      <SEOHead title="Contact" />
+      <SEOHead title="Contact" description="Get in touch with RU Club Motherland. Send us a message and we'll respond promptly." />
       <section className="py-20">
         <div className="w-full px-4 sm:px-6">
           <div className="text-center mb-12">

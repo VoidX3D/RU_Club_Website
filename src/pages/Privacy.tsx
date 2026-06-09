@@ -1,3 +1,4 @@
+import SEOHead from '@/components/SEOHead'
 import { useSiteConfig } from '@/hooks/useSiteConfig'
 
 const sections = [
@@ -17,6 +18,7 @@ export default function Privacy() {
 
   return (
     <>
+      <SEOHead title="Privacy Policy" description="RU Club Motherland's privacy policy — how we collect, use, and safeguard your personal information." />
       <h1 className="!text-4xl sm:!text-5xl !font-display !font-bold !mb-2">Privacy Policy</h1>
       <p className="!text-sm !text-text-muted dark:!text-dark-text-muted !mt-0 !mb-8">
         Last updated: May 2026 &middot; v1.0

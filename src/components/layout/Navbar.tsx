@@ -35,23 +35,27 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
         </Link>
 
         <nav className="hidden md:flex items-center gap-10 mx-auto">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              to={item.href}
-              className={cn(
-                'text-base font-semibold transition-colors relative py-1 tracking-wide',
-                location.pathname === item.href
-                  ? 'text-brand-600 dark:text-brand-400'
-                  : 'text-text-secondary dark:text-dark-text-secondary hover:text-text-primary dark:hover:text-dark-text-primary'
-              )}
-            >
-              {item.label}
-              {location.pathname === item.href && (
-                <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-brand-600 dark:bg-brand-400 rounded-full" />
-              )}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const isActive = location.pathname === item.href
+            return (
+              <Link
+                key={item.href}
+                to={item.href}
+                aria-current={isActive ? 'page' : undefined}
+                className={cn(
+                  'text-base font-semibold transition-colors relative py-1 tracking-wide',
+                  isActive
+                    ? 'text-brand-600 dark:text-brand-400'
+                    : 'text-text-secondary dark:text-dark-text-secondary hover:text-text-primary dark:hover:text-dark-text-primary'
+                )}
+              >
+                {item.label}
+                {isActive && (
+                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-brand-600 dark:bg-brand-400 rounded-full" />
+                )}
+              </Link>
+            )
+          })}
         </nav>
 
         <div className="flex items-center gap-2 md:gap-3">
@@ -116,6 +120,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
                 key={item.href}
                 to={item.href}
                 onClick={() => setMobileOpen(false)}
+                aria-current={location.pathname === item.href ? 'page' : undefined}
                 className={cn(
                   'block px-4 py-3.5 rounded-xl text-base font-medium transition-colors',
                   location.pathname === item.href
