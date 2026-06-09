@@ -1,6 +1,6 @@
 ## Description
 
-Please include a summary of the change and which issue is fixed. Explain the motivation and context.
+Please include a summary of the change and which issue is fixed.
 
 Fixes # (issue)
 
@@ -15,13 +15,14 @@ Fixes # (issue)
 
 ## Checklist
 
-- [ ] Tested locally with `npx serve .` or `python3 -m http.server 8000`
-- [ ] Mobile responsive at 320px, 480px, 768px, 1024px
+- [ ] Build passes locally (`npm run build`)
+- [ ] Mobile responsive (320px, 480px, 768px, 1024px)
 - [ ] Dark/light theme compatible
-- [ ] No hardcoded SVGs — all icons use `static/assets/icons/*.svg`
-- [ ] All text changes go through `info/*.json` when possible
-- [ ] Internal links use clean URLs (e.g. `/missions` not `missions.html`)
+- [ ] All dynamic data comes from Supabase (no hardcoded mission/announcement content)
+- [ ] Static text (hero, about, features) is hardcoded in `src/data/index.ts`
+- [ ] Internal links use clean URLs (e.g. `/missions` not `/missions.html`)
 - [ ] Canonical and OG URLs updated if adding a new page
+- [ ] Error states handled (DB connection failure, empty data, invalid slugs)
 
 ## Screenshots
 
