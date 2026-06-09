@@ -273,7 +273,7 @@ export default function SecretGarden() {
           <section className="min-h-screen flex items-center justify-center px-4 py-20">
             <div className="max-w-3xl w-full text-center">
               {/* Avatar with rotating ring */}
-              <div className="relative inline-block mb-8" data-aos="zoom-in" data-aos-duration="800">
+              <div className="relative inline-block mb-8">
                 <div className="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-400 via-teal-400 to-emerald-600 animate-spin-slow" style={{ padding: '3px' }}>
                   <div className="w-full h-full rounded-full bg-gray-950" />
                 </div>
@@ -286,19 +286,19 @@ export default function SecretGarden() {
                 </div>
               </div>
 
-              <div data-aos="fade-up" data-aos-delay="100">
+              <div>
                 <h1 className="text-5xl sm:text-7xl font-display font-extrabold text-white mb-3">
                   <GlitchText text="Sincere Bhattarai" />
                 </h1>
               </div>
 
-              <div data-aos="fade-up" data-aos-delay="200" className="h-8">
+              <div className="h-8">
                 <p className="text-xl sm:text-2xl text-emerald-400 font-mono">
                   <TypewriterText text="@VoidX3D • Student • Developer • Environmental Advocate" delay={800} />
                 </p>
               </div>
 
-              <div className="mt-8 flex justify-center gap-3" data-aos="fade-up" data-aos-delay="600">
+              <div className="mt-8 flex justify-center gap-3">
                 <a href="#about" className="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-medium text-sm hover:from-emerald-500 hover:to-teal-500 transition-all hover:scale-105 shadow-lg shadow-emerald-600/25">
                   Explore
                 </a>
@@ -308,7 +308,7 @@ export default function SecretGarden() {
               </div>
 
               {/* Floating tech icons */}
-              <div className="relative mt-16 h-20" data-aos="fade-up" data-aos-delay="800">
+              <div className="relative mt-16 h-20">
                 <div className="absolute inset-0 flex items-center justify-center gap-4 sm:gap-6">
                   {techIcons.map((icon, i) => (
                     <span
@@ -335,12 +335,12 @@ export default function SecretGarden() {
 
           {/* ===== ABOUT ===== */}
           <section id="about" className="max-w-4xl mx-auto px-4 py-20">
-            <div className="text-center mb-16" data-aos="fade-up">
+            <div className="text-center mb-16">
               <p className="text-emerald-400 font-semibold text-xs tracking-[0.2em] uppercase mb-3">About</p>
               <h2 className="text-4xl sm:text-5xl font-display font-extrabold text-white">The Story So Far</h2>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-16" data-aos="fade-up">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-16">
               {achievements.map((a) => (
                 <div key={a.label} className="p-5 rounded-2xl bg-white/[0.03] border border-white/5 text-center hover:bg-white/[0.06] hover:border-emerald-500/20 transition-all group">
                   <div className="text-2xl sm:text-3xl font-display font-bold text-emerald-400 mb-1 group-hover:scale-110 transition-transform">{a.value}</div>
@@ -349,7 +349,7 @@ export default function SecretGarden() {
               ))}
             </div>
 
-            <div className="bg-white/[0.03] backdrop-blur-sm border border-white/5 rounded-3xl p-8 sm:p-10" data-aos="fade-up" data-aos-delay="100">
+            <div className="bg-white/[0.03] backdrop-blur-sm border border-white/5 rounded-3xl p-8 sm:p-10">
               <div className="space-y-5 text-gray-300 leading-relaxed text-base sm:text-lg">
                 <p>Hey there! I'm <strong className="text-white">Sincere Bhattarai</strong>, currently studying in <strong className="text-emerald-400">Class 10 at Motherland Secondary School</strong>, Pokhara, Nepal. I'm a passionate self-taught developer who started coding back in <strong className="text-white">2018</strong> and has been building things for the web ever since.</p>
                 <p>In <strong className="text-white">2026</strong>, I joined <strong className="text-emerald-400">RU Club Motherland</strong> as the <strong className="text-white">Event Lead</strong>. I lead environmental initiatives like park clean-ups, recycling workshops, and awareness campaigns — while also building the digital infrastructure that powers our mission.</p>
@@ -366,7 +366,7 @@ export default function SecretGarden() {
 
           {/* ===== TIMELINE ===== */}
           <section className="max-w-4xl mx-auto px-4 py-20">
-            <div className="text-center mb-16" data-aos="fade-up">
+            <div className="text-center mb-16">
               <p className="text-emerald-400 font-semibold text-xs tracking-[0.2em] uppercase mb-3">Journey</p>
               <h2 className="text-4xl sm:text-5xl font-display font-extrabold text-white">My Path</h2>
             </div>
@@ -374,7 +374,7 @@ export default function SecretGarden() {
             <div className="relative">
               <div className="absolute left-[19px] sm:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-emerald-500/50 via-emerald-500/20 to-transparent" />
               {timeline.map((item, i) => (
-                <div key={item.year} className={`relative flex items-start gap-6 mb-12 sm:mb-16 ${i % 2 === 0 ? 'sm:flex-row' : 'sm:flex-row-reverse'}`} data-aos={i % 2 === 0 ? 'fade-right' : 'fade-left'}>
+                <div key={item.year} className={`relative flex items-start gap-6 mb-12 sm:mb-16 ${i % 2 === 0 ? 'sm:flex-row' : 'sm:flex-row-reverse'}`}>
                   <div className="hidden sm:flex flex-1" />
                   <div className="shrink-0 relative z-10">
                     <div className="w-10 h-10 rounded-full bg-gray-900 border-2 border-emerald-500/50 flex items-center justify-center shadow-lg shadow-emerald-500/10">
@@ -393,14 +393,14 @@ export default function SecretGarden() {
 
           {/* ===== SKILLS ===== */}
           <section className="max-w-4xl mx-auto px-4 py-20">
-            <div className="text-center mb-16" data-aos="fade-up">
+            <div className="text-center mb-16">
               <p className="text-emerald-400 font-semibold text-xs tracking-[0.2em] uppercase mb-3">Expertise</p>
               <h2 className="text-4xl sm:text-5xl font-display font-extrabold text-white">Skills &amp; Tools</h2>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6" data-aos="fade-up">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {skills.map((group, i) => (
-                <div key={group.category} className="bg-white/[0.03] border border-white/5 rounded-2xl p-6 hover:bg-white/[0.06] hover:border-emerald-500/20 transition-all" data-aos="fade-up" data-aos-delay={i * 100}>
+                <div key={group.category} className="bg-white/[0.03] border border-white/5 rounded-2xl p-6 hover:bg-white/[0.06] hover:border-emerald-500/20 transition-all">
                   <h3 className="text-emerald-400 font-display font-semibold text-sm mb-4 uppercase tracking-wider">{group.category}</h3>
                   <div className="flex flex-wrap gap-2">
                     {group.items.map((skill) => (
@@ -414,7 +414,7 @@ export default function SecretGarden() {
             </div>
 
             {/* Skill bars */}
-            <div className="mt-10 bg-white/[0.03] border border-white/5 rounded-2xl p-6 sm:p-8" data-aos="fade-up">
+            <div className="mt-10 bg-white/[0.03] border border-white/5 rounded-2xl p-6 sm:p-8">
               <h3 className="text-white font-display font-semibold text-base mb-6">Proficiency</h3>
               <SkillBar name="React / TypeScript" level={85} delay={200} />
               <SkillBar name="Node.js / Backend" level={70} delay={400} />
@@ -426,12 +426,12 @@ export default function SecretGarden() {
 
           {/* ===== PROJECTS ===== */}
           <section className="max-w-4xl mx-auto px-4 py-20">
-            <div className="text-center mb-16" data-aos="fade-up">
+            <div className="text-center mb-16">
               <p className="text-emerald-400 font-semibold text-xs tracking-[0.2em] uppercase mb-3">Work</p>
               <h2 className="text-4xl sm:text-5xl font-display font-extrabold text-white">Projects</h2>
             </div>
 
-            <div className="space-y-5" data-aos="fade-up">
+            <div className="space-y-5">
               {projects.map((project, i) => (
                 <ProjectCard key={project.name} project={project} index={i} />
               ))}
@@ -440,12 +440,12 @@ export default function SecretGarden() {
 
           {/* ===== CONNECT ===== */}
           <section className="max-w-4xl mx-auto px-4 py-20">
-            <div className="text-center mb-16" data-aos="fade-up">
+            <div className="text-center mb-16">
               <p className="text-emerald-400 font-semibold text-xs tracking-[0.2em] uppercase mb-3">Network</p>
               <h2 className="text-4xl sm:text-5xl font-display font-extrabold text-white">Let's Connect</h2>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4" data-aos="fade-up">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {[
                 { platform: 'GitHub', handle: '@VoidX3D', url: 'https://github.com/VoidX3D', icon: <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />, fill: true },
                 { platform: 'Instagram', handle: '@sincerebhattarai', url: 'https://instagram.com/sincerebhattarai', icon: <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />, fill: true },
