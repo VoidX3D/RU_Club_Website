@@ -1,6 +1,3 @@
-// ============================================================
-// Site Configuration
-// ============================================================
 export interface SiteConfig {
   name: string;
   shortName: string;
@@ -44,64 +41,17 @@ export interface SocialLink {
   url: string;
 }
 
-// ============================================================
-// Page Content
-// ============================================================
-export interface HeroContent {
-  badge: string;
-  titleLine1: string;
-  titleLine2: string;
-  subtitle: string;
-  ctaPrimary: string;
-  ctaSecondary: string;
-  bgImage?: string;
-}
-
-export interface IntroContent {
-  label: string;
-  title: string;
-  paragraphs: string[];
-}
-
-export interface FeatureCard {
-  title: string;
-  description: string;
-  icon: string;
-}
-
-export interface CTAContent {
-  title: string;
-  subtitle: string;
-  primaryBtn: string;
-  secondaryBtn: string;
-}
-
-export interface MissionSectionContent {
-  label: string;
-  title: string;
-  subtitle: string;
-}
-
-// ============================================================
-// Statistics
-// ============================================================
 export interface Stat {
   value: string;
   label: string;
 }
 
-// ============================================================
-// Partners
-// ============================================================
 export interface Partner {
   src: string;
   alt: string;
   name: string;
 }
 
-// ============================================================
-// Members
-// ============================================================
 export interface Member {
   name: string;
   class?: string;
@@ -123,9 +73,6 @@ export interface MembersData {
   };
 }
 
-// ============================================================
-// Missions
-// ============================================================
 export interface MissionEntry {
   id: string;
   slug: string;
@@ -160,9 +107,6 @@ export interface MissionTimeline {
   description?: string;
 }
 
-// ============================================================
-// Announcements
-// ============================================================
 export interface AnnouncementEntry {
   id: string;
   title: string;
@@ -194,9 +138,6 @@ export interface AnnouncementFull {
   gallery: string[];
 }
 
-// ============================================================
-// Gallery
-// ============================================================
 export interface GalleryImage {
   id: string;
   url: string;
@@ -206,19 +147,6 @@ export interface GalleryImage {
   downloadUrl: string;
 }
 
-export interface GalleryMission {
-  id: string;
-  slug: string;
-  title: string;
-  tag?: string;
-  date?: string;
-  description: string;
-  featured: string;
-}
-
-// ============================================================
-// Contact
-// ============================================================
 export interface ContactFormData {
   name: string;
   email: string;

@@ -1,5 +1,4 @@
 import type { NavItem, FooterLink, SocialLink, SiteConfig } from '@/types'
-import { storageUrl } from '@/lib/utils'
 
 export const navItems: NavItem[] = [
   { label: 'Home', href: '/' },
@@ -26,16 +25,74 @@ export const footerLinks: FooterLink[] = [
 export const socialLinks: SocialLink[] = [
   { platform: 'facebook', url: 'https://facebook.com/profile.php?id=61585206314774' },
   { platform: 'instagram', url: 'https://instagram.com/rucl.ub/' },
+  { platform: 'github', url: 'https://github.com/RU-Club-Motherland' },
+  { platform: 'email', url: 'ruclubmotherland@gmail.com' },
 ]
+
+// ============================================================
+// Hardcoded site text — NEVER use DB for this
+// ============================================================
+export const heroContent = {
+  badge: 'Sustainability Leaders',
+  titleLine1: 'A Greener',
+  titleLine2: 'Future.',
+  subtitle: '"Leading the community toward a zero-waste ecosystem through innovation and collective responsibility."',
+  ctaPrimary: 'Get Started',
+  ctaSecondary: 'View Gallery',
+  bgImage: '/static/assets/images/heroimg-bg.webp',
+}
+
+export const introContent = {
+  label: 'Who We Are',
+  title: 'The RU Identity',
+  paragraphs: [
+    'Rooted in the vision of <strong>Motherland Secondary School</strong> to provide <span class="highlight">"Quality Education For Everyone"</span>, the <strong>RU Club Motherland</strong> serves as a dynamic platform where environmental awareness meets collective action.',
+    'We believe true education extends beyond the classroom — into our communities and natural spaces. Supported by <strong>The Government of Nepal</strong>, <strong>KOICA Nepal</strong>, <strong>Doko Recyclers</strong>, and <strong>UNDP</strong>.',
+  ],
+}
+
+export const featureCards = [
+  {
+    title: 'Tree Plantation',
+    description: 'Organizing community tree plantation drives to restore green cover in Pokhara region.',
+    icon: 'plant',
+  },
+  {
+    title: 'Waste Management',
+    description: 'Promoting zero-waste practices and proper waste segregation in communities.',
+    icon: 'trash',
+  },
+  {
+    title: 'Awareness Education',
+    description: 'Conducting workshops and campaigns to educate students and communities.',
+    icon: 'book',
+  },
+]
+
+export const ctaContent = {
+  title: 'Join the Movement',
+  subtitle: 'Be part of the change. Together, we can create a sustainable future for Pokhara.',
+  primaryBtn: 'Become a Member',
+  secondaryBtn: 'View Our Work',
+}
+
+export const missionSectionContent = {
+  label: 'Our Mission',
+  title: 'Basundhara Park Project',
+  subtitle: 'Comprehensive ecological restoration in Pokhara',
+}
+
+// Static path helper — logo/icons always use static assets, NOT DB
+const STATIC_ASSETS = '/static/assets'
 
 export const siteConfig: SiteConfig = {
   name: 'RU Club Motherland',
   shortName: 'RU Club',
   tagline: 'Environmental Sustainability Club',
   description: 'Environmental sustainability club at Motherland Secondary School, Pokhara, Nepal. Transforming awareness into action for a zero-waste ecosystem.',
-  url: 'https://ruclubmss.vercel.app',
-  logo: storageUrl('brand/logo.png'),
-  logoIcon: storageUrl('brand/logo_icon.png'),
+  url: 'https://ruclub.motherland.edu.np',
+  logo: `${STATIC_ASSETS}/brand/logo.png`,
+  logoIcon: `${STATIC_ASSETS}/brand/logo_icon.png`,
   email: 'ruclubmotherland@gmail.com',
   phone: '+977 9856022256',
   school: 'Motherland Secondary School',
@@ -54,5 +111,3 @@ export const siteConfig: SiteConfig = {
   footerLinks,
   socialLinks,
 }
-
-
