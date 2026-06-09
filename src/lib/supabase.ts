@@ -4,7 +4,6 @@ import type {
   MissionEntry, MissionInfo, MissionTimeline,
   AnnouncementEntry, AnnouncementFull,
   GalleryImage, ContactFormData,
-  HeroContent, IntroContent, FeatureCard, CTAContent, MissionSectionContent,
 } from '@/types'
 import { storageUrl } from './utils'
 
@@ -13,9 +12,6 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
-// ============================================================
-// Error handling
-// ============================================================
 export class DataError extends Error {
   constructor(
     message: string,
@@ -27,14 +23,12 @@ export class DataError extends Error {
   }
 }
 
-type ErrorResult<T> = { data: T; error: null } | { data: null; error: DataError }
-
 function classifyError(err: unknown, table: string): DataError {
   if (err instanceof DataError) return err
   const msg = err instanceof Error ? err.message : String(err)
   const code = (err as { code?: string })?.code
 
-  if (msg.includes('Could not find the table') || msg.includes('does not exist') || msg.includes('relation') || msg.includes('does not exist')) {
+  if (msg.includes('Could not find the table') || msg.includes('does not exist') || msg.includes('relation')) {
     return new DataError(`Table "${table}" not found. Run migration SQL in Supabase.`, table, 'NOT_FOUND')
   }
   if (msg.includes('network') || msg.includes('fetch') || msg.includes('NetworkError') || msg.includes('ERR_CONNECTION')) {
@@ -49,120 +43,21 @@ function classifyError(err: unknown, table: string): DataError {
   return new DataError(msg, table, code)
 }
 
-async function query<T>(fn: () => Promise<T>, table: string): Promise<T | null> {
-  try {
-    return await fn()
-  } catch (err) {
-    const de = classifyError(err, table)
-    console.error(`[DB] ${de.table ? de.table + ': ' : ''}${de.message}`)
-    return null
+async function query<T>(fn: () => Promise<T>, table: string, retries = 2): Promise<T | null> {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      return await fn()
+    } catch (err) {
+      const de = classifyError(err, table)
+      console.error(`[DB] ${de.table ? de.table + ': ' : ''}${de.message}${attempt < retries ? ` (retry ${attempt + 1}/${retries})` : ''}`)
+      if (attempt < retries) {
+        await new Promise(r => setTimeout(r, 30000))
+        continue
+      }
+      return null
+    }
   }
-}
-
-// ============================================================
-// HERO
-// ============================================================
-export async function getHeroContent(): Promise<HeroContent | null> {
-  return query(async () => {
-    const { data, error } = await supabase
-      .from('hero_content')
-      .select('*')
-      .eq('id', 1)
-      .single()
-    if (error) throw error
-    if (!data) return null
-    return {
-      badge: data.badge,
-      titleLine1: data.title_line1,
-      titleLine2: data.title_line2,
-      subtitle: data.subtitle,
-      ctaPrimary: data.cta_primary,
-      ctaSecondary: data.cta_secondary,
-      bgImage: data.bg_image ? storageUrl(data.bg_image) : undefined,
-    }
-  }, 'hero_content')
-}
-
-// ============================================================
-// INTRO
-// ============================================================
-export async function getIntroContent(): Promise<IntroContent | null> {
-  return query(async () => {
-    const { data, error } = await supabase
-      .from('intro_content')
-      .select('*')
-      .eq('id', 1)
-      .single()
-    if (error) throw error
-    if (!data) return null
-
-    const { data: paragraphs } = await supabase
-      .from('intro_paragraphs')
-      .select('content')
-      .eq('intro_id', 1)
-      .order('sort_order')
-
-    return {
-      label: data.label,
-      title: data.title,
-      paragraphs: (paragraphs || []).map((p: { content: string }) => p.content),
-    }
-  }, 'intro_content')
-}
-
-// ============================================================
-// FEATURES
-// ============================================================
-export async function getFeatureCards(): Promise<FeatureCard[] | null> {
-  return query(async () => {
-    const { data, error } = await supabase
-      .from('feature_cards')
-      .select('title, description, icon')
-      .order('sort_order')
-    if (error) throw error
-    return data as FeatureCard[] | null
-  }, 'feature_cards')
-}
-
-// ============================================================
-// CTA
-// ============================================================
-export async function getCTAContent(): Promise<CTAContent | null> {
-  return query(async () => {
-    const { data, error } = await supabase
-      .from('cta_content')
-      .select('*')
-      .eq('id', 1)
-      .single()
-    if (error) throw error
-    if (!data) return null
-    return {
-      title: data.title,
-      subtitle: data.subtitle,
-      primaryBtn: data.primary_btn,
-      secondaryBtn: data.secondary_btn,
-    }
-  }, 'cta_content')
-}
-
-// ============================================================
-// MISSION SECTION
-// ============================================================
-export async function getMissionSectionContent(): Promise<MissionSectionContent | null> {
-  return query(async () => {
-    const { data, error } = await supabase
-      .from('mission_section')
-      .select('*')
-      .eq('id', 1)
-      .single()
-    if (error) throw error
-    if (!data) return null
-    return {
-      label: data.label,
-      title: data.title,
-      subtitle: data.subtitle,
-    }
-  }, 'mission_section')
+  return null
 }
 
 // ============================================================
@@ -177,6 +72,24 @@ export async function getStats(): Promise<Stat[] | null> {
     if (error) throw error
     return data as Stat[] | null
   }, 'stats')
+}
+
+// ============================================================
+// PARTNERS
+// ============================================================
+export async function getPartners(): Promise<Partner[] | null> {
+  return query(async () => {
+    const { data, error } = await supabase
+      .from('partners')
+      .select('src, alt, name')
+      .order('sort_order')
+    if (error) throw error
+    if (!data) return null
+    return data.map((p: { src: string; alt: string; name: string }) => ({
+      ...p,
+      src: storageUrl(p.src),
+    })) as Partner[]
+  }, 'partners')
 }
 
 // ============================================================
@@ -216,24 +129,6 @@ export async function getMembers(): Promise<MembersData | null> {
       },
     }
   }, 'members')
-}
-
-// ============================================================
-// PARTNERS
-// ============================================================
-export async function getPartners(): Promise<Partner[] | null> {
-  return query(async () => {
-    const { data, error } = await supabase
-      .from('partners')
-      .select('src, alt, name')
-      .order('sort_order')
-    if (error) throw error
-    if (!data) return null
-    return data.map((p: { src: string; alt: string; name: string }) => ({
-      ...p,
-      src: storageUrl(p.src),
-    })) as Partner[]
-  }, 'partners')
 }
 
 // ============================================================
@@ -281,6 +176,7 @@ export async function getMissionInfo(slug: string): Promise<MissionInfo | null> 
       supabase.from('mission_budget').select('item, amount').eq('mission_id', data.id).order('sort_order'),
     ])
 
+    const slugPart = data.slug
     return {
       id: data.id,
       title: data.title,
@@ -289,7 +185,7 @@ export async function getMissionInfo(slug: string): Promise<MissionInfo | null> 
       date: data.date,
       description: data.description,
       detail: data.detail,
-      images: (imgRes.data || []).map((i: { url: string }) => storageUrl(`mission/${data.slug}/${i.url}`)),
+      images: (imgRes.data || []).map((i: { url: string }) => storageUrl(`mission/${slugPart}/${i.url}`)),
       stats: (statRes.data || []).map((s: { label: string; value: string }) => ({ label: s.label, value: s.value })),
       partners: (partRes.data || []).map((p: { name: string }) => p.name),
       goals: (goalRes.data || []).map((g: { goal: string }) => g.goal),
@@ -300,21 +196,30 @@ export async function getMissionInfo(slug: string): Promise<MissionInfo | null> 
   }, 'missions')
 }
 
-export async function getMissionImages(missionId: string): Promise<GalleryImage[] | null> {
+export async function getMissionImages(slug: string): Promise<GalleryImage[] | null> {
   return query(async () => {
-    const [mRes, iRes] = await Promise.all([
-      supabase.from('missions').select('title, slug').eq('id', missionId).single(),
-      supabase.from('mission_images').select('url, alt, sort_order').eq('mission_id', missionId).order('sort_order'),
-    ])
-    if (mRes.error) throw new DataError(`Mission not found: ${missionId}`, 'missions')
-    if (iRes.error) throw iRes.error
-    if (!iRes.data || iRes.data.length === 0) return null
+    const mRes = await supabase
+      .from('missions')
+      .select('id, title, slug')
+      .eq('slug', slug)
+      .single()
+    if (mRes.error) throw new DataError(`Mission not found: ${slug}`, 'missions')
 
     const mission = mRes.data
-    return iRes.data.map((img: { url: string; alt: string; sort_order: number }) => {
+
+    const imgRes = await supabase
+      .from('mission_images')
+      .select('url, alt, sort_order')
+      .eq('mission_id', mission.id)
+      .order('sort_order')
+
+    if (imgRes.error) throw imgRes.error
+    if (!imgRes.data || imgRes.data.length === 0) return null
+
+    return imgRes.data.map((img: { url: string; alt: string; sort_order: number }) => {
       const url = storageUrl(`mission/${mission.slug}/${img.url}`)
       return {
-        id: `${missionId}-${img.sort_order}`,
+        id: `${mission.id}-${img.sort_order}`,
         url,
         alt: img.alt || `${mission.title} - Image ${img.sort_order}`,
         missionTitle: mission.title,
@@ -397,7 +302,7 @@ export async function getAnnouncementDetail(id: string): Promise<AnnouncementFul
 // ============================================================
 // CONTACT FORM
 // ============================================================
-export async function submitContactForm(formData: ContactFormData): Promise<ErrorResult<boolean>> {
+export async function submitContactForm(formData: ContactFormData): Promise<{ data: boolean | null; error: DataError | null }> {
   try {
     const { error } = await supabase.from('contact_submissions').insert([formData])
     if (error) throw error
