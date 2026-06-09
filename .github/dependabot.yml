@@ -1,11 +1,199 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+# Dependabot configuration for RU Club Motherland
+# Keeps dependencies secure and up-to-date for this React + TypeScript + Vite project
+# Documentation: https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 
 version: 2
 updates:
-  - package-ecosystem: "" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  # NPM/YARN/PNPM dependencies (React 19, TypeScript, Vite, etc.)
+  - package-ecosystem: "npm"
+    directory: "/"
     schedule:
       interval: "weekly"
+      day: "monday"
+      time: "10:00"
+      timezone: "Asia/Kathmandu"  # Nepal Time Zone
+    versioning-strategy: "auto"
+    open-pull-requests-limit: 15
+    labels:
+      - "dependencies"
+      - "npm"
+      - "automated-pr"
+    commit-message:
+      prefix: "chore(deps)"
+      prefix-development: "chore(dev-deps)"
+      include: "scope"
+    reviewers:
+      - "VoidX3D"  # Your GitHub username
+    assignees:
+      - "VoidX3D"
+    target-branch: "main"
+    
+    # Group related dependencies to reduce PR noise
+    groups:
+      # React ecosystem (keep these updated together)
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "react-router-dom"
+          - "@types/react"
+          - "@types/react-dom"
+        update-types:
+          - "patch"
+          - "minor"
+      
+      # TypeScript and type definitions
+      typescript:
+        patterns:
+          - "typescript"
+          - "@types/*"
+        exclude-patterns:
+          - "@types/react*"  # Already in react group
+        update-types:
+          - "patch"
+          - "minor"
+      
+      # Vite build tooling
+      vite:
+        patterns:
+          - "vite"
+          - "@vitejs/*"
+          - "vite-plugin-*"
+        update-types:
+          - "patch"
+          - "minor"
+      
+      # Tailwind CSS and styling
+      styling:
+        patterns:
+          - "tailwindcss"
+          - "@tailwindcss/*"
+          - "postcss"
+          - "autoprefixer"
+        update-types:
+          - "patch"
+          - "minor"
+      
+      # Animation libraries
+      animations:
+        patterns:
+          - "framer-motion"
+          - "aos"
+          - "swiper"
+        update-types:
+          - "patch"
+          - "minor"
+      
+      # Testing utilities (if you add tests later)
+      testing:
+        patterns:
+          - "vitest"
+          - "@testing-library/*"
+          - "jest"
+          - "cypress"
+        update-types:
+          - "patch"
+          - "minor"
+    
+    # Ignore major version updates for critical packages (manual review required)
+    ignore:
+      - dependency-name: "react"
+        versions: [">=20.0.0"]  # React 20+ requires manual migration
+      - dependency-name: "react-dom"
+        versions: [">=20.0.0"]
+      - dependency-name: "react-router-dom"
+        versions: [">=7.0.0"]   # Major version changes need testing
+      - dependency-name: "typescript"
+        versions: [">=6.0.0"]   # Major TS updates can break builds
+      - dependency-name: "vite"
+        versions: [">=9.0.0"]   # Vite 9+ major changes
+    
+    # Security updates (automatic, no grouping)
+    - package-ecosystem: "npm"
+      directory: "/"
+      schedule:
+        interval: "daily"  # Security updates checked daily
+      labels:
+        - "security"
+        - "high-priority"
+      commit-message:
+        prefix: "security(deps)"
+      reviewers:
+        - "VoidX3D"
+      assignees:
+        - "VoidX3D"
+      target-branch: "main"
+      # Don't group security updates
+      groups:
+        security-updates:
+          applies-to: security-updates
+          patterns:
+            - "*"
+
+  # GitHub Actions (CI/CD workflows)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "10:00"
+      timezone: "Asia/Kathmandu"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "ci-cd"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    reviewers:
+      - "VoidX3D"
+    assignees:
+      - "VoidX3D"
+    target-branch: "main"
+    groups:
+      actions:
+        patterns:
+          - "*"
+        update-types:
+          - "patch"
+          - "minor"
+
+  # Supabase (monitor for security advisories - limited ecosystem support)
+  # Note: Dependabot doesn't natively support Supabase, but we track via npm packages
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "supabase"
+    commit-message:
+      prefix: "chore(deps)"
+    reviewers:
+      - "VoidX3D"
+    target-branch: "main"
+    # Only track Supabase-related packages
+    groups:
+      supabase:
+        patterns:
+          - "@supabase/*"
+          - "supabase-*"
+        update-types:
+          - "patch"
+          - "minor"
+          - "major"  # Supabase major updates are less frequent, review manually
+    ignore:
+      - dependency-name: "@supabase/supabase-js"
+        versions: [">=3.0.0"]  # Major version changes need API review
+
+# Auto-merge configuration (requires GitHub Actions setup)
+# Uncomment if you want automatic merging of non-breaking updates
+# automerge:
+#   enabled: true
+#   rules:
+#     - labels: ["dependencies", "patch-update"]
+#       update-type: "patch"
+#     - labels: ["dependencies", "minor-update"]
+#       update-type: "minor"
+#       # Only auto-merge if all tests pass
+#       required-status-checks: ["build", "test"]
