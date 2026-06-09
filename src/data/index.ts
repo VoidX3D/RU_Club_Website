@@ -77,9 +77,9 @@ export const ctaContent = {
 }
 
 export const missionSectionContent = {
-  label: 'Our Latest Mission',
-  title: 'Latest Mission',
-  subtitle: 'Check out our most recent mission and impact.',
+  label: 'Our Mission',
+  title: 'Latest Missions',
+  subtitle: '',
 }
 
 // Static path helper — logo/icons always use static assets, NOT DB

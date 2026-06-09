@@ -19,77 +19,12 @@ DROP TABLE IF EXISTS missions CASCADE;
 DROP TABLE IF EXISTS members CASCADE;
 DROP TABLE IF EXISTS partners CASCADE;
 DROP TABLE IF EXISTS stats CASCADE;
-DROP TABLE IF EXISTS feature_cards CASCADE;
-DROP TABLE IF EXISTS intro_paragraphs CASCADE;
-DROP TABLE IF EXISTS intro_content CASCADE;
-DROP TABLE IF EXISTS hero_content CASCADE;
-DROP TABLE IF EXISTS cta_content CASCADE;
-DROP TABLE IF EXISTS mission_section CASCADE;
 
--- 1. HERO
-CREATE TABLE hero_content (
-  id bigint primary key default 1 CHECK (id = 1),
-  badge text not null default 'Sustainability Leaders',
-  title_line1 text not null default 'A Greener',
-  title_line2 text not null default 'Future.',
-  subtitle text not null default '"Leading the community toward a zero-waste ecosystem through innovation and collective responsibility."',
-  cta_primary text not null default 'Get Started',
-  cta_secondary text not null default 'View Gallery',
-  bg_image text not null default 'images/heroimg-bg.jpeg'
-);
-INSERT INTO hero_content (id) VALUES (1) ON CONFLICT (id) DO NOTHING;
+-- NOTE: Hardcoded static content (hero, intro, features, CTA, mission section)
+-- is defined in src/data/index.ts and never stored in the database.
+-- Supabase is used only for DYNAMIC data.
 
--- 2. INTRO
-CREATE TABLE intro_content (
-  id bigint primary key default 1 CHECK (id = 1),
-  label text not null default 'Who We Are',
-  title text not null default 'The RU Identity'
-);
-INSERT INTO intro_content (id) VALUES (1) ON CONFLICT (id) DO NOTHING;
-
-CREATE TABLE intro_paragraphs (
-  id bigint primary key generated always as identity,
-  intro_id bigint not null default 1 REFERENCES intro_content(id) ON DELETE CASCADE,
-  content text not null,
-  sort_order int not null default 0
-);
-INSERT INTO intro_paragraphs (intro_id, content, sort_order) VALUES
-  (1, 'Rooted in the vision of <strong>Motherland Secondary School</strong> to provide <span class="highlight">"Quality Education For Everyone"</span>, the <strong>RU Club Motherland</strong> serves as a dynamic platform where environmental awareness meets collective action.', 1),
-  (1, 'We believe true education extends beyond the classroom — into our communities and natural spaces. Supported by <strong>The Government of Nepal</strong>, <strong>KOICA Nepal</strong>, <strong>Doko Recyclers</strong>, and <strong>UNDP</strong>.', 2);
-
--- 3. FEATURES
-CREATE TABLE feature_cards (
-  id bigint primary key generated always as identity,
-  title text not null,
-  description text not null,
-  icon text not null default 'leaf',
-  sort_order int not null default 0
-);
-INSERT INTO feature_cards (title, description, icon, sort_order) VALUES
-  ('Tree Plantation', 'Organizing community tree plantation drives to restore green cover in Pokhara region.', 'plant', 1),
-  ('Waste Management', 'Promoting zero-waste practices and proper waste segregation in communities.', 'trash', 2),
-  ('Awareness Education', 'Conducting workshops and campaigns to educate students and communities.', 'book', 3);
-
--- 4. CTA
-CREATE TABLE cta_content (
-  id bigint primary key default 1 CHECK (id = 1),
-  title text not null default 'Join the Movement',
-  subtitle text not null default 'Be part of the change. Together, we can create a sustainable future for Pokhara.',
-  primary_btn text not null default 'Become a Member',
-  secondary_btn text not null default 'View Our Work'
-);
-INSERT INTO cta_content (id) VALUES (1) ON CONFLICT (id) DO NOTHING;
-
--- 5. MISSION SECTION
-CREATE TABLE mission_section (
-  id bigint primary key default 1 CHECK (id = 1),
-  label text not null default 'Our Mission',
-  title text not null default 'Basundhara Park Project',
-  subtitle text not null default 'Comprehensive ecological restoration in Pokhara'
-);
-INSERT INTO mission_section (id) VALUES (1) ON CONFLICT (id) DO NOTHING;
-
--- 6. STATS
+-- 1. STATS
 CREATE TABLE stats (
   id bigint primary key generated always as identity,
   value text not null,
@@ -102,7 +37,7 @@ INSERT INTO stats (value, label, sort_order) VALUES
   ('25+', 'Active Members', 3),
   ('5+', 'Partner Organizations', 4);
 
--- 7. PARTNERS
+-- 2. PARTNERS
 CREATE TABLE partners (
   id bigint primary key generated always as identity,
   src text not null,
@@ -118,7 +53,7 @@ INSERT INTO partners (src, alt, name, sort_order) VALUES
   ('partners/undp.png', 'United Nations Development Programme', 'UNDP', 5),
   ('partners/koica.png', 'KOICA Nepal', 'KOICA', 6);
 
--- 8. MEMBERS
+-- 3. MEMBERS
 CREATE TABLE members (
   id bigint primary key generated always as identity,
   name text not null,
@@ -161,7 +96,7 @@ INSERT INTO members (name, class, role, member_type, group_name, image, sort_ord
   ('Trishana Jwarchana', '10E', 'General Member', 'member', 'general', NULL, 20),
   ('Ridanta Sapkota', '9C', 'General Member', 'member', 'general', NULL, 21);
 
--- 9. MISSIONS
+-- 4. MISSIONS
 CREATE TABLE missions (
   id text primary key,
   title text not null,
@@ -281,7 +216,7 @@ CREATE TABLE mission_budget (
   sort_order int not null default 0
 );
 
--- 10. ANNOUNCEMENTS
+-- 5. ANNOUNCEMENTS
 CREATE TABLE announcements (
   id text primary key,
   title text not null,
@@ -323,7 +258,7 @@ CREATE TABLE announcement_gallery (
   sort_order int not null default 0
 );
 
--- 11. CONTACT FORM
+-- 6. CONTACT FORM
 CREATE TABLE contact_submissions (
   id bigint primary key generated always as identity,
   name text not null,

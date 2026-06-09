@@ -115,11 +115,6 @@ function MissionCarousel() {
   const [nextEl, setNextEl] = useState<HTMLButtonElement | null>(null)
 
   const activeMissions = missions?.filter(m => m.show !== false) || []
-  const latestMission = activeMissions[0]
-
-  const sectionLabel = latestMission ? 'Our Latest Mission' : ms.label
-  const sectionTitle = latestMission?.title || ms.title
-  const sectionSubtitle = latestMission?.description || ms.subtitle
 
   return (
     <section className="py-20 bg-surface-secondary dark:bg-dark-surface-secondary overflow-hidden">
@@ -134,18 +129,21 @@ function MissionCarousel() {
           ) : (
             <>
               <p className="text-brand-600 dark:text-brand-400 font-semibold text-xs tracking-[0.2em] uppercase mb-4">
-                {sectionLabel}
+                {ms.label}
               </p>
               <h2 className="text-[clamp(2.75rem,6vw,4.25rem)] font-display font-extrabold tracking-tight text-text-primary dark:text-dark-text-primary">
-                {sectionTitle}
+                {ms.title}
               </h2>
-              <p className="mt-4 text-base text-text-secondary dark:text-dark-text-secondary max-w-xl mx-auto">
-                {sectionSubtitle}
-              </p>
+              {ms.subtitle && (
+                <p className="mt-4 text-base text-text-secondary dark:text-dark-text-secondary max-w-xl mx-auto">
+                  {ms.subtitle}
+                </p>
+              )}
             </>
           )}
-          <Link to="/missions" className="inline-block mt-6 text-sm font-semibold text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 transition-colors">
-            View All Missions &rarr;
+          <Link to="/missions" className="inline-flex items-center gap-2 mt-8 px-8 py-3.5 rounded-full bg-brand-600 text-white font-semibold text-sm uppercase tracking-wider hover:bg-brand-700 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brand-600/30">
+            View All Missions
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
           </Link>
         </div>
 
