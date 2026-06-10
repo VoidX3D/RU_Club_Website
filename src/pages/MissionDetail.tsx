@@ -96,7 +96,7 @@ export default function MissionDetail() {
               <p className="text-xl leading-relaxed mb-8 text-text-secondary dark:text-dark-text-primary">{mission.description}</p>
 
               {mission.detail && (
-                <div className="mb-8 prose prose-lg dark:prose-invert max-w-none text-text-secondary dark:text-dark-text-primary"
+                <div className="mb-8 md-content"
                   dangerouslySetInnerHTML={{ __html: renderMd(mission.detail) }} />
               )}
 
