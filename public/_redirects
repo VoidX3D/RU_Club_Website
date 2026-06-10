@@ -1,17 +1,28 @@
-# Cloudflare Pages clean URLs
-/ / 200
-/announcements /announcements 200
-/announcement/* /announcement/* 200
-/missions /missions 200
-/mission/* /mission/* 200
-/gallery /gallery 200
+# RU Club Motherland - Vercel Redirects Configuration
+# Clean URL routing for SPA
+
+# Admin redirects
+/admin https://admin.ruclub.motherland.edu.np/ 302
+/admin/* https://admin.ruclub.motherland.edu.np/:splat 302
+
+# Legacy redirects
 /gallery-view /gallery 301
-/members /members 200
-/contact /contact 200
 /success /contact 301
 /failed /contact 301
+
+# Main routes (200 status for SPA)
+/ / 200
+/announcements /announcements 200
+/announcement/:id /announcement/:id 200
+/missions /missions 200
+/mission/:slug /mission/:slug 200
+/gallery /gallery 200
+/members /members 200
+/contact /contact 200
 /privacy /privacy 200
 /license /license 200
 /consent /consent 200
 /secret-garden /secret-garden 200
+
+# Catch-all for SPA routing (must be last)
 /* /index.html 200

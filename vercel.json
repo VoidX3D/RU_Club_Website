@@ -3,9 +3,78 @@
   "outputDirectory": "dist",
   "cleanUrls": true,
   "trailingSlash": false,
-  "redirects": [
-    { "source": "/admin", "destination": "https://ru-admin-site.vercel.app/", "permanent": false },
-    { "source": "/admin/(.*)", "destination": "https://ru-admin-site.vercel.app/", "permanent": false }
+  "headers": [
+    {
+      "source": "/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/index.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
   ],
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "redirects": [
+    {
+      "source": "/admin",
+      "destination": "https://admin.ruclub.motherland.edu.np/",
+      "permanent": false
+    },
+    {
+      "source": "/admin/(.*)",
+      "destination": "https://admin.ruclub.motherland.edu.np/:1",
+      "permanent": false
+    },
+    {
+      "source": "/gallery-view",
+      "destination": "/gallery",
+      "permanent": true
+    },
+    {
+      "source": "/success",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/failed",
+      "destination": "/contact",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }

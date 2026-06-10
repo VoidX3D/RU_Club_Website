@@ -1,3 +1,20 @@
+# RU Club Motherland - Robots Configuration
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /secret-garden
+
+# Crawl delay to be respectful
+Crawl-delay: 1
+
+# Sitemap location
 Sitemap: https://ruclub.motherland.edu.np/sitemap.xml
+
+# Specific rules for search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
