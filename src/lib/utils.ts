@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
-import { marked } from 'marked'
+import { renderMarkdown } from './markdown'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -17,7 +17,4 @@ export function storageUrl(path: string): string {
   return `${STORAGE_BASE}${p}`
 }
 
-export function renderMd(md: string): string {
-  if (!md) return ''
-  return marked.parse(md, { async: false }) as string
-}
+export { renderMarkdown as renderMd }
