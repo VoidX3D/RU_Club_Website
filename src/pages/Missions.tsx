@@ -50,9 +50,9 @@ export default function Missions() {
                   <Link to={`/mission/${mission.slug}`}
                     className="group block rounded-2xl overflow-hidden bg-white dark:bg-dark-surface-secondary border border-border dark:border-dark-border hover:border-brand-500/50 transition-all duration-300 glow-card"
                   >
-                    <div className="aspect-video overflow-hidden bg-surface-tertiary dark:bg-dark-surface-tertiary">
+                    <div className="aspect-video overflow-hidden bg-white dark:bg-dark-surface-tertiary flex items-center justify-center">
                       <img src={mission.featured || ''} alt={mission.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                        className="w-full h-full object-contain p-1 group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                     </div>
                     <div className="p-5">
                       <div className="flex items-center gap-2 mb-1.5">
