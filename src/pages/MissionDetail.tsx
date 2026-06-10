@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { getMissionInfo, getMissionImages } from '@/lib/supabase'
-import { formatText, isHtml } from '@/lib/utils'
+import { renderMd } from '@/lib/utils'
 import SEOHead from '@/components/SEOHead'
 import type { MissionInfo, GalleryImage } from '@/types'
 
@@ -96,15 +96,8 @@ export default function MissionDetail() {
               <p className="text-xl leading-relaxed mb-8 text-text-secondary dark:text-dark-text-primary">{mission.description}</p>
 
               {mission.detail && (
-                <div className="mb-8 prose prose-lg dark:prose-invert max-w-none">
-                  {isHtml(mission.detail) ? (
-                    <div dangerouslySetInnerHTML={{ __html: mission.detail }} className="text-text-secondary dark:text-dark-text-primary" />
-                  ) : (
-                    formatText(mission.detail).split('\n\n').map((paragraph, i) => (
-                      <p key={i} className="leading-relaxed text-lg text-text-secondary dark:text-dark-text-primary">{paragraph}</p>
-                    ))
-                  )}
-                </div>
+                <div className="mb-8 prose prose-lg dark:prose-invert max-w-none text-text-secondary dark:text-dark-text-primary"
+                  dangerouslySetInnerHTML={{ __html: renderMd(mission.detail) }} />
               )}
 
               {mission.stats && mission.stats.length > 0 && (

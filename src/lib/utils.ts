@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import { marked } from 'marked'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -16,10 +17,7 @@ export function storageUrl(path: string): string {
   return `${STORAGE_BASE}${p}`
 }
 
-export function formatText(text: string): string {
-  return text.split(/\n\s*\n/).filter(Boolean).map(p => p.trim()).join('\n\n')
-}
-
-export function isHtml(text: string): boolean {
-  return /<[a-z][\s\S]*>/i.test(text)
+export function renderMd(md: string): string {
+  if (!md) return ''
+  return marked.parse(md, { async: false }) as string
 }
