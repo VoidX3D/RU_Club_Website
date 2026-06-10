@@ -19,3 +19,7 @@ export function storageUrl(path: string): string {
 export function formatText(text: string): string {
   return text.split(/\n\s*\n/).filter(Boolean).map(p => p.trim()).join('\n\n')
 }
+
+export function isHtml(text: string): boolean {
+  return /<[a-z][\s\S]*>/i.test(text)
+}

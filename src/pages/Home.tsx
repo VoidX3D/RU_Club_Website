@@ -175,7 +175,7 @@ function MissionCarousel() {
                   <Link to={`/mission/${m.slug}`} className="group block w-full h-full rounded-2xl md:rounded-3xl overflow-hidden relative bg-surface-tertiary dark:bg-dark-surface-tertiary">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
                     {m.featured ? (
-                      <img src={m.featured} alt={m.title} className="w-full h-full object-contain p-2 transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+                      <img src={m.featured} alt={m.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
                     ) : (
                       <div className="w-full h-full bg-surface-tertiary dark:bg-dark-surface-tertiary flex items-center justify-center">
                         <span className="text-text-muted dark:text-dark-text-muted text-sm">No image</span>

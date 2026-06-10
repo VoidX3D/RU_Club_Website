@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { getAnnouncementDetail } from '@/lib/supabase'
-import { formatText } from '@/lib/utils'
+import { formatText, isHtml } from '@/lib/utils'
 import SEOHead from '@/components/SEOHead'
 import type { AnnouncementFull } from '@/types'
 
@@ -109,10 +109,14 @@ export default function AnnouncementDetail() {
               <div className="max-w-none">
                 <p className="text-xl font-medium mb-4 text-text-primary dark:text-dark-text-primary">{announcement.summary}</p>
                 {announcement.description && (
-                  <div className="space-y-4">
-                    {formatText(announcement.description).split('\n\n').map((paragraph, i) => (
-                      <p key={i} className="leading-relaxed text-lg text-text-secondary dark:text-dark-text-primary">{paragraph}</p>
-                    ))}
+                  <div className="prose prose-lg dark:prose-invert max-w-none">
+                    {isHtml(announcement.description) ? (
+                      <div dangerouslySetInnerHTML={{ __html: announcement.description }} className="text-text-secondary dark:text-dark-text-primary" />
+                    ) : (
+                      formatText(announcement.description).split('\n\n').map((paragraph, i) => (
+                        <p key={i} className="leading-relaxed text-lg text-text-secondary dark:text-dark-text-primary">{paragraph}</p>
+                      ))
+                    )}
                   </div>
                 )}
                 {announcement.importance && (
@@ -120,9 +124,13 @@ export default function AnnouncementDetail() {
                     <div className="text-sm font-medium text-amber-800 dark:text-amber-300 flex items-start gap-2">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0 mt-0.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                       <div className="space-y-2">
-                        {formatText(announcement.importance).split('\n\n').map((para, i) => (
-                          <p key={i}>{para}</p>
-                        ))}
+                        {isHtml(announcement.importance) ? (
+                          <div dangerouslySetInnerHTML={{ __html: announcement.importance }} />
+                        ) : (
+                          formatText(announcement.importance).split('\n\n').map((para, i) => (
+                            <p key={i}>{para}</p>
+                          ))
+                        )}
                       </div>
                     </div>
                   </div>
@@ -130,10 +138,14 @@ export default function AnnouncementDetail() {
                 {announcement.instructions && (
                   <div className="mt-6 p-4 rounded-xl bg-surface-secondary dark:bg-dark-surface-tertiary border border-border dark:border-dark-border">
                     <h3 className="font-display font-semibold mb-2 text-text-primary dark:text-dark-text-primary">Instructions</h3>
-                    <div className="space-y-2">
-                      {formatText(announcement.instructions).split('\n\n').map((para, i) => (
-                        <p key={i} className="text-text-secondary dark:text-dark-text-secondary">{para}</p>
-                      ))}
+                    <div className="prose prose-sm dark:prose-invert max-w-none">
+                      {isHtml(announcement.instructions) ? (
+                        <div dangerouslySetInnerHTML={{ __html: announcement.instructions }} className="text-text-secondary dark:text-dark-text-secondary" />
+                      ) : (
+                        formatText(announcement.instructions).split('\n\n').map((para, i) => (
+                          <p key={i} className="text-text-secondary dark:text-dark-text-secondary">{para}</p>
+                        ))
+                      )}
                     </div>
                   </div>
                 )}
