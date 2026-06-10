@@ -1,6 +1,6 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import Layout from '@/components/Layout'
 import LegalLayout from '@/components/layout/LegalLayout'
 import ErrorBoundary from '@/components/ErrorBoundary'
@@ -31,8 +31,10 @@ function PageLoader() {
 }
 
 function AdminRedirect() {
-  window.location.href = 'https://ru-admin-site.vercel.app/'
-  return null
+  useEffect(() => {
+    window.open('https://ru-admin-site.vercel.app/', '_blank')
+  }, [])
+  return <Navigate to="/" replace />
 }
 
 export default function App() {
