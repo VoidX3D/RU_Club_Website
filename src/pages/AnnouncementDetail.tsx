@@ -77,6 +77,18 @@ export default function AnnouncementDetail() {
                 {announcement.status === 'urgent' && (
                   <span className="text-sm font-medium text-red-500 bg-red-50 dark:bg-red-950/50 px-3 py-1 rounded-full">Urgent</span>
                 )}
+                {announcement.status === 'ongoing' && (
+                  <span className="text-sm font-medium text-emerald-500 bg-emerald-50 dark:bg-emerald-950/50 px-3 py-1 rounded-full">Ongoing</span>
+                )}
+                {announcement.status === 'upcoming' && (
+                  <span className="text-sm font-medium text-amber-500 bg-amber-50 dark:bg-amber-950/50 px-3 py-1 rounded-full">Upcoming</span>
+                )}
+                {announcement.status === 'deadline' && (
+                  <span className="text-sm font-medium text-orange-500 bg-orange-50 dark:bg-orange-950/50 px-3 py-1 rounded-full">Deadline</span>
+                )}
+                {announcement.status === 'ended' && (
+                  <span className="text-sm font-medium text-zinc-500 bg-zinc-50 dark:bg-zinc-950/50 px-3 py-1 rounded-full">Ended</span>
+                )}
               </div>
 
               <h1 className="text-4xl sm:text-5xl font-display font-bold text-text-primary dark:text-dark-text-primary mb-4">{announcement.title}</h1>
@@ -99,6 +111,14 @@ export default function AnnouncementDetail() {
                   </span>
                 )}
               </div>
+
+              {announcement.tags && announcement.tags.length > 0 && (
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  {announcement.tags.map((tag, i) => (
+                    <span key={i} className="text-xs font-medium text-text-muted dark:text-dark-text-muted bg-surface-tertiary dark:bg-dark-surface-tertiary px-2 py-0.5 rounded-full">{tag}</span>
+                  ))}
+                </div>
+              )}
 
               {announcement.image && (
                 <div className="rounded-2xl overflow-hidden mb-8 bg-surface-tertiary dark:bg-dark-surface-tertiary">
@@ -128,6 +148,19 @@ export default function AnnouncementDetail() {
                   </div>
                 )}
               </div>
+
+              {announcement.gallery && announcement.gallery.length > 0 && (
+                <div className="mt-8">
+                  <h3 className="font-display font-semibold text-lg text-text-primary dark:text-dark-text-primary mb-3">Gallery</h3>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {announcement.gallery.map((url, i) => (
+                      <div key={i} className="aspect-video rounded-xl overflow-hidden bg-surface-tertiary dark:bg-dark-surface-tertiary">
+                        <img src={url} alt={`${announcement.title} gallery ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </motion.div>
           </div>
         </div>

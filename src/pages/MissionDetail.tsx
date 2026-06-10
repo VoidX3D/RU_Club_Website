@@ -147,6 +147,43 @@ export default function MissionDetail() {
                   </div>
                 </div>
               )}
+              {mission.participants && mission.participants.length > 0 && (
+                <div className="mb-8 p-6 rounded-2xl bg-surface-secondary dark:bg-dark-surface-tertiary">
+                  <h3 className="font-display font-semibold text-lg text-text-primary dark:text-dark-text-primary mb-3">Participants</h3>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {mission.participants.map((p, i) => (
+                      <div key={i} className="p-3 rounded-xl bg-white dark:bg-dark-surface border border-border dark:border-dark-border text-center">
+                        <div className="text-lg font-bold text-brand-600 dark:text-brand-400">{p.participant_count}</div>
+                        <div className="text-xs text-text-muted dark:text-dark-text-muted">{p.group_name}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {mission.budget && mission.budget.length > 0 && (
+                <div className="mb-8 p-6 rounded-2xl bg-surface-secondary dark:bg-dark-surface-tertiary">
+                  <h3 className="font-display font-semibold text-lg text-text-primary dark:text-dark-text-primary mb-3">Budget</h3>
+                  <div className="overflow-hidden rounded-xl border border-border dark:border-dark-border">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="bg-surface-tertiary dark:bg-dark-surface-tertiary">
+                          <th className="px-4 py-2 text-left font-medium text-text-primary dark:text-dark-text-primary">Item</th>
+                          <th className="px-4 py-2 text-right font-medium text-text-primary dark:text-dark-text-primary">Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-border dark:divide-dark-border">
+                        {mission.budget.map((b, i) => (
+                          <tr key={i} className="bg-white dark:bg-dark-surface">
+                            <td className="px-4 py-2 text-text-secondary dark:text-dark-text-secondary">{b.item}</td>
+                            <td className="px-4 py-2 text-right font-medium text-text-primary dark:text-dark-text-primary">{b.amount || '—'}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
             </motion.div>
 
             {images.length > 0 && (

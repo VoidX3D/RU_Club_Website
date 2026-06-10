@@ -60,9 +60,21 @@ export default function Announcements() {
                           {announcement.tag && (
                             <span className="text-xs font-semibold text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/50 px-2 py-0.5 rounded-full">{announcement.tag}</span>
                           )}
-                          <span className="text-xs text-text-muted dark:text-dark-text-muted">{announcement.date}</span>
+                          <span className="text-xs text-text-muted dark:text-dark-text-muted">{announcement.date}{announcement.day ? ` (${announcement.day})` : ''}</span>
                           {announcement.status === 'urgent' && (
                             <span className="text-xs font-semibold text-red-500 bg-red-50 dark:bg-red-950/50 px-2 py-0.5 rounded-full">Urgent</span>
+                          )}
+                          {announcement.status === 'ongoing' && (
+                            <span className="text-xs font-semibold text-emerald-500 bg-emerald-50 dark:bg-emerald-950/50 px-2 py-0.5 rounded-full">Ongoing</span>
+                          )}
+                          {announcement.status === 'upcoming' && (
+                            <span className="text-xs font-semibold text-amber-500 bg-amber-50 dark:bg-amber-950/50 px-2 py-0.5 rounded-full">Upcoming</span>
+                          )}
+                          {announcement.status === 'deadline' && (
+                            <span className="text-xs font-semibold text-orange-500 bg-orange-50 dark:bg-orange-950/50 px-2 py-0.5 rounded-full">Deadline</span>
+                          )}
+                          {announcement.status === 'ended' && (
+                            <span className="text-xs font-semibold text-zinc-500 bg-zinc-50 dark:bg-zinc-950/50 px-2 py-0.5 rounded-full">Ended</span>
                           )}
                         </div>
                         <h2 className="font-display font-semibold text-xl text-text-primary dark:text-dark-text-primary group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">{announcement.title}</h2>
