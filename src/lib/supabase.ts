@@ -10,7 +10,11 @@ import { storageUrl } from './utils'
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || ''
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+const hasSupabase = supabaseUrl && supabaseAnonKey
+
+export const supabase = hasSupabase
+  ? createClient(supabaseUrl, supabaseAnonKey)
+  : (null as unknown as ReturnType<typeof createClient>)
 
 export class DataError extends Error {
   constructor(
@@ -44,6 +48,10 @@ function classifyError(err: unknown, table: string): DataError {
 }
 
 async function query<T>(fn: () => Promise<T>, table: string, retries = 2): Promise<T | null> {
+  if (!hasSupabase) {
+    console.warn(`[DB] Supabase not configured — VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY missing`)
+    return null
+  }
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
       return await fn()
@@ -332,6 +340,10 @@ export async function getAnnouncementDetail(id: string): Promise<AnnouncementFul
 // CONTACT FORM
 // ============================================================
 export async function submitContactForm(formData: ContactFormData): Promise<{ data: boolean | null; error: DataError | null }> {
+  if (!hasSupabase) {
+    console.warn('[DB] Supabase not configured — contact form not saved to DB')
+    return { data: false, error: null }
+  }
   try {
     const { error } = await supabase.from('contact_submissions').insert([formData])
     if (error) throw error

@@ -23,3 +23,5 @@ node_modules/
 
 # Build artifacts
 *.tsbuildinfo
+.vercel
+.env.vercel

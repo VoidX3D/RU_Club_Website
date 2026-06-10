@@ -11,6 +11,10 @@ export function useDBStatus(): DBStatus {
     let interval: ReturnType<typeof setInterval>
 
     const check = async () => {
+      if (!supabase) {
+        if (mounted) setStatus('offline')
+        return
+      }
       try {
         const { error } = await supabase.from('stats').select('value', { count: 'exact', head: true }).limit(1)
         if (error) {
