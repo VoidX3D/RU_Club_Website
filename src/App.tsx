@@ -31,7 +31,7 @@ function PageLoader() {
 }
 
 function AdminRedirect() {
-  window.location.href = 'https://admin.ruclub.motherland.edu.np/'
+  window.location.href = 'https://ru-admin-site.vercel.app/'
   return null
 }
 

@@ -15,3 +15,7 @@ export function storageUrl(path: string): string {
   const p = path.startsWith('/') ? path.slice(1) : path
   return `${STORAGE_BASE}${p}`
 }
+
+export function formatText(text: string): string {
+  return text.split(/\n\s*\n/).filter(Boolean).map(p => p.trim()).join('\n\n')
+}

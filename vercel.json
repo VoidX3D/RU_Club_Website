@@ -49,12 +49,12 @@
   "redirects": [
     {
       "source": "/admin",
-      "destination": "https://admin.ruclub.motherland.edu.np/",
+      "destination": "https://ru-admin-site.vercel.app/",
       "permanent": false
     },
     {
       "source": "/admin/(.*)",
-      "destination": "https://admin.ruclub.motherland.edu.np/",
+      "destination": "https://ru-admin-site.vercel.app/",
       "permanent": false
     },
     {
