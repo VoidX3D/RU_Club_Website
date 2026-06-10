@@ -93,12 +93,12 @@ export default function MissionDetail() {
                 {mission.date && <span className="text-sm text-text-muted dark:text-dark-text-muted">{mission.date}</span>}
               </div>
               <h1 className="text-4xl sm:text-5xl font-display font-bold text-text-primary dark:text-dark-text-primary mb-4">{mission.title}</h1>
-              <p className="text-xl text-text-secondary dark:text-dark-text-secondary leading-relaxed mb-8">{mission.description}</p>
+              <p className="text-xl leading-relaxed mb-8 text-text-secondary dark:text-dark-text-primary">{mission.description}</p>
 
               {mission.detail && (
                 <div className="mb-8 space-y-4">
                   {formatText(mission.detail).split('\n\n').map((paragraph, i) => (
-                    <p key={i} className="text-text-secondary dark:text-dark-text-secondary leading-relaxed text-lg">{paragraph}</p>
+                    <p key={i} className="leading-relaxed text-lg text-text-secondary dark:text-dark-text-primary">{paragraph}</p>
                   ))}
                 </div>
               )}

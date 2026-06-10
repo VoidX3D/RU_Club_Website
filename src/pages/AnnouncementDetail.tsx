@@ -107,11 +107,11 @@ export default function AnnouncementDetail() {
               )}
 
               <div className="max-w-none">
-                <p className="text-xl font-medium text-text-primary dark:text-dark-text-primary mb-4">{announcement.summary}</p>
+                <p className="text-xl font-medium mb-4 text-text-primary dark:text-dark-text-primary">{announcement.summary}</p>
                 {announcement.description && (
                   <div className="space-y-4">
                     {formatText(announcement.description).split('\n\n').map((paragraph, i) => (
-                      <p key={i} className="text-text-secondary dark:text-dark-text-secondary leading-relaxed text-lg">{paragraph}</p>
+                      <p key={i} className="leading-relaxed text-lg text-text-secondary dark:text-dark-text-primary">{paragraph}</p>
                     ))}
                   </div>
                 )}
