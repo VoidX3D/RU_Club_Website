@@ -28,8 +28,8 @@ export default function SEOHead({
     ? title.includes('|') ? title : `${title} | ${siteName}`
     : `${siteName} | ${siteTagline}`
   const finalDesc = description || siteDesc
-  const finalImage = image || siteImage
-  const finalUrl = url || siteUrl
+  const finalImage = image || (siteImage ? `${siteUrl}${siteImage.startsWith('/') ? '' : '/'}${siteImage}` : `${siteUrl}/favicon.png`)
+  const finalUrl = url || (typeof window !== 'undefined' ? window.location.href : siteUrl)
 
   return (
     <Helmet>

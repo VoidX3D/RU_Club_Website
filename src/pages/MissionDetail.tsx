@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { getMissionInfo } from '@/lib/supabase'
@@ -13,6 +13,11 @@ export default function MissionDetail() {
   const [error, setError] = useState<string | null>(null)
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [lightboxIndex, setLightboxIndex] = useState(0)
+  const lightboxRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (lightboxOpen) lightboxRef.current?.focus()
+  }, [lightboxOpen])
 
   useEffect(() => {
     if (!slug) { setError('Invalid mission slug.'); setLoading(false); return }
@@ -216,17 +221,25 @@ export default function MissionDetail() {
       </article>
 
       {lightboxOpen && (
-        <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4" onClick={() => setLightboxOpen(false)}>
-          <button onClick={() => setLightboxOpen(false)} className="absolute top-4 right-4 text-white/80 hover:text-white z-10">
+        <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4" onClick={() => setLightboxOpen(false)}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') setLightboxOpen(false)
+            if (e.key === 'ArrowLeft') setLightboxIndex((prev) => (prev > 0 ? prev - 1 : images.length - 1))
+            if (e.key === 'ArrowRight') setLightboxIndex((prev) => (prev < images.length - 1 ? prev + 1 : 0))
+          }}
+          tabIndex={-1}
+          ref={lightboxRef}
+        >
+          <button onClick={() => setLightboxOpen(false)} className="absolute top-4 right-4 text-white/80 hover:text-white z-10" aria-label="Close lightbox">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
           </button>
           <button onClick={(e) => { e.stopPropagation(); setLightboxIndex((prev) => (prev > 0 ? prev - 1 : images.length - 1)) }}
-            className="absolute left-4 text-white/80 hover:text-white">
+            className="absolute left-4 text-white/80 hover:text-white" aria-label="Previous image">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6" /></svg>
           </button>
           <img src={imageUrls[lightboxIndex]} alt={images[lightboxIndex]?.alt || `Image ${lightboxIndex + 1}`} className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg" onClick={(e) => e.stopPropagation()} />
           <button onClick={(e) => { e.stopPropagation(); setLightboxIndex((prev) => (prev < images.length - 1 ? prev + 1 : 0)) }}
-            className="absolute right-4 text-white/80 hover:text-white">
+            className="absolute right-4 text-white/80 hover:text-white" aria-label="Next image">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6" /></svg>
           </button>
           <div className="absolute bottom-4 text-white/60 text-sm">{lightboxIndex + 1} / {images.length}</div>

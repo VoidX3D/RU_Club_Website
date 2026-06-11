@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
-import { lazy, Suspense, useEffect } from 'react'
+import { lazy, Suspense } from 'react'
 import Layout from '@/components/Layout'
 import LegalLayout from '@/components/layout/LegalLayout'
 import ErrorBoundary from '@/components/ErrorBoundary'

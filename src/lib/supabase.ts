@@ -57,8 +57,7 @@ function classifyError(err: unknown, table: string): DataError {
 
 async function query<T>(fn: () => Promise<T>, table: string, retries = 2): Promise<T | null> {
   if (!hasSupabase) {
-    console.warn(`[DB] Supabase not configured — VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY missing`)
-    return null
+    throw new DataError('Supabase not configured — set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.', table, 'CONFIG')
   }
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {

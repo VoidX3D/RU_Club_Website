@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { getAllGalleryImages } from '@/lib/supabase'
@@ -46,6 +46,7 @@ export default function Gallery() {
       if (!data) { setError('Could not load gallery images. Check database connection.'); setLoading(false); return }
       setGroups(groupImages(data))
       setLoading(false)
+      import('aos').then(m => m.default.refresh())
     }).catch((err) => {
       setError(err instanceof Error ? err.message : 'Failed to load gallery.')
       setLoading(false)
@@ -60,20 +61,19 @@ export default function Gallery() {
 
   const currentGroup = lightboxGroupIdx >= 0 && lightboxGroupIdx < visibleGroups.length ? visibleGroups[lightboxGroupIdx] : null
   const currentImg = currentGroup ? currentGroup.images[lightboxImageIdx] : null
+  const lightboxRef = useRef<HTMLDivElement>(null)
 
-  const handleDownload = async (url: string, filename: string) => {
-    try {
-      const res = await fetch(url)
-      const blob = await res.blob()
-      const blobUrl = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = blobUrl
-      a.download = filename
-      a.click()
-      URL.revokeObjectURL(blobUrl)
-    } catch {
-      window.open(url, '_blank')
-    }
+  useEffect(() => {
+    if (lightboxGroupIdx >= 0) lightboxRef.current?.focus()
+  }, [lightboxGroupIdx])
+
+  const handleDownload = (url: string, filename: string) => {
+    const a = document.createElement('a')
+    a.href = url
+    a.download = filename
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
   }
 
   return (
@@ -162,7 +162,15 @@ export default function Gallery() {
       </section>
 
       {currentImg && currentGroup && (
-        <div className="fixed inset-0 z-50 bg-black/95 flex flex-col" onClick={closeLightbox}>
+        <div className="fixed inset-0 z-50 bg-black/95 flex flex-col" onClick={closeLightbox}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') closeLightbox()
+            if (e.key === 'ArrowLeft') setLightboxImageIdx((prev) => prev > 0 ? prev - 1 : currentGroup.images.length - 1)
+            if (e.key === 'ArrowRight') setLightboxImageIdx((prev) => prev < currentGroup.images.length - 1 ? prev + 1 : 0)
+          }}
+          tabIndex={-1}
+          ref={lightboxRef}
+        >
           <div className="flex items-center justify-between px-4 sm:px-6 py-3 shrink-0" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center gap-3 min-w-0">
               <Link to={`/mission/${currentGroup.slug}`} className="text-sm text-white/70 hover:text-white truncate hover:underline">{currentGroup.title}</Link>

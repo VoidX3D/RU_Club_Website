@@ -1,4 +1,4 @@
-import { Outlet, useLocation } from 'react-router-dom'
+import { Outlet, useLocation, useNavigation } from 'react-router-dom'
 import Navbar from './layout/Navbar'
 import Footer from './layout/Footer'
 import CookieConsent from './CookieConsent'
@@ -14,6 +14,7 @@ import 'aos/dist/aos.css'
 export default function Layout() {
   const { theme, toggleTheme } = useTheme()
   const location = useLocation()
+  const navigation = useNavigation()
   usePageTracking()
 
   const isSecretGarden = location.pathname === '/secret-garden'
@@ -28,9 +29,11 @@ export default function Layout() {
   }, [])
 
   useEffect(() => {
-    AOS.refresh()
-    window.scrollTo(0, 0)
-  }, [location.pathname])
+    if (navigation.state === 'idle') {
+      AOS.refresh()
+      window.scrollTo(0, 0)
+    }
+  }, [navigation.state, location.pathname])
 
   if (isSecretGarden) {
     return (

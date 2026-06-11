@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -71,10 +71,10 @@ function HeroSection() {
 }
 
 function StatsSection() {
-  const { data: stats, loading } = useSiteData<Stat[]>(getStats)
-  const displayStats = stats || dbFallbackStats
+  const { data: stats, loading, error } = useSiteData<Stat[]>(getStats)
+  const displayStats = stats || (error ? dbFallbackStats : null)
 
-  if (!displayStats && loading) {
+  if (loading && !stats) {
     return (
       <section className="bg-gradient-to-r from-brand-600 to-brand-700 py-16 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -95,7 +95,7 @@ function StatsSection() {
     <section className="bg-gradient-to-r from-brand-600 to-brand-700 py-16 md:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 text-center">
-          {displayStats.map((stat, i) => (
+          {displayStats!.map((stat, i) => (
             <div key={stat.label} data-aos="fade-up" data-aos-delay={i * 100} className="text-white">
               <div className="text-[clamp(2.5rem,5vw,3.5rem)] font-display font-extrabold leading-none mb-2">{stat.value}</div>
               <div className="text-sm md:text-base text-white/85 font-medium">{stat.label}</div>
