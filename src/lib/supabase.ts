@@ -192,6 +192,18 @@ export async function getMissionInfo(slug: string): Promise<MissionInfo | null> 
       supabase.from('mission_budget').select('item, amount').eq('mission_id', data.id).order('sort_order'),
     ])
 
+    const missionImages = (imgRes.data || []).map((i: { url: string; alt: string }) => ({
+      url: resolveImageUrl(i.url, `mission/${data.slug}/`) as string,
+      alt: i.alt || `${data.title} - Image`,
+    }))
+
+    if (missionImages.length === 0 && data.featured) {
+      const url = resolveImageUrl(data.featured) as string
+      if (url) {
+        missionImages.push({ url, alt: `${data.title} - Featured Image` })
+      }
+    }
+
     return {
       id: data.id,
       title: data.title,
@@ -200,10 +212,7 @@ export async function getMissionInfo(slug: string): Promise<MissionInfo | null> 
       date: data.date,
       description: data.description,
       detail: data.detail,
-      images: (imgRes.data || []).map((i: { url: string; alt: string }) => ({
-        url: resolveImageUrl(i.url, `mission/${data.slug}/`) as string,
-        alt: i.alt || `${data.title} - Image`,
-      })),
+      images: missionImages,
       stats: (statRes.data || []).map((s: { label: string; value: string }) => ({ label: s.label, value: s.value })),
       partners: (partRes.data || []).map((p: { name: string }) => p.name),
       goals: (goalRes.data || []).map((g: { goal: string }) => g.goal),
@@ -217,29 +226,47 @@ export async function getMissionInfo(slug: string): Promise<MissionInfo | null> 
 export async function getAllGalleryImages(): Promise<GalleryImage[] | null> {
   return query(async () => {
     const [missionsRes, imagesRes] = await Promise.all([
-      supabase.from('missions').select('id, title, slug').eq('show', true),
+      supabase.from('missions').select('id, title, slug, featured').eq('show', true),
       supabase.from('mission_images').select('url, alt, sort_order, mission_id').order('sort_order'),
     ])
 
     if (missionsRes.error) throw missionsRes.error
     if (imagesRes.error) throw imagesRes.error
-    if (!imagesRes.data || imagesRes.data.length === 0) return null
 
-    const missionMap = new Map(missionsRes.data?.map((m: { id: string; title: string; slug: string }) => [m.id, m]) || [])
+    const missionMap = new Map(missionsRes.data?.map((m: { id: string; title: string; slug: string; featured?: string }) => [m.id, m]) || [])
 
-    return imagesRes.data.map((img: { url: string; alt: string; sort_order: number; mission_id: string }) => {
+    const gallery: GalleryImage[] = []
+
+    for (const img of (imagesRes.data || [])) {
       const m = missionMap.get(img.mission_id)
-      if (!m) return null
+      if (!m) continue
       const url = resolveImageUrl(img.url, `mission/${m.slug}/`) as string
-      return {
+      if (url) gallery.push({
         id: `${img.mission_id}-${img.sort_order}`,
         url,
         alt: img.alt || `${m.title} - Image ${img.sort_order}`,
         missionTitle: m.title,
         missionSlug: m.slug,
         downloadUrl: url,
+      })
+    }
+
+    for (const [id, m] of missionMap) {
+      const hasEntry = gallery.some(g => g.missionSlug === m.slug)
+      if (!hasEntry && m.featured) {
+        const url = resolveImageUrl(m.featured) as string
+        if (url) gallery.push({
+          id: `${id}-featured`,
+          url,
+          alt: `${m.title} - Featured Image`,
+          missionTitle: m.title,
+          missionSlug: m.slug,
+          downloadUrl: url,
+        })
       }
-    }).filter(Boolean) as GalleryImage[]
+    }
+
+    return gallery.length > 0 ? gallery : null
   }, 'mission_images')
 }
 
