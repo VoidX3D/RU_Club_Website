@@ -84,6 +84,11 @@ export interface MissionEntry {
   featured?: string;
 }
 
+export interface MissionImageItem {
+  url: string;
+  alt: string;
+}
+
 export interface MissionInfo {
   id: string;
   title: string;
@@ -92,7 +97,7 @@ export interface MissionInfo {
   date?: string;
   description: string;
   detail?: string;
-  images: string[];
+  images: MissionImageItem[];
   stats: { label: string; value: string }[];
   partners: string[];
   goals: string[];

@@ -62,7 +62,7 @@ RU Club Motherland is a **React + TypeScript + Vite** SPA for an environmental s
 1. Each page calls its DB function from `src/lib/supabase.ts`:
    - **Home:** `getStats()`, `getPartners()`, `getMissionList()`
    - **Missions/Gallery:** `getMissionList()`
-   - **Mission Detail:** `getMissionInfo(slug)`, `getMissionImages(slug)`
+   - **Mission Detail:** `getMissionInfo(slug)` (includes structured images with alt text, participants, budget)
    - **Gallery:** `getAllGalleryImages()` (batch query, handles 100+ images)
    - **Announcements:** `getAnnouncementList()`
    - **Announcement Detail:** `getAnnouncementDetail(id)`

@@ -286,6 +286,35 @@ DO $$ BEGIN
   );
 END $$;
 
-CREATE POLICY "Public insert" ON contact_submissions FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public insert" ON contact_submissions FOR INSERT WITH CHECK (
+  name IS NOT NULL AND name != '' AND
+  email IS NOT NULL AND email != '' AND
+  subject IS NOT NULL AND subject != '' AND
+  message IS NOT NULL AND message != ''
+);
+
+-- ============================================================
+-- LINT FIXES
+-- ============================================================
+
+-- Fix: function_search_path_mutable — set explicit search_path
+CREATE OR REPLACE FUNCTION public.update_timestamp()
+RETURNS trigger
+LANGUAGE plpgsql
+SET search_path = ''
+AS $$
+BEGIN
+  NEW.updated_at = now();
+  RETURN NEW;
+END;
+$$;
+
+-- Fix: anon/authenticated_security_definer_function_executable
+-- Switch rls_auto_enable to SECURITY INVOKER (skip if function doesn't exist)
+DO $$ BEGIN
+  ALTER FUNCTION public.rls_auto_enable() SECURITY INVOKER;
+EXCEPTION WHEN undefined_function THEN
+  RAISE NOTICE 'rls_auto_enable does not exist, skipping';
+END $$;
 
 COMMIT;

@@ -59,7 +59,7 @@ async function query<T>(fn: () => Promise<T>, table: string, retries = 2): Promi
       const de = classifyError(err, table)
       console.error(`[DB] ${de.table ? de.table + ': ' : ''}${de.message}${attempt < retries ? ` (retry ${attempt + 1}/${retries})` : ''}`)
       if (attempt < retries) {
-        await new Promise(r => setTimeout(r, 30000))
+        await new Promise(r => setTimeout(r, 3000))
         continue
       }
       return null
@@ -193,7 +193,10 @@ export async function getMissionInfo(slug: string): Promise<MissionInfo | null> 
       date: data.date,
       description: data.description,
       detail: data.detail,
-      images: (imgRes.data || []).map((i: { url: string }) => i.url.startsWith('http') ? i.url : storageUrl(`mission/${slugPart}/${i.url}`)),
+      images: (imgRes.data || []).map((i: { url: string; alt: string }) => ({
+        url: i.url.startsWith('http') ? i.url : storageUrl(`mission/${slugPart}/${i.url}`),
+        alt: i.alt || `${data.title} - Image`,
+      })),
       stats: (statRes.data || []).map((s: { label: string; value: string }) => ({ label: s.label, value: s.value })),
       partners: (partRes.data || []).map((p: { name: string }) => p.name),
       goals: (goalRes.data || []).map((g: { goal: string }) => g.goal),

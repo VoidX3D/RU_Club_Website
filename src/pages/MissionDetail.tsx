@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { getMissionInfo, getMissionImages } from '@/lib/supabase'
+import { getMissionInfo } from '@/lib/supabase'
 import { renderMd } from '@/lib/utils'
 import SEOHead from '@/components/SEOHead'
-import type { MissionInfo, GalleryImage } from '@/types'
+import type { MissionInfo } from '@/types'
 
 export default function MissionDetail() {
   const { slug } = useParams<{ slug: string }>()
   const [mission, setMission] = useState<MissionInfo | null>(null)
-  const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [lightboxOpen, setLightboxOpen] = useState(false)
@@ -19,13 +18,9 @@ export default function MissionDetail() {
     if (!slug) { setError('Invalid mission slug.'); setLoading(false); return }
     setLoading(true)
     setError(null)
-    Promise.all([
-      getMissionInfo(slug),
-      getMissionImages(slug),
-    ]).then(([info, imgs]) => {
+    getMissionInfo(slug).then((info) => {
       if (!info) { setError('Mission not found.'); setLoading(false); return }
       setMission(info)
-      setGalleryImages(imgs || [])
       setLoading(false)
     }).catch((err) => {
       setError(err instanceof Error ? err.message : 'Failed to load mission.')
@@ -63,8 +58,8 @@ export default function MissionDetail() {
     )
   }
 
-  const images = galleryImages.length > 0 ? galleryImages.map(g => g.url) : (mission.images || [])
-  const imageAlts = galleryImages.map(g => g.alt)
+  const images = mission.images || []
+  const imageUrls = images.map(i => i.url)
 
   const openLightbox = (index: number) => {
     setLightboxIndex(index)
@@ -73,7 +68,7 @@ export default function MissionDetail() {
 
   return (
     <>
-      <SEOHead title={mission.title} description={mission.description} image={images[0] || undefined} />
+      <SEOHead title={mission.title} description={mission.description} image={imageUrls[0] || undefined} />
 
       <article className="min-h-screen">
         <div className="w-full px-4 sm:px-6 py-12">
@@ -194,7 +189,7 @@ export default function MissionDetail() {
                     <button key={i} onClick={() => openLightbox(i)}
                       className="aspect-video rounded-xl overflow-hidden bg-surface-tertiary dark:bg-dark-surface-tertiary group cursor-pointer"
                     >
-                      <img src={img} alt={imageAlts[i] || `${mission.title} - Image ${i + 1}`}
+                      <img src={img.url} alt={img.alt}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
                     </button>
                   ))}
@@ -229,7 +224,7 @@ export default function MissionDetail() {
             className="absolute left-4 text-white/80 hover:text-white">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6" /></svg>
           </button>
-          <img src={images[lightboxIndex]} alt={`Image ${lightboxIndex + 1}`} className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg" onClick={(e) => e.stopPropagation()} />
+          <img src={imageUrls[lightboxIndex]} alt={images[lightboxIndex]?.alt || `Image ${lightboxIndex + 1}`} className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg" onClick={(e) => e.stopPropagation()} />
           <button onClick={(e) => { e.stopPropagation(); setLightboxIndex((prev) => (prev < images.length - 1 ? prev + 1 : 0)) }}
             className="absolute right-4 text-white/80 hover:text-white">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6" /></svg>
