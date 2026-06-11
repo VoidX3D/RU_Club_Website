@@ -141,7 +141,6 @@ export interface AnnouncementFull {
   importance?: string;
   instructions?: string;
   tags: string[];
-  gallery: string[];
 }
 
 export interface GalleryImage {

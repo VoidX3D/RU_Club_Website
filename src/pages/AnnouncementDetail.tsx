@@ -149,18 +149,7 @@ export default function AnnouncementDetail() {
                 )}
               </div>
 
-              {announcement.gallery && announcement.gallery.length > 0 && (
-                <div className="mt-8">
-                  <h3 className="font-display font-semibold text-lg text-text-primary dark:text-dark-text-primary mb-3">Gallery</h3>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                    {announcement.gallery.map((url, i) => (
-                      <div key={i} className="aspect-video rounded-xl overflow-hidden bg-surface-tertiary dark:bg-dark-surface-tertiary">
-                        <img src={url} alt={`${announcement.title} gallery ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+
             </motion.div>
           </div>
         </div>

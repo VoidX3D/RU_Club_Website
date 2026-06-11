@@ -313,13 +313,6 @@ export async function getAnnouncementDetail(id: string): Promise<AnnouncementFul
       .order('sort_order')
     if (tagErr) throw tagErr
 
-    const { data: gallery, error: galErr } = await supabase
-      .from('announcement_gallery')
-      .select('url, alt')
-      .eq('announcement_id', id)
-      .order('sort_order')
-    if (galErr) throw galErr
-
     return {
       id: data.id,
       title: data.title,
@@ -336,7 +329,6 @@ export async function getAnnouncementDetail(id: string): Promise<AnnouncementFul
       importance: data.importance,
       instructions: data.instructions,
       tags: (tags || []).map((t: { tag: string }) => t.tag),
-      gallery: (gallery || []).map((g: { url: string }) => resolveImageUrl(g.url, 'announcements/') as string),
     }
   }, 'announcements')
 }
