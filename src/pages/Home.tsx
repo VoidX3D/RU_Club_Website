@@ -173,12 +173,12 @@ function MissionCarousel() {
                   <Link to={`/mission/${m.slug}`} className="group block w-full h-full rounded-2xl md:rounded-3xl overflow-hidden relative bg-surface-tertiary dark:bg-dark-surface-tertiary">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
                     {m.featured ? (
-                      <img src={m.featured} alt={m.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-                    ) : (
-                      <div className="w-full h-full bg-surface-tertiary dark:bg-dark-surface-tertiary flex items-center justify-center">
-                        <span className="text-text-muted dark:text-dark-text-muted text-sm">No image</span>
-                      </div>
-                    )}
+                      <img src={m.featured} alt={m.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy"
+                        onError={(e) => { const el = e.target as HTMLImageElement; el.style.display = 'none'; el.nextElementSibling?.classList.remove('hidden') }} />
+                    ) : null}
+                    <div className={`w-full h-full bg-surface-tertiary dark:bg-dark-surface-tertiary flex items-center justify-center ${m.featured ? 'hidden' : ''}`}>
+                      <span className="text-text-muted dark:text-dark-text-muted text-sm">{m.featured ? 'Failed to load' : 'No image'}</span>
+                    </div>
                     <div className="absolute bottom-0 left-0 right-0 z-20 p-4 sm:p-6 md:p-8">
                       {m.tag && (
                         <span className="inline-block text-[10px] font-bold uppercase tracking-[0.1em] text-white bg-brand-600 px-3 py-1 rounded-full mb-2">{m.tag}</span>

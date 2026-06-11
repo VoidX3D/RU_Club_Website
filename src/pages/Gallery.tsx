@@ -136,7 +136,11 @@ export default function Gallery() {
                           onClick={() => openLightbox(gIdx, iIdx)}
                           className="group relative aspect-[4/3] rounded-xl overflow-hidden bg-surface-tertiary dark:bg-dark-surface-tertiary cursor-pointer"
                         >
-                          <img src={img.url} alt={img.alt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
+                          <img src={img.url} alt={img.alt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy"
+                            onError={(e) => { const el = e.target as HTMLImageElement; el.style.display = 'none'; el.parentElement!.querySelector('.img-fallback')?.classList.remove('hidden') }} />
+                          <div className="img-fallback hidden absolute inset-0 bg-surface-tertiary dark:bg-dark-surface-tertiary flex items-center justify-center">
+                            <span className="text-xs text-text-muted dark:text-dark-text-muted">Failed to load</span>
+                          </div>
                           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
                             <span className="text-white text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity px-2 text-center line-clamp-1">{img.alt}</span>
                           </div>

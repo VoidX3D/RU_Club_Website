@@ -51,12 +51,12 @@ export default function Missions() {
                     <div className="aspect-[4/3] overflow-hidden bg-surface-tertiary dark:bg-dark-surface-tertiary">
                       {mission.featured ? (
                         <img src={mission.featured} alt={mission.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <span className="text-text-muted dark:text-dark-text-muted text-xs">No image</span>
-                        </div>
-                      )}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy"
+                          onError={(e) => { const el = e.target as HTMLImageElement; el.style.display = 'none'; el.nextElementSibling?.classList.remove('hidden') }} />
+                      ) : null}
+                      <div className={`w-full h-full flex items-center justify-center bg-surface-tertiary dark:bg-dark-surface-tertiary ${mission.featured ? 'hidden' : ''}`}>
+                        <span className="text-text-muted dark:text-dark-text-muted text-xs">{mission.featured ? 'Failed to load' : 'No image'}</span>
+                      </div>
                     </div>
                     <div className="p-5">
                       <div className="flex items-center gap-2 mb-1.5">

@@ -192,10 +192,14 @@ export default function MissionDetail() {
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                   {images.map((img, i) => (
                     <button key={i} onClick={() => openLightbox(i)}
-                      className="aspect-video rounded-xl overflow-hidden bg-surface-tertiary dark:bg-dark-surface-tertiary group cursor-pointer"
+                      className="aspect-video rounded-xl overflow-hidden bg-surface-tertiary dark:bg-dark-surface-tertiary group cursor-pointer relative"
                     >
                       <img src={img.url} alt={img.alt}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy"
+                        onError={(e) => { const el = e.target as HTMLImageElement; el.style.display = 'none'; el.parentElement!.querySelector('.img-fallback')?.classList.remove('hidden') }} />
+                      <div className="img-fallback hidden absolute inset-0 flex items-center justify-center bg-surface-tertiary dark:bg-dark-surface-tertiary">
+                        <span className="text-xs text-text-muted dark:text-dark-text-muted">Failed to load</span>
+                      </div>
                     </button>
                   ))}
                 </div>
