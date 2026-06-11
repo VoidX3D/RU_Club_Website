@@ -34,6 +34,7 @@ export interface FooterLink {
   label: string;
   href: string;
   section: 'quick' | 'legal';
+  external?: boolean;
 }
 
 export interface SocialLink {

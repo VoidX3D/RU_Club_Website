@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { lazy, Suspense } from 'react'
 import Layout from '@/components/Layout'
@@ -46,7 +46,6 @@ export default function App() {
                 <Route path="/announcement/:id" element={<AnnouncementDetail />} />
                 <Route path="/members" element={<Members />} />
                 <Route path="/contact" element={<Contact />} />
-                <Route path="/admin" element={<Navigate to="https://ru-admin-site.vercel.app/" replace />} />
                 <Route path="*" element={<NotFound />} />
               </Route>
               <Route element={<LegalLayout />}>
