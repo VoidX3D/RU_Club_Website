@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import SEOHead from '@/components/SEOHead'
 import { submitContactForm } from '@/lib/supabase'
@@ -12,11 +12,12 @@ const socialIcons: Record<string, React.ReactNode> = {
 }
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' })
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '', _gotcha: '' })
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
   const config = useSiteConfig()
+  const lastSubmit = useRef(0)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -24,20 +25,26 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (formData._gotcha) return
+    const now = Date.now()
+    if (now - lastSubmit.current < 10000) {
+      setError('Please wait before sending another message.')
+      return
+    }
     setSubmitting(true)
     setError('')
     try {
       const results = await Promise.allSettled([
-        submitContactForm(formData),
+        submitContactForm({ name: formData.name, email: formData.email, subject: formData.subject, message: formData.message }),
         fetch('https://formspree.io/f/xjgzzwej', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify(formData),
+          body: JSON.stringify({ name: formData.name, email: formData.email, subject: formData.subject, message: formData.message }),
         }),
         fetch('https://formspree.io/f/xnjrrwbp', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify(formData),
+          body: JSON.stringify({ name: formData.name, email: formData.email, subject: formData.subject, message: formData.message }),
         }),
       ])
       const dbResult = results[0]
@@ -49,6 +56,7 @@ export default function Contact() {
         setSubmitting(false)
         return
       }
+      lastSubmit.current = now
       setSubmitted(true)
     } catch {
       setError('Failed to send message. Please try again or email us directly.')
@@ -154,6 +162,9 @@ export default function Contact() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="absolute opacity-0 pointer-events-none" aria-hidden="true">
+                    <input type="text" name="_gotcha" value={formData._gotcha} onChange={handleChange} tabIndex={-1} autoComplete="off" />
+                  </div>
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-text-primary dark:text-dark-text-primary mb-1.5">Name</label>
                     <input type="text" id="name" name="name" required value={formData.name} onChange={handleChange}
