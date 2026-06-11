@@ -1,5 +1,6 @@
 # AGENTS — Project Guide
 
+
 ## Overview
 RU Club Motherland is a **React + TypeScript + Vite** SPA for an environmental sustainability club at Motherland Secondary School, Pokhara, Nepal. Hardcoded static text from `src/data/index.ts`. Dynamic data from **Supabase**. Deployed on **Vercel**.
 
