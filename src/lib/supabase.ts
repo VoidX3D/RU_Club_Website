@@ -193,7 +193,7 @@ export async function getMissionInfo(slug: string): Promise<MissionInfo | null> 
       date: data.date,
       description: data.description,
       detail: data.detail,
-      images: (imgRes.data || []).map((i: { url: string }) => storageUrl(`mission/${slugPart}/${i.url}`)),
+      images: (imgRes.data || []).map((i: { url: string }) => i.url.startsWith('http') ? i.url : storageUrl(`mission/${slugPart}/${i.url}`)),
       stats: (statRes.data || []).map((s: { label: string; value: string }) => ({ label: s.label, value: s.value })),
       partners: (partRes.data || []).map((p: { name: string }) => p.name),
       goals: (goalRes.data || []).map((g: { goal: string }) => g.goal),
@@ -225,7 +225,7 @@ export async function getMissionImages(slug: string): Promise<GalleryImage[] | n
     if (!imgRes.data || imgRes.data.length === 0) return null
 
     return imgRes.data.map((img: { url: string; alt: string; sort_order: number }) => {
-      const url = storageUrl(`mission/${mission.slug}/${img.url}`)
+      const url = img.url.startsWith('http') ? img.url : storageUrl(`mission/${mission.slug}/${img.url}`)
       return {
         id: `${mission.id}-${img.sort_order}`,
         url,
@@ -254,7 +254,7 @@ export async function getAllGalleryImages(): Promise<GalleryImage[] | null> {
     return imagesRes.data.map((img: { url: string; alt: string; sort_order: number; mission_id: string }) => {
       const m = missionMap.get(img.mission_id)
       if (!m) return null
-      const url = storageUrl(`mission/${m.slug}/${img.url}`)
+      const url = img.url.startsWith('http') ? img.url : storageUrl(`mission/${m.slug}/${img.url}`)
       return {
         id: `${img.mission_id}-${img.sort_order}`,
         url,
