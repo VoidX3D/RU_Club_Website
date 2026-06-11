@@ -1,8 +1,7 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { useCallback } from 'react'
-import { getMembers } from '@/lib/supabase'
 import { useSiteData } from '@/hooks/useSiteData'
+import { getMembers } from '@/lib/supabase'
 import SEOHead from '@/components/SEOHead'
 import type { MembersData, Member } from '@/types'
 
@@ -20,8 +19,7 @@ const roleStyles: Record<string, string> = {
 }
 
 export default function Members() {
-  const fetcher = useCallback(() => getMembers(), [])
-  const { data: members, loading, error } = useSiteData<MembersData>(fetcher)
+  const { data: members, loading, error } = useSiteData<MembersData>(getMembers)
 
   const renderTable = (group: 'teachers' | 'core' | 'general') => {
     if (!members || !members[group]) return null

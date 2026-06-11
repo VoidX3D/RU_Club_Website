@@ -1,14 +1,12 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { useCallback } from 'react'
 import { getAnnouncementList } from '@/lib/supabase'
 import { useSiteData } from '@/hooks/useSiteData'
 import SEOHead from '@/components/SEOHead'
 import type { AnnouncementEntry } from '@/types'
 
 export default function Announcements() {
-  const fetcher = useCallback(() => getAnnouncementList(), [])
-  const { data: announcements, loading, error } = useSiteData<AnnouncementEntry[]>(fetcher)
+  const { data: announcements, loading, error } = useSiteData<AnnouncementEntry[]>(getAnnouncementList)
 
   return (
     <>

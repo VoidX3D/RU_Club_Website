@@ -1,72 +1,52 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 
 export function useSiteData<T>(fetcher: () => Promise<T | null>) {
   const [data, setData] = useState<T | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const mountedRef = useRef(true)
 
   const fetch = useCallback(() => {
     setLoading(true)
     setError(null)
     fetcher()
       .then((result) => {
+        if (!mountedRef.current) return
         setData(result)
         setError(null)
       })
       .catch((err: unknown) => {
+        if (!mountedRef.current) return
         const msg = err instanceof Error ? err.message : 'Failed to load data'
         setError(msg)
         setData(null)
       })
       .finally(() => {
-        setLoading(false)
+        if (mountedRef.current) setLoading(false)
       })
   }, [fetcher])
 
   useEffect(() => {
-    let mounted = true
-
-    const run = () => {
-      setLoading(true)
-      setError(null)
-      fetcher()
-        .then((result) => {
-          if (mounted) {
-            setData(result)
-            setError(null)
-          }
-        })
-        .catch((err: unknown) => {
-          if (mounted) {
-            const msg = err instanceof Error ? err.message : 'Failed to load data'
-            setError(msg)
-            setData(null)
-          }
-        })
-        .finally(() => {
-          if (mounted) setLoading(false)
-        })
-    }
-
-    run()
+    mountedRef.current = true
+    fetch()
 
     const handleReconnect = () => {
-      if (navigator.onLine) run()
+      if (navigator.onLine) fetch()
     }
 
     const handleVisibility = () => {
-      if (document.visibilityState === 'visible' && navigator.onLine) run()
+      if (document.visibilityState === 'visible' && navigator.onLine) fetch()
     }
 
     window.addEventListener('online', handleReconnect)
     document.addEventListener('visibilitychange', handleVisibility)
 
     return () => {
-      mounted = false
+      mountedRef.current = false
       window.removeEventListener('online', handleReconnect)
       window.removeEventListener('visibilitychange', handleVisibility)
     }
-  }, [fetcher])
+  }, [fetch])
 
   return { data, loading, error, refetch: fetch }
 }

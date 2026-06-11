@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useMemo } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { getAllGalleryImages } from '@/lib/supabase'
@@ -6,10 +6,8 @@ import SEOHead from '@/components/SEOHead'
 import type { GalleryImage } from '@/types'
 
 interface MissionGroup {
-  missionId: string
-  title: string
   slug: string
-  date?: string
+  title: string
   images: GalleryImage[]
 }
 
@@ -21,7 +19,6 @@ function groupImages(imgs: GalleryImage[]): MissionGroup[] {
     const key = img.missionSlug
     if (!map.has(key)) {
       map.set(key, {
-        missionId: img.id.split('-')[0],
         title: img.missionTitle,
         slug: img.missionSlug,
         images: [],
@@ -39,7 +36,6 @@ export default function Gallery() {
   const [lightboxGroupIdx, setLightboxGroupIdx] = useState(-1)
   const [lightboxImageIdx, setLightboxImageIdx] = useState(0)
   const [visible, setVisible] = useState(PER_PAGE)
-  const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({})
 
   const totalImages = useMemo(() => groups.reduce((s, g) => s + g.images.length, 0), [groups])
   const visibleGroups = groups.slice(0, visible)
@@ -124,7 +120,7 @@ export default function Gallery() {
             <>
               <div className="max-w-7xl mx-auto space-y-14">
                 {visibleGroups.map((group, gIdx) => (
-                  <div key={group.slug} ref={(el) => { sectionRefs.current[group.slug] = el }}>
+                  <div key={group.slug}>
                     <div className="flex items-end justify-between mb-5" data-aos="fade-up">
                       <div>
                         <Link to={`/mission/${group.slug}`} className="inline-flex items-center gap-2 group/link">

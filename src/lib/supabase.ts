@@ -1,9 +1,9 @@
 import { createClient } from '@supabase/supabase-js'
 import type {
   Stat, Partner, Member, MembersData,
-  MissionEntry, MissionInfo, MissionTimeline,
+  MissionEntry, MissionInfo, MissionTimeline, GalleryImage,
   AnnouncementEntry, AnnouncementFull,
-  GalleryImage, ContactFormData,
+  ContactFormData,
 } from '@/types'
 import { storageUrl } from './utils'
 
@@ -62,7 +62,8 @@ async function query<T>(fn: () => Promise<T>, table: string, retries = 2): Promi
         await new Promise(r => setTimeout(r, 3000))
         continue
       }
-      return null
+      // Re-throw after all retries so callers can render error states
+      throw de
     }
   }
   return null
@@ -184,7 +185,6 @@ export async function getMissionInfo(slug: string): Promise<MissionInfo | null> 
       supabase.from('mission_budget').select('item, amount').eq('mission_id', data.id).order('sort_order'),
     ])
 
-    const slugPart = data.slug
     return {
       id: data.id,
       title: data.title,
@@ -194,7 +194,7 @@ export async function getMissionInfo(slug: string): Promise<MissionInfo | null> 
       description: data.description,
       detail: data.detail,
       images: (imgRes.data || []).map((i: { url: string; alt: string }) => ({
-        url: i.url.startsWith('http') ? i.url : storageUrl(`mission/${slugPart}/${i.url}`),
+        url: i.url.startsWith('http') ? i.url : storageUrl(`mission/${data.slug}/${i.url}`),
         alt: i.alt || `${data.title} - Image`,
       })),
       stats: (statRes.data || []).map((s: { label: string; value: string }) => ({ label: s.label, value: s.value })),
@@ -205,40 +205,6 @@ export async function getMissionInfo(slug: string): Promise<MissionInfo | null> 
       budget: (budgRes.data || []).map((b: { item: string; amount?: string }) => b),
     }
   }, 'missions')
-}
-
-export async function getMissionImages(slug: string): Promise<GalleryImage[] | null> {
-  return query(async () => {
-    const mRes = await supabase
-      .from('missions')
-      .select('id, title, slug')
-      .eq('slug', slug)
-      .single()
-    if (mRes.error) throw new DataError(`Mission not found: ${slug}`, 'missions')
-
-    const mission = mRes.data
-
-    const imgRes = await supabase
-      .from('mission_images')
-      .select('url, alt, sort_order')
-      .eq('mission_id', mission.id)
-      .order('sort_order')
-
-    if (imgRes.error) throw imgRes.error
-    if (!imgRes.data || imgRes.data.length === 0) return null
-
-    return imgRes.data.map((img: { url: string; alt: string; sort_order: number }) => {
-      const url = img.url.startsWith('http') ? img.url : storageUrl(`mission/${mission.slug}/${img.url}`)
-      return {
-        id: `${mission.id}-${img.sort_order}`,
-        url,
-        alt: img.alt || `${mission.title} - Image ${img.sort_order}`,
-        missionTitle: mission.title,
-        missionSlug: mission.slug,
-        downloadUrl: url,
-      }
-    })
-  }, 'mission_images')
 }
 
 export async function getAllGalleryImages(): Promise<GalleryImage[] | null> {
@@ -306,17 +272,19 @@ export async function getAnnouncementDetail(id: string): Promise<AnnouncementFul
     if (error) throw error
     if (!data) return null
 
-    const { data: tags } = await supabase
+    const { data: tags, error: tagErr } = await supabase
       .from('announcement_tags')
       .select('tag')
       .eq('announcement_id', id)
       .order('sort_order')
+    if (tagErr) throw tagErr
 
-    const { data: gallery } = await supabase
+    const { data: gallery, error: galErr } = await supabase
       .from('announcement_gallery')
       .select('url, alt')
       .eq('announcement_id', id)
       .order('sort_order')
+    if (galErr) throw galErr
 
     return {
       id: data.id,

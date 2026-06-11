@@ -1,14 +1,12 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { useCallback } from 'react'
 import { getMissionList } from '@/lib/supabase'
 import { useSiteData } from '@/hooks/useSiteData'
 import SEOHead from '@/components/SEOHead'
 import type { MissionEntry } from '@/types'
 
 export default function Missions() {
-  const fetcher = useCallback(() => getMissionList(), [])
-  const { data: missions, loading, error } = useSiteData<MissionEntry[]>(fetcher)
+  const { data: missions, loading, error } = useSiteData<MissionEntry[]>(getMissionList)
 
   return (
     <>
@@ -51,8 +49,14 @@ export default function Missions() {
                     className="group block rounded-2xl overflow-hidden bg-white dark:bg-dark-surface-secondary border border-border dark:border-dark-border hover:border-brand-500/50 transition-all duration-300 glow-card"
                   >
                     <div className="aspect-[4/3] overflow-hidden bg-surface-tertiary dark:bg-dark-surface-tertiary">
-                      <img src={mission.featured || ''} alt={mission.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                      {mission.featured ? (
+                        <img src={mission.featured} alt={mission.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <span className="text-text-muted dark:text-dark-text-muted text-xs">No image</span>
+                        </div>
+                      )}
                     </div>
                     <div className="p-5">
                       <div className="flex items-center gap-2 mb-1.5">

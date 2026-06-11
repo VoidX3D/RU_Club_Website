@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || ''
+const supabaseUrl = (import.meta.env.VITE_SUPABASE_URL || '').replace(/\/$/, '')
 const STORAGE_BASE = supabaseUrl
   ? `${supabaseUrl}/storage/v1/object/public/ruclub/static/assets/`
   : ''

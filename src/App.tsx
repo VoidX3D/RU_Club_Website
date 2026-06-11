@@ -30,13 +30,6 @@ function PageLoader() {
   )
 }
 
-function AdminRedirect() {
-  useEffect(() => {
-    window.open('https://ru-admin-site.vercel.app/', '_blank')
-  }, [])
-  return <Navigate to="/" replace />
-}
-
 export default function App() {
   return (
     <HelmetProvider>
@@ -53,8 +46,7 @@ export default function App() {
                 <Route path="/announcement/:id" element={<AnnouncementDetail />} />
                 <Route path="/members" element={<Members />} />
                 <Route path="/contact" element={<Contact />} />
-                <Route path="/secret-garden" element={<SecretGarden />} />
-                <Route path="/admin" element={<AdminRedirect />} />
+                <Route path="/admin" element={<Navigate to="https://ru-admin-site.vercel.app/" replace />} />
                 <Route path="*" element={<NotFound />} />
               </Route>
               <Route element={<LegalLayout />}>
@@ -62,6 +54,7 @@ export default function App() {
                 <Route path="/license" element={<License />} />
                 <Route path="/consent" element={<Consent />} />
               </Route>
+              <Route path="/secret-garden" element={<SecretGarden />} />
             </Routes>
           </Suspense>
         </ErrorBoundary>

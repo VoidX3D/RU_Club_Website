@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -71,8 +71,7 @@ function HeroSection() {
 }
 
 function StatsSection() {
-  const fetcher = useCallback(() => getStats(), [])
-  const { data: stats, loading } = useSiteData<Stat[]>(fetcher)
+  const { data: stats, loading } = useSiteData<Stat[]>(getStats)
   const displayStats = stats || dbFallbackStats
 
   if (!displayStats && loading) {
@@ -109,8 +108,7 @@ function StatsSection() {
 }
 
 function MissionCarousel() {
-  const fetcher = useCallback(() => getMissionList(), [])
-  const { data: missions, loading } = useSiteData<MissionEntry[]>(fetcher)
+  const { data: missions, loading } = useSiteData<MissionEntry[]>(getMissionList)
   const [prevEl, setPrevEl] = useState<HTMLButtonElement | null>(null)
   const [nextEl, setNextEl] = useState<HTMLButtonElement | null>(null)
 
@@ -214,8 +212,7 @@ function MissionCarousel() {
 }
 
 function PartnersSection() {
-  const fetcher = useCallback(() => getPartners(), [])
-  const { data: partners, loading } = useSiteData<Partner[]>(fetcher)
+  const { data: partners, loading } = useSiteData<Partner[]>(getPartners)
 
   if (loading) {
     return (
