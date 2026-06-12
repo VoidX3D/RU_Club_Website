@@ -36,6 +36,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - `renderMd` was bundled into main entry via `utils.ts` re-export
 - Unused CSS classes removed (`gradient-bg`, `mask-fade-right`, `animate-scale-in`, `animate-glow`)
 - AOS dynamic import in Gallery page clarified
+- Contact form CSP violation — added `https://formspree.io` to `connect-src` in vercel.json CSP header
 
 ---
 
