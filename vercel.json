@@ -48,7 +48,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https://jquzfvhtgbyrssvvhoio.supabase.co https://www.googletagmanager.com https://www.google-analytics.com https://avatars.githubusercontent.com https://*.githubusercontent.com https://cdnjs.cloudflare.com https://unpkg.com https://cdn.jsdelivr.net; connect-src 'self' https://jquzfvhtgbyrssvvhoio.supabase.co https://www.googletagmanager.com https://www.google-analytics.com https://va.vercel-scripts.com https://raw.githubusercontent.com https://api.github.com; frame-src 'none'; object-src 'none'"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https://jquzfvhtgbyrssvvhoio.supabase.co https://www.googletagmanager.com https://www.google-analytics.com https://avatars.githubusercontent.com https://*.githubusercontent.com https://cdnjs.cloudflare.com https://unpkg.com https://cdn.jsdelivr.net; connect-src 'self' https://jquzfvhtgbyrssvvhoio.supabase.co https://www.googletagmanager.com https://www.google-analytics.com https://va.vercel-scripts.com https://raw.githubusercontent.com https://api.github.com https://formspree.io; frame-src 'none'; object-src 'none'"
         }
       ]
     }
