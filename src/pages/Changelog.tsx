@@ -5,39 +5,8 @@ import { Helmet } from 'react-helmet-async'
 import ParticleField from '@/components/changelog/ParticleField'
 import FadeInView from '@/components/changelog/FadeInView'
 import VersionCard from '@/components/changelog/VersionCard'
+import { parseChangelog, formatVersionCount } from '@/lib/changelog-parser'
 import changelogContent from '../../CHANGELOG.md?raw'
-
-interface Section { heading: string; items: string[] }
-interface Version { version: string; date: string; sections: Section[] }
-
-function parseChangelog(text: string): Version[] {
-  const versions: Version[] = []
-  let current: Version | null = null
-  let currentSection: Section | null = null
-
-  for (const line of text.split('\n')) {
-    const trimmed = line.trim()
-    const versionMatch = trimmed.match(/^##\s+\[(.+?)\]\s*(?:—\s*)?(.+)?$/)
-    if (versionMatch) {
-      if (current) { if (currentSection) { current.sections.push(currentSection) }; versions.push(current) }
-      current = { version: versionMatch[1], date: versionMatch[2] || '', sections: [] }
-      currentSection = null
-      continue
-    }
-    if (!current) continue
-    const sectionMatch = trimmed.match(/^###\s+(.+)/)
-    if (sectionMatch) {
-      if (currentSection) current.sections.push(currentSection)
-      currentSection = { heading: sectionMatch[1], items: [] }
-      continue
-    }
-    if (currentSection && (trimmed.startsWith('- ') || trimmed.startsWith('* '))) {
-      currentSection.items.push(trimmed)
-    }
-  }
-  if (current) { if (currentSection) current.sections.push(currentSection); versions.push(current) }
-  return versions
-}
 
 const heroVariants = {
   hidden: { opacity: 0 },
@@ -53,7 +22,8 @@ const letterVariants = {
   visible: (i: number) => ({ opacity: 1, y: 0, rotateX: 0, transition: { duration: 0.4, delay: i * 0.04, ease: [0.22, 1, 0.36, 1] as const } }),
 }
 
-function AnimatedTitle({ text }: { text: string }) {
+function AnimatedTitle() {
+  const text = 'Changelog'
   return (
     <motion.h1
       className="text-5xl sm:text-7xl font-display font-extrabold text-white inline-flex flex-wrap justify-center gap-x-3"
@@ -63,14 +33,14 @@ function AnimatedTitle({ text }: { text: string }) {
     >
       {text.split(' ').map((word, wi) => (
         <span key={wi} className="inline-flex">
-            {word.split('').map((char, ci) => (
-              <motion.span
-                key={ci}
-                custom={wi * 10 + ci}
-                variants={letterVariants}
-                className="inline-block hover:text-emerald-400 transition-colors duration-300"
-              >
-                {char}
+          {word.split('').map((char, ci) => (
+            <motion.span
+              key={ci}
+              custom={wi * 10 + ci}
+              variants={letterVariants}
+              className="inline-block hover:text-emerald-400 transition-colors duration-300"
+            >
+              {char}
             </motion.span>
           ))}
         </span>
@@ -93,7 +63,8 @@ function FloatingBadge() {
   )
 }
 
-function VersionCounter({ versions }: { versions: Version[] }) {
+function VersionCounter({ versions }: { versions: ReturnType<typeof parseChangelog> }) {
+  const stats = useMemo(() => formatVersionCount(versions), [versions])
   const colorMap: Record<string, string> = {
     emerald: 'text-emerald-400',
     blue: 'text-blue-400',
@@ -103,10 +74,10 @@ function VersionCounter({ versions }: { versions: Version[] }) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-lg mx-auto">
       {[
-        { label: 'Releases', value: versions.length, color: 'emerald' },
-        { label: 'Changes', value: versions.reduce((a, v) => a + v.sections.reduce((b, s) => b + s.items.length, 0), 0), color: 'blue' },
-        { label: 'Categories', value: [...new Set(versions.flatMap(v => v.sections.map(s => s.heading)))].length, color: 'violet' },
-        { label: 'Latest', value: versions[0]?.version || '', color: 'amber' },
+        { label: 'Releases', value: stats.releases, color: 'emerald' },
+        { label: 'Changes', value: stats.totalChanges, color: 'blue' },
+        { label: 'Categories', value: stats.uniqueCategories, color: 'violet' },
+        { label: 'Latest', value: stats.latestVersion, color: 'amber' },
       ].map((stat, i) => (
         <motion.div
           key={stat.label}
@@ -134,12 +105,10 @@ export default function Changelog() {
         <meta name="description" content="Release history and changelog for RU Club Motherland website." />
       </Helmet>
 
-      {/* Particle background */}
       <ParticleField />
 
-      {/* Main content wrapper */}
       <div className="relative z-10 min-h-screen bg-gradient-to-b from-gray-950 via-gray-950 to-gray-900">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
 
           {/* HERO */}
           <motion.div
@@ -152,12 +121,12 @@ export default function Changelog() {
               <FloatingBadge />
             </motion.div>
             <motion.div variants={heroChild} className="mb-4">
-              <AnimatedTitle text="Changelog" />
+              <AnimatedTitle />
             </motion.div>
             <motion.p variants={heroChild} className="text-base sm:text-lg text-gray-400 max-w-xl mx-auto leading-relaxed">
               Every update, improvement, and fix that shaped this project.
               <br className="hidden sm:block" />
-              Track the evolution of RU Club Motherland.
+              Track the evolution of RU Club Motherland across {versions.length} releases.
             </motion.p>
             <motion.div variants={heroChild} className="mt-4">
               <a href="#versions" className="inline-flex items-center gap-2 text-sm text-emerald-400 hover:text-emerald-300 transition-colors group">
@@ -174,34 +143,22 @@ export default function Changelog() {
             </motion.div>
           </motion.div>
 
-          {/* Stats counter */}
+          {/* Stats */}
           {versions.length > 0 && (
-            <FadeInView delay={0.2} className="mb-12">
+            <FadeInView delay={0.2} className="mb-14">
               <VersionCounter versions={versions} />
             </FadeInView>
           )}
 
-          {/* Timeline / Versions */}
+          {/* Timeline */}
           {versions.length > 0 && (
-            <div id="versions" className="relative">
-              {/* Timeline line */}
-              <div className="absolute left-[17px] sm:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-emerald-500/30 via-emerald-500/10 to-transparent -translate-x-1/2 hidden sm:block" />
+            <div id="versions" className="relative sm:pr-11">
+              {/* Vertical timeline line on the RIGHT */}
+              <div className="hidden sm:block absolute right-[4.5px] top-0 bottom-0 w-[1.5px] bg-gradient-to-b from-emerald-500/30 via-emerald-500/10 to-transparent" />
 
               <div className="space-y-5">
                 {versions.map((version, i) => (
-                  <div key={version.version} className="relative">
-                    {/* Timeline dot */}
-                    <div className="hidden sm:flex absolute left-1/2 -translate-x-1/2 -top-1 z-10">
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        whileInView={{ scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: i * 0.1, type: 'spring', stiffness: 200 }}
-                        className="w-[10px] h-[10px] bg-emerald-400 ring-[3px] ring-gray-950"
-                      />
-                    </div>
-                    <VersionCard version={version} index={i} />
-                  </div>
+                  <VersionCard key={version.version} version={version} index={i} />
                 ))}
               </div>
             </div>
@@ -225,7 +182,6 @@ export default function Changelog() {
             </Link>
           </FadeInView>
 
-          {/* Footer */}
           <FadeInView delay={0.6} className="mt-12 pb-8 text-center">
             <p className="text-xs text-gray-600">
               RU Club Motherland &middot; Motherland Secondary School &middot; Pokhara, Nepal

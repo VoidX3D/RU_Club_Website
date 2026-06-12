@@ -21,7 +21,7 @@ export default function SkillBar({ name, level, delay }: { name: string; level: 
         <span className="text-gray-300">{name}</span>
         <span className="text-emerald-400">{level}%</span>
       </div>
-      <div className="h-2 bg-white/5 border border-white/10 overflow-hidden">
+      <div className="h-2 bg-white/5 border border-white/10 overflow-hidden rounded-full">
         <div className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-1000 ease-out"
           style={{ width: `${width}%` }} />
       </div>

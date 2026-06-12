@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { track } from '@vercel/analytics'
 import ParticleCanvas from '@/components/secret-garden/ParticleCanvas'
 import GlitchText from '@/components/secret-garden/GlitchText'
@@ -81,7 +82,7 @@ export default function SecretGarden() {
                   <div className="w-full h-full bg-gray-950" />
                 </div>
                 <div className="relative w-32 h-32 overflow-hidden ring-4 ring-emerald-500/30 shadow-2xl shadow-emerald-500/20">
-                  <img src="https://avatars.githubusercontent.com/VoidX3D" alt="Sincere Bhattarai" className="w-full h-full object-cover" />
+                  <img src="https://avatars.githubusercontent.com/VoidX3D" alt="Sincere Bhattarai" className="w-full h-full object-cover rounded-lg" />
                   <div className="absolute inset-0 ring-1 ring-white/10" />
                 </div>
                 <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/40 animate-pulse-slow">
@@ -176,7 +177,7 @@ export default function SecretGarden() {
                   <h3 className="text-emerald-400 font-display font-semibold text-sm mb-4 uppercase tracking-wider">{group.category}</h3>
                   <div className="flex flex-wrap gap-2">
                     {group.items.map((skill) => (
-                      <span key={skill} className="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-medium border border-white/5 hover:bg-emerald-500/10 hover:border-emerald-500/30 hover:text-emerald-300 transition-all cursor-default">{skill}</span>
+                      <span key={skill} className="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-medium border border-white/5 hover:bg-emerald-500/10 hover:border-emerald-500/30 hover:text-emerald-300 transition-all cursor-default rounded-lg">{skill}</span>
                     ))}
                   </div>
                 </div>
@@ -230,6 +231,19 @@ export default function SecretGarden() {
               })}
             </div>
           </section>
+
+          {/* Back to Home */}
+          <div className="max-w-4xl mx-auto px-4 text-center mt-8">
+            <Link
+              to="/"
+              className="group inline-flex items-center gap-2 px-6 py-3 bg-white/[0.03] border border-white/5 text-gray-300 text-sm font-medium hover:bg-white/[0.06] hover:border-emerald-500/25 hover:text-emerald-300 transition-all duration-300 rounded-lg"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:-translate-x-0.5 transition-transform">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              Back to Home
+            </Link>
+          </div>
 
           {/* FOOTER */}
           <div className="text-center mt-12 pb-8 px-4">
