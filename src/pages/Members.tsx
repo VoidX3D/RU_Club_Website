@@ -96,7 +96,7 @@ export default function Members() {
               className="mt-1 text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary">Meet the Members</motion.h1>
             {members?.stats && (
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-                className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-lg mx-auto"
+                className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto"
               >
                 {[
                   { label: 'Total', value: members.stats.total, icon: 'users', color: 'text-brand-600 dark:text-brand-400' },
@@ -104,15 +104,15 @@ export default function Members() {
                   { label: 'Core', value: members.stats.core, icon: 'star', color: 'text-amber-600 dark:text-amber-400' },
                   { label: 'General', value: members.stats.general, icon: 'team', color: 'text-emerald-600 dark:text-emerald-400' },
                 ].map((stat) => (
-                  <div key={stat.label} className="bg-surface-secondary dark:bg-dark-surface-tertiary rounded-xl p-4 text-center border border-border dark:border-dark-border">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={`${stat.color} mx-auto mb-1.5`}>
+                  <div key={stat.label} className="bg-surface-secondary dark:bg-dark-surface-tertiary rounded-xl p-5 text-center border border-border dark:border-dark-border">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={`${stat.color} mx-auto mb-2`}>
                       {stat.icon === 'users' ? <><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></> : null}
                       {stat.icon === 'graduation' ? <><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></> : null}
                       {stat.icon === 'star' ? <><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></> : null}
                       {stat.icon === 'team' ? <><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></> : null}
                     </svg>
-                    <div className={`text-xl sm:text-2xl font-display font-bold ${stat.color}`}>{stat.value}</div>
-                    <div className="text-[10px] text-text-muted dark:text-dark-text-muted uppercase tracking-widest mt-0.5">{stat.label}</div>
+                    <div className={`text-2xl sm:text-3xl font-display font-bold ${stat.color}`}>{stat.value}</div>
+                    <div className="text-xs text-text-muted dark:text-dark-text-muted uppercase tracking-widest mt-1 font-medium">{stat.label}</div>
                   </div>
                 ))}
               </motion.div>

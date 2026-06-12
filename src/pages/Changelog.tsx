@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
@@ -72,7 +72,7 @@ function VersionCounter({ versions }: { versions: ReturnType<typeof parseChangel
     amber: 'text-amber-400',
   }
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-lg mx-auto">
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto">
       {[
         { label: 'Releases', value: stats.releases, color: 'emerald' },
         { label: 'Changes', value: stats.totalChanges, color: 'blue' },
@@ -85,10 +85,10 @@ function VersionCounter({ versions }: { versions: ReturnType<typeof parseChangel
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: i * 0.1, duration: 0.4 }}
-          className="bg-white/[0.03] border border-white/[0.06] p-3 text-center rounded-lg"
+          className="bg-white/[0.03] border border-white/[0.06] hover:border-emerald-500/20 transition-colors p-4 text-center rounded-lg"
         >
-          <div className={`text-lg sm:text-xl font-display font-bold ${colorMap[stat.color] || 'text-emerald-400'}`}>{stat.value}</div>
-          <div className="text-[10px] text-gray-500 uppercase tracking-widest mt-0.5">{stat.label}</div>
+          <div className={`text-xl sm:text-2xl font-display font-bold ${colorMap[stat.color] || 'text-emerald-400'}`}>{stat.value}</div>
+          <div className="text-[11px] text-gray-500 uppercase tracking-widest mt-1 font-medium">{stat.label}</div>
         </motion.div>
       ))}
     </div>
@@ -97,6 +97,8 @@ function VersionCounter({ versions }: { versions: ReturnType<typeof parseChangel
 
 export default function Changelog() {
   const versions = useMemo(() => parseChangelog(changelogContent), [])
+
+  useEffect(() => { window.scrollTo(0, 0) }, [])
 
   return (
     <>
@@ -152,7 +154,12 @@ export default function Changelog() {
 
           {/* Timeline */}
           {versions.length > 0 && (
-            <div id="versions" className="relative sm:pr-11">
+            <div id="versions">
+              <FadeInView delay={0.3} className="text-center mb-10">
+                <h2 className="text-xl sm:text-2xl font-display font-bold text-white/90">Version History</h2>
+                <p className="text-sm text-gray-500 mt-1">Chronological record of all releases</p>
+              </FadeInView>
+              <div className="relative sm:pr-11">
               {/* Vertical timeline line on the RIGHT */}
               <div className="hidden sm:block absolute right-[4.5px] top-0 bottom-0 w-[1.5px] bg-gradient-to-b from-emerald-500/30 via-emerald-500/10 to-transparent" />
 
@@ -162,6 +169,7 @@ export default function Changelog() {
                 ))}
               </div>
             </div>
+          </div>
           )}
 
           {/* Back to home */}
