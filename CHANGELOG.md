@@ -9,24 +9,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 ## [Unreleased] — 2026-06-12
 
 ### Added
-- `/changelog` page — renders this file at `/changelog` with heavy animations
-- Composable changelog components: `ParticleField` (canvas particles), `FadeInView` (scroll-triggered), `VersionCard` (expand/collapse)
-- Animated version cards with color-coded section badges (Added=emerald, Changed=blue, Fixed=violet, Removed=rose, Security=red)
-- Particle canvas background with mouse interaction and connecting lines
-- Stats counter grid: Releases, Changes, Categories, Latest version
-- 7 Home section components: HeroSection, StatsSection, MissionCarousel, PartnersSection, IntroSection, FeaturesSection, CTASection
-- 5 SecretGarden sub-components: ParticleCanvas, GlitchText, TypewriterText, SkillBar, ProjectCard
+- Chunk error recovery: global `vite:preloadError`, `window.onerror`, and `unhandledrejection` handlers auto-reload on chunk failure
+- `LazyRoute` wrapper in `App.tsx` — per-route chunk failure fallback with refresh prompt
+- `VersionBanner` component — detects new deployments by comparing `__APP_VERSION__` timestamp, shows "New version available — Refresh?" banner
+- `ErrorBoundary` chunk detection — recognizes chunk load errors and shows targeted message + "Clear Cache & Reload" button
+- `prebuild` script that cleans `.vite` and `dist` folders before each build
+- `build:analyze` npm script for bundle size analysis
+- Explicit rollup output hashing in `vite.config.ts` for deterministic chunk names
+- `__APP_VERSION__` build-time timestamp injection via Vite `define`
+- Empty-table placeholder in `MissionDetail.tsx` — shows "More details coming soon" when all optional data is empty
+- Client-side `show` filter in `Missions.tsx` as defense-in-depth
 
 ### Changed
-- Main JS bundle reduced 37% (864 KB → 537 KB), main CSS reduced 20% (143 KB → 115 KB)
-- KaTeX CSS + JS code-split — only loaded on markdown pages via dynamic import
-- Home page from 337-line monolithic file → 23-line import shell
-- SecretGarden from 369-line monolithic file → 140-line composition layer
-- Changelog page imports CHANGELOG.md via Vite `?raw` — zero network requests
-- Navbar GitHub icon replaced with document icon linking to `/changelog`
-- Footer GitHub link now points to `/changelog` instead of external GitHub
-- Mission cards: removed border-radius for sharp look, 1px border with teal hover
-- Carousel slides: non-rounded with border and teal active border-color
+- AOS refresh: replaced `setTimeout(100)` with `requestAnimationFrame` + pathname ref guard to eliminate race condition
+- ErrorBoundary: added `isChunkError` detection, "Clear Cache & Reload" button that wipes localStorage (preserving theme/cookie-consent) + caches
+
+### Fixed
+- Chunk load errors after deployment now trigger automatic reload instead of showing a broken page
+- AOS animations no longer flicker or skip due to race condition on route changes
+- Empty mission detail tables (goals, timeline, participants, budget) now show a "coming soon" message instead of blank space
 
 ### Fixed
 - **Production MIME type errors** — removed `public/_redirects` whose catch-all `/* /index.html 200` was intercepting CSS/JS asset requests

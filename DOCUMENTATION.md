@@ -18,8 +18,8 @@ RU Club Motherland is a single-page application (SPA) for an environmental susta
 │   ├── static/assets/       — Static brand assets, icons, partner logos, mission images
 │   └── sitemap.xml          — 10 URLs, lastmod 2026-06-12
 ├── src/
-│   ├── App.tsx              — Route definitions (13 routes, lazy-loaded)
-│   ├── main.tsx             — Entry point (StrictMode → #root)
+│   ├── App.tsx              — Route definitions + VersionBanner + LazyRoute chunk recovery
+│   ├── main.tsx             — Entry point + chunk error handlers (vite:preloadError, onerror)
 │   ├── index.css            — Tailwind v4 + custom theme tokens + animations + Swiper
 │   ├── lib/                 — Core libraries
 │   │   ├── supabase.ts      — 9 DB query functions + DataError + retry wrapper
@@ -33,6 +33,12 @@ RU Club Motherland is a single-page application (SPA) for an environmental susta
 │   │   ├── useDBStatus.ts   — Supabase connectivity (30s polling)
 │   │   └── useSiteConfig.tsx — Context provider for hardcoded site config
 │   ├── components/
+│   │   ├── Layout.tsx       — Root layout (nav+footer+AOS+scroll-to-top+SEO+consent+offline)
+│   │   ├── SEOHead.tsx      — OG/Twitter/JSON-LD head tags
+│   │   ├── VersionBanner.tsx— "New version available" banner (compares __APP_VERSION__)
+│   │   ├── CookieConsent.tsx → GDPR banner (accept/deny via analytics.ts)
+│   │   ├── ErrorBoundary.tsx → Class-based error boundary with chunk detection + cache reset
+│   │   ├── ConnectionStatus.tsx → Offline/Back-online banner
 │   │   ├── layout/          — Navbar, Footer, LegalNav, LegalLayout
 │   │   ├── home/            — HeroSection, IntroSection, StatsSection, FeaturesSection,
 │   │   │                      MissionCarousel, PartnersSection, CTASection
@@ -60,10 +66,16 @@ RU Club Motherland is a single-page application (SPA) for an environmental susta
   - `<LegalLayout />` wraps: `/privacy`, `/license`, `/consent`
   - Standalone (no layout): `/changelog`, `/secret-garden`
 - **Key detail:** All pages imported via `React.lazy()` for code splitting. `Suspense` fallback is `<PageLoader />` — full-screen emerald spinner with bouncing dots.
+- **Chunk recovery:** Each route wrapped in `<LazyRoute>` which catches chunk load errors and shows a refresh prompt.
+- **Version check:** Includes `<VersionBanner />` which compares `__APP_VERSION__` against localStorage to detect new deployments.
 - **Error boundary:** Wraps entire app.
 
 ### `src/main.tsx`
 - **Purpose:** Application entry point. Mounts `<App />` under `<StrictMode>` into `#root`.
+- **Chunk error recovery:** Three global handlers auto-reload on chunk load failures:
+  - `window.addEventListener('vite:preloadError', ...)` — Vite-specific dynamic import error
+  - `window.onerror` — catches `Failed to fetch dynamically imported module`, `ChunkLoadError`, etc.
+  - `window.addEventListener('unhandledrejection', ...)` — catches chunk errors in promise chains
 - **Imports:** `./index.css` for global styles.
 
 ### `src/index.css` (265 lines)
@@ -191,7 +203,7 @@ RU Club Motherland is a single-page application (SPA) for an environmental susta
 #### `Layout.tsx` (80 lines)
 - **Purpose:** Root layout for all routes (except Changelog, SecretGarden, legal pages).
 - Renders: Skip-to-content, Navbar, ConnectionStatus, `<Outlet>`, Footer, CookieConsent, BackToTop button
-- **AOS init:** `useEffect` with 600ms duration, offset 50, `once: true`. Refreshes on route change with 100ms delay (`setTimeout(100)`).
+- **AOS init:** `useEffect` with 600ms duration, offset 50, `once: true`. Refreshes on route change via `requestAnimationFrame` + pathname ref guard (replaced `setTimeout(100)` to eliminate race conditions).
 - **Scroll-to-top:** On route change via `location.pathname`.
 - **Secret Garden override:** If pathname is `/secret-garden`, renders only `<Outlet>` wrapped in `SiteConfigProvider` (no Navbar/Footer).
 
@@ -200,6 +212,11 @@ RU Club Motherland is a single-page application (SPA) for an environmental susta
 - Props: `title?`, `description?`, `image?`, `url?`, `type?`
 - Falls back to `siteConfig` defaults. Title format: `"Page Title | Site Name"`.
 
+#### `VersionBanner.tsx` (56 lines)
+- Detects new deployments by comparing `__APP_VERSION__` (build timestamp injected via Vite `define`) against `localStorage`
+- Shows amber "New version available — Refresh?" banner with Refresh/Dismiss buttons
+- Persists version to `localStorage` on each visit
+
 #### `CookieConsent.tsx` (74 lines)
 - GDPR-style banner with accept/decline buttons
 - Appears after 1200ms delay, animated slide-up
@@ -207,9 +224,9 @@ RU Club Motherland is a single-page application (SPA) for an environmental susta
 - Calls `grantConsent()`/`denyConsent()` from analytics lib
 
 #### `ErrorBoundary.tsx` (56 lines)
-- Class-based error boundary
-- Fallback UI: error icon, "Something went wrong", "Reload Page" and "Try Again" buttons
-- "Try Again" resets error state via `setState({ hasError: false })`
+- Class-based error boundary with chunk load error detection
+- `isChunkError` state — recognizes `Failed to fetch dynamically imported module`, `ChunkLoadError`, etc.
+- Three action buttons: "Reload Page", "Try Again" (resets error state), "Clear Cache & Reload" (wipes localStorage (preserving theme/cookie-consent) + caches then reloads)
 
 #### `ConnectionStatus.tsx` (35 lines)
 - Fixed banner at `top-[70px] md:top-[100px]`
@@ -338,6 +355,7 @@ RU Club Motherland is a single-page application (SPA) for an environmental susta
 - Markdown rendering via `marked` + `DOMPurify` + `KaTeX` (for math)
 - Lightbox: keyboard nav (Esc, arrows), click-to-close, image counter
 - Loading: skeleton. Error: "Mission not found" with back button
+- Empty tables: shows "More details coming soon" placeholder when all optional data (goals, timeline, participants, budget) is empty
 
 #### `Gallery.tsx`
 - Groups images by mission slug into expandable cards
@@ -487,7 +505,10 @@ All pages follow a consistent error handling pattern:
 11. **AOS:** Init in Layout (600ms, offset 50, `once: true`), refresh 100ms after route change
 12. **Framer Motion:** Used for staggered entrances and `whileInView` alongside AOS
 13. **Changelog:** Standalone page (no Layout), `CHANGELOG.md?raw` Vite import
-14. **Secret Garden:** Standalone (no Navbar/Footer), particle canvas, hidden scrollbar
+14. **Chunk error recovery:** Three layers — global `vite:preloadError`, `window.onerror`, `unhandledrejection` handlers auto-reload on chunk failure; `LazyRoute` wrapper per route catches remaining failures
+15. **Version detection:** `__APP_VERSION__` injected at build time via Vite `define`; `VersionBanner` compares against localStorage on each visit
+16. **AOS:** Uses `requestAnimationFrame` + pathname ref guard for refresh (no arbitrary timers)
+17. **Secret Garden:** Standalone (no Navbar/Footer), particle canvas, hidden scrollbar
 
 ---
 
@@ -495,10 +516,11 @@ All pages follow a consistent error handling pattern:
 
 ### Local Development
 ```bash
-npm run dev     # Vite dev server
-npm run build   # tsc -b && vite build → dist/
-npm run lint    # ESLint
-npm run preview # Vite preview of built dist/
+npm run dev       # Vite dev server
+npm run build     # tsc -b && vite build → dist/ (runs prebuild first: cleans .vite + dist)
+npm run build:analyze  # vite build with bundle analysis
+npm run lint      # ESLint
+npm run preview   # Vite preview of built dist/
 ```
 
 ### Environment Variables
@@ -520,7 +542,7 @@ VITE_GA_ID=...                    # Already hardcoded in analytics.ts
 
 ### Known Deployment Issues
 - **404 on refresh:** Handled by `vercel.json` SPA rewrites
-- **Chunk load errors:** Stale browser cache referencing old chunk names — fixed by hard refresh (Ctrl+Shift+R) or new deploy triggers new chunk hashes
+- **Chunk load errors:** Auto-recovered — `window.onerror` + `vite:preloadError` + `unhandledrejection` handlers catch chunk failures and reload the page. Additionally, `VersionBanner` compares build timestamps to proactively notify users of new versions.
 - **MIME type errors:** Previously caused by `public/_redirects` file — removed. SPA routing handled by `vercel.json` only.
 
 ---
@@ -580,6 +602,7 @@ Parsed at build time via `CHANGELOG.md?raw` import → `parseChangelog()` → `V
 - Formspree endpoints: Contact form submits to 2 endpoints simultaneously
 - Static assets: `VITE_SUPABASE_URL` + `storage/v1/object/public/ruclub/static/assets/`
 - Sitemap: 10 URLs, all `lastmod 2026-06-12`
+- Build version: `__APP_VERSION__` injected by Vite `define` as `YYYYMMDD` timestamp — used by `VersionBanner` for deploy detection
 
 ---
 

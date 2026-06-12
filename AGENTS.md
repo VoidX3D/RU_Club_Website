@@ -22,8 +22,8 @@ RU Club Motherland is a **React 19 + TypeScript 6 + Vite 8** SPA for an environm
 │   ├── static/assets/      → Brand, icons, partner logos, mission images
 │   └── sitemap.xml         → 10 URLs, all lastmod 2026-06-12
 ├── src/
-│   ├── App.tsx             → All routes, lazy-loaded with Suspense+PageLoader
-│   ├── main.tsx            → Entry (StrictMode → #root)
+│   ├── App.tsx             → All routes, lazy-loaded with Suspense+PageLoader + VersionBanner + LazyRoute chunk recovery
+│   ├── main.tsx            → Entry (StrictMode → #root) + chunk error handlers (vite:preloadError, onerror, unhandledrejection)
 │   ├── index.css           → Tailwind v4 + theme tokens + animations + Swiper styles
 │   ├── lib/
 │   │   ├── supabase.ts     → ALL DB queries (9 exports + DataError + retry)
@@ -39,8 +39,9 @@ RU Club Motherland is a **React 19 + TypeScript 6 + Vite 8** SPA for an environm
 │   ├── components/
 │   │   ├── Layout.tsx      → Root layout (nav+footer+AOS+scroll-to-top+SEO+consent+offline)
 │   │   ├── SEOHead.tsx     → OG/Twitter/JSON-LD head tags
+│   │   ├── VersionBanner.tsx → New deploy detection via __APP_VERSION__ timestamp
 │   │   ├── CookieConsent.tsx → GDPR banner (accept/deny via analytics.ts)
-│   │   ├── ErrorBoundary.tsx → Class-based error boundary with Try Again
+│   │   ├── ErrorBoundary.tsx → Class-based error boundary with chunk detection + cache reset
 │   │   ├── ConnectionStatus.tsx → Offline/Back-online banner
 │   │   ├── layout/
 │   │   │   ├── Navbar.tsx  → Fixed nav, logo+text, theme toggle, mobile menu, active link
@@ -110,12 +111,15 @@ RU Club Motherland is a **React 19 + TypeScript 6 + Vite 8** SPA for an environm
 - Inventory of 3 static pages (Privacy, License, Consent) with LegalLayout sidebar
 - Secret Garden infinite canvas particle background + custom scrollbar hidden
 - Changelog page is standalone (no Layout wrapper), uses `CHANGELOG.md?raw` Vite import
-- AOS init in Layout with 600ms duration, offset 50, `once: true`, refreshes 100ms after route change
+- AOS init in Layout with 600ms duration, offset 50, `once: true`, refreshes via requestAnimationFrame + pathname ref on route change
 - Framer Motion used for staggered entrances and `whileInView` animations alongside AOS
 - All pages lazy-loaded via `React.lazy()` for code splitting
+- Chunk error recovery: 3 global handlers (vite:preloadError, onerror, unhandledrejection) + LazyRoute per-route wrapper
+- Version detection: __APP_VERSION__ build timestamp injected via Vite define, VersionBanner compares on each visit
 
 ## Build/Deploy
-- `npm run build` → `tsc -b && vite build` → `dist/`
+- `npm run build` → `rm -rf .vite dist && tsc -b && vite build` → `dist/`
+- `npm run build:analyze` → `vite build --mode analyze` (bundle visualization)
 - Vercel auto-deploys from `main` via `vercel.json`
 - `vercel.json`: SPA rewrites, clean URLs, no trailing slashes, /admin redirect, security headers + CSP
 
