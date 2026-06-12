@@ -1,6 +1,5 @@
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
-import { renderMarkdown } from './markdown'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -17,4 +16,8 @@ export function storageUrl(path: string): string {
   return `${STORAGE_BASE}${p}`
 }
 
-export { renderMarkdown as renderMd }
+export function handleImgError(e: React.SyntheticEvent<HTMLImageElement>) {
+  const el = e.target as HTMLImageElement
+  el.style.display = 'none'
+  el.nextElementSibling?.classList.remove('hidden')
+}

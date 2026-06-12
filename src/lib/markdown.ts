@@ -1,6 +1,7 @@
 import { marked } from 'marked'
 import katex from 'katex'
 import DOMPurify from 'dompurify'
+import 'katex/dist/katex.min.css'
 
 function escapeHtml(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')

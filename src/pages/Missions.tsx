@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { getMissionList } from '@/lib/supabase'
+import { handleImgError } from '@/lib/utils'
 import { useSiteData } from '@/hooks/useSiteData'
 import SEOHead from '@/components/SEOHead'
 import type { MissionEntry } from '@/types'
@@ -52,7 +53,7 @@ export default function Missions() {
                       {mission.featured ? (
                         <img src={mission.featured} alt={mission.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy"
-                          onError={(e) => { const el = e.target as HTMLImageElement; el.style.display = 'none'; el.nextElementSibling?.classList.remove('hidden') }} />
+                          onError={handleImgError} />
                       ) : null}
                       <div className={`w-full h-full flex items-center justify-center bg-surface-tertiary dark:bg-dark-surface-tertiary ${mission.featured ? 'hidden' : ''}`}>
                         <span className="text-text-muted dark:text-dark-text-muted text-xs">{mission.featured ? 'Failed to load' : 'No image'}</span>

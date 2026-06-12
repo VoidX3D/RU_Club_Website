@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -7,6 +7,7 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import { getStats, getPartners, getMissionList } from '@/lib/supabase'
+import { handleImgError } from '@/lib/utils'
 import { useSiteData } from '@/hooks/useSiteData'
 import SEOHead from '@/components/SEOHead'
 import { heroContent, introContent, featureCards, ctaContent, missionSectionContent } from '@/data'
@@ -112,7 +113,7 @@ function MissionCarousel() {
   const [prevEl, setPrevEl] = useState<HTMLButtonElement | null>(null)
   const [nextEl, setNextEl] = useState<HTMLButtonElement | null>(null)
 
-  const activeMissions = missions?.filter(m => m.show !== false) || []
+  const activeMissions = useMemo(() => missions?.filter(m => m.show !== false) || [], [missions])
 
   return (
     <section className="py-20 bg-surface-secondary dark:bg-dark-surface-secondary overflow-hidden">
@@ -174,7 +175,7 @@ function MissionCarousel() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
                     {m.featured ? (
                       <img src={m.featured} alt={m.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy"
-                        onError={(e) => { const el = e.target as HTMLImageElement; el.style.display = 'none'; el.nextElementSibling?.classList.remove('hidden') }} />
+                        onError={handleImgError} />
                     ) : null}
                     <div className={`w-full h-full bg-surface-tertiary dark:bg-dark-surface-tertiary flex items-center justify-center ${m.featured ? 'hidden' : ''}`}>
                       <span className="text-text-muted dark:text-dark-text-muted text-sm">{m.featured ? 'Failed to load' : 'No image'}</span>

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { getAnnouncementDetail } from '@/lib/supabase'
-import { renderMd } from '@/lib/utils'
+import { renderMarkdown as renderMd } from '@/lib/markdown'
 import SEOHead from '@/components/SEOHead'
 import type { AnnouncementFull } from '@/types'
 

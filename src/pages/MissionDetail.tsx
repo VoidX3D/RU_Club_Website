@@ -2,7 +2,8 @@ import { useEffect, useState, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { getMissionInfo } from '@/lib/supabase'
-import { renderMd } from '@/lib/utils'
+import { handleImgError } from '@/lib/utils'
+import { renderMarkdown as renderMd } from '@/lib/markdown'
 import SEOHead from '@/components/SEOHead'
 import type { MissionInfo } from '@/types'
 
@@ -196,7 +197,7 @@ export default function MissionDetail() {
                     >
                       <img src={img.url} alt={img.alt}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy"
-                        onError={(e) => { const el = e.target as HTMLImageElement; el.style.display = 'none'; el.parentElement!.querySelector('.img-fallback')?.classList.remove('hidden') }} />
+                        onError={handleImgError} />
                       <div className="img-fallback hidden absolute inset-0 flex items-center justify-center bg-surface-tertiary dark:bg-dark-surface-tertiary">
                         <span className="text-xs text-text-muted dark:text-dark-text-muted">Failed to load</span>
                       </div>
