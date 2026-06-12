@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useSiteConfig } from '@/hooks/useSiteConfig'
 import { useDBStatus } from '@/hooks/useDBStatus'
+import { motion } from 'framer-motion'
 
 const socialIcons: Record<string, React.ReactNode> = {
   facebook: <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>,
@@ -28,11 +29,26 @@ export default function Footer() {
   const quickLinks = config?.footerLinks?.filter(l => l.section === 'quick') || []
   const legalLinks = config?.footerLinks?.filter(l => l.section === 'legal') || []
 
+  const containerVariants = {
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.12 } },
+  } as const
+  const childVariants = {
+    hidden: { opacity: 0, y: 24 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' as const } },
+  } as const
+
   return (
-    <footer className="border-t border-border dark:border-dark-border bg-surface-secondary dark:bg-dark-surface-secondary">
+    <motion.footer
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: '-80px' }}
+      variants={containerVariants}
+      className="border-t border-border dark:border-dark-border bg-surface-secondary dark:bg-dark-surface-secondary"
+    >
       <div className="w-full px-4 sm:px-6 py-12 sm:py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-16">
-          <div className="sm:col-span-2 lg:col-span-2">
+          <motion.div variants={childVariants} className="sm:col-span-2 lg:col-span-2">
             <Link to="/" className="flex items-center gap-4 mb-5">
               <img
                 src={config?.logoIcon || '/static/assets/brand/logo_icon.png'}
@@ -72,9 +88,9 @@ export default function Footer() {
                 )
               })}
             </div>
-          </div>
+          </motion.div>
 
-          <div>
+          <motion.div variants={childVariants}>
             <h3 className="font-display font-semibold text-base text-text-primary dark:text-dark-text-primary mb-5 uppercase tracking-wider">
               Quick Links
             </h3>
@@ -101,9 +117,9 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </motion.div>
 
-          <div>
+          <motion.div variants={childVariants}>
             <h3 className="font-display font-semibold text-base text-text-primary dark:text-dark-text-primary mb-5 uppercase tracking-wider">
               Legal
             </h3>
@@ -135,10 +151,16 @@ export default function Footer() {
                 </a>
               )}
             </div>
-          </div>
+          </motion.div>
         </div>
 
-        <div className="border-t border-border dark:border-dark-border mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.5, ease: 'easeOut' }}
+          className="border-t border-border dark:border-dark-border mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4"
+        >
           <p className="text-sm text-text-muted dark:text-dark-text-muted text-center sm:text-left">
             &copy; {config?.copyright || currentYear} {config?.name || 'RU Club Motherland'}. Managed by {config?.managedBy || 'Motherland Secondary School'}. All rights reserved.
           </p>
@@ -151,8 +173,8 @@ export default function Footer() {
               Made with care by <Link to="/secret-garden" className="text-brand-500 hover:text-brand-600 dark:hover:text-brand-400 transition-colors font-semibold">{config?.madeBy || 'Sincere Bhattarai'}</Link>
             </p>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </footer>
+    </motion.footer>
   )
 }

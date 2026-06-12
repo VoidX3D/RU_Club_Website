@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { getAllGalleryImages } from '@/lib/supabase'
 import { handleImgError } from '@/lib/utils'
 import SEOHead from '@/components/SEOHead'
+import AOS from 'aos'
 import type { GalleryImage } from '@/types'
 
 interface MissionGroup {
@@ -47,7 +48,7 @@ export default function Gallery() {
       if (!data) { setError('Could not load gallery images. Check database connection.'); setLoading(false); return }
       setGroups(groupImages(data))
       setLoading(false)
-      import('aos').then(({ default: AOS }) => AOS.refresh())
+      AOS.refresh()
     }).catch((err) => {
       setError(err instanceof Error ? err.message : 'Failed to load gallery.')
       setLoading(false)

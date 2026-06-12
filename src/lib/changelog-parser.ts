@@ -36,7 +36,7 @@ export function parseChangelog(text: string): ChangelogVersion[] {
     lineNum++
     const trimmed = rawLine.trim()
 
-    if (!trimmed || trimmed.startsWith('#')) continue
+    if (!trimmed || trimmed.startsWith('# ')) continue
 
     const versionMatch = trimmed.match(VERSION_REGEX)
     if (versionMatch) {

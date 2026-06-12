@@ -46,7 +46,7 @@ export default function Layout() {
   }, [])
 
   useEffect(() => {
-    const t = setTimeout(() => AOS.refresh(), 0)
+    const t = setTimeout(() => AOS.refresh(), 100)
     window.scrollTo(0, 0)
     return () => clearTimeout(t)
   }, [location.pathname])
