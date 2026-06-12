@@ -27,7 +27,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
   return (
     <div ref={cardRef} onMouseMove={handleMouseMove} onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => { setIsHovered(false); setTilt({ x: 0, y: 0 }) }}
-      className={`relative p-5 bg-white/[0.03] border ${colors[project.color]} backdrop-blur-sm transition-all duration-300 cursor-default group`}
+      className={`relative p-5 bg-white/[0.03] border ${colors[project.color]} backdrop-blur-sm transition-all duration-300 cursor-default group rounded-lg`}
       style={{ transform: isHovered ? `perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(1.02)` : 'perspective(600px) rotateX(0) rotateY(0) scale(1)' }}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />

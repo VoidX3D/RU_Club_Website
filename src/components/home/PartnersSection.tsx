@@ -40,7 +40,7 @@ export default function PartnersSection() {
           <div className="flex gap-6 w-max animate-scroll hover:[animation-play-state:paused]">
             {[...partners, ...partners].map((partner, i) => (
               <div key={`${partner.name}-${i}`}
-                className="flex items-center justify-center w-[160px] h-[90px] shrink-0 bg-white dark:bg-white/5 border border-border dark:border-white/10 px-4 py-3 transition-all duration-500 hover:border-transparent hover:-translate-y-1.5 hover:scale-105 hover:shadow-lg hover:shadow-brand-600/10 relative overflow-hidden group"
+                className="flex items-center justify-center w-[160px] h-[90px] shrink-0 bg-white dark:bg-white/5 border border-border dark:border-white/10 px-4 py-3 transition-all duration-500 hover:border-transparent hover:-translate-y-1.5 hover:scale-105 hover:shadow-lg hover:shadow-brand-600/10 relative overflow-hidden group rounded-lg"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <img src={partner.src} alt={partner.alt} title={partner.name}

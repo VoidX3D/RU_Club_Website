@@ -118,13 +118,13 @@ export default function SecretGarden() {
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-16">
               {achievements.map((a) => (
-                <div key={a.label} className="p-5 bg-white/[0.03] border border-white/5 text-center hover:bg-white/[0.06] hover:border-emerald-500/20 transition-all group">
+                <div key={a.label} className="p-5 bg-white/[0.03] border border-white/5 text-center hover:bg-white/[0.06] hover:border-emerald-500/20 transition-all group rounded-lg">
                   <div className="text-2xl sm:text-3xl font-display font-bold text-emerald-400 mb-1 group-hover:scale-110 transition-transform">{a.value}</div>
                   <div className="text-xs text-gray-500 uppercase tracking-wider">{a.label}</div>
                 </div>
               ))}
             </div>
-            <div className="bg-white/[0.03] backdrop-blur-sm border border-white/5 p-8 sm:p-10">
+            <div className="bg-white/[0.03] backdrop-blur-sm border border-white/5 p-8 sm:p-10 rounded-lg">
               <div className="space-y-5 text-gray-300 leading-relaxed text-base sm:text-lg">
                 <p>Hey there! I'm <strong className="text-white">Sincere Bhattarai</strong>, currently studying in <strong className="text-emerald-400">Class 10 at Motherland Secondary School</strong>, Pokhara, Nepal. I'm a passionate self-taught developer who started coding back in <strong className="text-white">2018</strong> and has been building things for the web ever since.</p>
                 <p>In <strong className="text-white">2026</strong>, I joined <strong className="text-emerald-400">RU Club Motherland</strong> as the <strong className="text-white">Event Lead</strong>. I lead environmental initiatives like park clean-ups, recycling workshops, and awareness campaigns — while also building the digital infrastructure that powers our mission.</p>
@@ -154,7 +154,7 @@ export default function SecretGarden() {
                       <div className="w-3 h-3 bg-emerald-400 animate-pulse" />
                     </div>
                   </div>
-                  <div className="flex-1 bg-white/[0.03] border border-white/5 p-5 hover:bg-white/[0.06] hover:border-emerald-500/20 transition-all">
+                  <div className="flex-1 bg-white/[0.03] border border-white/5 p-5 hover:bg-white/[0.06] hover:border-emerald-500/20 transition-all rounded-lg">
                     <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">{item.year}</span>
                     <h3 className="text-white font-display font-semibold text-lg mt-1">{item.title}</h3>
                     <p className="text-gray-400 text-sm mt-1.5 leading-relaxed">{item.desc}</p>
@@ -172,7 +172,7 @@ export default function SecretGarden() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {skills.map((group) => (
-                <div key={group.category} className="bg-white/[0.03] border border-white/5 p-6 hover:bg-white/[0.06] hover:border-emerald-500/20 transition-all">
+                <div key={group.category} className="bg-white/[0.03] border border-white/5 p-6 hover:bg-white/[0.06] hover:border-emerald-500/20 transition-all rounded-lg">
                   <h3 className="text-emerald-400 font-display font-semibold text-sm mb-4 uppercase tracking-wider">{group.category}</h3>
                   <div className="flex flex-wrap gap-2">
                     {group.items.map((skill) => (
@@ -182,7 +182,7 @@ export default function SecretGarden() {
                 </div>
               ))}
             </div>
-            <div className="mt-10 bg-white/[0.03] border border-white/5 p-6 sm:p-8">
+            <div className="mt-10 bg-white/[0.03] border border-white/5 p-6 sm:p-8 rounded-lg">
               <h3 className="text-white font-display font-semibold text-base mb-6">Proficiency</h3>
               <SkillBar name="React / TypeScript" level={85} delay={200} />
               <SkillBar name="Node.js / Backend" level={70} delay={400} />
@@ -215,7 +215,7 @@ export default function SecretGarden() {
                 const isExternal = link.url.startsWith('http')
                 return (
                   <a key={link.platform} href={link.url} {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                    className="group relative flex items-center gap-4 p-4 sm:p-5 bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] hover:border-emerald-500/30 transition-all overflow-hidden">
+                    className="group relative flex items-center gap-4 p-4 sm:p-5 bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] hover:border-emerald-500/30 transition-all overflow-hidden rounded-lg">
                     <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className="w-11 h-11 bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-emerald-400 group-hover:bg-emerald-500/10 transition-all shrink-0 relative z-10">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={link.fill ? 'currentColor' : 'none'} stroke={link.fill ? 'none' : 'currentColor'} strokeWidth={link.fill ? 0 : 2} strokeLinecap="round" strokeLinejoin="round">{link.icon}</svg>

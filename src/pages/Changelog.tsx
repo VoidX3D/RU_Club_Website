@@ -114,7 +114,7 @@ function VersionCounter({ versions }: { versions: Version[] }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: i * 0.1, duration: 0.4 }}
-          className="bg-white/[0.03] border border-white/[0.06] p-3 text-center"
+          className="bg-white/[0.03] border border-white/[0.06] p-3 text-center rounded-lg"
         >
           <div className={`text-lg sm:text-xl font-display font-bold ${colorMap[stat.color] || 'text-emerald-400'}`}>{stat.value}</div>
           <div className="text-[10px] text-gray-500 uppercase tracking-widest mt-0.5">{stat.label}</div>

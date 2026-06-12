@@ -59,7 +59,7 @@ export default function VersionCard({ version, index }: Props) {
     >
       <div
         onClick={() => setExpanded(!expanded)}
-        className="relative bg-white/[0.03] border border-white/[0.06] hover:border-emerald-500/25 transition-all duration-500 cursor-pointer overflow-hidden"
+        className="relative bg-white/[0.03] border border-white/[0.06] hover:border-emerald-500/25 transition-all duration-500 cursor-pointer overflow-hidden rounded-lg"
       >
         {/* Shine effect on hover */}
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
