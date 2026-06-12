@@ -38,7 +38,7 @@ export default function Missions() {
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="rounded-2xl bg-surface-secondary dark:bg-dark-surface-tertiary animate-pulse h-80" />
+                <div key={i} className="bg-surface-secondary dark:bg-dark-surface-tertiary animate-pulse h-80" />
               ))}
             </div>
           ) : (
@@ -46,7 +46,7 @@ export default function Missions() {
               {missions?.map((mission, i) => (
                 <motion.div key={mission.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
                   <Link to={`/mission/${mission.slug}`}
-                    className="group block rounded-2xl overflow-hidden bg-white dark:bg-dark-surface-secondary border border-border dark:border-dark-border hover:border-brand-500/50 transition-all duration-300 glow-card"
+                    className="group block bg-white dark:bg-dark-surface-secondary border border-border dark:border-dark-border hover:border-brand-500/40 transition-all duration-300"
                   >
                     <div className="aspect-[4/3] overflow-hidden bg-surface-tertiary dark:bg-dark-surface-tertiary">
                       {mission.featured ? (

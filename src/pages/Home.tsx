@@ -170,7 +170,7 @@ function MissionCarousel() {
             >
               {activeMissions.map((m) => (
                 <SwiperSlide key={m.id}>
-                  <Link to={`/mission/${m.slug}`} className="group block w-full h-full rounded-2xl md:rounded-3xl overflow-hidden relative bg-surface-tertiary dark:bg-dark-surface-tertiary">
+                  <Link to={`/mission/${m.slug}`} className="group block w-full h-full overflow-hidden relative bg-surface-tertiary dark:bg-dark-surface-tertiary border border-border dark:border-dark-border hover:border-brand-500/40 transition-all duration-300">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
                     {m.featured ? (
                       <img src={m.featured} alt={m.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy"

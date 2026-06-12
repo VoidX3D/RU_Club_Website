@@ -250,14 +250,6 @@ INSERT INTO announcement_tags (announcement_id, tag, sort_order) VALUES
   ('announcement-01', 'World Environment Day', 4),
   ('announcement-01', 'Mandatory', 5);
 
-CREATE TABLE announcement_gallery (
-  id bigint primary key generated always as identity,
-  announcement_id text not null REFERENCES announcements(id) ON DELETE CASCADE,
-  url text not null,
-  alt text not null default '',
-  sort_order int not null default 0
-);
-
 -- 6. CONTACT FORM
 CREATE TABLE contact_submissions (
   id bigint primary key generated always as identity,
