@@ -13,6 +13,7 @@ const Announcements = lazy(() => import('@/pages/Announcements'))
 const AnnouncementDetail = lazy(() => import('@/pages/AnnouncementDetail'))
 const Members = lazy(() => import('@/pages/Members'))
 const Contact = lazy(() => import('@/pages/Contact'))
+const Changelog = lazy(() => import('@/pages/Changelog'))
 const Privacy = lazy(() => import('@/pages/Privacy'))
 const License = lazy(() => import('@/pages/License'))
 const Consent = lazy(() => import('@/pages/Consent'))
@@ -46,6 +47,7 @@ export default function App() {
                 <Route path="/announcement/:id" element={<AnnouncementDetail />} />
                 <Route path="/members" element={<Members />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/changelog" element={<Changelog />} />
                 <Route path="*" element={<NotFound />} />
               </Route>
               <Route element={<LegalLayout />}>

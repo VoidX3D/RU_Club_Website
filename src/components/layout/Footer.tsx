@@ -54,19 +54,19 @@ export default function Footer() {
             <div className="flex gap-4 mt-6">
               {config?.socialLinks?.map((link) => {
                 const isEmail = link.platform === 'email'
+                const isGithub = link.platform === 'github'
                 const href = isEmail ? `mailto:${link.url}` : link.url
-                const label = link.platform.charAt(0).toUpperCase() + link.platform.slice(1)
-                const isExternal = !isEmail
+                const label = isGithub ? 'Changelog' : link.platform.charAt(0).toUpperCase() + link.platform.slice(1)
                 const Icon = socialIcons[link.platform as keyof typeof socialIcons]
                 if (!Icon) return null
-                return (
-                  <a
-                    key={link.platform}
-                    href={href}
-                    {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                    className="w-11 h-11 rounded-xl bg-surface-tertiary dark:bg-dark-surface-tertiary flex items-center justify-center text-text-secondary dark:text-dark-text-secondary hover:bg-brand-100 dark:hover:bg-brand-900/30 hover:text-brand-600 dark:hover:text-brand-400 transition-all"
-                    aria-label={label}
-                  >
+                const cls = "w-11 h-11 rounded-xl bg-surface-tertiary dark:bg-dark-surface-tertiary flex items-center justify-center text-text-secondary dark:text-dark-text-secondary hover:bg-brand-100 dark:hover:bg-brand-900/30 hover:text-brand-600 dark:hover:text-brand-400 transition-all"
+                return isGithub ? (
+                  <Link key={link.platform} to="/changelog" className={cls} aria-label={label}>
+                    {Icon}
+                  </Link>
+                ) : (
+                  <a key={link.platform} href={href} {...(isEmail ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
+                    className={cls} aria-label={label}>
                     {Icon}
                   </a>
                 )
