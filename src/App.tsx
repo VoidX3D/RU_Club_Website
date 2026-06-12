@@ -47,7 +47,6 @@ export default function App() {
                 <Route path="/announcement/:id" element={<AnnouncementDetail />} />
                 <Route path="/members" element={<Members />} />
                 <Route path="/contact" element={<Contact />} />
-                <Route path="/changelog" element={<Changelog />} />
                 <Route path="*" element={<NotFound />} />
               </Route>
               <Route element={<LegalLayout />}>
@@ -55,6 +54,7 @@ export default function App() {
                 <Route path="/license" element={<License />} />
                 <Route path="/consent" element={<Consent />} />
               </Route>
+              <Route path="/changelog" element={<Changelog />} />
               <Route path="/secret-garden" element={<SecretGarden />} />
             </Routes>
           </Suspense>
