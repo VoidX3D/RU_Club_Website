@@ -1,12 +1,11 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import ParticleField from '@/components/changelog/ParticleField'
 import FadeInView from '@/components/changelog/FadeInView'
 import VersionCard from '@/components/changelog/VersionCard'
-
-const GH_RAW = 'https://raw.githubusercontent.com/RU-Club-Motherland/ruclub-react/main/CHANGELOG.md'
+import changelogContent from '../../CHANGELOG.md?raw'
 
 interface Section { heading: string; items: string[] }
 interface Version { version: string; date: string; sections: Section[] }
@@ -126,29 +125,7 @@ function VersionCounter({ versions }: { versions: Version[] }) {
 }
 
 export default function Changelog() {
-  const [raw, setRaw] = useState('')
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
-  const [scrollProgress, setScrollProgress] = useState(0)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const winScroll = document.documentElement.scrollTop
-      const height = document.documentElement.scrollHeight - window.innerHeight
-      setScrollProgress(height > 0 ? winScroll / height : 0)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  useEffect(() => {
-    fetch(GH_RAW)
-      .then(r => { if (!r.ok) throw Error(); return r.text() })
-      .then(text => { setRaw(text); setLoading(false) })
-      .catch(() => { setError(true); setLoading(false) })
-  }, [])
-
-  const versions = useMemo(() => parseChangelog(raw), [raw])
+  const versions = useMemo(() => parseChangelog(changelogContent), [])
 
   return (
     <>
@@ -156,12 +133,6 @@ export default function Changelog() {
         <title>Changelog — RU Club Motherland</title>
         <meta name="description" content="Release history and changelog for RU Club Motherland website." />
       </Helmet>
-
-      {/* Scroll progress bar */}
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-500 z-50 origin-left"
-        style={{ scaleX: scrollProgress }}
-      />
 
       {/* Particle background */}
       <ParticleField />
@@ -203,58 +174,15 @@ export default function Changelog() {
             </motion.div>
           </motion.div>
 
-          {/* Loading */}
-          {loading && (
-            <div className="space-y-4">
-              {[1, 2, 3].map(i => (
-                <div key={i} className="bg-white/[0.03] border border-white/[0.06] p-7">
-                  <motion.div
-                    animate={{ opacity: [0.3, 0.6, 0.3] }}
-                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
-                    className="space-y-3"
-                  >
-                    <div className="h-5 w-24 bg-white/5" />
-                    <div className="h-3 w-full bg-white/5" />
-                    <div className="h-3 w-3/4 bg-white/5" />
-                    <div className="h-3 w-5/6 bg-white/5" />
-                  </motion.div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Error */}
-          {error && !loading && (
-            <FadeInView>
-              <div className="text-center py-20">
-                <div className="w-16 h-16 mx-auto mb-6 bg-rose-500/10 border border-rose-500/20 flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-rose-400">
-                    <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
-                  </svg>
-                </div>
-                <h2 className="text-xl font-display font-bold text-white mb-2">Unable to fetch changelog</h2>
-                <p className="text-sm text-gray-400 mb-6">GitHub may be unreachable. View directly on GitHub:</p>
-                <a
-                  href="https://github.com/RU-Club-Motherland/ruclub-react/blob/main/CHANGELOG.md"
-                  target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-sm font-medium hover:bg-emerald-500/20 transition-all"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                  View on GitHub
-                </a>
-              </div>
-            </FadeInView>
-          )}
-
           {/* Stats counter */}
-          {!loading && !error && versions.length > 0 && (
+          {versions.length > 0 && (
             <FadeInView delay={0.2} className="mb-12">
               <VersionCounter versions={versions} />
             </FadeInView>
           )}
 
           {/* Timeline / Versions */}
-          {!loading && !error && versions.length > 0 && (
+          {versions.length > 0 && (
             <div id="versions" className="relative">
               {/* Timeline line */}
               <div className="absolute left-[17px] sm:left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-emerald-500/30 via-emerald-500/10 to-transparent -translate-x-1/2 hidden sm:block" />
