@@ -67,6 +67,13 @@ export default function MissionDetail() {
   const images = mission.images || []
   const imageUrls = images.map(i => i.url)
 
+  const hasOptionalData = (
+    (mission.goals && mission.goals.length > 0) ||
+    (mission.timeline && mission.timeline.length > 0) ||
+    (mission.participants && mission.participants.length > 0) ||
+    (mission.budget && mission.budget.length > 0)
+  )
+
   const openLightbox = (index: number) => {
     setLightboxIndex(index)
     setLightboxOpen(true)
@@ -183,6 +190,16 @@ export default function MissionDetail() {
                       </tbody>
                     </table>
                   </div>
+                </div>
+              )}
+
+              {!hasOptionalData && (
+                <div className="mb-8 p-8 rounded-2xl bg-surface-secondary dark:bg-dark-surface-tertiary text-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-3 text-text-muted dark:text-dark-text-muted">
+                    <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+                  </svg>
+                  <p className="text-text-muted dark:text-dark-text-muted font-medium">More details coming soon</p>
+                  <p className="text-text-muted dark:text-dark-text-muted text-sm mt-1">Goals, timeline, participants, and budget information will be added as the mission progresses.</p>
                 </div>
               )}
             </motion.div>

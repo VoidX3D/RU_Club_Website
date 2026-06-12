@@ -7,7 +7,7 @@ import { useTheme } from '@/hooks/useTheme'
 import { usePageTracking } from '@/hooks/usePageTracking'
 import { SiteConfigProvider } from '@/hooks/useSiteConfig'
 import SEOHead from './SEOHead'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
@@ -32,6 +32,7 @@ function BackToTop() {
 export default function Layout() {
   const { theme, toggleTheme } = useTheme()
   const location = useLocation()
+  const pathnameRef = useRef(location.pathname)
   usePageTracking()
 
   const isSecretGarden = location.pathname === '/secret-garden'
@@ -46,9 +47,11 @@ export default function Layout() {
   }, [])
 
   useEffect(() => {
-    const t = setTimeout(() => AOS.refresh(), 100)
     window.scrollTo(0, 0)
-    return () => clearTimeout(t)
+    if (pathnameRef.current !== location.pathname) {
+      pathnameRef.current = location.pathname
+      requestAnimationFrame(() => AOS.refresh())
+    }
   }, [location.pathname])
 
   if (isSecretGarden) {

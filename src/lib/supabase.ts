@@ -155,7 +155,7 @@ export async function getMissionList(): Promise<MissionEntry[] | null> {
     const { data, error } = await supabase
       .from('missions')
       .select('id, title, slug, tag, date, description, show, featured')
-      .eq('show', true)
+      .eq('show', true) // Server-side filter — only visible missions
       .order('date', { ascending: false, nullsFirst: false })
     if (error) throw error
     if (!data) return null

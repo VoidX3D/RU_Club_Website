@@ -8,6 +8,7 @@ import type { MissionEntry } from '@/types'
 
 export default function Missions() {
   const { data: missions, loading, error } = useSiteData<MissionEntry[]>(getMissionList)
+  const visibleMissions = missions?.filter(m => m.show !== false) || []
 
   return (
     <>
@@ -44,7 +45,7 @@ export default function Missions() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-              {missions?.map((mission, i) => (
+              {visibleMissions?.map((mission, i) => (
                 <motion.div key={mission.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
                   className="flex"
                 >
@@ -77,7 +78,7 @@ export default function Missions() {
             </div>
           )}
 
-          {!loading && !error && missions?.length === 0 && (
+          {!loading && !error && visibleMissions.length === 0 && (
             <div className="text-center py-20">
               <p className="text-base text-text-muted dark:text-dark-text-muted">No missions published yet. Check back soon!</p>
             </div>
