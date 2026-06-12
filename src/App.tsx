@@ -22,10 +22,28 @@ const NotFound = lazy(() => import('@/pages/NotFound'))
 
 function PageLoader() {
   return (
-    <div className="flex items-center justify-center min-h-[50vh]">
-      <div className="flex flex-col items-center gap-3">
-        <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
-        <p className="text-sm text-gray-400">Loading...</p>
+    <div className="fixed inset-0 flex items-center justify-center bg-surface dark:bg-dark-surface z-50">
+      <div className="flex flex-col items-center gap-6">
+        {/* Animated rings */}
+        <div className="relative w-16 h-16 flex items-center justify-center">
+          <div className="absolute inset-0 border-2 border-emerald-500/20 rounded-full animate-ping" style={{ animationDuration: '2s' }} />
+          <div className="absolute inset-2 border-2 border-transparent border-t-emerald-400 border-r-emerald-400 rounded-full animate-spin" style={{ animationDuration: '1s' }} />
+          <div className="absolute inset-4 border-2 border-transparent border-b-teal-400 border-l-teal-400 rounded-full animate-spin" style={{ animationDuration: '1.5s', animationDirection: 'reverse' }} />
+          <svg className="w-5 h-5 text-emerald-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 22v-4a4 4 0 0 0-4-4H4" /><path d="M20 14h-4a4 4 0 0 0-4 4v4" /><path d="M12 2v6a4 4 0 0 0 4 4h6" /><path d="M2 12h6a4 4 0 0 0 4-4V2" />
+          </svg>
+        </div>
+
+        {/* Pulsing text */}
+        <div className="flex items-center gap-1.5">
+          <span className="text-sm font-medium text-text-secondary dark:text-dark-text-secondary">Loading</span>
+          {[0, 1, 2].map(i => (
+            <span key={i}
+              className="w-1 h-1 bg-emerald-500 rounded-full animate-bounce"
+              style={{ animationDelay: `${i * 0.15}s`, animationDuration: '0.8s' }}
+            />
+          ))}
+        </div>
       </div>
     </div>
   )
