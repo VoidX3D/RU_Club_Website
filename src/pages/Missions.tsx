@@ -45,9 +45,11 @@ export default function Missions() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
               {missions?.map((mission, i) => (
-                <motion.div key={mission.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
+                <motion.div key={mission.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
+                  className="flex"
+                >
                   <Link to={`/mission/${mission.slug}`}
-                    className="group block bg-white dark:bg-dark-surface-secondary border border-border dark:border-dark-border hover:border-brand-500/40 transition-all duration-300"
+                    className="group flex flex-col w-full bg-white dark:bg-dark-surface-secondary border border-border dark:border-dark-border hover:border-brand-500/40 transition-all duration-300"
                   >
                     <div className="aspect-[4/3] overflow-hidden bg-surface-tertiary dark:bg-dark-surface-tertiary">
                       {mission.featured ? (
@@ -59,7 +61,7 @@ export default function Missions() {
                         <span className="text-text-muted dark:text-dark-text-muted text-xs">{mission.featured ? 'Failed to load' : 'No image'}</span>
                       </div>
                     </div>
-                    <div className="p-5">
+                    <div className="p-5 flex flex-col flex-1">
                       <div className="flex items-center gap-2 mb-1.5">
                         {mission.tag && (
                           <span className="text-[10px] font-semibold text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/50 px-2 py-0.5 rounded-full">{mission.tag}</span>
