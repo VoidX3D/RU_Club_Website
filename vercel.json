@@ -56,12 +56,12 @@
   "redirects": [
     {
       "source": "/admin",
-      "destination": "https://ru-admin-site.vercel.app/",
+      "destination": "https://ruclubadmin.vercel.app/",
       "permanent": false
     },
     {
       "source": "/admin/(.*)",
-      "destination": "https://ru-admin-site.vercel.app/",
+      "destination": "https://ruclubadmin.vercel.app/",
       "permanent": false
     },
     {

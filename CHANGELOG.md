@@ -43,7 +43,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 ### Added
 - Full React + TypeScript SPA with 13 routes
 - Supabase dynamic data (stats, partners, members, missions, announcements)
-- Admin panel integration (redirect to ru-admin-site.vercel.app)
+- Admin panel integration (redirect to ruclubadmin.vercel.app)
 - Secret Garden page with social links, projects, timeline
 - Lightbox gallery with keyboard navigation + download
 - Contact form with rate limiting + honeypot

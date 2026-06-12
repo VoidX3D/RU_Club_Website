@@ -16,7 +16,7 @@ export const footerLinks: FooterLink[] = [
   { label: 'Gallery', href: '/gallery', section: 'quick' },
   { label: 'Members', href: '/members', section: 'quick' },
   { label: 'Contact', href: '/contact', section: 'quick' },
-  { label: 'Admin Panel', href: 'https://ru-admin-site.vercel.app/', section: 'quick', external: true },
+  { label: 'Admin Panel', href: 'https://ruclubadmin.vercel.app/', section: 'quick', external: true },
   { label: 'Privacy Policy', href: '/privacy', section: 'legal' },
   { label: 'Cookie Policy', href: '/consent', section: 'legal' },
   { label: 'License', href: '/license', section: 'legal' },

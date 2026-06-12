@@ -17,7 +17,7 @@ const skills = [
 
 const projects = [
   { name: 'RU Club Motherland', desc: 'Environmental club platform — React, TypeScript, Supabase, Tailwind CSS. Full-stack SPA with real-time DB, gallery, and admin panel.', url: 'https://ruclub.motherland.edu.np', repo: 'https://github.com/RU-Club-Motherland', color: 'emerald', tags: ['React', 'TypeScript', 'Supabase', 'Tailwind'] },
-  { name: 'RU Admin Panel', desc: 'Admin dashboard for RU Club — CRUD operations, draft system, real-time preview, dark/light theme.', url: 'https://ru-admin-site.vercel.app', repo: '#', color: 'blue', tags: ['React', 'Zustand', 'Supabase', 'Tailwind'] },
+  { name: 'RU Admin Panel', desc: 'Admin dashboard for RU Club — CRUD operations, draft system, real-time preview, dark/light theme.', url: 'https://ruclubadmin.vercel.app', repo: '#', color: 'blue', tags: ['React', 'Zustand', 'Supabase', 'Tailwind'] },
   { name: 'PixelPlayer', desc: 'Pixel art music visualizer — transforms audio into retro pixel animations in real-time.', url: '#', repo: 'https://github.com/VoidX3D/PixelPlayer', color: 'purple', tags: ['JavaScript', 'Canvas', 'Web Audio'] },
 ]
 

@@ -38,7 +38,7 @@ export function initAnalytics() {
       send_page_view: false,
       allow_google_signals: true,
       allow_ad_personalization_signals: true,
-      linker: { domains: ['ruclub.motherland.edu.np', 'ruclubmss.vercel.app', 'ru-admin-site.vercel.app'] },
+      linker: { domains: ['ruclub.motherland.edu.np', 'ruclubmss.vercel.app', 'ruclubadmin.vercel.app'] },
     })
   })
 
