@@ -53,7 +53,7 @@ export default function MissionDetail() {
           <div className="text-6xl font-display font-bold text-text-muted dark:text-dark-text-muted mb-4">!</div>
           <h1 className="text-3xl font-display font-bold text-text-primary dark:text-dark-text-primary mb-2">Mission not found</h1>
           <p className="text-text-secondary dark:text-dark-text-secondary mb-6">{error || 'The mission you\'re looking for doesn\'t exist or has been removed.'}</p>
-          <Link to="/missions" className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-brand-600 text-white font-medium hover:bg-brand-700 transition-all">
+          <Link to="/missions" className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-brand-700 text-white font-medium hover:bg-brand-800 transition-all">
             Back to Missions
           </Link>
         </div>
@@ -84,7 +84,7 @@ export default function MissionDetail() {
         <div className="w-full px-4 sm:px-6 py-12">
           <div className="max-w-5xl mx-auto">
             <Link to="/missions"
-              className="inline-flex items-center gap-2 text-sm text-text-secondary dark:text-dark-text-secondary hover:text-brand-600 dark:hover:text-brand-400 transition-colors mb-6"
+              className="inline-flex items-center gap-2 text-sm text-text-secondary dark:text-dark-text-secondary hover:text-brand-700 dark:hover:text-brand-400 transition-colors mb-6"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6" /></svg>
               Back to Missions
@@ -93,7 +93,7 @@ export default function MissionDetail() {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <div className="flex items-center gap-3 mb-4">
                 {mission.tag && (
-                  <span className="text-sm font-medium text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/50 px-3 py-1 rounded-full">{mission.tag}</span>
+                  <span className="text-sm font-medium text-brand-700 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/50 px-3 py-1 rounded-full">{mission.tag}</span>
                 )}
                 {mission.date && <span className="text-sm text-text-muted dark:text-dark-text-muted">{mission.date}</span>}
               </div>
@@ -109,7 +109,7 @@ export default function MissionDetail() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                   {mission.stats.map((s) => (
                     <div key={s.label} className="p-4 rounded-xl bg-surface-secondary dark:bg-dark-surface-tertiary text-center">
-                      <div className="text-xl font-display font-bold text-brand-600 dark:text-brand-400">{s.value}</div>
+                      <div className="text-xl font-display font-bold text-brand-700 dark:text-brand-400">{s.value}</div>
                       <div className="text-xs text-text-muted dark:text-dark-text-muted mt-1">{s.label}</div>
                     </div>
                   ))}
@@ -123,7 +123,7 @@ export default function MissionDetail() {
                     {mission.goals.map((goal, i) => (
                       <li key={i} className="flex items-start gap-2 text-text-secondary dark:text-dark-text-secondary">
                         <span className="w-5 h-5 rounded-full bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center shrink-0 mt-0.5">
-                          <span className="text-xs font-bold text-brand-600 dark:text-brand-400">{i + 1}</span>
+                          <span className="text-xs font-bold text-brand-700 dark:text-brand-400">{i + 1}</span>
                         </span>
                         {goal}
                       </li>
@@ -158,7 +158,7 @@ export default function MissionDetail() {
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                     {mission.participants.map((p, i) => (
                       <div key={i} className="p-3 rounded-xl bg-white dark:bg-dark-surface border border-border dark:border-dark-border text-center">
-                        <div className="text-lg font-bold text-brand-600 dark:text-brand-400">{p.participant_count}</div>
+                        <div className="text-lg font-bold text-brand-700 dark:text-brand-400">{p.participant_count}</div>
                         <div className="text-xs text-text-muted dark:text-dark-text-muted">{p.group_name}</div>
                       </div>
                     ))}

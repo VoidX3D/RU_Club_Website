@@ -30,7 +30,7 @@ export default function HeroSection() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
           className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <Link to="/contact" className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-brand-600 text-white font-semibold text-sm uppercase tracking-wider hover:bg-brand-700 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brand-600/30">
+          <Link to="/contact" className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-brand-700 text-white font-semibold text-sm uppercase tracking-wider hover:bg-brand-800 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brand-700/30">
             {h.ctaPrimary}
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
           </Link>

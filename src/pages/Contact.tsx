@@ -105,18 +105,18 @@ export default function Contact() {
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-xl bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center shrink-0">
-                    <Mail size={20} className="text-brand-600" />
+                    <Mail size={20} className="text-brand-700" />
                   </div>
                   <div>
                     <h3 className="font-display font-semibold text-text-primary dark:text-dark-text-primary">Email</h3>
-                    <a href={`mailto:${config.email}`} className="text-sm text-text-secondary dark:text-dark-text-secondary hover:text-brand-600 transition-colors">
+                    <a href={`mailto:${config.email}`} className="text-sm text-text-secondary dark:text-dark-text-secondary hover:text-brand-700 transition-colors">
                       {config.email}
                     </a>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-xl bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-brand-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-brand-700">
                       <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
                     </svg>
                   </div>
@@ -129,13 +129,13 @@ export default function Contact() {
                 {config.phone && (
                   <div className="flex items-start gap-4">
                     <div className="w-10 h-10 rounded-xl bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center shrink-0">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-brand-600">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-brand-700">
                         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                       </svg>
                     </div>
                     <div>
                       <h3 className="font-display font-semibold text-text-primary dark:text-dark-text-primary">Phone</h3>
-                      <a href={`tel:${config.phone}`} className="text-sm text-text-secondary dark:text-dark-text-secondary hover:text-brand-600 transition-colors">
+                      <a href={`tel:${config.phone}`} className="text-sm text-text-secondary dark:text-dark-text-secondary hover:text-brand-700 transition-colors">
                         {config.phone}
                       </a>
                     </div>
@@ -152,7 +152,7 @@ export default function Contact() {
                       if (!Icon) return null
                       return (
                         <a key={link.platform} href={href} {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                          className="w-10 h-10 rounded-xl bg-surface-secondary dark:bg-dark-surface-tertiary flex items-center justify-center hover:bg-brand-100 dark:hover:bg-brand-900/30 hover:text-brand-600 transition-all"
+                          className="w-10 h-10 rounded-xl bg-surface-secondary dark:bg-dark-surface-tertiary flex items-center justify-center hover:bg-brand-100 dark:hover:bg-brand-900/30 hover:text-brand-700 transition-all"
                         >
                           {Icon}
                         </a>
@@ -166,7 +166,7 @@ export default function Contact() {
               {submitted ? (
                 <div className="p-8 rounded-2xl bg-surface-secondary dark:bg-dark-surface-tertiary text-center">
                   <div className="w-16 h-16 rounded-full bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center mx-auto mb-4">
-                    <Check size={32} className="text-brand-600" />
+                    <Check size={32} className="text-brand-700" />
                   </div>
                   <h3 className="text-xl font-display font-bold text-text-primary dark:text-dark-text-primary mb-2">Message Sent!</h3>
                   <p className="text-text-secondary dark:text-dark-text-secondary">Thank you for reaching out. We'll get back to you soon.</p>
@@ -208,7 +208,7 @@ export default function Contact() {
                         )}
                         {emailValidation.suggestion && (
                           <button type="button" onClick={() => applySuggestion(emailValidation.suggestion!)}
-                            className="text-xs text-brand-600 dark:text-brand-400 hover:underline mt-0.5"
+                            className="text-xs text-brand-700 dark:text-brand-400 hover:underline mt-0.5"
                           >
                             Did you mean {emailValidation.suggestion}?
                           </button>
@@ -232,7 +232,7 @@ export default function Contact() {
                     <p className="text-sm text-red-500 bg-red-50 dark:bg-red-950/30 px-3 py-2 rounded-lg">{error}</p>
                   )}
                   <button type="submit" disabled={submitting}
-                    className="w-full py-3 rounded-xl bg-brand-600 text-white font-medium hover:bg-brand-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:shadow-lg hover:shadow-brand-600/25"
+                    className="w-full py-3 rounded-xl bg-brand-700 text-white font-medium hover:bg-brand-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:shadow-lg hover:shadow-brand-700/25"
                   >
                     {submitting ? 'Sending...' : 'Send Message'}
                   </button>

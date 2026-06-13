@@ -22,7 +22,7 @@ export default function LegalNav() {
     <aside className="lg:w-64 shrink-0">
       <div className="lg:sticky lg:top-24 space-y-6">
         <div>
-          <Link to="/" className="flex items-center gap-2 text-sm text-text-muted dark:text-dark-text-muted hover:text-brand-600 dark:hover:text-brand-400 transition-colors mb-6">
+          <Link to="/" className="flex items-center gap-2 text-sm text-text-muted dark:text-dark-text-muted hover:text-brand-700 dark:hover:text-brand-400 transition-colors mb-6">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6" /></svg>
             Back to {config?.shortName || 'Home'}
           </Link>
@@ -37,7 +37,7 @@ export default function LegalNav() {
                   className={cn(
                     'flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all',
                     isActive
-                      ? 'bg-brand-50 dark:bg-brand-950/50 text-brand-600 dark:text-brand-400 border border-brand-200 dark:border-brand-900'
+                      ? 'bg-brand-50 dark:bg-brand-950/50 text-brand-700 dark:text-brand-400 border border-brand-200 dark:border-brand-900'
                       : 'text-text-secondary dark:text-dark-text-secondary hover:bg-surface-tertiary dark:hover:bg-dark-surface-tertiary hover:text-text-primary dark:hover:text-dark-text-primary'
                   )}
                 >

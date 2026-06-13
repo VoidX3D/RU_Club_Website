@@ -42,7 +42,7 @@ export default function NotFound() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.55, ease: 'easeOut' }}
           >
-            <Link to="/" className="inline-flex items-center px-8 py-3 rounded-full bg-brand-600 text-white font-semibold hover:bg-brand-700 transition-all">
+            <Link to="/" className="inline-flex items-center px-8 py-3 rounded-full bg-brand-700 text-white font-semibold hover:bg-brand-800 transition-all">
               Back to Home
             </Link>
           </motion.div>

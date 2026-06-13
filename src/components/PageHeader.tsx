@@ -11,7 +11,7 @@ export function PageHeader({ badge, title, description, className = '' }: PageHe
   return (
     <div className={`text-center mb-12 ${className}`}>
       <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-        className="text-brand-600 dark:text-brand-400 font-semibold text-xs tracking-wider uppercase"
+        className="text-brand-700 dark:text-brand-400 font-semibold text-xs tracking-wider uppercase"
       >{badge}</motion.p>
       <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
         className="mt-1 text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary"

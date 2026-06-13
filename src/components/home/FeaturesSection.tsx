@@ -11,7 +11,7 @@ export default function FeaturesSection() {
     <section className="py-20 md:py-28 bg-surface-secondary dark:bg-dark-surface-secondary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-12 md:mb-16" data-aos="fade-up">
-          <p className="text-brand-600 dark:text-brand-400 font-bold text-xs tracking-[0.2em] uppercase mb-4">What We Do</p>
+          <p className="text-brand-700 dark:text-brand-400 font-bold text-xs tracking-[0.2em] uppercase mb-4">What We Do</p>
           <h2 className="text-[clamp(2.75rem,6vw,4.25rem)] font-display font-extrabold tracking-tight text-text-primary dark:text-dark-text-primary">Our Initiatives</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
@@ -20,7 +20,7 @@ export default function FeaturesSection() {
               className="group relative bg-white dark:bg-dark-surface border border-border dark:border-dark-border px-6 py-10 md:px-8 md:py-12 text-center transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-brand-500/10 hover:border-brand-400/50 overflow-hidden rounded-lg"
             >
               <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-brand-600 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center" />
-              <div className="w-[70px] h-[70px] mx-auto mb-6 bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center text-brand-600 dark:text-brand-400 transition-transform duration-500 group-hover:scale-110">
+              <div className="w-[70px] h-[70px] mx-auto mb-6 bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center text-brand-700 dark:text-brand-400 transition-transform duration-500 group-hover:scale-110">
                 {iconSVGs[card.icon]}
               </div>
               <h3 className="font-display font-bold text-xl md:text-2xl text-text-primary dark:text-dark-text-primary mb-3">{card.title}</h3>

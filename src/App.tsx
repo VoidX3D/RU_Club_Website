@@ -61,7 +61,7 @@ function LazyRoute({ children }: { children: React.ReactNode }) {
           <h2 className="text-xl font-display font-bold text-text-primary dark:text-dark-text-primary mb-2">Failed to load page</h2>
           <p className="text-text-secondary dark:text-dark-text-secondary mb-6">A new version may have been deployed. Please refresh.</p>
           <button onClick={() => window.location.reload()}
-            className="px-6 py-3 rounded-xl bg-brand-600 text-white font-medium hover:bg-brand-700 transition-all"
+            className="px-6 py-3 rounded-xl bg-brand-700 text-white font-medium hover:bg-brand-800 transition-all"
           >Refresh Page</button>
         </div>
       </div>

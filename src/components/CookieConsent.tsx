@@ -42,7 +42,7 @@ export default function CookieConsent() {
               {showDetails && (
                 <div className="mt-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-800 text-xs text-gray-500 dark:text-gray-400 space-y-1.5 leading-relaxed">
                   <p>Google Analytics (GA4) cookies collect anonymous data about page visits, time spent, and interactions. No personal data is collected, sold, or shared with third parties.</p>
-                  <p>You can change your preference anytime via our <Link to="/consent" className="text-brand-600 dark:text-brand-400 hover:underline font-medium" onClick={() => setVisible(false)}>Cookie Policy page</Link>.</p>
+                  <p>You can change your preference anytime via our <Link to="/consent" className="text-brand-700 dark:text-brand-400 hover:underline font-medium" onClick={() => setVisible(false)}>Cookie Policy page</Link>.</p>
                 </div>
               )}
             </div>

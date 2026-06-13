@@ -28,7 +28,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
             <span className="font-display font-extrabold text-lg md:text-xl text-text-primary dark:text-dark-text-primary leading-tight tracking-wide">
               {config?.shortName?.toUpperCase() || 'RU CLUB'}
             </span>
-            <span className="text-xs md:text-sm font-semibold text-brand-600 dark:text-brand-400 tracking-widest uppercase">
+            <span className="text-xs md:text-sm font-semibold text-brand-700 dark:text-brand-400 tracking-widest uppercase">
               {config?.name?.replace('RU Club ', '') || 'Motherland'}
             </span>
           </div>
@@ -45,13 +45,13 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
                 className={cn(
                   'text-base font-semibold transition-colors relative py-1 tracking-wide',
                   isActive
-                    ? 'text-brand-600 dark:text-brand-400'
+                    ? 'text-brand-700 dark:text-brand-400'
                     : 'text-text-secondary dark:text-dark-text-secondary hover:text-text-primary dark:hover:text-dark-text-primary'
                 )}
               >
                 {item.label}
                 {isActive && (
-                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-brand-600 dark:bg-brand-400 rounded-full" />
+                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-brand-700 dark:bg-brand-400 rounded-full" />
                 )}
               </Link>
             )
@@ -62,7 +62,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
           {config?.github && (
             <Link
               to="/changelog"
-              className="w-10 h-10 md:w-11 md:h-11 rounded-full bg-surface-secondary dark:bg-dark-surface-tertiary flex items-center justify-center text-text-secondary dark:text-dark-text-secondary hover:text-brand-600 dark:hover:text-brand-400 transition-colors"
+              className="w-10 h-10 md:w-11 md:h-11 rounded-full bg-surface-secondary dark:bg-dark-surface-tertiary flex items-center justify-center text-text-secondary dark:text-dark-text-secondary hover:text-brand-700 dark:hover:text-brand-400 transition-colors"
               aria-label="Changelog"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -75,7 +75,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
 
           <button
             onClick={toggleTheme}
-            className="w-10 h-10 md:w-11 md:h-11 rounded-full bg-surface-secondary dark:bg-dark-surface-tertiary flex items-center justify-center text-text-secondary dark:text-dark-text-secondary hover:text-brand-600 dark:hover:text-brand-400 transition-colors"
+            className="w-10 h-10 md:w-11 md:h-11 rounded-full bg-surface-secondary dark:bg-dark-surface-tertiary flex items-center justify-center text-text-secondary dark:text-dark-text-secondary hover:text-brand-700 dark:hover:text-brand-400 transition-colors"
             aria-label="Toggle theme"
           >
             {theme === 'dark' ? (
@@ -91,7 +91,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
 
           <Link
             to="/contact"
-            className="hidden md:inline-flex items-center px-5 py-2.5 rounded-full bg-brand-600 text-white text-sm font-semibold uppercase tracking-wider hover:bg-brand-700 transition-all hover:shadow-lg hover:shadow-brand-600/25"
+            className="hidden md:inline-flex items-center px-5 py-2.5 rounded-full bg-brand-700 text-white text-sm font-semibold uppercase tracking-wider hover:bg-brand-800 transition-all hover:shadow-lg hover:shadow-brand-700/25"
           >
             Join Us
           </Link>
@@ -126,7 +126,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
                 className={cn(
                   'block px-4 py-3.5 rounded-xl text-base font-medium transition-colors',
                   location.pathname === item.href
-                    ? 'text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/50'
+                    ? 'text-brand-700 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/50'
                     : 'text-text-secondary dark:text-dark-text-secondary hover:bg-surface-tertiary dark:hover:bg-dark-surface-tertiary'
                 )}
               >
@@ -136,7 +136,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
             <Link
               to="/contact"
               onClick={() => setMobileOpen(false)}
-              className="block mt-3 px-4 py-3 rounded-full bg-brand-600 text-white text-center font-semibold"
+              className="block mt-3 px-4 py-3 rounded-full bg-brand-700 text-white text-center font-semibold"
             >
               Join Us
             </Link>

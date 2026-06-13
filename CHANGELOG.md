@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ---
 
+## [Unreleased]
+
+### Changed
+- Button/CTA background from `bg-brand-600` to `bg-brand-700` for better contrast with white text across all components
+- Associated hover shadows updated (`hover:shadow-brand-600/*` → `hover:shadow-brand-700/*`)
+- All remaining `text-brand-600` → `text-brand-700` across 16 files (PageHeader, CTASection, Gallery, Navbar, Announcements, MissionDetail, Missions, AnnouncementDetail, Contact, Footer, LegalNav, FeaturesSection, Privacy, License, Consent, CookieConsent) — covers `hover:text-brand-600`, `group-hover:text-brand-600`, `group-hover/link:text-brand-600`, and standalone `text-brand-600`
+- CTASection `border-brand-600` → `border-brand-700` for secondary button border hover
+
+### Performance
+- `logo_icon.png` optimized from 723KB to 27KB (96% reduction) — resized 864×864 → 128×128, compressed at quality 80
+- WebP version `logo_icon.webp` created (4.3KB) for modern browsers
+
 ## [1.1.0] — 2026-06-13
 
 ### Added

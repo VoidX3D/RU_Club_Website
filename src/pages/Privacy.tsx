@@ -29,7 +29,7 @@ export default function Privacy() {
         <div className="flex flex-wrap gap-2">
           {sections.map(s => (
             <a key={s.id} href={`#${s.id}`}
-              className="text-sm px-3 py-1.5 rounded-lg bg-surface-secondary dark:bg-dark-surface-tertiary text-text-secondary dark:text-dark-text-secondary hover:text-brand-600 transition-colors">
+              className="text-sm px-3 py-1.5 rounded-lg bg-surface-secondary dark:bg-dark-surface-tertiary text-text-secondary dark:text-dark-text-secondary hover:text-brand-700 transition-colors">
               {s.title}
             </a>
           ))}
@@ -104,13 +104,13 @@ export default function Privacy() {
         <div className="!rounded-xl !bg-surface-secondary dark:!bg-dark-surface-tertiary !p-5 !my-6 !space-y-2 !not-prose">
           {config.email && (
             <div className="flex items-center gap-3">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-brand-600 shrink-0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              <a href={`mailto:${config.email}`} className="text-brand-600 dark:text-brand-400 hover:underline">{config.email}</a>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-brand-700 shrink-0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <a href={`mailto:${config.email}`} className="text-brand-700 dark:text-brand-400 hover:underline">{config.email}</a>
             </div>
           )}
           {config.school && (
             <div className="flex items-center gap-3">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-brand-600 shrink-0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-brand-700 shrink-0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
               <span className="text-text-secondary dark:text-dark-text-secondary">{config.school}, {config.city}, {config.country}</span>
             </div>
           )}

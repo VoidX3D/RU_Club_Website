@@ -51,11 +51,11 @@ export default function Missions() {
                     <div className="p-5 flex flex-col flex-1">
                       <div className="flex items-center gap-2 mb-1.5">
                         {mission.tag && (
-                          <span className="text-[10px] font-semibold text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/50 px-2 py-0.5 rounded-full">{mission.tag}</span>
+                          <span className="text-[10px] font-semibold text-brand-700 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/50 px-2 py-0.5 rounded-full">{mission.tag}</span>
                         )}
                         {mission.date && <span className="text-[10px] text-text-muted dark:text-dark-text-muted">{mission.date}</span>}
                       </div>
-                      <h3 className="font-display font-semibold text-lg text-text-primary dark:text-dark-text-primary group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">{mission.title}</h3>
+                      <h3 className="font-display font-semibold text-lg text-text-primary dark:text-dark-text-primary group-hover:text-brand-700 dark:group-hover:text-brand-400 transition-colors">{mission.title}</h3>
                       <p className="mt-1 text-sm text-text-secondary dark:text-dark-text-secondary line-clamp-2">{mission.description}</p>
                     </div>
                   </Link>

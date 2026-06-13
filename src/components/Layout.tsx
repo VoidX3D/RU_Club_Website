@@ -21,7 +21,7 @@ function BackToTop() {
   return visible ? (
     <button
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-      className="fixed bottom-6 right-6 z-50 flex h-11 w-11 items-center justify-center rounded-xl bg-brand-600 text-white shadow-lg hover:bg-brand-700 transition-all"
+      className="fixed bottom-6 right-6 z-50 flex h-11 w-11 items-center justify-center rounded-xl bg-brand-700 text-white shadow-lg hover:bg-brand-800 transition-all"
       aria-label="Back to top"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
@@ -64,7 +64,7 @@ export default function Layout() {
 
   return (
     <SiteConfigProvider>
-      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-brand-600 focus:px-4 focus:py-3 focus:text-sm focus:font-medium focus:text-white focus:shadow-lg">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-brand-700 focus:px-4 focus:py-3 focus:text-sm focus:font-medium focus:text-white focus:shadow-lg">
         Skip to main content
       </a>
       <SEOHead />

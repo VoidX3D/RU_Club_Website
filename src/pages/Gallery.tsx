@@ -106,8 +106,8 @@ export default function Gallery() {
                     <div className="flex items-end justify-between mb-5" data-aos="fade-up">
                       <div>
                         <Link to={`/mission/${group.slug}`} className="inline-flex items-center gap-2 group/link">
-                          <h2 className="text-2xl sm:text-3xl font-display font-bold text-text-primary dark:text-dark-text-primary group-hover/link:text-brand-600 transition-colors">{group.title}</h2>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-text-muted group-hover/link:text-brand-600 transition-colors"><polyline points="9 18 15 12 9 6"/></svg>
+                          <h2 className="text-2xl sm:text-3xl font-display font-bold text-text-primary dark:text-dark-text-primary group-hover/link:text-brand-700 transition-colors">{group.title}</h2>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-text-muted group-hover/link:text-brand-700 transition-colors"><polyline points="9 18 15 12 9 6"/></svg>
                         </Link>
                         <p className="text-xs text-text-muted dark:text-dark-text-muted mt-0.5">{group.images.length} image{group.images.length > 1 ? 's' : ''}</p>
                       </div>
@@ -135,7 +135,7 @@ export default function Gallery() {
               {hasMore && (
                 <div className="text-center mt-12">
                   <button onClick={() => setVisible((v) => v + PER_PAGE)}
-                    className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-brand-600 text-white font-semibold text-sm uppercase tracking-wider hover:bg-brand-700 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brand-600/30 cursor-pointer"
+                    className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-brand-700 text-white font-semibold text-sm uppercase tracking-wider hover:bg-brand-800 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brand-700/30 cursor-pointer"
                   >
                     Load More
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>

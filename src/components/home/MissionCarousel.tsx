@@ -32,7 +32,7 @@ export default function MissionCarousel() {
             </>
           ) : (
             <>
-              <p className="text-brand-600 dark:text-brand-400 font-semibold text-xs tracking-[0.2em] uppercase mb-4">
+              <p className="text-brand-700 dark:text-brand-400 font-semibold text-xs tracking-[0.2em] uppercase mb-4">
                 {ms.label}
               </p>
               <h2 className="text-[clamp(2.75rem,6vw,4.25rem)] font-display font-extrabold tracking-tight text-text-primary dark:text-dark-text-primary">
@@ -45,7 +45,7 @@ export default function MissionCarousel() {
               )}
             </>
           )}
-          <Link to="/missions" className="inline-flex items-center gap-2 mt-8 px-8 py-3.5 rounded-full bg-brand-600 text-white font-semibold text-sm uppercase tracking-wider hover:bg-brand-700 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brand-600/30">
+          <Link to="/missions" className="inline-flex items-center gap-2 mt-8 px-8 py-3.5 rounded-full bg-brand-700 text-white font-semibold text-sm uppercase tracking-wider hover:bg-brand-800 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brand-700/30">
             View All Missions
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
           </Link>
@@ -98,7 +98,7 @@ export default function MissionCarousel() {
                       </div>
                       <div className="absolute bottom-0 left-0 right-0 z-20 p-4 sm:p-6 md:p-8">
                         {m.tag && (
-                          <span className="inline-block text-[10px] font-bold uppercase tracking-[0.1em] text-white bg-brand-600 px-3 py-1 rounded-full mb-2">{m.tag}</span>
+                          <span className="inline-block text-[10px] font-bold uppercase tracking-[0.1em] text-white bg-brand-700 px-3 py-1 rounded-full mb-2">{m.tag}</span>
                         )}
                         <h3 className="text-white font-display font-bold text-lg sm:text-xl md:text-2xl leading-tight">{m.title}</h3>
                         <p className="text-white/80 text-sm mt-1 line-clamp-1 max-w-xl">{m.description}</p>

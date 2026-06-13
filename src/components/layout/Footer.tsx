@@ -75,7 +75,7 @@ export default function Footer() {
                 const label = isGithub ? 'Changelog' : link.platform.charAt(0).toUpperCase() + link.platform.slice(1)
                 const Icon = socialIcons[link.platform as keyof typeof socialIcons]
                 if (!Icon) return null
-                const cls = "w-11 h-11 rounded-xl bg-surface-tertiary dark:bg-dark-surface-tertiary flex items-center justify-center text-text-secondary dark:text-dark-text-secondary hover:bg-brand-100 dark:hover:bg-brand-900/30 hover:text-brand-600 dark:hover:text-brand-400 transition-all"
+                const cls = "w-11 h-11 rounded-xl bg-surface-tertiary dark:bg-dark-surface-tertiary flex items-center justify-center text-text-secondary dark:text-dark-text-secondary hover:bg-brand-100 dark:hover:bg-brand-900/30 hover:text-brand-700 dark:hover:text-brand-400 transition-all"
                 return isGithub ? (
                   <Link key={link.platform} to="/changelog" className={cls} aria-label={label}>
                     {Icon}
@@ -102,14 +102,14 @@ export default function Footer() {
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-base md:text-lg text-text-secondary dark:text-dark-text-secondary hover:text-brand-600 dark:hover:text-brand-400 transition-colors"
+                      className="text-base md:text-lg text-text-secondary dark:text-dark-text-secondary hover:text-brand-700 dark:hover:text-brand-400 transition-colors"
                     >
                       {link.label}
                     </a>
                   ) : (
                     <Link
                       to={link.href}
-                      className="text-base md:text-lg text-text-secondary dark:text-dark-text-secondary hover:text-brand-600 dark:hover:text-brand-400 transition-colors"
+                      className="text-base md:text-lg text-text-secondary dark:text-dark-text-secondary hover:text-brand-700 dark:hover:text-brand-400 transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -128,7 +128,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     to={link.href}
-                    className="text-base md:text-lg text-text-secondary dark:text-dark-text-secondary hover:text-brand-600 dark:hover:text-brand-400 transition-colors"
+                    className="text-base md:text-lg text-text-secondary dark:text-dark-text-secondary hover:text-brand-700 dark:hover:text-brand-400 transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -145,7 +145,7 @@ export default function Footer() {
               {config?.email && (
                 <a
                   href={`mailto:${config.email}`}
-                  className="block mt-3 text-brand-600 dark:text-brand-400 hover:underline font-medium"
+                  className="block mt-3 text-brand-700 dark:text-brand-400 hover:underline font-medium"
                 >
                   {config.email}
                 </a>
@@ -170,7 +170,7 @@ export default function Footer() {
               {s.label}
             </span>
             <p className="text-sm text-text-muted dark:text-dark-text-muted">
-              Made with care by <Link to="/secret-garden" className="text-brand-500 hover:text-brand-600 dark:hover:text-brand-400 transition-colors font-semibold">{config?.madeBy || 'Sincere Bhattarai'}</Link>
+              Made with care by <Link to="/secret-garden" className="text-brand-500 hover:text-brand-700 dark:hover:text-brand-400 transition-colors font-semibold">{config?.madeBy || 'Sincere Bhattarai'}</Link>
             </p>
           </div>
         </motion.div>

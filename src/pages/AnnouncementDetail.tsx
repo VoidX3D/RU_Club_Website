@@ -50,7 +50,7 @@ export default function AnnouncementDetail() {
           <div className="text-6xl font-display font-bold text-text-muted dark:text-dark-text-muted mb-4">!</div>
           <h1 className="text-3xl font-display font-bold text-text-primary dark:text-dark-text-primary mb-2">Announcement not found</h1>
           <p className="text-text-secondary dark:text-dark-text-secondary mb-6">{error || 'The announcement you\'re looking for doesn\'t exist.'}</p>
-          <Link to="/announcements" className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-brand-600 text-white font-medium hover:bg-brand-700 transition-all">Back to Announcements</Link>
+          <Link to="/announcements" className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-brand-700 text-white font-medium hover:bg-brand-800 transition-all">Back to Announcements</Link>
         </div>
       </div>
     )
@@ -64,7 +64,7 @@ export default function AnnouncementDetail() {
         <div className="w-full px-4 sm:px-6 py-12">
           <div className="max-w-5xl mx-auto">
             <Link to="/announcements"
-              className="inline-flex items-center gap-2 text-sm text-text-secondary dark:text-dark-text-secondary hover:text-brand-600 dark:hover:text-brand-400 transition-colors mb-6"
+              className="inline-flex items-center gap-2 text-sm text-text-secondary dark:text-dark-text-secondary hover:text-brand-700 dark:hover:text-brand-400 transition-colors mb-6"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6" /></svg>
               Back to Announcements
@@ -73,7 +73,7 @@ export default function AnnouncementDetail() {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <div className="flex flex-wrap items-center gap-2 mb-4">
                 {announcement.tag && (
-                  <span className="text-sm font-medium text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/50 px-3 py-1 rounded-full">{announcement.tag}</span>
+                  <span className="text-sm font-medium text-brand-700 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/50 px-3 py-1 rounded-full">{announcement.tag}</span>
                 )}
                 {announcement.status === 'urgent' && (
                   <span className="text-sm font-medium text-red-500 bg-red-50 dark:bg-red-950/50 px-3 py-1 rounded-full">Urgent</span>

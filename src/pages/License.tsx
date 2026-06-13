@@ -26,7 +26,7 @@ export default function License() {
         <div className="flex flex-wrap gap-2">
           {sections.map(s => (
             <a key={s.id} href={`#${s.id}`}
-              className="text-sm px-3 py-1.5 rounded-lg bg-surface-secondary dark:bg-dark-surface-tertiary text-text-secondary dark:text-dark-text-secondary hover:text-brand-600 transition-colors">
+              className="text-sm px-3 py-1.5 rounded-lg bg-surface-secondary dark:bg-dark-surface-tertiary text-text-secondary dark:text-dark-text-secondary hover:text-brand-700 transition-colors">
               {s.title}
             </a>
           ))}
@@ -105,7 +105,7 @@ export default function License() {
         <h2>Contact</h2>
         <p>For licensing inquiries, permissions, or attribution requests, please contact us:</p>
         <div className="!rounded-xl !bg-surface-secondary dark:!bg-dark-surface-tertiary !p-4 !my-6 !not-prose">
-          <p className="!text-sm"><strong>Email:</strong> <a href="mailto:ruclubmotherland@gmail.com" className="text-brand-600 dark:text-brand-400 hover:underline">ruclubmotherland@gmail.com</a></p>
+          <p className="!text-sm"><strong>Email:</strong> <a href="mailto:ruclubmotherland@gmail.com" className="text-brand-700 dark:text-brand-400 hover:underline">ruclubmotherland@gmail.com</a></p>
           <p className="!text-sm !mt-1"><strong>School:</strong> <span className="text-text-secondary dark:text-dark-text-secondary">Motherland Secondary School, Pokhara, Nepal</span></p>
         </div>
       </section>

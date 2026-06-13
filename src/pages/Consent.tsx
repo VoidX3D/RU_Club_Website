@@ -47,7 +47,7 @@ export default function Consent() {
         <div className="flex flex-wrap gap-2">
           {sections.map(s => (
             <a key={s.id} href={`#${s.id}`}
-              className="text-sm px-3 py-1.5 rounded-lg bg-surface-secondary dark:bg-dark-surface-tertiary text-text-secondary dark:text-dark-text-secondary hover:text-brand-600 transition-colors">
+              className="text-sm px-3 py-1.5 rounded-lg bg-surface-secondary dark:bg-dark-surface-tertiary text-text-secondary dark:text-dark-text-secondary hover:text-brand-700 transition-colors">
               {s.title}
             </a>
           ))}
@@ -79,7 +79,7 @@ export default function Consent() {
                 : 'No tracking cookies are active. You can change your preference at any time.'}
             </p>
             <button onClick={status === 'accepted' ? handleDecline : handleAccept}
-              className="text-xs font-medium text-brand-600 dark:text-brand-400 hover:underline mt-1.5">
+              className="text-xs font-medium text-brand-700 dark:text-brand-400 hover:underline mt-1.5">
               {status === 'accepted' ? 'Revoke consent' : 'Accept analytics cookies'}
             </button>
           </div>
@@ -135,7 +135,7 @@ export default function Consent() {
             className={`px-6 py-3 rounded-xl font-semibold transition-all ${
               status === 'accepted'
                 ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 cursor-default'
-                : 'bg-brand-600 text-white hover:bg-brand-700 hover:shadow-lg hover:shadow-brand-600/25'
+                : 'bg-brand-700 text-white hover:bg-brand-800 hover:shadow-lg hover:shadow-brand-700/25'
             } ${animating === 'accept' ? 'scale-95 opacity-80' : ''} disabled:opacity-60 disabled:cursor-not-allowed`}>
             {status === 'accepted' ? 'Cookies Accepted' : 'Accept Cookies'}
           </button>
@@ -166,8 +166,8 @@ export default function Consent() {
         <h2>Contact</h2>
         <p>If you have questions about our use of cookies, please contact us:</p>
         <div className="!rounded-xl !bg-surface-secondary dark:!bg-dark-surface-tertiary !p-4 !my-6 !not-prose">
-          <p className="!text-sm"><strong>Email:</strong> <a href="mailto:ruclubmotherland@gmail.com" className="text-brand-600 dark:text-brand-400 hover:underline">ruclubmotherland@gmail.com</a></p>
-          <p className="!text-sm !mt-1"><strong>More information:</strong> <Link to="/privacy" className="text-brand-600 dark:text-brand-400 hover:underline">View our Privacy Policy</Link></p>
+          <p className="!text-sm"><strong>Email:</strong> <a href="mailto:ruclubmotherland@gmail.com" className="text-brand-700 dark:text-brand-400 hover:underline">ruclubmotherland@gmail.com</a></p>
+          <p className="!text-sm !mt-1"><strong>More information:</strong> <Link to="/privacy" className="text-brand-700 dark:text-brand-400 hover:underline">View our Privacy Policy</Link></p>
         </div>
       </section>
     </>

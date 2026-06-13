@@ -33,7 +33,7 @@ export default function Members() {
     return (
       <motion.div key={group} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 last:mb-0">
         <div className="mb-6">
-          <p className="text-brand-600 dark:text-brand-400 font-semibold text-sm tracking-wider uppercase">{cfg.label}</p>
+          <p className="text-brand-700 dark:text-brand-400 font-semibold text-sm tracking-wider uppercase">{cfg.label}</p>
           <h2 className="mt-1 text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary">{cfg.title}</h2>
         </div>
         <div className="overflow-hidden rounded-2xl border border-border dark:border-dark-border bg-white dark:bg-dark-surface-secondary">
@@ -58,11 +58,11 @@ export default function Members() {
                             <img src={member.image} alt={member.name} width="32" height="32" className="w-8 h-8 rounded-full object-cover bg-surface-tertiary dark:bg-dark-surface-tertiary shrink-0" />
                           ) : (
                             <div className="w-8 h-8 rounded-full bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center shrink-0">
-                              <span className="text-xs font-bold text-brand-600 dark:text-brand-400">{member.name.charAt(0)}</span>
+                              <span className="text-xs font-bold text-brand-700 dark:text-brand-400">{member.name.charAt(0)}</span>
                             </div>
                           )}
                           {isDev ? (
-                            <Link to="/secret-garden" className="text-sm font-semibold text-brand-600 dark:text-brand-400 hover:underline">{member.name}</Link>
+                            <Link to="/secret-garden" className="text-sm font-semibold text-brand-700 dark:text-brand-400 hover:underline">{member.name}</Link>
                           ) : (
                             <span className="text-sm font-semibold text-text-primary dark:text-dark-text-primary">{member.name}</span>
                           )}
@@ -98,10 +98,10 @@ export default function Members() {
                 className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto"
               >
                 {[
-                  { label: 'Total', value: members.stats.total, icon: 'users', color: 'text-brand-600 dark:text-brand-400' },
-                  { label: 'Teachers', value: members.stats.teachers, icon: 'graduation', color: 'text-purple-600 dark:text-purple-400' },
-                  { label: 'Core', value: members.stats.core, icon: 'star', color: 'text-amber-600 dark:text-amber-400' },
-                  { label: 'General', value: members.stats.general, icon: 'team', color: 'text-emerald-600 dark:text-emerald-400' },
+                  { label: 'Total', value: members.stats.total, icon: 'users', color: 'text-brand-700 dark:text-brand-400' },
+                  { label: 'Teachers', value: members.stats.teachers, icon: 'graduation', color: 'text-purple-700 dark:text-purple-400' },
+                  { label: 'Core', value: members.stats.core, icon: 'star', color: 'text-amber-700 dark:text-amber-400' },
+                  { label: 'General', value: members.stats.general, icon: 'team', color: 'text-emerald-700 dark:text-emerald-400' },
                 ].map((stat) => (
                   <div key={stat.label} className="bg-surface-secondary dark:bg-dark-surface-tertiary rounded-xl p-5 text-center border border-border dark:border-dark-border">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={`${stat.color} mx-auto mb-2`}>
@@ -124,7 +124,7 @@ export default function Members() {
               {[1, 2, 3].map((i) => (
                 <div key={i} className="animate-pulse space-y-4">
                   <div className="h-6 bg-surface-secondary dark:bg-dark-surface-tertiary rounded w-1/4" />
-                  <div className="h-64 bg-surface-secondary dark:bg-dark-surface-tertiary rounded-2xl" />
+                  <div className="h-96 bg-surface-secondary dark:bg-dark-surface-tertiary rounded-2xl" />
                 </div>
               ))}
             </div>
@@ -137,7 +137,7 @@ export default function Members() {
               <p className="text-text-muted dark:text-dark-text-muted text-sm mt-1">Check database connection.</p>
             </div>
           ) : (
-            <div className="max-w-6xl mx-auto">
+            <div className="max-w-6xl mx-auto min-h-[500px]">
               {renderTable('teachers')}
               {renderTable('core')}
               {renderTable('general')}

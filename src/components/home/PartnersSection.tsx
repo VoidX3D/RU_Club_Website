@@ -9,7 +9,7 @@ export default function PartnersSection() {
     return (
       <section className="py-16 md:py-20 bg-surface-secondary dark:bg-dark-surface-secondary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <p className="text-center text-xs font-extrabold tracking-[0.3em] uppercase text-brand-600 dark:text-brand-400 mb-8">Trusted By</p>
+          <p className="text-center text-xs font-extrabold tracking-[0.3em] uppercase text-brand-700 dark:text-brand-400 mb-8">Trusted By</p>
           <div className="flex justify-center gap-6">
             {[1, 2, 3, 4].map(i => <div key={i} className="w-[160px] h-[90px] bg-surface-tertiary dark:bg-dark-surface-tertiary animate-pulse" />)}
           </div>
@@ -28,7 +28,7 @@ export default function PartnersSection() {
         }}
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-        <p className="text-center text-xs font-extrabold tracking-[0.3em] uppercase text-brand-600 dark:text-brand-400 mb-8" data-aos="fade-up">
+        <p className="text-center text-xs font-extrabold tracking-[0.3em] uppercase text-brand-700 dark:text-brand-400 mb-8" data-aos="fade-up">
           Trusted By
         </p>
         <div data-aos="fade-up" className="overflow-hidden py-6"

@@ -68,7 +68,7 @@ export default class ErrorBoundary extends Component<Props, State> {
             <div className="flex gap-3 justify-center flex-wrap">
               <button
                 onClick={() => window.location.reload()}
-                className="px-6 py-3 rounded-xl bg-brand-600 text-white font-medium hover:bg-brand-700 transition-all"
+                className="px-6 py-3 rounded-xl bg-brand-700 text-white font-medium hover:bg-brand-800 transition-all"
               >
                 Reload Page
               </button>
