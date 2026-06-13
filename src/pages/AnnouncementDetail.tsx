@@ -116,7 +116,7 @@ export default function AnnouncementDetail() {
               {announcement.tags && announcement.tags.length > 0 && (
                 <div className="flex flex-wrap gap-1.5 mb-4">
                   {announcement.tags.map((tag, i) => (
-                    <span key={i} className="text-xs font-medium text-text-muted dark:text-dark-text-muted bg-surface-tertiary dark:bg-dark-surface-tertiary px-2 py-0.5 rounded-full">{tag}</span>
+                    <span key={i} className="text-xs font-medium text-text-secondary dark:text-dark-text-muted bg-surface-tertiary dark:bg-dark-surface-tertiary px-2 py-0.5 rounded-full">{tag}</span>
                   ))}
                 </div>
               )}

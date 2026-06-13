@@ -51,7 +51,7 @@ export default function Footer() {
           <motion.div variants={childVariants} className="sm:col-span-2 lg:col-span-2">
             <Link to="/" className="flex items-center gap-4 mb-5">
               <img
-                src={config?.logoIcon || '/static/assets/brand/logo_icon.png'}
+                src={config?.logoIcon || '/static/assets/brand/logo_icon.webp'}
                 alt={config?.shortName || 'RU Club'}
                 className="w-12 h-12 object-contain"
                 width="48" height="48" loading="lazy" decoding="async"

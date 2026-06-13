@@ -20,7 +20,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
       <div className="flex items-center justify-between h-[70px] md:h-[100px] px-4 sm:px-6">
         <Link to="/" className="flex items-center gap-3 shrink-0">
           <img
-            src={config?.logoIcon || '/static/assets/brand/logo_icon.png'}
+            src={config?.logoIcon || '/static/assets/brand/logo_icon.webp'}
             alt={config?.shortName || 'RU Club'}
             className="w-10 h-10 md:w-12 md:h-12 object-contain"
             width="48" height="48" loading="eager" fetchPriority="high" decoding="async"

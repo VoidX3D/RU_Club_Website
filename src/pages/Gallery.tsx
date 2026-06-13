@@ -96,7 +96,7 @@ export default function Gallery() {
             </div>
           ) : groups.length === 0 && !error ? (
             <div className="text-center py-20">
-              <p className="text-base text-text-muted dark:text-dark-text-muted">No images available yet.</p>
+              <p className="text-base text-text-secondary dark:text-dark-text-muted">No images available yet.</p>
             </div>
           ) : (
             <>
@@ -107,9 +107,9 @@ export default function Gallery() {
                       <div>
                         <Link to={`/mission/${group.slug}`} className="inline-flex items-center gap-2 group/link">
                           <h2 className="text-2xl sm:text-3xl font-display font-bold text-text-primary dark:text-dark-text-primary group-hover/link:text-brand-700 transition-colors">{group.title}</h2>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-text-muted group-hover/link:text-brand-700 transition-colors"><polyline points="9 18 15 12 9 6"/></svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-text-secondary group-hover/link:text-brand-700 transition-colors"><polyline points="9 18 15 12 9 6"/></svg>
                         </Link>
-                        <p className="text-xs text-text-muted dark:text-dark-text-muted mt-0.5">{group.images.length} image{group.images.length > 1 ? 's' : ''}</p>
+                        <p className="text-xs text-text-secondary dark:text-dark-text-muted mt-0.5">{group.images.length} image{group.images.length > 1 ? 's' : ''}</p>
                       </div>
                     </div>
                     <div data-aos="fade-up" data-aos-delay="50" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
@@ -121,7 +121,7 @@ export default function Gallery() {
                           <img src={img.url} alt={img.alt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" decoding="async"
                             onError={handleImgError} />
                           <div className="img-fallback hidden absolute inset-0 bg-surface-tertiary dark:bg-dark-surface-tertiary flex items-center justify-center">
-                            <span className="text-xs text-text-muted dark:text-dark-text-muted">Failed to load</span>
+                            <span className="text-xs text-text-secondary dark:text-dark-text-muted">Failed to load</span>
                           </div>
                           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
                             <span className="text-white text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity px-2 text-center line-clamp-1">{img.alt}</span>

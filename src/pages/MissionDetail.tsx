@@ -50,7 +50,7 @@ export default function MissionDetail() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center px-4">
-          <div className="text-6xl font-display font-bold text-text-muted dark:text-dark-text-muted mb-4">!</div>
+          <div className="text-6xl font-display font-bold text-text-secondary dark:text-dark-text-muted mb-4">!</div>
           <h1 className="text-3xl font-display font-bold text-text-primary dark:text-dark-text-primary mb-2">Mission not found</h1>
           <p className="text-text-secondary dark:text-dark-text-secondary mb-6">{error || 'The mission you\'re looking for doesn\'t exist or has been removed.'}</p>
           <Link to="/missions" className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-brand-700 text-white font-medium hover:bg-brand-800 transition-all">
@@ -95,7 +95,7 @@ export default function MissionDetail() {
                 {mission.tag && (
                   <span className="text-sm font-medium text-brand-700 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/50 px-3 py-1 rounded-full">{mission.tag}</span>
                 )}
-                {mission.date && <span className="text-sm text-text-muted dark:text-dark-text-muted">{mission.date}</span>}
+                {mission.date && <span className="text-sm text-text-secondary dark:text-dark-text-muted">{mission.date}</span>}
               </div>
               <h1 className="text-4xl sm:text-5xl font-display font-bold text-text-primary dark:text-dark-text-primary mb-4">{mission.title}</h1>
               <p className="text-xl leading-relaxed mb-8 text-text-secondary dark:text-dark-text-primary">{mission.description}</p>
@@ -110,7 +110,7 @@ export default function MissionDetail() {
                   {mission.stats.map((s) => (
                     <div key={s.label} className="p-4 rounded-xl bg-surface-secondary dark:bg-dark-surface-tertiary text-center">
                       <div className="text-xl font-display font-bold text-brand-700 dark:text-brand-400">{s.value}</div>
-                      <div className="text-xs text-text-muted dark:text-dark-text-muted mt-1">{s.label}</div>
+                      <div className="text-xs text-text-secondary dark:text-dark-text-muted mt-1">{s.label}</div>
                     </div>
                   ))}
                 </div>
@@ -144,7 +144,7 @@ export default function MissionDetail() {
                         </div>
                         <div>
                           <p className="font-semibold text-text-primary dark:text-dark-text-primary">{entry.title}</p>
-                          {entry.date && <p className="text-xs text-text-muted dark:text-dark-text-muted">{entry.date}</p>}
+                          {entry.date && <p className="text-xs text-text-secondary dark:text-dark-text-muted">{entry.date}</p>}
                           {entry.description && <p className="text-sm text-text-secondary dark:text-dark-text-secondary mt-1">{entry.description}</p>}
                         </div>
                       </div>
@@ -159,7 +159,7 @@ export default function MissionDetail() {
                     {mission.participants.map((p, i) => (
                       <div key={i} className="p-3 rounded-xl bg-white dark:bg-dark-surface border border-border dark:border-dark-border text-center">
                         <div className="text-lg font-bold text-brand-700 dark:text-brand-400">{p.participant_count}</div>
-                        <div className="text-xs text-text-muted dark:text-dark-text-muted">{p.group_name}</div>
+                        <div className="text-xs text-text-secondary dark:text-dark-text-muted">{p.group_name}</div>
                       </div>
                     ))}
                   </div>
@@ -192,11 +192,11 @@ export default function MissionDetail() {
 
               {!hasOptionalData && (
                 <div className="mb-8 p-8 rounded-2xl bg-surface-secondary dark:bg-dark-surface-tertiary text-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-3 text-text-muted dark:text-dark-text-muted">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-3 text-text-secondary dark:text-dark-text-muted">
                     <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
                   </svg>
-                  <p className="text-text-muted dark:text-dark-text-muted font-medium">More details coming soon</p>
-                  <p className="text-text-muted dark:text-dark-text-muted text-sm mt-1">Goals, timeline, participants, and budget information will be added as the mission progresses.</p>
+                  <p className="text-text-secondary dark:text-dark-text-muted font-medium">More details coming soon</p>
+                  <p className="text-text-secondary dark:text-dark-text-muted text-sm mt-1">Goals, timeline, participants, and budget information will be added as the mission progresses.</p>
                 </div>
               )}
             </motion.div>
@@ -213,7 +213,7 @@ export default function MissionDetail() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" decoding="async"
                         onError={handleImgError} />
                       <div className="img-fallback hidden absolute inset-0 flex items-center justify-center bg-surface-tertiary dark:bg-dark-surface-tertiary">
-                        <span className="text-xs text-text-muted dark:text-dark-text-muted">Failed to load</span>
+                        <span className="text-xs text-text-secondary dark:text-dark-text-muted">Failed to load</span>
                       </div>
                     </button>
                   ))}

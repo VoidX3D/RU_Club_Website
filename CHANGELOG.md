@@ -40,6 +40,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - Missions, gallery, announcements retain `.jpg` for download alongside render-endpoint WebP for display
 - Members and partners WebP-only — originals deleted by optimizer; small enough to serve at full size via object URL
 - Optimizer uploads now set `Cache-Control: max-age=31536000` (1 year) — fixes "Use efficient cache lifetimes" warning (was 1h default)
+- `logo_icon.png` (27KB) → `logo_icon.webp` (4.3KB, 84% reduction) — Navbar/Footer logo icon now served as WebP via `data/index.ts` path update; `logo.png` (237KB) → `logo.webp` (31KB, 87% reduction) for meta tags
+- `--color-text-muted` light-mode value changed from `#94a3b8` to `#64748b` — fixes WCAG AA contrast failures on white/light backgrounds (4.73:1 min); 14 specific elements on `bg-surface-tertiary` changed to `text-text-secondary` where `#64748b` still insufficient
 
 ## [1.1.0] — 2026-06-13
 

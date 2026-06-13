@@ -94,7 +94,7 @@ export default function MissionCarousel() {
                           onError={handleImgError} />
                       ) : null}
                       <div className={`w-full h-full bg-surface-tertiary dark:bg-dark-surface-tertiary flex items-center justify-center ${m.featured ? 'hidden' : ''}`}>
-                        <span className="text-text-muted dark:text-dark-text-muted text-sm">{m.featured ? 'Failed to load' : 'No image'}</span>
+                        <span className="text-text-secondary dark:text-dark-text-muted text-sm">{m.featured ? 'Failed to load' : 'No image'}</span>
                       </div>
                       <div className="absolute bottom-0 left-0 right-0 z-20 p-4 sm:p-6 md:p-8">
                         {m.tag && (
