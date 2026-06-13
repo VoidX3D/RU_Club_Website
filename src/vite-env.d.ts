@@ -11,11 +11,6 @@ interface ImportMeta {
 
 declare function gtag(...args: unknown[]): void
 
-interface Window {
-  dataLayer: unknown[]
-  gtag: (...args: unknown[]) => void
-}
-
 declare module '*.css' {}
 declare module '*.svg' {}
 declare module '*.png' {}

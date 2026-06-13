@@ -14,9 +14,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - All remaining `text-brand-600` → `text-brand-700` across 16 files (PageHeader, CTASection, Gallery, Navbar, Announcements, MissionDetail, Missions, AnnouncementDetail, Contact, Footer, LegalNav, FeaturesSection, Privacy, License, Consent, CookieConsent) — covers `hover:text-brand-600`, `group-hover:text-brand-600`, `group-hover/link:text-brand-600`, and standalone `text-brand-600`
 - CTASection `border-brand-600` → `border-brand-700` for secondary button border hover
 
+### Removed
+- Unused static assets deleted: entire `public/static/assets/icons/` (17 SVG files), `public/static/assets/partners/` (6 partner logos), `public/static/assets/images/heroimg-bg.jpeg` (231KB), `public/favicon.svg`, `public/icons.svg`
+- Unused Icons exports: `ChevronLeft`, `ChevronDown`, `ExternalLink`, `Download`
+- Duplicate `gtag`/`Window` declarations from `vite-env.d.ts` (already declared in `analytics.ts`)
+
+### Added
+- `scripts/cleanup-db.sql` — SQL script to remove old mission 4 data and orphaned records
+- `.github/workflows/optimize-images.yml` — GitHub Actions workflow for on-demand Supabase Storage image optimization (resize, compress, WebP conversion)
+- `scripts/optimize-storage-images.mjs` — Node.js script that downloads, optimizes, and re-uploads images via Supabase Storage API
+
 ### Performance
 - `logo_icon.png` optimized from 723KB to 27KB (96% reduction) — resized 864×864 → 128×128, compressed at quality 80
-- WebP version `logo_icon.webp` created (4.3KB) for modern browsers
 
 ## [1.1.0] — 2026-06-13
 

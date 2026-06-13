@@ -1,0 +1,69 @@
+# ============================================================
+# Supabase Storage Image Optimizer — GitHub Actions
+#
+# Optimizes all images in the Supabase Storage bucket:
+#   - Resizes oversized images (max 1920×1080)
+#   - Compresses JPEG/PNG (quality 80, mozjpeg)
+#   - Generates WebP versions for all non-WebP images
+#
+# Required secrets (set in GitHub repo Settings → Secrets and variables → Actions):
+#   VITE_SUPABASE_URL       — Supabase project URL
+#   SUPABASE_SERVICE_KEY    — Supabase service_role key (admin access to Storage)
+#
+# Optional:
+#   STORAGE_BUCKET          — Bucket name (default: ruclub)
+#   STORAGE_PREFIX          — Path prefix (default: static/assets)
+# ============================================================
+
+name: Optimize Storage Images
+
+on:
+  workflow_dispatch:        # Manual trigger from GitHub UI
+    inputs:
+      bucket:
+        description: 'Storage bucket name'
+        required: false
+        default: 'ruclub'
+      prefix:
+        description: 'Path prefix'
+        required: false
+        default: 'static/assets'
+      max_width:
+        description: 'Max image width'
+        required: false
+        default: '1920'
+      max_height:
+        description: 'Max image height'
+        required: false
+        default: '1080'
+      quality:
+        description: 'JPEG/PNG compression quality (1-100)'
+        required: false
+        default: '80'
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install @supabase/supabase-js sharp
+
+      - name: Optimize images
+        run: node scripts/optimize-storage-images.mjs
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          STORAGE_BUCKET: ${{ github.event.inputs.bucket || 'ruclub' }}
+          STORAGE_PREFIX: ${{ github.event.inputs.prefix || 'static/assets' }}
+          MAX_WIDTH: ${{ github.event.inputs.max_width || '1920' }}
+          MAX_HEIGHT: ${{ github.event.inputs.max_height || '1080' }}
+          QUALITY: ${{ github.event.inputs.quality || '80' }}
