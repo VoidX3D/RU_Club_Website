@@ -259,7 +259,7 @@ export async function getAllGalleryImages(): Promise<GalleryImage[] | null> {
     for (const img of (imagesRes.data || [])) {
       const m = missionMap.get(img.mission_id)
       if (!m) continue
-      const thumbUrl = resolveImageUrl(img.url, `mission/${m.slug}/`, { width: 400 }) as string
+      const thumbUrl = resolveImageUrl(img.url, `mission/${m.slug}/`, { width: 320 }) as string
       const fullUrl = resolveImageUrl(img.url, `mission/${m.slug}/`) as string
       if (thumbUrl) gallery.push({
         id: `${img.mission_id}-${img.sort_order}`,
@@ -274,7 +274,7 @@ export async function getAllGalleryImages(): Promise<GalleryImage[] | null> {
     for (const [id, m] of missionMap) {
       const hasEntry = gallery.some(g => g.missionSlug === m.slug)
       if (!hasEntry && m.featured) {
-        const thumbUrl = resolveImageUrl(m.featured, undefined, { width: 400 }) as string
+        const thumbUrl = resolveImageUrl(m.featured, undefined, { width: 320 }) as string
         const fullUrl = resolveImageUrl(m.featured) as string
         if (thumbUrl) gallery.push({
           id: `${id}-featured`,
