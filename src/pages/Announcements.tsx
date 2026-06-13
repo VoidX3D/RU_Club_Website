@@ -10,7 +10,7 @@ export default function Announcements() {
 
   return (
     <>
-      <SEOHead title="Announcements" description="Latest announcements and updates from RU Club Motherland." />
+      <SEOHead title="Announcements" description="Latest announcements and updates from RU Club Motherland — including event notices, deadlines, opportunities, and urgent updates for students and the Pokhara community." keywords="school announcements, RU Club updates, Motherland Secondary School notices, student opportunities Pokhara, club events Nepal, environmental club news" />
 
       <section className="py-20">
         <div className="w-full px-4 sm:px-6">

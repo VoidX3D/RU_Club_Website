@@ -15,7 +15,7 @@ const sections = [
 export default function License() {
   return (
     <>
-      <SEOHead title="License" description="License information for RU Club Motherland website content, code, and brand assets." />
+      <SEOHead title="License" description="License information for RU Club Motherland website content, code, and brand assets — MIT License for code, all rights reserved for content and branding." keywords="RU Club license, MIT License Nepal, open source school club, environmental club code license, Motherland Secondary School content license" />
       <h1 className="!text-4xl sm:!text-5xl !font-display !font-bold !mb-2">License</h1>
       <p className="!text-sm !text-text-muted dark:!text-dark-text-muted !mt-0 !mb-8">
         Copyright &copy; {new Date().getFullYear()} RU Club Motherland

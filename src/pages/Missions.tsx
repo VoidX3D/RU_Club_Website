@@ -12,7 +12,7 @@ export default function Missions() {
 
   return (
     <>
-      <SEOHead title="Missions" description="Explore RU Club Motherland's environmental missions — from park clean-ups to recycling workshops." />
+      <SEOHead title="Missions" description="Explore RU Club Motherland's environmental missions — from park clean-ups and tree plantation drives to recycling workshops and community awareness campaigns in Pokhara, Nepal." keywords="environmental missions, tree plantation drives, park clean-up Pokhara, recycling workshops Nepal, community awareness, zero-waste missions, RU Club projects" />
 
       <section className="py-20">
         <div className="w-full px-4 sm:px-6">

@@ -67,7 +67,7 @@ export default function Contact() {
 
   return (
     <>
-      <SEOHead title="Contact" description="Get in touch with RU Club Motherland. Send us a message and we'll respond promptly." />
+      <SEOHead title="Contact" description="Get in touch with RU Club Motherland. Send us a message, find our location at Motherland Secondary School, Pokhara, or connect on social media." keywords="contact RU Club, Motherland Secondary School Pokhara address, email environmental club Nepal, RU Club social media, Pokhara environmental organization contact" jsonLd={{ '@type': 'ContactPage', description: 'Contact RU Club Motherland for inquiries about environmental sustainability initiatives.', mainEntity: { '@type': 'Organization', name: 'RU Club Motherland', email: 'ruclubmotherland@gmail.com', telephone: '+977-9856022256', location: { '@type': 'Place', address: { '@type': 'PostalAddress', streetAddress: 'Motherland Secondary School, Pokhara Metropolitan City - 7', addressLocality: 'Pokhara', addressRegion: 'Gandaki Province', postalCode: '33700', addressCountry: 'NP' } } } }} />
       <section className="py-20">
         <div className="w-full px-4 sm:px-6">
           <div className="text-center mb-12">

@@ -10,7 +10,7 @@ import CTASection from '@/components/home/CTASection'
 export default function Home() {
   return (
     <>
-      <SEOHead title="Home" description="RU Club Motherland — Environmental Sustainability Club at Motherland Secondary School, Pokhara, Nepal. Join us in creating a zero-waste ecosystem." />
+      <SEOHead title="Home" description="RU Club Motherland — Environmental Sustainability Club at Motherland Secondary School, Pokhara, Nepal. Join us in tree plantation, waste management, and community awareness campaigns for a zero-waste ecosystem." keywords="RU Club Motherland, environmental club Pokhara, Motherland Secondary School, sustainability club Nepal, tree plantation Pokhara, waste management Nepal, zero-waste community, environmental awareness Nepal, green initiative school" />
       <HeroSection />
       <StatsSection />
       <MissionCarousel />

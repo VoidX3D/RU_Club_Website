@@ -104,7 +104,9 @@ export default function Changelog() {
     <>
       <Helmet>
         <title>Changelog — RU Club Motherland</title>
-        <meta name="description" content="Release history and changelog for RU Club Motherland website." />
+        <meta name="description" content="Release history and version changelog for RU Club Motherland website — track all updates, new features, bug fixes, and improvements to the environmental sustainability club platform." />
+        <meta name="keywords" content="RU Club changelog, release history, website updates, environmental club website, Motherland Secondary School changelog, sustainability platform updates" />
+        <link rel="canonical" href="https://ruclub.motherland.edu.np/changelog" />
       </Helmet>
 
       <ParticleField />

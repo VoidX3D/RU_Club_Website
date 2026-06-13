@@ -86,7 +86,7 @@ export default function Members() {
 
   return (
     <>
-      <SEOHead title="Members" description="Meet the members of RU Club Motherland — teachers, core team, and general members." />
+      <SEOHead title="Members" description="Meet the members of RU Club Motherland — dedicated teachers, core team coordinators, and general members working together for environmental sustainability at Motherland Secondary School, Pokhara." keywords="RU Club members, Motherland Secondary School team, environmental club members Pokhara, school club teachers, student coordinators, sustainability team Nepal" />
       <section className="py-20">
         <div className="w-full px-4 sm:px-6">
           <div className="text-center mb-12">

@@ -13,7 +13,7 @@ const sections = [
 export default function Consent() {
   return (
     <>
-      <SEOHead title="Cookie Policy" description="Cookie policy for RU Club Motherland — learn about our use of Google Analytics cookies and manage your preferences." />
+      <SEOHead title="Cookie Policy" description="Cookie policy for RU Club Motherland — learn about our use of Google Analytics cookies and manage your consent preferences for a better browsing experience." keywords="RU Club cookie policy, Google Analytics consent Nepal, cookie preferences school website, environmental club privacy, website cookie settings" />
       <h1 className="!text-4xl sm:!text-5xl !font-display !font-bold !mb-2">Cookie Policy</h1>
       <p className="!text-sm !text-text-muted dark:!text-dark-text-muted !mt-0 !mb-8">
         Manage your cookie preferences

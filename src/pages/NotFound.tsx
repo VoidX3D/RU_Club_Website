@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 export default function NotFound() {
   return (
     <>
-      <SEOHead title="404 - Page Not Found" description="The page you're looking for doesn't exist." />
+      <SEOHead title="404 - Page Not Found" description="The page you're looking for doesn't exist at RU Club Motherland. Return home to explore our environmental missions and announcements." noindex />
       <div className="min-h-screen flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

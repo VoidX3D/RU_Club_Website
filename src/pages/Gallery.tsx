@@ -80,7 +80,7 @@ export default function Gallery() {
 
   return (
     <>
-      <SEOHead title="Gallery" description="Photo gallery showcasing RU Club Motherland's environmental missions and activities." />
+      <SEOHead title="Gallery" description="Photo gallery showcasing RU Club Motherland's environmental missions and activities — tree planting, clean-ups, workshops, and community events in Pokhara, Nepal." keywords="RU Club gallery, environmental activities photos, tree plantation pictures, community event photos Pokhara, Nepal school club gallery, sustainability images" jsonLd={{ '@type': 'ImageGallery', description: 'Photo gallery showcasing RU Club Motherland environmental missions and activities.', image: groups.length > 0 ? groups[0].images[0]?.url : undefined, author: { '@type': 'Organization', name: 'RU Club Motherland' } }} />
 
       <section className="py-20">
         <div className="w-full px-4 sm:px-6">

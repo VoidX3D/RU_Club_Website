@@ -98,6 +98,7 @@ export interface MissionInfo {
   date?: string;
   description: string;
   detail?: string;
+  created_at?: string;
   images: MissionImageItem[];
   stats: { label: string; value: string }[];
   partners: string[];
@@ -141,6 +142,7 @@ export interface AnnouncementFull {
   importance?: string;
   instructions?: string;
   tags: string[];
+  created_at?: string;
 }
 
 export interface GalleryImage {

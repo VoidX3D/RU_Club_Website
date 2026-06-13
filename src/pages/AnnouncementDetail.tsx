@@ -57,7 +57,7 @@ export default function AnnouncementDetail() {
 
   return (
     <>
-      <SEOHead title={announcement.title} description={announcement.summary} image={announcement.image || undefined} />
+      <SEOHead title={announcement.title} description={announcement.summary} image={announcement.image || undefined} type="article" publishedTime={announcement.created_at || undefined} articleSection={announcement.tag || 'Announcements'} author={announcement.issuedBy || 'RU Club Motherland'} jsonLd={{ '@type': 'Article', headline: announcement.title, description: announcement.summary, image: announcement.image || undefined, datePublished: announcement.created_at || undefined, author: { '@type': 'Person', name: announcement.issuedBy || 'RU Club Motherland' }, publisher: { '@id': 'https://ruclub.motherland.edu.np/#organization' }, mainEntityOfPage: { '@type': 'WebPage', '@id': typeof window !== 'undefined' ? window.location.href : '' } }} />
 
       <article className="min-h-screen">
         <div className="w-full px-4 sm:px-6 py-12">

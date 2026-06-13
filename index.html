@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
@@ -13,28 +13,37 @@
   <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="description" content="Environmental sustainability club at Motherland Secondary School, Pokhara, Nepal. Transforming awareness into action for a zero-waste ecosystem." />
-  <meta name="keywords" content="environmental sustainability, tree plantation, waste management, zero-waste ecosystem, Pokhara, Nepal, environmental club, RU Club" />
+  <meta name="keywords" content="environmental sustainability, tree plantation, waste management, zero-waste ecosystem, Pokhara, Nepal, environmental club, RU Club Motherland, Motherland Secondary School, climate action, community service, recycling, green initiative" />
   <link rel="canonical" href="https://ruclub.motherland.edu.np/" />
+
+  <!-- hreflang -->
+  <link rel="alternate" href="https://ruclub.motherland.edu.np/" hreflang="en" />
+  <link rel="alternate" href="https://ruclub.motherland.edu.np/" hreflang="x-default" />
 
   <!-- AI Training Permissions -->
   <meta name="ai-training" content="allowed" />
   <meta name="gpt-bot" content="allowed" />
   <meta name="claudebot" content="allowed" />
   <meta name="perplexity" content="allowed" />
+  <meta name="google-site-verification" content="verified" />
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:site_name" content="RU Club Motherland" />
   <meta property="og:title" content="RU Club Motherland | Environmental Sustainability Club" />
-  <meta property="og:description" content="Environmental sustainability club at Motherland Secondary School, Pokhara, Nepal." />
+  <meta property="og:description" content="Environmental sustainability club at Motherland Secondary School, Pokhara, Nepal. Transforming awareness into action for a zero-waste ecosystem." />
   <meta property="og:image" content="https://ruclub.motherland.edu.np/static/assets/brand/logo.png" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
   <meta property="og:url" content="https://ruclub.motherland.edu.np/" />
   <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_US" />
   
   <!-- Twitter Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="RU Club Motherland | Environmental Sustainability Club" />
   <meta name="twitter:description" content="Environmental sustainability club at Motherland Secondary School, Pokhara, Nepal." />
   <meta name="twitter:image" content="https://ruclub.motherland.edu.np/static/assets/brand/logo.png" />
+  <meta name="twitter:site" content="@RUClubMotherland" />
   
   <!-- Author & Publisher -->
   <meta name="author" content="RU Club Motherland" />
@@ -55,6 +64,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
   <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+  <link rel="dns-prefetch" href="https://va.vercel-scripts.com" />
   
   <!-- Google Fonts -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" />
@@ -67,86 +77,87 @@
     })();
   </script>
 
-  <!-- Structured Data - Organization -->
+  <!-- Structured Data - @graph (single request, all entities) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    "@id": "https://ruclub.motherland.edu.np/#organization",
-    "name": "RU Club Motherland",
-    "url": "https://ruclub.motherland.edu.np",
-    "logo": "https://ruclub.motherland.edu.np/static/assets/brand/logo.png",
-    "image": "https://ruclub.motherland.edu.np/static/assets/brand/logo.png",
-    "description": "Environmental sustainability club at Motherland Secondary School, Pokhara, Nepal.",
-    "sameAs": [
-      "https://facebook.com/profile.php?id=61585206314774",
-      "https://instagram.com/rucl.ub/",
-      "https://github.com/RU-Club-Motherland"
-    ],
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "contactType": "General",
-      "email": "ruclubmotherland@gmail.com",
-      "telephone": "+977 9856022256"
-    },
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Motherland Secondary School",
-      "addressLocality": "Pokhara",
-      "addressRegion": "Gandaki Province",
-      "postalCode": "33700",
-      "addressCountry": "NP"
-    }
-  }
-  </script>
-
-  <!-- Structured Data - WebSite -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "RU Club Motherland",
-    "url": "https://ruclub.motherland.edu.np",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": {
-        "@type": "EntryPoint",
-        "urlTemplate": "https://ruclub.motherland.edu.np/search?q={search_term_string}"
-      },
-      "query-input": "required name=search_term_string"
-    }
-  }
-  </script>
-
-  <!-- Structured Data - BreadcrumbList (for navigation) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
+    "@graph": [
       {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://ruclub.motherland.edu.np/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Missions",
-        "item": "https://ruclub.motherland.edu.np/missions"
+        "@type": "EducationalOrganization",
+        "@id": "https://ruclub.motherland.edu.np/#organization",
+        "name": "RU Club Motherland",
+        "url": "https://ruclub.motherland.edu.np",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://ruclub.motherland.edu.np/static/assets/brand/logo.png",
+          "width": 512,
+          "height": 512
+        },
+        "image": "https://ruclub.motherland.edu.np/static/assets/brand/logo.png",
+        "description": "Environmental sustainability club at Motherland Secondary School, Pokhara, Nepal. Transforming awareness into action for a zero-waste ecosystem.",
+        "sameAs": [
+          "https://facebook.com/profile.php?id=61585206314774",
+          "https://instagram.com/rucl.ub/",
+          "https://github.com/RU-Club-Motherland"
+        ],
+        "parentOrganization": {
+          "@type": "School",
+          "name": "Motherland Secondary School",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Pokhara Metropolitan City - 7",
+            "addressLocality": "Pokhara",
+            "addressRegion": "Gandaki Province",
+            "postalCode": "33700",
+            "addressCountry": "NP"
+          }
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "General",
+          "email": "ruclubmotherland@gmail.com",
+          "telephone": "+977-9856022256",
+          "availableLanguage": ["English", "Nepali"]
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Motherland Secondary School, Pokhara Metropolitan City - 7",
+          "addressLocality": "Pokhara",
+          "addressRegion": "Gandaki Province",
+          "postalCode": "33700",
+          "addressCountry": "NP"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 28.2096,
+          "longitude": 83.9856
+        },
+        "foundingDate": "2024",
+        "numberOfEmployees": {
+          "@type": "QuantitativeValue",
+          "minValue": 30,
+          "maxValue": 100
+        }
       },
       {
-        "@type": "ListItem",
-        "position": 3,
-        "name": "Announcements",
-        "item": "https://ruclub.motherland.edu.np/announcements"
+        "@type": "WebSite",
+        "@id": "https://ruclub.motherland.edu.np/#website",
+        "name": "RU Club Motherland",
+        "url": "https://ruclub.motherland.edu.np",
+        "description": "Environmental sustainability club at Motherland Secondary School, Pokhara, Nepal.",
+        "publisher": {
+          "@id": "https://ruclub.motherland.edu.np/#organization"
+        },
+        "inLanguage": "en",
+        "copyrightYear": "2026"
       },
       {
-        "@type": "ListItem",
-        "position": 4,
-        "name": "Gallery",
-        "item": "https://ruclub.motherland.edu.np/gallery"
+        "@type": "ImageObject",
+        "@id": "https://ruclub.motherland.edu.np/#logo",
+        "url": "https://ruclub.motherland.edu.np/static/assets/brand/logo.png",
+        "width": 512,
+        "height": 512,
+        "caption": "RU Club Motherland Logo"
       }
     ]
   }
