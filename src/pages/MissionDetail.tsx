@@ -5,6 +5,7 @@ import { getMissionInfo } from '@/lib/supabase'
 import { handleImgError } from '@/lib/utils'
 import { renderMarkdown as renderMd } from '@/lib/markdown'
 import SEOHead from '@/components/SEOHead'
+import { SITE_ORG_ID } from '@/data'
 import type { MissionInfo } from '@/types'
 
 export default function MissionDetail() {
@@ -81,7 +82,7 @@ export default function MissionDetail() {
 
   return (
     <>
-      <SEOHead title={mission.title} description={mission.description} image={imageUrls[0] || undefined} type="article" publishedTime={mission.created_at || undefined} articleSection="Environmental Missions" author="RU Club Motherland" jsonLd={{ '@type': 'Article', headline: mission.title, description: mission.description, image: imageUrls[0] || undefined, datePublished: mission.created_at || undefined, author: { '@type': 'Organization', name: 'RU Club Motherland' }, publisher: { '@id': 'https://ruclub.rweb.site/#organization' }, mainEntityOfPage: { '@type': 'WebPage', '@id': typeof window !== 'undefined' ? window.location.href : '' } }} />
+      <SEOHead title={mission.title} description={mission.description} image={imageUrls[0] || undefined} type="article" publishedTime={mission.created_at || undefined} articleSection="Environmental Missions" author="RU Club Motherland" jsonLd={{ '@type': 'Article', headline: mission.title, description: mission.description, image: imageUrls[0] || undefined, datePublished: mission.created_at || undefined, author: { '@type': 'Organization', name: 'RU Club Motherland' }, publisher: { '@id': SITE_ORG_ID }, mainEntityOfPage: { '@type': 'WebPage', '@id': typeof window !== 'undefined' ? window.location.href : '' } }} />
 
       <article className="min-h-screen">
         <div className="w-full px-4 sm:px-6 py-12">

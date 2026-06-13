@@ -1,4 +1,5 @@
 import { track } from '@vercel/analytics'
+import { SITE_URL } from '@/data'
 
 const GA_MEASUREMENT_IDS = ['G-HWFPCZ4W1Q', 'G-HJTLGVDNYK']
 
@@ -38,7 +39,7 @@ export function initAnalytics() {
       send_page_view: false,
       allow_google_signals: true,
       allow_ad_personalization_signals: true,
-      linker: { domains: ['ruclub.rweb.site', 'ruclubadmin.vercel.app'] },
+      linker: { domains: [SITE_URL.replace('https://', ''), 'ruclubadmin.vercel.app'] },
     })
   })
 

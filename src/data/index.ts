@@ -85,12 +85,15 @@ export const missionSectionContent = {
 // Static path helper — logo/icons always use static assets, NOT DB
 const STATIC_ASSETS = '/static/assets'
 
+export const SITE_URL = 'https://ruclub.rweb.site'
+export const SITE_ORG_ID = `${SITE_URL}/#organization`
+
 export const siteConfig: SiteConfig = {
   name: 'RU Club Motherland',
   shortName: 'RU Club',
   tagline: 'Environmental Sustainability Club',
   description: 'Environmental sustainability club at Motherland Secondary School, Pokhara, Nepal. Transforming awareness into action for a zero-waste ecosystem.',
-  url: 'https://ruclub.rweb.site',
+  url: SITE_URL,
   logo: `${STATIC_ASSETS}/brand/logo.png`,
   logoIcon: `${STATIC_ASSETS}/brand/logo_icon.png`,
   email: 'ruclubmotherland@gmail.com',

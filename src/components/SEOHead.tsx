@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async'
 import { useLocation } from 'react-router-dom'
 import { useSiteConfig } from '@/hooks/useSiteConfig'
+import { SITE_URL } from '@/data'
 
 interface SEOHeadProps {
   title?: string
@@ -39,7 +40,7 @@ export default function SEOHead({
   const siteName = config?.name || 'RU Club Motherland'
   const siteTagline = config?.tagline || 'Environmental Sustainability Club'
   const siteDesc = config?.description || 'Environmental sustainability club at Motherland Secondary School, Pokhara, Nepal.'
-  const siteUrl = config?.url || 'https://ruclub.rweb.site'
+  const siteUrl = config?.url || SITE_URL
   const siteImage = config?.logo || ''
 
   const finalTitle = title

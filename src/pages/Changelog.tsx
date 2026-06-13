@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet-async'
 import ParticleField from '@/components/changelog/ParticleField'
 import FadeInView from '@/components/changelog/FadeInView'
 import VersionCard from '@/components/changelog/VersionCard'
+import { SITE_URL } from '@/data'
 import { parseChangelog, formatVersionCount } from '@/lib/changelog-parser'
 import changelogContent from '../../CHANGELOG.md?raw'
 
@@ -106,7 +107,7 @@ export default function Changelog() {
         <title>Changelog — RU Club Motherland</title>
         <meta name="description" content="Release history and version changelog for RU Club Motherland website — track all updates, new features, bug fixes, and improvements to the environmental sustainability club platform." />
         <meta name="keywords" content="RU Club changelog, release history, website updates, environmental club website, Motherland Secondary School changelog, sustainability platform updates" />
-        <link rel="canonical" href="https://ruclub.rweb.site/changelog" />
+        <link rel="canonical" href={`${SITE_URL}/changelog`} />
       </Helmet>
 
       <ParticleField />
