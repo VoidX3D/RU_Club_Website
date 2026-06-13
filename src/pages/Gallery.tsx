@@ -118,7 +118,10 @@ export default function Gallery() {
                           onClick={() => openLightbox(gIdx, iIdx)}
                           className="group relative aspect-[4/3] rounded-xl overflow-hidden bg-surface-tertiary dark:bg-dark-surface-tertiary cursor-pointer"
                         >
-                          <img src={img.url} alt={img.alt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" decoding="async"
+                          <img src={img.url} alt={img.alt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            loading={gIdx === 0 && iIdx === 0 ? undefined : 'lazy'}
+                            fetchPriority={gIdx === 0 && iIdx === 0 ? 'high' : undefined}
+                            decoding="async"
                             onError={handleImgError} />
                           <div className="img-fallback hidden absolute inset-0 bg-surface-tertiary dark:bg-dark-surface-tertiary flex items-center justify-center">
                             <span className="text-xs text-text-secondary dark:text-dark-text-muted">Failed to load</span>
