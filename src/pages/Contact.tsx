@@ -1,8 +1,9 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import SEOHead from '@/components/SEOHead'
 import { submitContactForm } from '@/lib/supabase'
 import { useSiteConfig } from '@/hooks/useSiteConfig'
+import { validateEmail } from '@/lib/utils'
 
 const socialIcons: Record<string, React.ReactNode> = {
   facebook: <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>,
@@ -16,16 +17,41 @@ export default function Contact() {
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
+  const [emailValidation, setEmailValidation] = useState<ReturnType<typeof validateEmail> | null>(null)
+  const [emailTouched, setEmailTouched] = useState(false)
   const config = useSiteConfig()
   const lastSubmit = useRef(0)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+    if (name === 'email' && emailTouched) {
+      setEmailValidation(validateEmail(value))
+    }
   }
+
+  const handleEmailBlur = useCallback(() => {
+    setEmailTouched(true)
+    setEmailValidation(validateEmail(formData.email))
+  }, [formData.email])
+
+  const applySuggestion = useCallback((suggestion: string) => {
+    setFormData((prev) => ({ ...prev, email: suggestion }))
+    setEmailValidation(validateEmail(suggestion))
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (formData._gotcha) return
+
+    setEmailTouched(true)
+    const ev = validateEmail(formData.email)
+    setEmailValidation(ev)
+    if (!ev.valid) {
+      setError(ev.error || 'Please enter a valid email address')
+      return
+    }
+
     const now = Date.now()
     if (now - lastSubmit.current < 10000) {
       setError('Please wait before sending another message.')
@@ -173,9 +199,37 @@ export default function Contact() {
                   </div>
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-text-primary dark:text-dark-text-primary mb-1.5">Email</label>
-                    <input type="email" id="email" name="email" required value={formData.email} onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl border border-border dark:border-dark-border bg-white dark:bg-dark-surface text-text-primary dark:text-dark-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500 transition-all"
-                      placeholder="your@email.com" />
+                    <div className="relative">
+                      <input type="email" id="email" name="email" required value={formData.email}
+                        onChange={handleChange} onBlur={handleEmailBlur}
+                        className={`w-full px-4 py-3 rounded-xl border bg-white dark:bg-dark-surface text-text-primary dark:text-dark-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 transition-all ${
+                          emailTouched && emailValidation && !emailValidation.valid
+                            ? 'border-red-400 dark:border-red-500 focus:ring-red-500/50 focus:border-red-500'
+                            : 'border-border dark:border-dark-border focus:ring-brand-500/50 focus:border-brand-500'
+                        }`}
+                        placeholder="your@email.com"
+                        autoComplete="email"
+                      />
+                      {emailTouched && emailValidation && !emailValidation.valid && (
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-red-500"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                        </div>
+                      )}
+                    </div>
+                    {emailTouched && emailValidation && (
+                      <div className="mt-1 min-h-[1.25rem]">
+                        {!emailValidation.valid && (
+                          <p className="text-xs text-red-500">{emailValidation.error}</p>
+                        )}
+                        {emailValidation.suggestion && (
+                          <button type="button" onClick={() => applySuggestion(emailValidation.suggestion!)}
+                            className="text-xs text-brand-600 dark:text-brand-400 hover:underline mt-0.5"
+                          >
+                            Did you mean {emailValidation.suggestion}?
+                          </button>
+                        )}
+                      </div>
+                    )}
                   </div>
                   <div>
                     <label htmlFor="subject" className="block text-sm font-medium text-text-primary dark:text-dark-text-primary mb-1.5">Subject</label>
