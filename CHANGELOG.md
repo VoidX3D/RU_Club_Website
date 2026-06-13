@@ -24,11 +24,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - `.github/workflows/optimize-images.yml` — GitHub Actions workflow for on-demand Supabase Storage image optimization (resize, compress, WebP conversion)
 - `scripts/optimize-storage-images.mjs` — Node.js script that downloads, optimizes, and re-uploads images via Supabase Storage API
 
+### Changed
+- `storageUrl()` — removed Supabase render endpoint, replaced with extension swap (`.jpg`/`.png` → `.webp`) when transform specified; preserves original extension for untransformed download URLs
+- `scripts/optimize-storage-images.mjs` — scoped to `members,mission,announcements,partners` subdirs; added `DELETE_ORIGINALS_SUBDIRS` (default `members,partners`) — WebP-only dirs skip original re-upload and delete JPEG after WebP creation
+
 ### Performance
 - `logo_icon.png` optimized from 723KB to 27KB (96% reduction) — resized 864×864 → 128×128, compressed at quality 80
-- Supabase image transforms via `storageUrl()` — all dynamic images now served as WebP at display-appropriate sizes (partners: 100w, members: 80w, mission cards: 600w, gallery thumbnails: 400w, announcements: 80w/800w) — estimated 10MB+ savings on mobile
-- Lightbox download uses full-resolution URL (untransformed) while thumbnails use optimized WebP
-- Added `downloadUrl` to `MissionImageItem` type for full-res downloads in mission detail lightbox
+- Supabase images served as pre-optimized WebP files (from GH Actions optimizer) instead of render endpoint — all dynamic images served as `.webp` object URLs for display
+- Members and partners WebP-only — originals deleted by optimizer after WebP generation
+- Missions, gallery, announcements retain `.jpg` for download alongside `.webp` for display
 
 ## [1.1.0] — 2026-06-13
 

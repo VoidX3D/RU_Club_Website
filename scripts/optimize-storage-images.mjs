@@ -14,6 +14,8 @@
  * Optional env vars:
  *   STORAGE_BUCKET      — Bucket name (default: ruclub)
  *   STORAGE_PREFIX      — Path prefix (default: static/assets)
+ *   STORAGE_SUBDIRS     — Comma-separated subdirectories to process (default: members,mission,announcements,partners)
+ *   DELETE_ORIGINALS_SUBDIRS — Subdirs where JPEG/PNG are deleted after WebP creation (default: members,partners)
  *   MAX_WIDTH           — Max image width (default: 1920)
  *   MAX_HEIGHT          — Max image height (default: 1080)
  *   QUALITY             — JPEG/PNG compression quality (default: 80)
@@ -31,6 +33,8 @@ const {
   SUPABASE_SERVICE_KEY,
   STORAGE_BUCKET = 'ruclub',
   STORAGE_PREFIX = 'static/assets',
+  STORAGE_SUBDIRS = 'members,mission,announcements,partners',
+  DELETE_ORIGINALS_SUBDIRS = 'members,partners',
   MAX_WIDTH = '1920',
   MAX_HEIGHT = '1080',
   QUALITY = '80',
@@ -119,8 +123,9 @@ async function optimizeImage(inputPath, outputPath, format) {
 async function processFile(filePath) {
   const ext = path.extname(filePath.name).toLowerCase()
   const baseName = path.basename(filePath.name, ext)
+  const shouldDeleteOriginal = deletePrefixes.some(p => filePath.path.startsWith(p))
 
-  console.log(`\n  Processing: ${filePath.path}`)
+  console.log(`\n  Processing: ${filePath.path}${shouldDeleteOriginal ? ' [WebP-only]' : ''}`)
 
   // Download the file
   const { data, error } = await supabase
@@ -139,33 +144,8 @@ async function processFile(filePath) {
 
   const inputSize = (await fs.stat(tmpInput)).size
 
-  // Optimize original format
-  const origOutput = path.join(tmpDir, `opt_${filePath.name.replace(/\//g, '_')}`)
-  const resized = await optimizeImage(tmpInput, origOutput, ext === '.png' ? 'png' : ext === '.webp' ? 'webp' : 'jpeg')
-  const origSize = (await fs.stat(origOutput)).size
-  const saved = inputSize - origSize
-  const pct = inputSize > 0 ? ((saved / inputSize) * 100).toFixed(1) : '0.0'
-
-  console.log(`    Input: ${(inputSize / 1024).toFixed(1)}KB → Output: ${(origSize / 1024).toFixed(1)}KB (${pct}% savings)${resized ? ' [resized]' : ''}`)
-
-  // Upload optimized version (overwrite original)
-  const origContent = await fs.readFile(origOutput)
-  const { error: uploadError } = await supabase
-    .storage
-    .from(STORAGE_BUCKET)
-    .upload(filePath.path, origContent, { upsert: true, contentType: ext === '.png' ? 'image/png' : ext === '.webp' ? 'image/webp' : 'image/jpeg' })
-
-  if (uploadError) {
-    console.error(`  ERROR uploading optimized: ${uploadError.message}`)
-    optimizedCount.failed++
-  } else {
-    if (ext === '.png') optimizedCount.png++
-    else if (ext === '.webp') optimizedCount.webp++
-    else optimizedCount.jpeg++
-  }
-
-  // Generate and upload WebP version (skip if already WebP)
-  if (ext !== '.webp') {
+  if (shouldDeleteOriginal && ext !== '.webp') {
+    // WebP-only dirs: generate WebP and delete original
     const webpOutput = path.join(tmpDir, `webp_${filePath.name.replace(/\//g, '_')}.webp`)
     await optimizeImage(tmpInput, webpOutput, 'webp')
     const webpSize = (await fs.stat(webpOutput)).size
@@ -181,14 +161,73 @@ async function processFile(filePath) {
 
     if (webpError) {
       console.error(`  ERROR uploading WebP: ${webpError.message}`)
+      optimizedCount.failed++
     } else {
+      // Delete original file
+      const { error: delError } = await supabase.storage.from(STORAGE_BUCKET).remove([filePath.path])
+      if (delError) {
+        console.error(`  ERROR deleting original: ${delError.message}`)
+      }
       optimizedCount.webp++
+      console.log(`    Original deleted: ${filePath.path}`)
     }
+
+    await fs.unlink(webpOutput).catch(() => {})
+  } else {
+    // Keep-original dirs (or already WebP): optimize in-place, then generate WebP alongside
+    const origOutput = path.join(tmpDir, `opt_${filePath.name.replace(/\//g, '_')}`)
+    const resized = await optimizeImage(tmpInput, origOutput, ext === '.png' ? 'png' : ext === '.webp' ? 'webp' : 'jpeg')
+    const origSize = (await fs.stat(origOutput)).size
+    const saved = inputSize - origSize
+    const pct = inputSize > 0 ? ((saved / inputSize) * 100).toFixed(1) : '0.0'
+
+    console.log(`    Input: ${(inputSize / 1024).toFixed(1)}KB → Output: ${(origSize / 1024).toFixed(1)}KB (${pct}% savings)${resized ? ' [resized]' : ''}`)
+
+    // Upload optimized version (overwrite original)
+    const origContent = await fs.readFile(origOutput)
+    const { error: uploadError } = await supabase
+      .storage
+      .from(STORAGE_BUCKET)
+      .upload(filePath.path, origContent, { upsert: true, contentType: ext === '.png' ? 'image/png' : ext === '.webp' ? 'image/webp' : 'image/jpeg' })
+
+    if (uploadError) {
+      console.error(`  ERROR uploading optimized: ${uploadError.message}`)
+      optimizedCount.failed++
+    } else {
+      if (ext === '.png') optimizedCount.png++
+      else if (ext === '.webp') optimizedCount.webp++
+      else optimizedCount.jpeg++
+    }
+
+    // Generate and upload WebP version (skip if already WebP)
+    if (ext !== '.webp') {
+      const webpOutput = path.join(tmpDir, `webp_${filePath.name.replace(/\//g, '_')}.webp`)
+      await optimizeImage(tmpInput, webpOutput, 'webp')
+      const webpSize = (await fs.stat(webpOutput)).size
+      const webpPct = inputSize > 0 ? (((inputSize - webpSize) / inputSize) * 100).toFixed(1) : '0.0'
+      console.log(`    WebP: ${(webpSize / 1024).toFixed(1)}KB (${webpPct}% savings from original)`)
+
+      const webpPath = `${path.dirname(filePath.path)}/${baseName}.webp`
+      const webpContent = await fs.readFile(webpOutput)
+      const { error: webpError } = await supabase
+        .storage
+        .from(STORAGE_BUCKET)
+        .upload(webpPath, webpContent, { upsert: true, contentType: 'image/webp' })
+
+      if (webpError) {
+        console.error(`  ERROR uploading WebP: ${webpError.message}`)
+      } else {
+        optimizedCount.webp++
+      }
+
+      await fs.unlink(webpOutput).catch(() => {})
+    }
+
+    await fs.unlink(origOutput).catch(() => {})
   }
 
   // Cleanup temp files
   await fs.unlink(tmpInput).catch(() => {})
-  await fs.unlink(origOutput).catch(() => {})
 }
 
 console.log(`\n🚀 Supabase Storage Image Optimizer`)
@@ -197,11 +236,14 @@ console.log(`   Prefix: ${STORAGE_PREFIX}`)
 console.log(`   Max: ${maxWidth}x${maxHeight}, Quality: ${quality}`)
 console.log('')
 
+const allowedDirs = STORAGE_SUBDIRS.split(',').map(s => `${STORAGE_PREFIX}/${s.trim()}/`)
+const deletePrefixes = DELETE_ORIGINALS_SUBDIRS.split(',').map(s => `${STORAGE_PREFIX}/${s.trim()}/`)
+
 console.log('📂 Listing files...')
 const allFiles = await listAllFiles(STORAGE_PREFIX)
-const imageFiles = allFiles.filter(f => isImage(f.name))
+const imageFiles = allFiles.filter(f => isImage(f.name) && allowedDirs.some(d => f.path.startsWith(d)))
 
-console.log(`   Found ${allFiles.length} files, ${imageFiles.length} images\n`)
+console.log(`   Found ${allFiles.length} files, ${imageFiles.length} images in [${STORAGE_SUBDIRS}]\n`)
 
 for (const file of imageFiles) {
   await processFile(file)
