@@ -1,7 +1,7 @@
 import { track } from '@vercel/analytics'
 import { SITE_URL } from '@/data'
 
-const GA_MEASUREMENT_IDS = ['G-HWFPCZ4W1Q', 'G-HJTLGVDNYK']
+const GA_MEASUREMENT_IDS = ['G-HWFPCZ4W1Q', 'G-HJTLGVDNYK', 'G-QC1WT8TF66']
 
 declare global {
   interface Window {
