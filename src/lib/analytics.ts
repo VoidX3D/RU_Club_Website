@@ -38,7 +38,7 @@ export function initAnalytics() {
       send_page_view: false,
       allow_google_signals: true,
       allow_ad_personalization_signals: true,
-      linker: { domains: ['ruclub.rweb.site', 'ruclubmss.vercel.app', 'ruclubadmin.vercel.app'] },
+      linker: { domains: ['ruclub.rweb.site', 'ruclubadmin.vercel.app'] },
     })
   })
 

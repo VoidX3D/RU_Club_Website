@@ -4,7 +4,7 @@
 
 RU Club Motherland is a single-page application (SPA) for an environmental sustainability club at Motherland Secondary School, Pokhara, Nepal. Built with React 19 + TypeScript 6 + Vite 8, styled with Tailwind CSS v4, backed by Supabase, and deployed on Vercel.
 
-**Domain:** `ruclub.rweb.site` (prod) / `ruclubmss.vercel.app` (test)
+**Domain:** `ruclub.rweb.site` (prod)
 
 **Developer:** Sincere Bhattarai (@VoidX3D)
 
@@ -153,7 +153,7 @@ RU Club Motherland is a single-page application (SPA) for an environmental susta
   - `grantConsent()` — sets cookie-consent, updates gtag consent, enables 2nd tag
   - `denyConsent()` — sets cookie-consent to declined
 - **Tracking:** Scroll depth (25/50/75/90/100%), outbound links, downloads (image/pdf/zip/mp4)
-- **Linked domains:** `ruclub.rweb.site`, `ruclubmss.vercel.app`, `ruclubadmin.vercel.app`
+- **Linked domains:** `ruclub.rweb.site`, `ruclubadmin.vercel.app`
 
 ### `src/lib/utils.ts` (23 lines)
 - `cn(...inputs)` — Tailwind class merging via `clsx` + `tailwind-merge`
@@ -598,7 +598,7 @@ Parsed at build time via `CHANGELOG.md?raw` import → `parseChangelog()` → `V
 ## Environment Configuration
 
 - `vercel.json` CSP allows: self, GA (analytics.google.com, googletagmanager.com), Supabase storage, GitHub avatars, Google Fonts/APIs, Vercel Analytics
-- Domain-linked GA4 linker: `ruclub.rweb.site`, `ruclubmss.vercel.app`, `ruclubadmin.vercel.app`
+- Domain-linked GA4 linker: `ruclub.rweb.site`, `ruclubadmin.vercel.app`
 - Formspree endpoints: Contact form submits to 2 endpoints simultaneously
 - Static assets: `VITE_SUPABASE_URL` + `storage/v1/object/public/ruclub/static/assets/`
 - Sitemap: 10 URLs, all `lastmod 2026-06-12`
