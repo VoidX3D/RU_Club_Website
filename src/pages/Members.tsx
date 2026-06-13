@@ -1,4 +1,7 @@
 import { motion } from 'framer-motion'
+import { PageHeader } from '@/components/PageHeader'
+import { ErrorBanner } from '@/components/ErrorBanner'
+import { Users } from '@/components/Icons'
 import { Link } from 'react-router-dom'
 import { useSiteData } from '@/hooks/useSiteData'
 import { getMembers } from '@/lib/supabase'
@@ -89,11 +92,7 @@ export default function Members() {
       <SEOHead title="Members" description="Meet the members of RU Club Motherland — dedicated teachers, core team coordinators, and general members working together for environmental sustainability at Motherland Secondary School, Pokhara." keywords="RU Club members, Motherland Secondary School team, environmental club members Pokhara, school club teachers, student coordinators, sustainability team Nepal" />
       <section className="py-20">
         <div className="w-full px-4 sm:px-6">
-          <div className="text-center mb-12">
-            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-              className="text-brand-600 dark:text-brand-400 font-semibold text-xs tracking-wider uppercase">Our Team</motion.p>
-            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-              className="mt-1 text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary">Meet the Members</motion.h1>
+          <PageHeader badge="Our Team" title="Members" />
             {members?.stats && (
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
                 className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto"
@@ -117,16 +116,8 @@ export default function Members() {
                 ))}
               </motion.div>
             )}
-          </div>
 
-          {error && (
-            <div className="max-w-6xl mx-auto text-center py-12">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 text-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                {error}
-              </div>
-            </div>
-          )}
+          {error && <ErrorBanner message={error} />}
 
           {loading ? (
             <div className="space-y-12 max-w-6xl mx-auto">
@@ -140,7 +131,7 @@ export default function Members() {
           ) : !members ? (
             <div className="max-w-6xl mx-auto text-center py-20">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-surface-tertiary dark:bg-dark-surface-tertiary flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-text-muted dark:text-dark-text-muted"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <Users size={28} className="text-text-muted dark:text-dark-text-muted" />
               </div>
               <p className="text-text-muted dark:text-dark-text-muted text-lg font-medium">No members loaded</p>
               <p className="text-text-muted dark:text-dark-text-muted text-sm mt-1">Check database connection.</p>

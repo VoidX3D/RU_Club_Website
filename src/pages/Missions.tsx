@@ -1,4 +1,7 @@
 import { motion } from 'framer-motion'
+import { PageHeader } from '@/components/PageHeader'
+import { ErrorBanner } from '@/components/ErrorBanner'
+import { Info, ChevronRight } from '@/components/Icons'
 import { Link } from 'react-router-dom'
 import { getMissionList } from '@/lib/supabase'
 import { handleImgError } from '@/lib/utils'
@@ -16,26 +19,9 @@ export default function Missions() {
 
       <section className="py-20">
         <div className="w-full px-4 sm:px-6">
-          <div className="text-center mb-12">
-            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-              className="text-brand-600 dark:text-brand-400 font-semibold text-xs tracking-wider uppercase"
-            >Our Work</motion.p>
-            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-              className="mt-1 text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary"
-            >Environmental Missions</motion.h1>
-            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-              className="mt-2 text-base text-text-secondary dark:text-dark-text-secondary max-w-3xl mx-auto"
-            >From park clean-ups to recycling workshops — see how we're making a difference.</motion.p>
-          </div>
+          <PageHeader badge="Our Work" title="Environmental Missions" description="From park clean-ups to recycling workshops — see how we&apos;re making a difference." />
 
-          {error && (
-            <div className="max-w-7xl mx-auto text-center py-12">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 text-sm mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                {error}
-              </div>
-            </div>
-          )}
+          {error && <ErrorBanner message={error} className="max-w-7xl mx-auto" />}
 
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">

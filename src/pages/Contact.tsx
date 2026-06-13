@@ -1,4 +1,7 @@
 import { useState, useRef, useCallback } from 'react'
+import { PageHeader } from '@/components/PageHeader'
+import { ErrorBanner } from '@/components/ErrorBanner'
+import { Mail, Facebook, Instagram, GitHub, Check } from '@/components/Icons'
 import { motion } from 'framer-motion'
 import SEOHead from '@/components/SEOHead'
 import { submitContactForm } from '@/lib/supabase'
@@ -6,10 +9,10 @@ import { useSiteConfig } from '@/hooks/useSiteConfig'
 import { validateEmail } from '@/lib/utils'
 
 const socialIcons: Record<string, React.ReactNode> = {
-  facebook: <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>,
-  instagram: <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>,
-  github: <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>,
-  email: <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>,
+  facebook: <Facebook size={20} />,
+  instagram: <Instagram size={20} />,
+  github: <GitHub size={20} />,
+  email: <Mail size={20} />,
 }
 
 export default function Contact() {
@@ -96,31 +99,13 @@ export default function Contact() {
       <SEOHead title="Contact" description="Get in touch with RU Club Motherland. Send us a message, find our location at Motherland Secondary School, Pokhara, or connect on social media." keywords="contact RU Club, Motherland Secondary School Pokhara address, email environmental club Nepal, RU Club social media, Pokhara environmental organization contact" jsonLd={{ '@type': 'ContactPage', description: 'Contact RU Club Motherland for inquiries about environmental sustainability initiatives.', mainEntity: { '@type': 'Organization', name: 'RU Club Motherland', email: 'ruclubmotherland@gmail.com', telephone: '+977-9856022256', location: { '@type': 'Place', address: { '@type': 'PostalAddress', streetAddress: 'Motherland Secondary School, Pokhara Metropolitan City - 7', addressLocality: 'Pokhara', addressRegion: 'Gandaki Province', postalCode: '33700', addressCountry: 'NP' } } } }} />
       <section className="py-20">
         <div className="w-full px-4 sm:px-6">
-          <div className="text-center mb-12">
-            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-              className="text-brand-600 dark:text-brand-400 font-semibold text-xs tracking-wider uppercase"
-            >
-              Get in Touch
-            </motion.p>
-            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-              className="mt-1 text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary"
-            >
-              Contact Us
-            </motion.h1>
-            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-              className="mt-2 text-base text-text-secondary dark:text-dark-text-secondary"
-            >
-              Have questions or want to join? We&apos;d love to hear from you.
-            </motion.p>
-          </div>
+          <PageHeader badge="Get in Touch" title="Contact Us" description="Have questions or want to join? We&apos;d love to hear from you." />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}>
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-xl bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-brand-600">
-                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" />
-                    </svg>
+                    <Mail size={20} className="text-brand-600" />
                   </div>
                   <div>
                     <h3 className="font-display font-semibold text-text-primary dark:text-dark-text-primary">Email</h3>
@@ -181,7 +166,7 @@ export default function Contact() {
               {submitted ? (
                 <div className="p-8 rounded-2xl bg-surface-secondary dark:bg-dark-surface-tertiary text-center">
                   <div className="w-16 h-16 rounded-full bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center mx-auto mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-brand-600"><polyline points="20 6 9 17 4 12" /></svg>
+                    <Check size={32} className="text-brand-600" />
                   </div>
                   <h3 className="text-xl font-display font-bold text-text-primary dark:text-dark-text-primary mb-2">Message Sent!</h3>
                   <p className="text-text-secondary dark:text-dark-text-secondary">Thank you for reaching out. We'll get back to you soon.</p>

@@ -91,6 +91,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ---
 
+## [1.3.0] — 2026-06-13
+
+### Added
+- Shared `Icons` component (`src/components/Icons.tsx`) — 14 reusable icon components (ChevronLeft, ChevronRight, ChevronDown, Info, Check, Download, ExternalLink, Users, Mail, GitHub, Facebook, Instagram) with `size` prop, replacing duplicated inline SVGs across 10+ files
+- Shared `PageHeader` component — consistent badge + title + description header with Framer Motion animation, used by Missions, Announcements, Members, Gallery, Contact pages
+- Shared `ErrorBanner` component — consistent error display with info icon, used by Missions, Announcements, Members, Gallery, Contact pages
+
+### Changed
+- Missions, Announcements, Members, Gallery, Contact pages now use shared `PageHeader` and `ErrorBanner` instead of inline duplicated code
+- Contact page uses shared Icons for social media links (Facebook, Instagram, GitHub, Mail) and checkmark
+- Members page uses shared `Users` icon component
+- Announcements page uses shared `ChevronRight` icon
+- Missions page uses shared `Info` and `ChevronRight` icons
+
+### Code Quality
+- Removed ~30 duplicated inline SVG instances across 5 pages
+- Consistent Framer Motion animation timing for all page headers
+- Zero `any` types — all new components fully typed with TypeScript
+
+---
+
 ## [1.0.0] — 2026-06-11
 
 ### Added

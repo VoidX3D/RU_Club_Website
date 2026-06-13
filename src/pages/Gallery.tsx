@@ -1,4 +1,6 @@
 import { useEffect, useState, useMemo } from 'react'
+import { PageHeader } from '@/components/PageHeader'
+import { ErrorBanner } from '@/components/ErrorBanner'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { getAllGalleryImages } from '@/lib/supabase'
@@ -70,22 +72,14 @@ export default function Gallery() {
 
       <section className="py-20">
         <div className="w-full px-4 sm:px-6">
-          <div className="text-center mb-12">
-            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-brand-600 dark:text-brand-400 font-semibold text-xs tracking-wider uppercase">Moments</motion.p>
-            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mt-1 text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary">Photo Gallery</motion.h1>
-            {!loading && groups.length > 0 && (
-              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="mt-2 text-base text-text-secondary dark:text-dark-text-secondary">{groups.length} missions &middot; {totalImages} images</motion.p>
-            )}
-          </div>
-
-          {error && (
-            <div className="text-center py-12">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-red-50 dark:bg-red-950/30 text-red-600 dark:text-red-400 text-sm mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                {error}
-              </div>
-            </div>
+          <PageHeader badge="Moments" title="Photo Gallery" />
+          {!loading && groups.length > 0 && (
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
+              className="mt-2 text-base text-text-secondary dark:text-dark-text-secondary text-center"
+            >{groups.length} missions &middot; {totalImages} images</motion.p>
           )}
+
+          {error && <ErrorBanner message={error} />}
 
           {loading ? (
             <div className="space-y-12 max-w-7xl mx-auto">
