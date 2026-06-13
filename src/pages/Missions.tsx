@@ -54,7 +54,7 @@ export default function Missions() {
                   >
                     <div className="aspect-[4/3] overflow-hidden bg-surface-tertiary dark:bg-dark-surface-tertiary">
                       {mission.featured ? (
-                        <img src={mission.featured} alt={mission.title}
+                        <img src={mission.featured} alt={mission.title} width="800" height="600"
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy"
                           onError={handleImgError} />
                       ) : null}
