@@ -278,12 +278,33 @@ DO $$ BEGIN
   );
 END $$;
 
-CREATE POLICY "Public insert" ON contact_submissions FOR INSERT WITH CHECK (
+CREATE POLICY "Public insert" ON contact_submissions FOR INSERT TO anon WITH CHECK (
   name IS NOT NULL AND name != '' AND
   email IS NOT NULL AND email != '' AND
   subject IS NOT NULL AND subject != '' AND
   message IS NOT NULL AND message != ''
 );
+
+-- Rate-limit: max 5 submissions per email per hour (prevents spam + fixes lint)
+CREATE OR REPLACE FUNCTION public.check_contact_rate_limit()
+RETURNS trigger
+LANGUAGE plpgsql
+SET search_path = ''
+AS $$
+BEGIN
+  IF (SELECT count(*) FROM contact_submissions
+      WHERE email = NEW.email
+      AND created_at > now() - interval '1 hour') >= 5 THEN
+    RAISE EXCEPTION 'Too many submissions. Please try again later.';
+  END IF;
+  RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER contact_rate_limit
+  BEFORE INSERT ON contact_submissions
+  FOR EACH ROW
+  EXECUTE FUNCTION public.check_contact_rate_limit();
 
 -- ============================================================
 -- LINT FIXES
