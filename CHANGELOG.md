@@ -19,17 +19,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - `__APP_VERSION__` build-time timestamp injection via Vite `define`
 - Empty-table placeholder in `MissionDetail.tsx` — shows "More details coming soon" when all optional data is empty
 - Client-side `show` filter in `Missions.tsx` as defense-in-depth
+- **Comprehensive SEO overhaul** — `EducationalOrganization` JSON-LD with `School` parent, GeoCoordinates, founding date, employee count
+- **Dynamic `BreadcrumbList`** JSON-LD auto-generated from URL path on every page
+- **Per-page `Article` JSON-LD** on mission detail and announcement detail pages with headline, datePublished, author, publisher
+- **`ImageGallery` JSON-LD** on gallery page
+- **`ContactPage` JSON-LD** on contact page with full address + contact info
+- **`@graph` batching** — all JSON-LD entities merged into single structured data request
+- **`hreflang` tags** — `en` + `x-default` on every page
+- **`og:image:width` / `height`** — explicit 512x512 dimensions
+- **`og:locale`** — `en_US`
+- **`twitter:site`** — `@RUClubMotherland`
+- **Per-page SEO keywords** — custom keyword meta tags per page, fallback to global `SITE_KEYWORDS`
+- **`noindex` on 404** — not-found page gets `noindex, nofollow` to prevent soft 404 indexing
+- **`article:published_time` / `modified_time`** — dynamic OG article dates on detail pages
+- **`article:section`** — category tagging for article detail pages
+- **`created_at` in types** — added to `MissionInfo` and `AnnouncementFull` for structured data date support
+- **`prefix` on `<html>`** — Open Graph namespace prefix for social crawlers
 
 ### Changed
 - AOS refresh: replaced `setTimeout(100)` with `requestAnimationFrame` + pathname ref guard to eliminate race condition
 - ErrorBoundary: added `isChunkError` detection, "Clear Cache & Reload" button that wipes localStorage (preserving theme/cookie-consent) + caches
+- `SEOHead.tsx` — complete rewrite: accepts `publishedTime`, `modifiedTime`, `author`, `articleSection`, `keywords`, `noindex`, `jsonLd` props; generates dynamic BreadcrumbList, WebPage/Article JSON-LD, hreflang, OG locale, Twitter site
+- `index.html` — replaced 3 separate JSON-LD scripts with single `@graph` containing `EducationalOrganization`, `WebSite`, `ImageObject`; added `og:image:width/height`, `hreflang` links, `dns-prefetch` for Vercel analytics, `google-site-verification`
+- All 14 pages — enriched `SEOHead` calls with page-specific keywords, JSON-LD, article dates, author, section, noindex where appropriate
+- Changelog/Secret Garden `Helmet` — added keywords + canonical/hreflang
 
 ### Fixed
 - Chunk load errors after deployment now trigger automatic reload instead of showing a broken page
 - AOS animations no longer flicker or skip due to race condition on route changes
 - Empty mission detail tables (goals, timeline, participants, budget) now show a "coming soon" message instead of blank space
-
-### Fixed
 - **Production MIME type errors** — removed `public/_redirects` whose catch-all `/* /index.html 200` was intercepting CSS/JS asset requests
 - **CSP violation on changelog** — switched from `fetch()` to local `?raw` import
 - Removed `interest-cohort` from Permissions-Policy (unrecognized feature)
