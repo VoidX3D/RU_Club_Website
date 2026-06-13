@@ -20,8 +20,8 @@ export default function StatsSection() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 text-center">
             {[1, 2, 3, 4].map(i => (
               <div key={i} className="animate-pulse">
-                <div className="h-10 w-24 bg-white/20 rounded mx-auto mb-2" />
-                <div className="h-4 w-20 bg-white/20 rounded mx-auto" />
+                <div className="min-h-[3.5rem] w-24 bg-white/20 rounded mx-auto mb-2" />
+                <div className="min-h-[1.5rem] w-20 bg-white/20 rounded mx-auto" />
               </div>
             ))}
           </div>
@@ -36,8 +36,8 @@ export default function StatsSection() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 text-center">
           {displayStats!.map((stat, i) => (
             <div key={stat.label} data-aos="fade-up" data-aos-delay={i * 100} className="text-white">
-              <div className="text-[clamp(2.5rem,5vw,3.5rem)] font-display font-extrabold leading-none mb-2">{stat.value}</div>
-              <div className="text-sm md:text-base text-white/85 font-medium">{stat.label}</div>
+              <div className="text-[clamp(2.5rem,5vw,3.5rem)] font-display font-extrabold leading-none mb-2 min-h-[3.5rem]">{stat.value}</div>
+              <div className="text-sm md:text-base text-white/85 font-medium min-h-[1.5rem]">{stat.label}</div>
             </div>
           ))}
         </div>

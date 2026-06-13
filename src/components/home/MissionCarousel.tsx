@@ -90,7 +90,7 @@ export default function MissionCarousel() {
                     <Link to={`/mission/${m.slug}`} className="group block w-full h-full overflow-hidden relative bg-surface-tertiary dark:bg-dark-surface-tertiary border border-border dark:border-dark-border hover:border-brand-500/40 transition-all duration-300">
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
                       {m.featured ? (
-                        <img src={m.featured} alt={m.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy"
+                        <img src={m.featured} alt={m.title} width="1600" height="900" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy"
                           onError={handleImgError} />
                       ) : null}
                       <div className={`w-full h-full bg-surface-tertiary dark:bg-dark-surface-tertiary flex items-center justify-center ${m.featured ? 'hidden' : ''}`}>
