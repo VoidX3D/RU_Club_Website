@@ -15,33 +15,22 @@ export function initAnalytics() {
   if (initialized) return
   initialized = true
 
+  // gtag.js is pre-loaded in index.html with G-QC1WT8TF66 (always active)
+  // Here we just set up the consent-based IDs and event tracking
   const consent = localStorage.getItem('cookie-consent')
-  const consentIds = ['G-HWFPCZ4W1Q', 'G-HJTLGVDNYK']
-  const alwaysIds = ['G-QC1WT8TF66']
-  const ids = consent === 'accepted' ? [...alwaysIds, ...consentIds] : alwaysIds
-  const firstId = ids[0]
 
-  const script = document.createElement('script')
-  script.async = true
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${firstId}`
-  document.head.appendChild(script)
-
-  window.dataLayer = window.dataLayer || []
-  window.gtag = function () {
-    window.dataLayer.push(arguments)
-  }
-
-  gtag('consent', 'default', { analytics_storage: 'denied' })
-  gtag('js', new Date())
-
-  ids.forEach((id) => {
-    gtag('config', id, {
-      send_page_view: false,
-      allow_google_signals: true,
-      allow_ad_personalization_signals: true,
-      linker: { domains: [SITE_URL.replace('https://', ''), 'ruclubadmin.vercel.app'] },
+  if (consent === 'accepted') {
+    gtag('consent', 'update', { analytics_storage: 'granted' })
+    const consentIds = ['G-HWFPCZ4W1Q', 'G-HJTLGVDNYK']
+    consentIds.forEach((id) => {
+      gtag('config', id, {
+        send_page_view: false,
+        allow_google_signals: true,
+        allow_ad_personalization_signals: true,
+        linker: { domains: [SITE_URL.replace('https://', ''), 'ruclubadmin.vercel.app'] },
+      })
     })
-  })
+  }
 
   gtag('event', 'page_view', {
     page_title: document.title,
@@ -49,10 +38,6 @@ export function initAnalytics() {
     page_path: window.location.pathname,
     page_referrer: document.referrer || undefined,
   })
-
-  if (consent === 'accepted') {
-    gtag('consent', 'update', { analytics_storage: 'granted' })
-  }
 
   track('page_view', { page: window.location.pathname })
 
