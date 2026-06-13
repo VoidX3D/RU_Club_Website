@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "prebuild": "rm -rf .vite dist",
+    "prebuild": "node scripts/generate-sitemap.mjs && rm -rf .vite dist",
     "build": "tsc -b && vite build",
     "build:analyze": "vite build --mode analyze",
     "lint": "eslint .",

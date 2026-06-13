@@ -5,9 +5,11 @@ on:
     branches: [main, feat-*]
   pull_request:
     branches: [main]
+  schedule:
+    - cron: '0 6 * * 1'  # Every Monday — refresh sitemap with latest dynamic dates
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -24,3 +26,20 @@ jobs:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
       - run: npx tsc --noEmit
+      - name: Validate sitemap
+        run: |
+          if [ -f dist/sitemap.xml ]; then
+            echo '✅ sitemap.xml generated'
+            grep -c '<url>' dist/sitemap.xml || true
+          else
+            echo '❌ sitemap.xml missing'
+            exit 1
+          fi
+      - name: Commit updated sitemap
+        if: github.ref == 'refs/heads/main' && github.event_name == 'schedule'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add public/sitemap.xml
+          git diff --cached --quiet || git commit -m 'chore: auto-update sitemap [skip ci]'
+          git push
