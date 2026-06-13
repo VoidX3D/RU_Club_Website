@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ---
 
-## [Unreleased] — 2026-06-12
+## [1.1.0] — 2026-06-13
 
 ### Added
 - Chunk error recovery: global `vite:preloadError`, `window.onerror`, and `unhandledrejection` handlers auto-reload on chunk failure
@@ -35,14 +35,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - **`article:section`** — category tagging for article detail pages
 - **`created_at` in types** — added to `MissionInfo` and `AnnouncementFull` for structured data date support
 - **`prefix` on `<html>`** — Open Graph namespace prefix for social crawlers
+- **GA4 triple-tag `G-QC1WT8TF66` always active** — split consents into `alwaysIds`/`consentIds`; `grantConsent()` configures both with `send_page_view: false`
+- **Auto-generated sitemap** — `scripts/generate-sitemap.mjs` fetches dynamic routes from Supabase at build time
+- **Email validator** — RFC 5322 regex, 30+ disposable domain block, typo detection with suggestion, role-based prefix block; real-time UI feedback on Contact page
+- **Database lint fixes** — `SET search_path = ''`, `SECURITY INVOKER`, `TO anon` policy, rate-limit trigger (max 5/email/hour)
 
 ### Changed
 - AOS refresh: replaced `setTimeout(100)` with `requestAnimationFrame` + pathname ref guard to eliminate race condition
 - ErrorBoundary: added `isChunkError` detection, "Clear Cache & Reload" button that wipes localStorage (preserving theme/cookie-consent) + caches
 - `SEOHead.tsx` — complete rewrite: accepts `publishedTime`, `modifiedTime`, `author`, `articleSection`, `keywords`, `noindex`, `jsonLd` props; generates dynamic BreadcrumbList, WebPage/Article JSON-LD, hreflang, OG locale, Twitter site
-- `index.html` — replaced 3 separate JSON-LD scripts with single `@graph` containing `EducationalOrganization`, `WebSite`, `ImageObject`; added `og:image:width/height`, `hreflang` links, `dns-prefetch` for Vercel analytics, `google-site-verification`
+- `index.html` — replaced 3 separate JSON-LD scripts with single `@graph` containing `EducationalOrganization`, `WebSite`, `ImageObject`; added `og:image:width/height`, `hreflang` links, `dns-prefetch` for Vercel analytics, `google-site-verification`; gtag pre-loaded for `G-QC1WT8TF66`
 - All 14 pages — enriched `SEOHead` calls with page-specific keywords, JSON-LD, article dates, author, section, noindex where appropriate
 - Changelog/Secret Garden `Helmet` — added keywords + canonical/hreflang
+- `font-display: swap` → `optional` in Google Fonts link for CLS prevention
+- `useSiteData` — keeps existing data visible on visibility refetch (no skeleton flash)
+- `useTheme.ts` — defaults to light mode (ignores `prefers-color-scheme`)
+- StatsSection — `min-h` on skeleton matches content font-size to prevent CLS
+- Consent page — `alert()` replaced with inline status banner, active ID panel, toggle link
+- `initAnalytics()` — simplified (no script creation, gtag pre-loaded from HTML head)
 
 ### Fixed
 - Chunk load errors after deployment now trigger automatic reload instead of showing a broken page
@@ -55,6 +65,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - Unused CSS classes removed (`gradient-bg`, `mask-fade-right`, `animate-scale-in`, `animate-glow`)
 - AOS dynamic import in Gallery page clarified
 - Contact form CSP violation — added `https://formspree.io` to `connect-src` in vercel.json CSP header
+- **useSiteData infinite re-fetch loop** — `data` in `useCallback` deps caused cascade; replaced with `hasDataRef` mutable ref; `.finally()` always calls `setLoading(false)`
+- **Missing img width/height** — hero bg, mission carousel, partner logos, `/missions` cards, `/members` avatars
+- **Sitemap validation** — CI validates sitemap; weekly CI commits fresh dates
+- **Database security** — `search_path` mutable, `SECURITY DEFINER` on RLS functions, permissive `TRUE` policy on contact form
 
 ---
 
