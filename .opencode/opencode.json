@@ -10,23 +10,23 @@
   "command": {
     "build": {
       "description": "Build the project for production (sitemap + typescript + vite)",
-      "prompt": "Run the full production build: npm run build"
+      "template": "Run the full production build: npm run build"
     },
     "dev": {
       "description": "Start the Vite dev server",
-      "prompt": "Start the development server with: npm run dev"
+      "template": "Start the development server with: npm run dev"
     },
     "lint": {
       "description": "TypeScript type check only",
-      "prompt": "Run: npx tsc --noEmit"
+      "template": "Run: npx tsc --noEmit"
     },
     "deploy": {
       "description": "Build, commit, and push for Vercel auto-deploy",
-      "prompt": "Build the project, check git status, commit all changes with a descriptive message, and push to main for Vercel auto-deploy"
+      "template": "Build the project, check git status, commit all changes with a descriptive message, and push to main for Vercel auto-deploy"
     },
     "sitemap": {
       "description": "Regenerate the sitemap manually",
-      "prompt": "Run: node scripts/generate-sitemap.mjs"
+      "template": "Run: node scripts/generate-sitemap.mjs"
     }
   },
 

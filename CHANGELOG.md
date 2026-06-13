@@ -72,6 +72,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ---
 
+## [1.2.0] — 2026-06-13
+
+### Added
+- Shared `Lightbox` component (`src/components/Lightbox.tsx`) — reusable full-screen image viewer with keyboard navigation, download button, and optional title
+- Download button in MissionDetail lightbox (previously missing)
+
+### Changed
+- Gallery and MissionDetail pages now use the same shared `Lightbox` component instead of separate inline implementations
+- Lightbox design unified to use clean top-bar layout (mission title, image counter, download, close) — consistent across both pages
+- Lightbox keyboard navigation extracted from per-page `onKeyDown` to global `keydown` listener in shared component
+
+### Code Quality
+- Removed duplicated lightbox state/focus logic from both Gallery and MissionDetail
+- Lightbox extracted as lazy-loaded chunk (3.6 kB) — only loads when first opened
+- No `any` types; proper `LightboxImage` interface with `url`, `alt`, and optional `downloadUrl`
+- `useRef` and `useEffect` for auto-focus removed from pages (handled internally by Lightbox)
+
+---
+
 ## [1.0.0] — 2026-06-11
 
 ### Added

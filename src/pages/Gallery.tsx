@@ -1,9 +1,10 @@
-import { useEffect, useState, useMemo, useRef } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { getAllGalleryImages } from '@/lib/supabase'
 import { handleImgError } from '@/lib/utils'
 import SEOHead from '@/components/SEOHead'
+import { Lightbox } from '@/components/Lightbox'
 import AOS from 'aos'
 import type { GalleryImage } from '@/types'
 
@@ -62,21 +63,6 @@ export default function Gallery() {
   const closeLightbox = () => setLightboxGroupIdx(-1)
 
   const currentGroup = lightboxGroupIdx >= 0 && lightboxGroupIdx < visibleGroups.length ? visibleGroups[lightboxGroupIdx] : null
-  const currentImg = currentGroup ? currentGroup.images[lightboxImageIdx] : null
-  const lightboxRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (lightboxGroupIdx >= 0) lightboxRef.current?.focus()
-  }, [lightboxGroupIdx])
-
-  const handleDownload = (url: string, filename: string) => {
-    const a = document.createElement('a')
-    a.href = url
-    a.download = filename
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-  }
 
   return (
     <>
@@ -167,43 +153,15 @@ export default function Gallery() {
         </div>
       </section>
 
-      {currentImg && currentGroup && (
-        <div className="fixed inset-0 z-50 bg-black/95 flex flex-col" onClick={closeLightbox}
-          onKeyDown={(e) => {
-            if (e.key === 'Escape') closeLightbox()
-            if (e.key === 'ArrowLeft') setLightboxImageIdx((prev) => prev > 0 ? prev - 1 : currentGroup.images.length - 1)
-            if (e.key === 'ArrowRight') setLightboxImageIdx((prev) => prev < currentGroup.images.length - 1 ? prev + 1 : 0)
-          }}
-          tabIndex={-1}
-          ref={lightboxRef}
-        >
-          <div className="flex items-center justify-between px-4 sm:px-6 py-3 shrink-0" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center gap-3 min-w-0">
-              <Link to={`/mission/${currentGroup.slug}`} className="text-sm text-white/70 hover:text-white truncate hover:underline">{currentGroup.title}</Link>
-              <span className="text-white/40 text-xs shrink-0">{lightboxImageIdx + 1} / {currentGroup.images.length}</span>
-            </div>
-            <div className="flex items-center gap-2 shrink-0">
-              <button onClick={() => handleDownload(currentImg.downloadUrl, `${currentGroup.slug}-${lightboxImageIdx + 1}.jpg`)}
-                className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors cursor-pointer" title="Download">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              </button>
-              <button onClick={closeLightbox} className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors cursor-pointer" title="Close">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              </button>
-            </div>
-          </div>
-          <div className="flex-1 flex items-center justify-center p-4 min-h-0" onClick={(e) => e.stopPropagation()}>
-            <button onClick={(e) => { e.stopPropagation(); setLightboxImageIdx((prev) => prev > 0 ? prev - 1 : currentGroup.images.length - 1) }}
-              className="absolute left-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors cursor-pointer z-10">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
-            </button>
-            <img src={currentImg.url} alt={currentImg.alt} className="max-h-full max-w-full object-contain rounded-lg" />
-            <button onClick={(e) => { e.stopPropagation(); setLightboxImageIdx((prev) => prev < currentGroup.images.length - 1 ? prev + 1 : 0) }}
-              className="absolute right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors cursor-pointer z-10">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
-            </button>
-          </div>
-        </div>
+      {currentGroup && (
+        <Lightbox
+          open={lightboxGroupIdx >= 0}
+          images={currentGroup.images}
+          currentIndex={lightboxImageIdx}
+          onClose={closeLightbox}
+          onIndexChange={setLightboxImageIdx}
+          title={<Link to={`/mission/${currentGroup.slug}`} className="hover:underline">{currentGroup.title}</Link>}
+        />
       )}
     </>
   )
