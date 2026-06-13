@@ -5,26 +5,28 @@ export function useSiteData<T>(fetcher: () => Promise<T | null>) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const mountedRef = useRef(true)
+  const hasDataRef = useRef(false)
 
   const fetch = useCallback(() => {
-    if (!data) setLoading(true)
+    if (!hasDataRef.current) setLoading(true)
     setError(null)
     fetcher()
       .then((result) => {
         if (!mountedRef.current) return
         setData(result)
+        hasDataRef.current = result !== null
         setError(null)
       })
       .catch((err: unknown) => {
         if (!mountedRef.current) return
         const msg = err instanceof Error ? err.message : 'Failed to load data'
         setError(msg)
-        if (!data) setData(null)
+        if (!hasDataRef.current) setData(null)
       })
       .finally(() => {
-        if (mountedRef.current && !data) setLoading(false)
+        if (mountedRef.current && !hasDataRef.current) setLoading(false)
       })
-  }, [fetcher, data])
+  }, [fetcher])
 
   useEffect(() => {
     mountedRef.current = true
