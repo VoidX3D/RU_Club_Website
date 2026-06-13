@@ -63,52 +63,57 @@ export default function MissionCarousel() {
             </div>
           </div>
         ) : activeMissions.length > 0 ? (
-          <div data-aos="fade-up" data-aos-delay="100" className="mission-arrows">
-            <Swiper
-              modules={[Navigation, Pagination, Autoplay]}
-              centeredSlides
-              slidesPerView={1}
-              spaceBetween={16}
-              autoplay={{ delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true }}
-              speed={700}
-              navigation={{ prevEl, nextEl }}
-              pagination={{ clickable: true }}
-              grabCursor
-              loop={activeMissions.length > 1}
-              watchOverflow
-              breakpoints={{
-                640: { slidesPerView: 'auto', spaceBetween: 24, centeredSlides: true }
-              }}
-              className="mission-carousel !pb-14"
-            >
-              {activeMissions.map((m) => (
-                <SwiperSlide key={m.id}>
-                  <Link to={`/mission/${m.slug}`} className="group block w-full h-full overflow-hidden relative bg-surface-tertiary dark:bg-dark-surface-tertiary border border-border dark:border-dark-border hover:border-brand-500/40 transition-all duration-300">
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
-                    {m.featured ? (
-                      <img src={m.featured} alt={m.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy"
-                        onError={handleImgError} />
-                    ) : null}
-                    <div className={`w-full h-full bg-surface-tertiary dark:bg-dark-surface-tertiary flex items-center justify-center ${m.featured ? 'hidden' : ''}`}>
-                      <span className="text-text-muted dark:text-dark-text-muted text-sm">{m.featured ? 'Failed to load' : 'No image'}</span>
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 z-20 p-4 sm:p-6 md:p-8">
-                      {m.tag && (
-                        <span className="inline-block text-[10px] font-bold uppercase tracking-[0.1em] text-white bg-brand-600 px-3 py-1 rounded-full mb-2">{m.tag}</span>
-                      )}
-                      <h3 className="text-white font-display font-bold text-lg sm:text-xl md:text-2xl leading-tight">{m.title}</h3>
-                      <p className="text-white/80 text-sm mt-1 line-clamp-1 max-w-xl">{m.description}</p>
-                    </div>
-                  </Link>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-            <button ref={setPrevEl} className="mission-arrow mission-arrow-prev" aria-label="Previous slide">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
-            </button>
-            <button ref={setNextEl} className="mission-arrow mission-arrow-next" aria-label="Next slide">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
-            </button>
+          <div data-aos="fade-up" data-aos-delay="100">
+            <div className="mission-arrows">
+              <Swiper
+                modules={[Navigation, Pagination, Autoplay]}
+                centeredSlides
+                slidesPerView={1}
+                spaceBetween={16}
+                autoplay={{ delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+                speed={700}
+                navigation={{ prevEl, nextEl }}
+                pagination={{ clickable: true }}
+                grabCursor
+                loop={activeMissions.length > 1}
+                watchOverflow
+                observer
+                observeParents
+                observeSlideChildren
+                breakpoints={{
+                  640: { slidesPerView: 'auto', spaceBetween: 24, centeredSlides: true }
+                }}
+                className="mission-carousel !pb-14"
+              >
+                {activeMissions.map((m) => (
+                  <SwiperSlide key={m.id}>
+                    <Link to={`/mission/${m.slug}`} className="group block w-full h-full overflow-hidden relative bg-surface-tertiary dark:bg-dark-surface-tertiary border border-border dark:border-dark-border hover:border-brand-500/40 transition-all duration-300">
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
+                      {m.featured ? (
+                        <img src={m.featured} alt={m.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy"
+                          onError={handleImgError} />
+                      ) : null}
+                      <div className={`w-full h-full bg-surface-tertiary dark:bg-dark-surface-tertiary flex items-center justify-center ${m.featured ? 'hidden' : ''}`}>
+                        <span className="text-text-muted dark:text-dark-text-muted text-sm">{m.featured ? 'Failed to load' : 'No image'}</span>
+                      </div>
+                      <div className="absolute bottom-0 left-0 right-0 z-20 p-4 sm:p-6 md:p-8">
+                        {m.tag && (
+                          <span className="inline-block text-[10px] font-bold uppercase tracking-[0.1em] text-white bg-brand-600 px-3 py-1 rounded-full mb-2">{m.tag}</span>
+                        )}
+                        <h3 className="text-white font-display font-bold text-lg sm:text-xl md:text-2xl leading-tight">{m.title}</h3>
+                        <p className="text-white/80 text-sm mt-1 line-clamp-1 max-w-xl">{m.description}</p>
+                      </div>
+                    </Link>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+              <button ref={setPrevEl} className="mission-arrow mission-arrow-prev" aria-label="Previous slide">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+              </button>
+              <button ref={setNextEl} className="mission-arrow mission-arrow-next" aria-label="Next slide">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+              </button>
+            </div>
           </div>
         ) : (
           <div className="max-w-5xl mx-auto text-center py-16">
