@@ -20,6 +20,7 @@
  */
 
 import { createClient } from '@supabase/supabase-js'
+import { WebSocket } from 'ws'
 import sharp from 'sharp'
 import path from 'path'
 import fs from 'fs/promises'
@@ -44,7 +45,9 @@ const maxWidth = parseInt(MAX_WIDTH, 10)
 const maxHeight = parseInt(MAX_HEIGHT, 10)
 const quality = parseInt(QUALITY, 10)
 
-const supabase = createClient(VITE_SUPABASE_URL, SUPABASE_SERVICE_KEY)
+const supabase = createClient(VITE_SUPABASE_URL, SUPABASE_SERVICE_KEY, {
+  realtime: { transport: WebSocket },
+})
 const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'img-opt-'))
 
 const imageExtensions = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif'])

@@ -57,7 +57,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install @supabase/supabase-js sharp
+        run: npm install @supabase/supabase-js sharp ws
 
       - name: Optimize images
         run: node scripts/optimize-storage-images.mjs
