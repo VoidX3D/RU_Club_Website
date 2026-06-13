@@ -88,6 +88,7 @@ export interface MissionEntry {
 export interface MissionImageItem {
   url: string;
   alt: string;
+  downloadUrl?: string;
 }
 
 export interface MissionInfo {

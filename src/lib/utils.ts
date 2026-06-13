@@ -10,9 +10,26 @@ const STORAGE_BASE = supabaseUrl
   ? `${supabaseUrl}/storage/v1/object/public/ruclub/static/assets/`
   : ''
 
-export function storageUrl(path: string): string {
+export interface StorageTransform {
+  width?: number
+  height?: number
+  quality?: number
+}
+
+export function storageUrl(path: string, transform?: StorageTransform): string {
   if (!path || path.startsWith('http')) return path
   const p = path.startsWith('/') ? path.slice(1) : path
+
+  if (transform && supabaseUrl) {
+    const params = new URLSearchParams()
+    if (transform.width) params.set('width', String(transform.width))
+    if (transform.height) params.set('height', String(transform.height))
+    if (transform.quality) params.set('quality', String(transform.quality ?? 80))
+    params.set('resize', 'cover')
+    params.set('format', 'webp')
+    return `${supabaseUrl}/storage/v1/render/image/public/ruclub/static/assets/${p}?${params.toString()}`
+  }
+
   return `${STORAGE_BASE}${p}`
 }
 

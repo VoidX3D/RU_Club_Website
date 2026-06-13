@@ -26,6 +26,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ### Performance
 - `logo_icon.png` optimized from 723KB to 27KB (96% reduction) — resized 864×864 → 128×128, compressed at quality 80
+- Supabase image transforms via `storageUrl()` — all dynamic images now served as WebP at display-appropriate sizes (partners: 100w, members: 80w, mission cards: 600w, gallery thumbnails: 400w, announcements: 80w/800w) — estimated 10MB+ savings on mobile
+- Lightbox download uses full-resolution URL (untransformed) while thumbnails use optimized WebP
+- Added `downloadUrl` to `MissionImageItem` type for full-res downloads in mission detail lightbox
 
 ## [1.1.0] — 2026-06-13
 
