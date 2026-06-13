@@ -1,8 +1,8 @@
 /**
  * Supabase Storage Image Optimizer
  *
- * Downloads all images from Supabase Storage buckets,
- * optimizes them (resize, compress, WebP), and uploads the optimized versions.
+ * Downloads images from Supabase Storage, converts to WebP at original resolution,
+ * and re-uploads with 1-year cache headers. Does NOT resize — original dimensions preserved.
  *
  * Usage:
  *   VITE_SUPABASE_URL=... SUPABASE_SERVICE_KEY=... node scripts/optimize-storage-images.mjs
@@ -16,9 +16,7 @@
  *   STORAGE_PREFIX      — Path prefix (default: static/assets)
  *   STORAGE_SUBDIRS     — Comma-separated subdirectories to process (default: members,mission,announcements,partners)
  *   DELETE_ORIGINALS_SUBDIRS — Subdirs where JPEG/PNG are deleted after WebP creation (default: members,partners)
- *   MAX_WIDTH           — Max image width (default: 1920)
- *   MAX_HEIGHT          — Max image height (default: 1080)
- *   QUALITY             — JPEG/PNG compression quality (default: 80)
+ *   QUALITY             — WebP quality 1-100 (default: 80)
  */
 
 import { createClient } from '@supabase/supabase-js'
@@ -35,8 +33,6 @@ const {
   STORAGE_PREFIX = 'static/assets',
   STORAGE_SUBDIRS = 'members,mission,announcements,partners',
   DELETE_ORIGINALS_SUBDIRS = 'members,partners',
-  MAX_WIDTH = '1920',
-  MAX_HEIGHT = '1080',
   QUALITY = '80',
 } = process.env
 
@@ -45,8 +41,6 @@ if (!VITE_SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
   process.exit(1)
 }
 
-const maxWidth = parseInt(MAX_WIDTH, 10)
-const maxHeight = parseInt(MAX_HEIGHT, 10)
 const quality = parseInt(QUALITY, 10)
 const CACHE_CONTROL = '31536000' // 1 year
 
@@ -97,18 +91,6 @@ function isImage(filename) {
 async function optimizeImage(inputPath, outputPath, format) {
   let pipeline = sharp(inputPath)
 
-  const metadata = await pipeline.metadata()
-  let resize = false
-  if (metadata.width > maxWidth || metadata.height > maxHeight) {
-    pipeline = pipeline.resize({
-      width: Math.min(metadata.width, maxWidth),
-      height: Math.min(metadata.height, maxHeight),
-      fit: 'inside',
-      withoutEnlargement: true,
-    })
-    resize = true
-  }
-
   if (format === 'webp') {
     pipeline = pipeline.webp({ quality })
   } else if (format === 'png') {
@@ -118,7 +100,6 @@ async function optimizeImage(inputPath, outputPath, format) {
   }
 
   await pipeline.toFile(outputPath)
-  return resize
 }
 
 async function processFile(filePath) {
@@ -177,12 +158,12 @@ async function processFile(filePath) {
   } else {
     // Keep-original dirs (or already WebP): optimize in-place, then generate WebP alongside
     const origOutput = path.join(tmpDir, `opt_${filePath.name.replace(/\//g, '_')}`)
-    const resized = await optimizeImage(tmpInput, origOutput, ext === '.png' ? 'png' : ext === '.webp' ? 'webp' : 'jpeg')
+    await optimizeImage(tmpInput, origOutput, ext === '.png' ? 'png' : ext === '.webp' ? 'webp' : 'jpeg')
     const origSize = (await fs.stat(origOutput)).size
     const saved = inputSize - origSize
     const pct = inputSize > 0 ? ((saved / inputSize) * 100).toFixed(1) : '0.0'
 
-    console.log(`    Input: ${(inputSize / 1024).toFixed(1)}KB → Output: ${(origSize / 1024).toFixed(1)}KB (${pct}% savings)${resized ? ' [resized]' : ''}`)
+    console.log(`    Input: ${(inputSize / 1024).toFixed(1)}KB → Output: ${(origSize / 1024).toFixed(1)}KB (${pct}% savings)`)
 
     // Upload optimized version (overwrite original)
     const origContent = await fs.readFile(origOutput)
@@ -234,7 +215,7 @@ async function processFile(filePath) {
 console.log(`\n🚀 Supabase Storage Image Optimizer`)
 console.log(`   Bucket: ${STORAGE_BUCKET}`)
 console.log(`   Prefix: ${STORAGE_PREFIX}`)
-console.log(`   Max: ${maxWidth}x${maxHeight}, Quality: ${quality}`)
+console.log(`   Quality: ${quality}, original resolution preserved`)
 console.log('')
 
 const allowedDirs = STORAGE_SUBDIRS.split(',').map(s => `${STORAGE_PREFIX}/${s.trim()}/`)
@@ -250,12 +231,28 @@ for (const file of imageFiles) {
   await processFile(file)
 }
 
+const report = {
+  status: optimizedCount.failed > 0 ? 'partial' : 'success',
+  filesProcessed: imageFiles.length,
+  jpegOptimized: optimizedCount.jpeg,
+  pngOptimized: optimizedCount.png,
+  webpGenerated: optimizedCount.webp,
+  skipped: optimizedCount.skipped,
+  failed: optimizedCount.failed,
+  timestamp: new Date().toISOString(),
+}
+const reportPath = path.join(tmpDir, 'optimizer-report.json')
+await fs.writeFile(reportPath, JSON.stringify(report, null, 2))
 console.log(`\n✅ Done!`)
 console.log(`   JPEG optimized: ${optimizedCount.jpeg}`)
 console.log(`   PNG optimized:  ${optimizedCount.png}`)
 console.log(`   WebP generated: ${optimizedCount.webp}`)
 console.log(`   Skipped:        ${optimizedCount.skipped}`)
 console.log(`   Failed:         ${optimizedCount.failed}`)
+console.log(`   Report: ${reportPath}`)
+
+// Copy report to working dir for GH Actions artifact
+try { await fs.copyFile(reportPath, 'optimizer-report.json') } catch {}
 
 // Cleanup temp dir
 await fs.rm(tmpDir, { recursive: true, force: true })

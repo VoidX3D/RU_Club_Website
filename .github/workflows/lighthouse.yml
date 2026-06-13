@@ -1,0 +1,30 @@
+name: Lighthouse Audit
+
+on:
+  schedule:
+    - cron: '0 8 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install Lighthouse
+        run: npm install -g @lhci/cli
+      - name: Run Lighthouse
+        run: |
+          mkdir -p lhci-reports
+          lhci collect --url=https://ruclub.rweb.site/ --url=https://ruclub.rweb.site/gallery --url=https://ruclub.rweb.site/missions --numberOfRuns=1
+          lhci upload --outputDir=./lhci-reports --target=filesystem
+      - name: Upload reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: lhci-reports/

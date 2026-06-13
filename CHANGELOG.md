@@ -33,6 +33,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 ### Changed
 - `storageUrl()` — render endpoint restored for display images (`format=webp` + responsive `width`/`height` params) to avoid serving full-resolution gallery thumbnails; object URL retained for downloads (untransformed)
 - `scripts/optimize-storage-images.mjs` — scoped to `members,mission,announcements,partners` subdirs; added `DELETE_ORIGINALS_SUBDIRS` (default `members,partners`) — WebP-only dirs skip original re-upload and delete JPEG after WebP creation; all uploads include `cacheControl: '31536000'` (1 year)
+- `scripts/optimize-storage-images.mjs` — **removed resize step** (was breaking images by capping at 1920×1080); now preserves original resolution and only converts to WebP at quality 80
+- `.github/workflows/optimize-images.yml` — removed `MAX_WIDTH`/`MAX_HEIGHT` inputs; simplified to just WebP conversion at original resolution
 
 ### Performance
 - `logo_icon.png` optimized from 723KB to 27KB (96% reduction) — resized 864×864 → 128×128, compressed at quality 80
@@ -42,6 +44,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - Optimizer uploads now set `Cache-Control: max-age=31536000` (1 year) — fixes "Use efficient cache lifetimes" warning (was 1h default)
 - `logo_icon.png` (27KB) → `logo_icon.webp` (4.3KB, 84% reduction) — Navbar/Footer logo icon now served as WebP via `data/index.ts` path update; `logo.png` (237KB) → `logo.webp` (31KB, 87% reduction) for meta tags
 - `--color-text-muted` light-mode value changed from `#94a3b8` to `#64748b` — fixes WCAG AA contrast failures on white/light backgrounds (4.73:1 min); 14 specific elements on `bg-surface-tertiary` changed to `text-text-secondary` where `#64748b` still insufficient
+- Gallery: first image of first group now uses `fetchPriority="high"` and eager loading (was `loading="lazy"`, blocking LCP)
+- `storageUrl()` cache key now includes `quality` param — fixes incorrect cache hits when same image requested at different qualities
 
 ## [1.1.0] — 2026-06-13
 
