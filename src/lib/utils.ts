@@ -25,9 +25,19 @@ export function storageUrl(path: string, transform?: StorageTransform): string {
   if (cached) return cached
 
   const p = path.startsWith('/') ? path.slice(1) : path
-  const result = transform && supabaseUrl
-    ? `${STORAGE_BASE}${p.replace(/\.(jpe?g|png|gif)$/i, '.webp')}`
-    : `${STORAGE_BASE}${p}`
+
+  let result: string
+  if (transform && supabaseUrl) {
+    const params = new URLSearchParams()
+    if (transform.width) params.set('width', String(transform.width))
+    if (transform.height) params.set('height', String(transform.height))
+    if (transform.quality) params.set('quality', String(transform.quality ?? 80))
+    params.set('resize', 'cover')
+    params.set('format', 'webp')
+    result = `${supabaseUrl}/storage/v1/render/image/public/ruclub/static/assets/${p}?${params.toString()}`
+  } else {
+    result = `${STORAGE_BASE}${p}`
+  }
 
   urlCache.set(key, result)
   return result

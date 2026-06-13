@@ -48,6 +48,7 @@ if (!VITE_SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
 const maxWidth = parseInt(MAX_WIDTH, 10)
 const maxHeight = parseInt(MAX_HEIGHT, 10)
 const quality = parseInt(QUALITY, 10)
+const CACHE_CONTROL = '31536000' // 1 year
 
 const supabase = createClient(VITE_SUPABASE_URL, SUPABASE_SERVICE_KEY, {
   realtime: { transport: WebSocket },
@@ -157,7 +158,7 @@ async function processFile(filePath) {
     const { error: webpError } = await supabase
       .storage
       .from(STORAGE_BUCKET)
-      .upload(webpPath, webpContent, { upsert: true, contentType: 'image/webp' })
+      .upload(webpPath, webpContent, { upsert: true, contentType: 'image/webp', cacheControl: CACHE_CONTROL })
 
     if (webpError) {
       console.error(`  ERROR uploading WebP: ${webpError.message}`)
@@ -188,7 +189,7 @@ async function processFile(filePath) {
     const { error: uploadError } = await supabase
       .storage
       .from(STORAGE_BUCKET)
-      .upload(filePath.path, origContent, { upsert: true, contentType: ext === '.png' ? 'image/png' : ext === '.webp' ? 'image/webp' : 'image/jpeg' })
+      .upload(filePath.path, origContent, { upsert: true, contentType: ext === '.png' ? 'image/png' : ext === '.webp' ? 'image/webp' : 'image/jpeg', cacheControl: CACHE_CONTROL })
 
     if (uploadError) {
       console.error(`  ERROR uploading optimized: ${uploadError.message}`)
@@ -212,7 +213,7 @@ async function processFile(filePath) {
       const { error: webpError } = await supabase
         .storage
         .from(STORAGE_BUCKET)
-        .upload(webpPath, webpContent, { upsert: true, contentType: 'image/webp' })
+        .upload(webpPath, webpContent, { upsert: true, contentType: 'image/webp', cacheControl: CACHE_CONTROL })
 
       if (webpError) {
         console.error(`  ERROR uploading WebP: ${webpError.message}`)

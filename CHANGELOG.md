@@ -31,14 +31,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - `decoding="async"` on every `<img>` across all components/pages; `loading="lazy"` added where missing (PartnersSection, Members, AnnouncementDetail, SecretGarden, Navbar, Footer); Navbar logo uses `loading="eager" fetchPriority="high"`
 
 ### Changed
-- `storageUrl()` — removed Supabase render endpoint, replaced with extension swap (`.jpg`/`.png` → `.webp`) when transform specified; preserves original extension for untransformed download URLs
-- `scripts/optimize-storage-images.mjs` — scoped to `members,mission,announcements,partners` subdirs; added `DELETE_ORIGINALS_SUBDIRS` (default `members,partners`) — WebP-only dirs skip original re-upload and delete JPEG after WebP creation
+- `storageUrl()` — render endpoint restored for display images (`format=webp` + responsive `width`/`height` params) to avoid serving full-resolution gallery thumbnails; object URL retained for downloads (untransformed)
+- `scripts/optimize-storage-images.mjs` — scoped to `members,mission,announcements,partners` subdirs; added `DELETE_ORIGINALS_SUBDIRS` (default `members,partners`) — WebP-only dirs skip original re-upload and delete JPEG after WebP creation; all uploads include `cacheControl: '31536000'` (1 year)
 
 ### Performance
 - `logo_icon.png` optimized from 723KB to 27KB (96% reduction) — resized 864×864 → 128×128, compressed at quality 80
-- Supabase images served as pre-optimized WebP files (from GH Actions optimizer) instead of render endpoint — all dynamic images served as `.webp` object URLs for display
-- Members and partners WebP-only — originals deleted by optimizer after WebP generation
-- Missions, gallery, announcements retain `.jpg` for download alongside `.webp` for display
+- Gallery thumbnails served via render endpoint at 400px width + WebP format (was full-resolution 1440×1080 WebP via object URL — caused 7.8MB waste per PageSpeed)
+- Missions, gallery, announcements retain `.jpg` for download alongside render-endpoint WebP for display
+- Members and partners WebP-only — originals deleted by optimizer; small enough to serve at full size via object URL
+- Optimizer uploads now set `Cache-Control: max-age=31536000` (1 year) — fixes "Use efficient cache lifetimes" warning (was 1h default)
 
 ## [1.1.0] — 2026-06-13
 
