@@ -39,7 +39,7 @@ export default function SEOHead({
   const siteName = config?.name || 'RU Club Motherland'
   const siteTagline = config?.tagline || 'Environmental Sustainability Club'
   const siteDesc = config?.description || 'Environmental sustainability club at Motherland Secondary School, Pokhara, Nepal.'
-  const siteUrl = config?.url || 'https://ruclub.motherland.edu.np'
+  const siteUrl = config?.url || 'https://ruclub.rweb.site'
   const siteImage = config?.logo || ''
 
   const finalTitle = title

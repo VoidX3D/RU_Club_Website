@@ -81,7 +81,7 @@ export default function MissionDetail() {
 
   return (
     <>
-      <SEOHead title={mission.title} description={mission.description} image={imageUrls[0] || undefined} type="article" publishedTime={mission.created_at || undefined} articleSection="Environmental Missions" author="RU Club Motherland" jsonLd={{ '@type': 'Article', headline: mission.title, description: mission.description, image: imageUrls[0] || undefined, datePublished: mission.created_at || undefined, author: { '@type': 'Organization', name: 'RU Club Motherland' }, publisher: { '@id': 'https://ruclub.motherland.edu.np/#organization' }, mainEntityOfPage: { '@type': 'WebPage', '@id': typeof window !== 'undefined' ? window.location.href : '' } }} />
+      <SEOHead title={mission.title} description={mission.description} image={imageUrls[0] || undefined} type="article" publishedTime={mission.created_at || undefined} articleSection="Environmental Missions" author="RU Club Motherland" jsonLd={{ '@type': 'Article', headline: mission.title, description: mission.description, image: imageUrls[0] || undefined, datePublished: mission.created_at || undefined, author: { '@type': 'Organization', name: 'RU Club Motherland' }, publisher: { '@id': 'https://ruclub.rweb.site/#organization' }, mainEntityOfPage: { '@type': 'WebPage', '@id': typeof window !== 'undefined' ? window.location.href : '' } }} />
 
       <article className="min-h-screen">
         <div className="w-full px-4 sm:px-6 py-12">

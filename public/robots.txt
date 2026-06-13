@@ -8,7 +8,7 @@ Disallow: /secret-garden
 Crawl-delay: 1
 
 # Sitemap location
-Sitemap: https://ruclub.motherland.edu.np/sitemap.xml
+Sitemap: https://ruclub.rweb.site/sitemap.xml
 
 # Specific rules for search engines
 User-agent: Googlebot

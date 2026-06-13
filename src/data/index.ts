@@ -90,7 +90,7 @@ export const siteConfig: SiteConfig = {
   shortName: 'RU Club',
   tagline: 'Environmental Sustainability Club',
   description: 'Environmental sustainability club at Motherland Secondary School, Pokhara, Nepal. Transforming awareness into action for a zero-waste ecosystem.',
-  url: 'https://ruclub.motherland.edu.np',
+  url: 'https://ruclub.rweb.site',
   logo: `${STATIC_ASSETS}/brand/logo.png`,
   logoIcon: `${STATIC_ASSETS}/brand/logo_icon.png`,
   email: 'ruclubmotherland@gmail.com',

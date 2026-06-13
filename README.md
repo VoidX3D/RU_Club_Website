@@ -4,7 +4,7 @@
 
 > Transforming environmental awareness into collective action for a sustainable Pokhara.
 
-[![Vercel](https://img.shields.io/badge/deployed%20on-Vercel-000?logo=vercel)](https://ruclub.motherland.edu.np)
+[![Vercel](https://img.shields.io/badge/deployed%20on-Vercel-000?logo=vercel)](https://ruclub.rweb.site)
 [![MIT License](https://img.shields.io/badge/license-MIT-teal)](LICENSE)
 
 ---
@@ -13,7 +13,7 @@
 
 RU Club Motherland is a student-led environmental initiative at Motherland Secondary School. We organize tree plantations, waste management drives, community clean-ups, and awareness campaigns — working toward a zero-waste ecosystem in Pokhara.
 
-**Website:** [ruclub.motherland.edu.np](https://ruclub.motherland.edu.np)
+**Website:** [ruclub.rweb.site](https://ruclub.rweb.site)
 
 ## Tech Stack
 
@@ -142,7 +142,7 @@ MIT — see [LICENSE](LICENSE).
 _Made with care by **Sincere Bhattarai** (@VoidX3D) — Student at Motherland Secondary School, Class 10._
 
 ### Quick Links
-- **Website:** [ruclub.motherland.edu.np](https://ruclub.motherland.edu.np)
+- **Website:** [ruclub.rweb.site](https://ruclub.rweb.site)
 - **GitHub:** [github.com/RU-Club-Motherland](https://github.com/RU-Club-Motherland)
 - **Facebook:** [RU Club Motherland](https://facebook.com/profile.php?id=61585206314774)
 - **Instagram:** [@rucl.ub](https://instagram.com/rucl.ub/)
