@@ -24,7 +24,7 @@ export function useSiteData<T>(fetcher: () => Promise<T | null>) {
         if (!hasDataRef.current) setData(null)
       })
       .finally(() => {
-        if (mountedRef.current && !hasDataRef.current) setLoading(false)
+        if (mountedRef.current) setLoading(false)
       })
   }, [fetcher])
 
