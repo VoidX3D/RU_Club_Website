@@ -18,7 +18,9 @@ export function initAnalytics() {
   initialized = true
 
   const consent = localStorage.getItem('cookie-consent')
-  const ids = consent === 'accepted' ? GA_MEASUREMENT_IDS : [GA_MEASUREMENT_IDS[0]]
+  const consentIds = ['G-HWFPCZ4W1Q', 'G-HJTLGVDNYK']
+  const alwaysIds = ['G-QC1WT8TF66']
+  const ids = consent === 'accepted' ? [...alwaysIds, ...consentIds] : alwaysIds
   const firstId = ids[0]
 
   const script = document.createElement('script')
@@ -129,9 +131,10 @@ export function grantConsent() {
   localStorage.setItem('cookie-consent', 'accepted')
   if (typeof gtag !== 'undefined') {
     gtag('consent', 'update', { analytics_storage: 'granted' })
-    if (GA_MEASUREMENT_IDS.length > 1) {
-      gtag('config', GA_MEASUREMENT_IDS[1], { send_page_view: false })
-    }
+    const consentIds = ['G-HWFPCZ4W1Q', 'G-HJTLGVDNYK']
+    consentIds.forEach((id) => {
+      gtag('config', id, { send_page_view: false })
+    })
   }
 }
 
