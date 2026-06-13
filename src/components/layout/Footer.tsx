@@ -54,6 +54,7 @@ export default function Footer() {
                 src={config?.logoIcon || '/static/assets/brand/logo_icon.png'}
                 alt={config?.shortName || 'RU Club'}
                 className="w-12 h-12 object-contain"
+                width="48" height="48" loading="lazy" decoding="async"
               />
               <div>
                 <span className="font-display font-semibold text-xl text-text-primary dark:text-dark-text-primary block">

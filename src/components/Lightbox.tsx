@@ -104,7 +104,7 @@ export function Lightbox({ open, images, currentIndex, onClose, onIndexChange, t
           src={img.url}
           alt={img.alt || `Image ${currentIndex + 1}`}
           className="max-h-full max-w-full object-contain rounded-lg"
-          width="1200" height="800"
+          width="1200" height="800" decoding="async"
         />
       </div>
     </div>

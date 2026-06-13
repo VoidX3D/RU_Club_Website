@@ -16,16 +16,21 @@ export interface StorageTransform {
   quality?: number
 }
 
+const urlCache = new Map<string, string>()
+
 export function storageUrl(path: string, transform?: StorageTransform): string {
   if (!path || path.startsWith('http')) return path
+  const key = transform ? `${path}|${transform.width}|${transform.height}` : path
+  const cached = urlCache.get(key)
+  if (cached) return cached
+
   const p = path.startsWith('/') ? path.slice(1) : path
+  const result = transform && supabaseUrl
+    ? `${STORAGE_BASE}${p.replace(/\.(jpe?g|png|gif)$/i, '.webp')}`
+    : `${STORAGE_BASE}${p}`
 
-  if (transform && supabaseUrl) {
-    const webpPath = p.replace(/\.(jpe?g|png|gif)$/i, '.webp')
-    return `${STORAGE_BASE}${webpPath}`
-  }
-
-  return `${STORAGE_BASE}${p}`
+  urlCache.set(key, result)
+  return result
 }
 
 export function handleImgError(e: React.SyntheticEvent<HTMLImageElement>) {

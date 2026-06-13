@@ -41,7 +41,7 @@ export default function Announcements() {
                     <div className="flex items-start gap-4">
                       {announcement.image && (
                         <div className="hidden sm:block w-20 h-20 rounded-xl overflow-hidden shrink-0 bg-surface-tertiary dark:bg-dark-surface-tertiary">
-                          <img src={announcement.image} alt="" className="w-full h-full object-cover" loading="lazy" />
+                          <img src={announcement.image} alt="" className="w-full h-full object-cover" loading="lazy" decoding="async" />
                         </div>
                       )}
                       <div className="min-w-0 flex-1">

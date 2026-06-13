@@ -23,6 +23,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - `scripts/cleanup-db.sql` — SQL script to remove old mission 4 data and orphaned records
 - `.github/workflows/optimize-images.yml` — GitHub Actions workflow for on-demand Supabase Storage image optimization (resize, compress, WebP conversion)
 - `scripts/optimize-storage-images.mjs` — Node.js script that downloads, optimizes, and re-uploads images via Supabase Storage API
+- In-memory TTL query cache (60s) in `supabase.ts` — `query()` caches results keyed by table (or custom key for detail queries), cleared on visibility refetch via `clearQueryCache()`
+- `storageUrl()` memoization — results cached by path+transform combo to avoid repeated string operations
+- `clearQueryCache()` called in `useSiteData` on visibility change — ensures fresh data when user returns to tab
+- Preconnect + dns-prefetch for Supabase (`jquzfvhtgbyrssvvhoio.supabase.co`) in `index.html`
+- Cache headers for `/assets/(.*)` (immutable, 1 year) and `/sitemap.xml` (24h) in `vercel.json`
+- `decoding="async"` on every `<img>` across all components/pages; `loading="lazy"` added where missing (PartnersSection, Members, AnnouncementDetail, SecretGarden, Navbar, Footer); Navbar logo uses `loading="eager" fetchPriority="high"`
 
 ### Changed
 - `storageUrl()` — removed Supabase render endpoint, replaced with extension swap (`.jpg`/`.png` → `.webp`) when transform specified; preserves original extension for untransformed download URLs

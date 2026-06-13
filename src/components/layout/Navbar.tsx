@@ -23,6 +23,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
             src={config?.logoIcon || '/static/assets/brand/logo_icon.png'}
             alt={config?.shortName || 'RU Club'}
             className="w-10 h-10 md:w-12 md:h-12 object-contain"
+            width="48" height="48" loading="eager" fetchPriority="high" decoding="async"
           />
           <div className="flex flex-col">
             <span className="font-display font-extrabold text-lg md:text-xl text-text-primary dark:text-dark-text-primary leading-tight tracking-wide">

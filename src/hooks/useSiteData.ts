@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { clearQueryCache } from '@/lib/supabase'
 
 export function useSiteData<T>(fetcher: () => Promise<T | null>) {
   const [data, setData] = useState<T | null>(null)
@@ -37,7 +38,10 @@ export function useSiteData<T>(fetcher: () => Promise<T | null>) {
     }
 
     const handleVisibility = () => {
-      if (document.visibilityState === 'visible' && navigator.onLine) fetch()
+      if (document.visibilityState === 'visible' && navigator.onLine) {
+        clearQueryCache()
+        fetch()
+      }
     }
 
     window.addEventListener('online', handleReconnect)

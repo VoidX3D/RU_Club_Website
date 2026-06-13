@@ -83,7 +83,7 @@ export default function SecretGarden() {
                   <div className="w-full h-full bg-gray-950" />
                 </div>
                 <div className="relative w-32 h-32 overflow-hidden ring-4 ring-emerald-500/30 shadow-2xl shadow-emerald-500/20">
-                  <img src="https://avatars.githubusercontent.com/VoidX3D" alt="Sincere Bhattarai" className="w-full h-full object-cover rounded-lg" />
+                  <img src="https://avatars.githubusercontent.com/VoidX3D" alt="Sincere Bhattarai" className="w-full h-full object-cover rounded-lg" loading="lazy" decoding="async" />
                   <div className="absolute inset-0 ring-1 ring-white/10" />
                 </div>
                 <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/40 animate-pulse-slow">

@@ -123,7 +123,7 @@ export default function AnnouncementDetail() {
 
               {announcement.image && (
                 <div className="rounded-2xl overflow-hidden mb-8 bg-surface-tertiary dark:bg-dark-surface-tertiary">
-                  <img src={announcement.image} alt={announcement.title} className="w-full aspect-video object-cover" />
+                  <img src={announcement.image} alt={announcement.title} className="w-full aspect-video object-cover" loading="lazy" decoding="async" />
                 </div>
               )}
 

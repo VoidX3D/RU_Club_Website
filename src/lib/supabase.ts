@@ -55,13 +55,26 @@ function classifyError(err: unknown, table: string): DataError {
   return new DataError(msg, table, code)
 }
 
-async function query<T>(fn: () => Promise<T>, table: string, retries = 2): Promise<T | null> {
+// Query result cache (in-memory, 60s TTL)
+interface CacheEntry { data: unknown; expires: number }
+const queryCache = new Map<string, CacheEntry>()
+const CACHE_TTL = 60_000
+
+async function query<T>(fn: () => Promise<T>, table: string, retries = 2, cacheKey?: string): Promise<T | null> {
   if (!hasSupabase) {
     throw new DataError('Supabase not configured — set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.', table, 'CONFIG')
   }
+  const key = cacheKey || table
+  const cached = queryCache.get(key)
+  if (cached && Date.now() < cached.expires) {
+    return cached.data as T
+  }
+
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
-      return await fn()
+      const result = await fn()
+      queryCache.set(key, { data: result as unknown, expires: Date.now() + CACHE_TTL })
+      return result
     } catch (err) {
       const de = classifyError(err, table)
       console.error(`[DB] ${de.table ? de.table + ': ' : ''}${de.message}${attempt < retries ? ` (retry ${attempt + 1}/${retries})` : ''}`)
@@ -69,11 +82,14 @@ async function query<T>(fn: () => Promise<T>, table: string, retries = 2): Promi
         await new Promise(r => setTimeout(r, 3000))
         continue
       }
-      // Re-throw after all retries so callers can render error states
       throw de
     }
   }
   return null
+}
+
+export function clearQueryCache() {
+  queryCache.clear()
 }
 
 // ============================================================
@@ -223,7 +239,7 @@ export async function getMissionInfo(slug: string): Promise<MissionInfo | null> 
       participants: (particRes.data || []).map((p: { group_name: string; participant_count: string }) => p),
       budget: (budgRes.data || []).map((b: { item: string; amount?: string }) => b),
     }
-  }, 'missions')
+  }, 'missions', 2, `mission:${slug}`)
 }
 
 export async function getAllGalleryImages(): Promise<GalleryImage[] | null> {
@@ -336,7 +352,7 @@ export async function getAnnouncementDetail(id: string): Promise<AnnouncementFul
       instructions: data.instructions,
       tags: (tags || []).map((t: { tag: string }) => t.tag),
     }
-  }, 'announcements')
+  }, 'announcements', 2, `announcement:${id}`)
 }
 
 // ============================================================
