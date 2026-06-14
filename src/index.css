@@ -91,14 +91,72 @@ html.dark body,
   color: white;
 }
 
-html {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+/* ── Custom Scrollbar ── */
+:root {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-brand-300) transparent;
 }
-html::-webkit-scrollbar {
-  display: none;
+:root::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+:root::-webkit-scrollbar-track {
+  background: transparent;
+}
+:root::-webkit-scrollbar-thumb {
+  background: var(--color-brand-300);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  transition: background 0.2s;
+}
+:root::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-500);
+  background-clip: content-box;
 }
 
+html.dark,
+:root.dark {
+  scrollbar-color: var(--color-brand-700) transparent;
+}
+html.dark::-webkit-scrollbar-thumb,
+:root.dark::-webkit-scrollbar-thumb {
+  background: var(--color-brand-700);
+  background-clip: content-box;
+}
+html.dark::-webkit-scrollbar-thumb:hover,
+:root.dark::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-500);
+  background-clip: content-box;
+}
+
+/* Scrollable containers */
+.scrollbar-custom {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-brand-300) transparent;
+}
+.scrollbar-custom::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background: var(--color-brand-300);
+  border-radius: 9999px;
+  border: 1.5px solid transparent;
+  background-clip: content-box;
+}
+.dark .scrollbar-custom {
+  scrollbar-color: var(--color-brand-700) transparent;
+}
+.dark .scrollbar-custom::-webkit-scrollbar-thumb {
+  background: var(--color-brand-700);
+  background-clip: content-box;
+}
+
+/* Utility to hide scrollbar when needed */
 .scrollbar-none {
   scrollbar-width: none;
   -ms-overflow-style: none;

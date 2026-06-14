@@ -38,7 +38,7 @@ export default function Members() {
           <h2 className="mt-1 text-3xl sm:text-4xl font-display font-bold text-text-primary dark:text-dark-text-primary">{cfg.title}</h2>
         </div>
         <div className="overflow-hidden rounded-2xl border border-border dark:border-dark-border bg-white dark:bg-dark-surface-secondary">
-          <div className="overflow-x-auto scrollbar-none">
+          <div className="overflow-x-auto scrollbar-custom">
             <table className="w-full">
               <thead>
                 <tr className="bg-surface-secondary dark:bg-dark-surface-tertiary">

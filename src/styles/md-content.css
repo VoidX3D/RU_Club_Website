@@ -62,6 +62,25 @@
   font-size: 0.9em;
   line-height: 1.5;
   tab-size: 2;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.15) transparent;
+}
+.md-content pre::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.md-content pre::-webkit-scrollbar-track {
+  background: transparent;
+}
+.md-content pre::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.15);
+  border-radius: 9999px;
+  border: 1.5px solid transparent;
+  background-clip: content-box;
+}
+.md-content pre:hover::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.25);
+  background-clip: content-box;
 }
 .md-content pre code {
   background: none;
@@ -112,6 +131,28 @@
   display: block;
   overflow-x: auto;
   font-size: 0.9em;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border, #d4d4d8) transparent;
+}
+.md-content table::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.md-content table::-webkit-scrollbar-track {
+  background: transparent;
+}
+.md-content table::-webkit-scrollbar-thumb {
+  background: var(--color-border, #d4d4d8);
+  border-radius: 9999px;
+  border: 1.5px solid transparent;
+  background-clip: content-box;
+}
+.dark .md-content table {
+  scrollbar-color: var(--color-dark-border, #3f3f46) transparent;
+}
+.dark .md-content table::-webkit-scrollbar-thumb {
+  background: var(--color-dark-border, #3f3f46);
+  background-clip: content-box;
 }
 .md-content th, .md-content td {
   border: 1px solid #d4d4d8;
