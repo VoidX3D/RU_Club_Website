@@ -57,6 +57,31 @@
 <!--  📦  VERSION HISTORY                                         -->
 <!-- ═══════════════════════════════════════════════════════════════ -->
 
+## [Unreleased]
+
+> [!NOTE]
+> 🚧 **Upcoming.** Planned features for the next release.
+
+### ✨ Added
+- **Member images** — upload member profile photos via admin panel, display on `/members` page with `object-cover` fallback initials; images stored in Supabase Storage `members/` directory
+- **Partner logos** — upload/replace partner logos via admin panel; stored in Supabase Storage `partners/` directory
+- **Search engine visibility** — submit sitemap to Google Search Console (`/sitemap.xml`), Bing Webmaster Tools; monitor indexing coverage
+- **Realtime data fallback** — display last-fetched timestamp on dynamic sections (stats, missions, gallery); stale-while-revalidate pattern via `useSiteData` keepDataOnRefetch
+- **Analytics dashboard** — track page views, outbound clicks, scroll depth, and form submissions via GA4 events; visible in Google Analytics realtime view
+- **CLS & INP monitoring** — add `PerformanceObserver` for Layout Shifts and Interaction-to-Next-Paint in development mode
+- **SEO completion** — per-page `Article`, `BreadcrumbList`, `ItemList`, `ImageGallery` JSON-LD verified across all 13 routes; missing `datePublished`/`author` filled in
+- **Contact form confirmation** — success toast + in-app confirmation page instead of redirect to external Formspree page
+- **Load testing** — run Lighthouse CI on every PR to catch regressions before merge
+
+### 🛠️ Fixed
+- Member image 400 errors: `handleImgError` fallback shows initials; broken image URLs cleared from DB
+- Partner logo 400 errors: entries with unresolvable paths filtered at data layer
+- Render endpoint cache TTL: increase `max-age` from 3600 to 86400 on Supabase Storage bucket
+
+### 🎨 Changed
+- Gallery images: WebP quality 85 → 90 for better visual fidelity at same display size
+- Mission carousel featured images: served at `width=1000` via render endpoint for consistent quality across devices
+
 ## [1.4.0] — 2026-06-14
 
 > [!IMPORTANT]
