@@ -45,8 +45,8 @@ export default function PartnersSection() {
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 {partner.src ? (
-                  <img src={partner.src} alt={partner.alt} title={partner.name} width="120" height="40"
-                    className="max-h-10 max-w-[120px] object-contain relative z-10 transition-transform duration-500 group-hover:scale-110 dark:brightness-95"
+                  <img src={partner.src} alt={partner.alt} title={partner.name} width="120" height="60"
+                    className="max-h-14 max-w-[120px] object-contain relative z-10 transition-transform duration-500 group-hover:scale-110 dark:brightness-95"
                     loading="lazy" decoding="async" onError={handleImgError}
                   />
                 ) : null}
