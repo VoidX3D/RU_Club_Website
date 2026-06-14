@@ -63,7 +63,7 @@
 > 🏁 **Project archived.** No further code changes will be made. All content management continues via the admin panel at [ru-admin-site.vercel.app](https://ru-admin-site.vercel.app). The site remains fully functional on Vercel + Supabase.
 
 ### 🐛 Fixed
-- **Contact form 404** — `contact_submissions` table, trigger, and rate-limit function created in Supabase migration; `DO $$ BEGIN ... EXCEPTION WHEN duplicate_object THEN NULL; END $$` pattern for idempotent RLS policy creation
+- **Contact form 404** — root cause was `check_contact_rate_limit()` trigger function with `SET search_path = ''` referencing unqualified `contact_submissions` table; fixed by schema-qualifying as `public.contact_submissions`. Also fixed missing `subject` in RLS `WITH CHECK` clause, created idempotent migration
 - **Preload warning** — removed `<link rel="preload" as="image">` for hero background from `index.html` (caused "preloaded but not used" warning on non-home routes; hero image lazy-loaded by component)
 - **Members page spacing** — added `mb-14` between stats grid and Leadership/Teachers tables for visual breathing room
 
