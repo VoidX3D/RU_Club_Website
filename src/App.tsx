@@ -1,10 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import { lazy, Suspense, useState, useEffect } from 'react'
-import Layout from '@/components/Layout'
-import LegalLayout from '@/components/layout/LegalLayout'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import VersionBanner from '@/components/VersionBanner'
+
+const Layout = lazy(() => import('@/components/Layout'))
+const LegalLayout = lazy(() => import('@/components/layout/LegalLayout'))
 
 const Home = lazy(() => import('@/pages/Home'))
 const Missions = lazy(() => import('@/pages/Missions'))

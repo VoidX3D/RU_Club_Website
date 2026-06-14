@@ -10,10 +10,10 @@
 </h1>
 
 <p align="center">
-  <img alt="Version" src="https://img.shields.io/badge/release-1.3.0-emerald?style=for-the-badge&logo=semver&logoColor=white&labelColor=0f172a&color=059669" />
+  <img alt="Version" src="https://img.shields.io/badge/release-1.4.0-emerald?style=for-the-badge&logo=semver&logoColor=white&labelColor=0f172a&color=059669" />
   <img alt="Total Releases" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fruclub.rweb.site%2Fchangelog&query=%24.releases&style=for-the-badge&logo=git&logoColor=white&label=RELEASES&labelColor=0f172a&color=3b82f6" />
   <img alt="Total Changes" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fruclub.rweb.site%2Fchangelog&query=%24.changes&style=for-the-badge&logo=github&logoColor=white&label=CHANGES&labelColor=0f172a&color=8b5cf6" />
-  <img alt="Total Commits" src="https://img.shields.io/badge/commits-325-blueviolet?style=for-the-badge&logo=git&logoColor=white&labelColor=0f172a&color=f59e0b" />
+  <img alt="Total Commits" src="https://img.shields.io/badge/commits-407-blueviolet?style=for-the-badge&logo=git&logoColor=white&labelColor=0f172a&color=f59e0b" />
   <img alt="Built With" src="https://img.shields.io/badge/React_19_·_TS_6_·_Vite_8-0f172a?style=for-the-badge&logo=react&logoColor=61dafb&labelColor=0f172a&color=0f172a" />
 </p>
 
@@ -37,17 +37,17 @@
 
 | Metric | Value |
 |---|---|
-| **Total Releases** | **13** |
-| **Total Changes** | **130+** |
-| **Total Commits** | **325** |
-| **Latest Version** | **v1.3.0** _(2026-06-13)_ |
+| **Total Releases** | **14** |
+| **Total Changes** | **150+** |
+| **Total Commits** | **407** |
+| **Latest Version** | **v1.4.0** _(2026-06-14)_ |
 | **Oldest Recorded** | **v0.1.0** _(2026-05-30)_ |
 | **Active Development** | **14 days** |
 | **Contributors** | **1** _(Sincere Bhattarai)_ |
 
 <br />
 
-> 🏗️ **Built from scratch** in 14 days — from vanilla HTML/CSS/JS to a full React 19 + TypeScript SPA with Supabase backend, SEO optimization, and 92/70 PageSpeed scores.
+> 🏗️ **Built from scratch** in 14 days — from vanilla HTML/CSS/JS to a full React 19 + TypeScript SPA with Supabase backend, SEO optimization, 92+ Desktop / 69+ Mobile PageSpeed.
 
 > 🎯 **Goal:** A production-ready environmental sustainability club platform for Motherland Secondary School, Pokhara, Nepal.
 
@@ -57,7 +57,7 @@
 <!--  📦  VERSION HISTORY                                         -->
 <!-- ═══════════════════════════════════════════════════════════════ -->
 
-## [Unreleased]
+## [1.4.0] — 2026-06-14
 
 > [!IMPORTANT]
 > ✅ **Ready for deployment.** These changes are live in the current build — awaiting version tag.
@@ -262,6 +262,28 @@
 - Lightbox extracted as lazy-loaded chunk (3.6 kB) — only loads when first opened 🎯
 - No `any` types; proper `LightboxImage` interface with `url`, `alt`, and optional `downloadUrl`
 - `useRef` and `useEffect` for auto-focus removed from pages (handled internally by Lightbox)
+
+### 🎨 Changed
+- `Layout` and `LegalLayout` lazy-loaded in App.tsx — removes framer-motion & AOS from main entry bundle (645 kB → 260 kB, −57% initial JS) ⚡
+- `VersionBanner` framer-motion replaced with pure CSS animation (`slide-down-banner` keyframe) — removes `AnimatePresence` + `motion.div` from entry chunk
+- `LegalLayout` `motion.div` replaced with CSS `animate-fade-up` — removes `framer-motion` import from legal pages chunk
+- Added `.highlight` CSS class (`color: brand-500; font-weight: 700`) — fixes broken span styling in IntroSection "Quality Education For Everyone"
+- Removed unused `.scrollbar-none` utility class from index.css
+
+### 🧹 Code Quality
+- Removed unused `Info` icon import from `Missions.tsx` and `Announcements.tsx`
+- Removed unused `ChevronRight` icon import from `Missions.tsx`
+
+### 🖼️ Image Dimensions (CLS Fix)
+- Added `width="400" height="300"` to Gallery grid images (parent has `aspect-[4/3]`)
+- Added `width="128" height="128"` to SecretGarden GitHub avatar (parent `w-32 h-32`)
+- Added `width="1600" height="900"` to MissionDetail gallery grid images (parent `aspect-video` 16:9)
+- Added `width="80" height="80"` to Announcements list thumbnails (parent `w-20 h-20`)
+- Added `width="1600" height="900"` to AnnouncementDetail banner image (CSS `aspect-video`)
+- Every `<img>` in the codebase now has explicit width+height attributes — zero CLS from images ✅
+
+### 🗑️ Removed
+- `clsx` and `tailwind-merge` unused CSS `.scrollbar-none` class
 
 ---
 

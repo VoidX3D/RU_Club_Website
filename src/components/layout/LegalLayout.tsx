@@ -4,7 +4,6 @@ import { SiteConfigProvider } from '@/hooks/useSiteConfig'
 import { usePageTracking } from '@/hooks/usePageTracking'
 import SEOHead from '@/components/SEOHead'
 import LegalNav from './LegalNav'
-import { motion } from 'framer-motion'
 
 export default function LegalLayout() {
   const { theme, toggleTheme } = useTheme()
@@ -17,16 +16,11 @@ export default function LegalLayout() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-20">
           <div className="lg:flex lg:gap-12">
             <LegalNav />
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: 'easeOut' }}
-              className="flex-1 min-w-0 mt-8 lg:mt-0"
-            >
+            <div className="flex-1 min-w-0 mt-8 lg:mt-0 animate-fade-up duration-500 ease-out">
               <article className="prose prose-lg dark:prose-invert max-w-none text-lg leading-relaxed">
                 <Outlet />
               </article>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>

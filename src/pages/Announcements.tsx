@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { PageHeader } from '@/components/PageHeader'
 import { ErrorBanner } from '@/components/ErrorBanner'
-import { ChevronRight, Info } from '@/components/Icons'
+import { ChevronRight } from '@/components/Icons'
 import { Link } from 'react-router-dom'
 import { getAnnouncementList } from '@/lib/supabase'
 import { useSiteData } from '@/hooks/useSiteData'
@@ -41,7 +41,7 @@ export default function Announcements() {
                     <div className="flex items-start gap-4">
                       {announcement.image && (
                         <div className="hidden sm:block w-20 h-20 rounded-xl overflow-hidden shrink-0 bg-surface-tertiary dark:bg-dark-surface-tertiary">
-                          <img src={announcement.image} alt="" className="w-full h-full object-cover" loading="lazy" decoding="async" />
+                          <img src={announcement.image} alt="" width="80" height="80" className="w-full h-full object-cover" loading="lazy" decoding="async" />
                         </div>
                       )}
                       <div className="min-w-0 flex-1">

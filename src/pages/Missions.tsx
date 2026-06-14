@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { PageHeader } from '@/components/PageHeader'
 import { ErrorBanner } from '@/components/ErrorBanner'
-import { Info, ChevronRight } from '@/components/Icons'
+import { ChevronRight } from '@/components/Icons'
 import { Link } from 'react-router-dom'
 import { getMissionList } from '@/lib/supabase'
 import { handleImgError } from '@/lib/utils'

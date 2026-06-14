@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import { Link } from 'react-router-dom'
 
 declare const __APP_VERSION__: string
@@ -18,15 +17,12 @@ export default function VersionBanner() {
     localStorage.setItem('app-version', currentVersion)
   }, [])
 
+  if (!visible) return null
+
   return (
-    <AnimatePresence>
-      {visible && (
-        <motion.div
-          initial={{ y: -80, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -80, opacity: 0 }}
-          className="fixed top-0 left-0 right-0 z-[100] bg-gradient-to-r from-brand-700 to-brand-600 text-white px-4 py-3 shadow-lg shadow-brand-700/20"
-        >
+    <div className="fixed top-0 left-0 right-0 z-[100] bg-gradient-to-r from-brand-700 to-brand-600 text-white px-4 py-3 shadow-lg shadow-brand-700/20 animate-slide-down-banner duration-500 ease-out"
+      onAnimationEnd={() => {}}
+    >
           <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 text-sm font-medium">
               <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/15 text-xs font-semibold">
@@ -58,8 +54,6 @@ export default function VersionBanner() {
               </button>
             </div>
           </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    </div>
   )
 }
