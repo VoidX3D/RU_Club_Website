@@ -9,9 +9,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 ## [Unreleased]
 
 ### Added
-- `*.fbcdn.net` to CSP `img-src` in `vercel.json` — unblocks Facebook CDN member images (was causing CSP violations)
-- PageLoader in admin site upgraded to full-screen overlay (was a tiny 160px spinner)
-- Stored WebP files now served directly via object URL instead of render endpoint — eliminates on-the-fly transformation overhead; `storageUrl()` swaps `.jpg`/`.png`/`.gif` to `.webp` when a transform is provided
+- Admin activity logging: `admin_logs` table in Supabase, auto-log every mutation (save/delete/upload) in admin API, log viewer page in admin panel
+- `downloadAndUploadImage()` in admin API — external image URLs are downloaded, stored in Supabase Storage with consistent naming, and served from there (prevents URL rot)
+- Optimizer script now purges old `.webp` files before regenerating fresh ones from originals
+
+### Changed
+- ALL image display uses `object-contain` instead of `object-cover` or `object-scale-down` — images are NEVER cropped, ever
+- `storageUrl()` now returns direct public object URL (`/storage/v1/object/public/`) instead of render endpoint — no format conversion, no resize, no quality reduction; serves the exact file as stored
+- Removed `StorageTransform` interface and all responsive width params — images served at full original resolution
+- Image naming format: `{entityType}_{sanitizedName}_{timestamp}.{ext}` for member and partner uploads
 
 ### Changed
 - Optimizer `STORAGE_SUBDIRS` expanded to cover ALL assets: `members,mission,announcements,partners,gallery,brand,icons,images,hero` (was only members/mission/announcements/partners)

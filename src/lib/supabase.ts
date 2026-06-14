@@ -5,14 +5,14 @@ import type {
   AnnouncementEntry, AnnouncementFull,
   ContactFormData,
 } from '@/types'
-import { storageUrl, type StorageTransform } from './utils'
+import { storageUrl } from './utils'
 
-function resolveImageUrl(url: string | null | undefined, prefix?: string, transform?: StorageTransform): string | undefined {
+function resolveImageUrl(url: string | null | undefined, prefix?: string): string | undefined {
   if (!url) return undefined
   if (url.startsWith('http')) return url
-  if (url.includes('/')) return storageUrl(url, transform)
-  if (prefix) return storageUrl(`${prefix}${url}`, transform)
-  return storageUrl(url, transform)
+  if (url.includes('/')) return storageUrl(url)
+  if (prefix) return storageUrl(`${prefix}${url}`)
+  return storageUrl(url)
 }
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || ''
@@ -119,7 +119,7 @@ export async function getPartners(): Promise<Partner[] | null> {
     if (!data) return null
     return data.map((p: { src: string; alt: string; name: string }) => ({
       ...p,
-      src: resolveImageUrl(p.src, 'partners/', { width: 100 }) as string,
+      src: resolveImageUrl(p.src, 'partners/') as string,
     })) as Partner[]
   }, 'partners')
 }
@@ -142,7 +142,7 @@ export async function getMembers(): Promise<MembersData | null> {
       role: r.role,
       memberType: r.member_type as Member['memberType'],
       groupName: r.group_name as Member['groupName'],
-      image: resolveImageUrl(r.image, 'members/', { width: 80 }),
+      image: resolveImageUrl(r.image, 'members/'),
     })
 
     const teachers = data.filter((r: { group_name: string }) => r.group_name === 'teachers').map(mapRow)
@@ -183,7 +183,7 @@ export async function getMissionList(): Promise<MissionEntry[] | null> {
       date: m.date,
       description: m.description,
       show: m.show,
-      featured: resolveImageUrl(m.featured, undefined, { width: 600 }),
+      featured: resolveImageUrl(m.featured),
     }))
   }, 'missions')
 }
@@ -209,16 +209,14 @@ export async function getMissionInfo(slug: string): Promise<MissionInfo | null> 
     ])
 
     const missionImages: MissionImageItem[] = (imgRes.data || []).map((i: { url: string; alt: string }) => {
-      const thumbUrl = resolveImageUrl(i.url, `mission/${data.slug}/`, { width: 400 }) as string
-      const fullUrl = resolveImageUrl(i.url, `mission/${data.slug}/`) as string
-      return { url: thumbUrl, alt: i.alt || `${data.title} - Image`, downloadUrl: fullUrl }
+      const url = resolveImageUrl(i.url, `mission/${data.slug}/`) as string
+      return { url, alt: i.alt || `${data.title} - Image`, downloadUrl: url }
     })
 
     if (missionImages.length === 0 && data.featured) {
-      const thumbUrl = resolveImageUrl(data.featured, undefined, { width: 800 }) as string
-      const fullUrl = resolveImageUrl(data.featured) as string
-      if (thumbUrl) {
-        missionImages.push({ url: thumbUrl, alt: `${data.title} - Featured Image`, downloadUrl: fullUrl })
+      const url = resolveImageUrl(data.featured) as string
+      if (url) {
+        missionImages.push({ url, alt: `${data.title} - Featured Image`, downloadUrl: url })
       }
     }
 
@@ -259,11 +257,11 @@ export async function getAllGalleryImages(): Promise<GalleryImage[] | null> {
     for (const img of (imagesRes.data || [])) {
       const m = missionMap.get(img.mission_id)
       if (!m) continue
-      const thumbUrl = resolveImageUrl(img.url, `mission/${m.slug}/`, { width: 320 }) as string
+      const url = resolveImageUrl(img.url, `mission/${m.slug}/`) as string
       const fullUrl = resolveImageUrl(img.url, `mission/${m.slug}/`) as string
-      if (thumbUrl) gallery.push({
+      if (url) gallery.push({
         id: `${img.mission_id}-${img.sort_order}`,
-        url: thumbUrl,
+        url,
         alt: img.alt || `${m.title} - Image ${img.sort_order}`,
         missionTitle: m.title,
         missionSlug: m.slug,
@@ -274,11 +272,11 @@ export async function getAllGalleryImages(): Promise<GalleryImage[] | null> {
     for (const [id, m] of missionMap) {
       const hasEntry = gallery.some(g => g.missionSlug === m.slug)
       if (!hasEntry && m.featured) {
-        const thumbUrl = resolveImageUrl(m.featured, undefined, { width: 320 }) as string
+        const url = resolveImageUrl(m.featured) as string
         const fullUrl = resolveImageUrl(m.featured) as string
-        if (thumbUrl) gallery.push({
+        if (url) gallery.push({
           id: `${id}-featured`,
-          url: thumbUrl,
+          url,
           alt: `${m.title} - Featured Image`,
           missionTitle: m.title,
           missionSlug: m.slug,
@@ -310,7 +308,7 @@ export async function getAnnouncementList(): Promise<AnnouncementEntry[] | null>
       date: a.date,
       day: a.day,
       summary: a.summary,
-      image: resolveImageUrl(a.image, 'announcements/', { width: 80 }),
+      image: resolveImageUrl(a.image, 'announcements/'),
       active: a.active,
       status: a.status,
     }))
@@ -342,7 +340,7 @@ export async function getAnnouncementDetail(id: string): Promise<AnnouncementFul
       day: data.day,
       summary: data.summary,
       description: data.description,
-      image: resolveImageUrl(data.image, 'announcements/', { width: 800 }),
+      image: resolveImageUrl(data.image, 'announcements/'),
       created_at: data.created_at,
       active: data.active,
       status: data.status,
