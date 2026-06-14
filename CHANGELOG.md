@@ -42,12 +42,12 @@
 | **Total Commits** | **407** |
 | **Latest Version** | **v1.4.0** _(2026-06-14)_ |
 | **Oldest Recorded** | **v0.1.0** _(2026-05-30)_ |
-| **Active Development** | **14 days** |
+| **Active Development** | **16 days** |
 | **Contributors** | **1** _(Sincere Bhattarai)_ |
 
 <br />
 
-> 🏗️ **Built from scratch** in 14 days — from vanilla HTML/CSS/JS to a full React 19 + TypeScript SPA with Supabase backend, SEO optimization, 92+ Desktop / 69+ Mobile PageSpeed.
+> 🏗️ **Built from scratch** in 16 days — from vanilla HTML/CSS/JS to a full React 19 + TypeScript SPA with Supabase backend, SEO optimization, 92+ Desktop / 69+ Mobile PageSpeed.
 
 > 🎯 **Goal:** A production-ready environmental sustainability club platform for Motherland Secondary School, Pokhara, Nepal.
 
@@ -708,7 +708,7 @@
 ---
 
 <p align="center">
-  <sub>📝 &nbsp;Full commit history: <strong>325 commits</strong> across all releases &nbsp;·&nbsp; 🏗️ &nbsp;Built with React 19 · TypeScript 6 · Vite 8 · Supabase · Tailwind CSS v4</sub>
+  <sub>📝 &nbsp;Full commit history: <strong>407 commits</strong> across all releases &nbsp;·&nbsp; 🏗️ &nbsp;Built with React 19 · TypeScript 6 · Vite 8 · Supabase · Tailwind CSS v4</sub>
 </p>
 
 <p align="center">
