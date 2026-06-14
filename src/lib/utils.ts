@@ -7,13 +7,32 @@ export function cn(...inputs: ClassValue[]) {
 
 const supabaseUrl = (import.meta.env.VITE_SUPABASE_URL || '').replace(/\/$/, '')
 
-export function storageUrl(path: string): string {
-  if (!path || path.startsWith('http')) return path
+export function storageUrl(path: string, width?: number): string {
+  if (!path) return path
+  if (path.startsWith('http') && supabaseUrl && path.includes(supabaseUrl.replace('https://', ''))) {
+    const match = path.match(/\/ruclub\/static\/assets\/(.+?)(?:\?|$)/)
+    if (match) path = match[1]
+  }
+  if (path.startsWith('http')) return path
   const p = path.startsWith('/') ? path.slice(1) : path
   const parts = p.split('/')
   const encoded = parts.map((seg, i) => i === parts.length - 1 ? encodeURIComponent(seg) : seg).join('/')
   if (supabaseUrl) {
-    return `${supabaseUrl}/storage/v1/render/image/public/ruclub/static/assets/${encoded}?format=webp`
+    let url = `${supabaseUrl}/storage/v1/render/image/public/ruclub/static/assets/${encoded}?format=webp`
+    if (width) url += `&width=${width}`
+    return url
+  }
+  return path
+}
+
+export function storageObjectUrl(path: string): string {
+  if (!path) return path
+  if (path.startsWith('http')) return path
+  const p = path.startsWith('/') ? path.slice(1) : path
+  const parts = p.split('/')
+  const encoded = parts.map((seg, i) => i === parts.length - 1 ? encodeURIComponent(seg) : seg).join('/')
+  if (supabaseUrl) {
+    return `${supabaseUrl}/storage/v1/object/public/ruclub/static/assets/${encoded}`
   }
   return path
 }
