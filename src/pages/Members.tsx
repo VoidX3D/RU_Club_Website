@@ -5,6 +5,7 @@ import { Users } from '@/components/Icons'
 import { Link } from 'react-router-dom'
 import { useSiteData } from '@/hooks/useSiteData'
 import { getMembers } from '@/lib/supabase'
+import { handleImgError } from '@/lib/utils'
 import SEOHead from '@/components/SEOHead'
 import type { MembersData, Member } from '@/types'
 
@@ -54,13 +55,14 @@ export default function Members() {
                       <td className="px-3 py-2.5"><span className="text-xs text-text-muted dark:text-dark-text-muted font-mono">{String(i + 1).padStart(2, '0')}</span></td>
                       <td className="px-3 py-2.5">
                         <div className="flex items-center gap-2.5">
-                          {member.image ? (
-                            <img src={member.image} alt={member.name} width="32" height="32" className="w-8 h-8 rounded-full object-cover bg-surface-tertiary dark:bg-dark-surface-tertiary shrink-0" loading="lazy" decoding="async" />
-                          ) : (
-                            <div className="w-8 h-8 rounded-full bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center shrink-0">
+                          <div className="relative shrink-0">
+                            {member.image ? (
+                              <img src={member.image} alt={member.name} width="32" height="32" className="w-8 h-8 rounded-full object-cover bg-surface-tertiary dark:bg-dark-surface-tertiary" loading="lazy" decoding="async" onError={handleImgError} />
+                            ) : null}
+                            <div className={`${member.image ? 'img-fallback hidden' : ''} absolute inset-0 w-8 h-8 rounded-full bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center`}>
                               <span className="text-xs font-bold text-brand-700 dark:text-brand-400">{member.name.charAt(0)}</span>
                             </div>
-                          )}
+                          </div>
                           {isDev ? (
                             <Link to="/secret-garden" className="text-sm font-semibold text-brand-700 dark:text-brand-400 hover:underline">{member.name}</Link>
                           ) : (
