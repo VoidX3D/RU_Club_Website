@@ -64,11 +64,14 @@
   <link rel="preconnect" href="https://jquzfvhtgbyrssvvhoio.supabase.co" crossorigin />
   <link rel="dns-prefetch" href="https://jquzfvhtgbyrssvvhoio.supabase.co" />
   
-  <!-- Google Fonts (non-render-blocking) -->
+  <!-- Preload LCP image (hero background) -->
+  <link rel="preload" as="image" href="/static/assets/images/heroimg-bg.webp" fetchpriority="high" />
+  
+  <!-- Google Fonts (non-render-blocking, font-display:optional prevents FOIT reflow) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" />
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" /></noscript>
+  <link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=optional" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=optional" /></noscript>
 
   <!-- Google tag (gtag.js) — G-QC1WT8TF66 always active; consent-based IDs loaded by initAnalytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-QC1WT8TF66"></script>
