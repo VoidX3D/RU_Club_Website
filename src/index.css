@@ -130,6 +130,12 @@ html::-webkit-scrollbar {
 }
 .mission-carousel .swiper-wrapper {
   align-items: center;
+  gap: 12px;
+}
+@media (min-width: 640px) {
+  .mission-carousel .swiper-wrapper {
+    gap: 24px;
+  }
 }
 .mission-carousel .swiper-slide {
   width: 80vw;
@@ -138,7 +144,7 @@ html::-webkit-scrollbar {
   overflow: hidden;
   opacity: 0.5;
   transform: scale(0.85);
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), filter 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   filter: blur(2px) saturate(0.7);
   cursor: pointer;
   position: relative;
@@ -157,6 +163,7 @@ html::-webkit-scrollbar {
   filter: blur(0) saturate(1);
   box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3), 0 0 80px rgba(13,148,136,0.2);
   border-color: rgba(20, 184, 166, 0.5);
+  will-change: transform, opacity;
 }
 .mission-carousel .swiper-slide-next,
 .mission-carousel .swiper-slide-prev {

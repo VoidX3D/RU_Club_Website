@@ -77,7 +77,7 @@ export default function MissionCarousel() {
                   modules={[Navigation, Pagination, Autoplay]}
                   centeredSlides={false}
                   slidesPerView={1}
-                  spaceBetween={12}
+                  spaceBetween={0}
                   autoplay={{ delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true }}
                   speed={600}
                   navigation={{ prevEl, nextEl }}
@@ -86,7 +86,7 @@ export default function MissionCarousel() {
                   loop={activeMissions.length > 1}
                   watchOverflow
                   breakpoints={{
-                    640: { slidesPerView: 'auto', centeredSlides: true, spaceBetween: 24 }
+                    640: { slidesPerView: 'auto', centeredSlides: true, spaceBetween: 0 }
                   }}
                   className="mission-carousel !pb-14"
                 >
