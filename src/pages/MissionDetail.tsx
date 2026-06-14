@@ -210,7 +210,7 @@ export default function MissionDetail() {
                       className="aspect-video rounded-xl overflow-hidden bg-surface-tertiary dark:bg-dark-surface-tertiary group cursor-pointer relative"
                     >
                       <img src={img.url} alt={img.alt}
-                        className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300" loading="lazy" decoding="async"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" decoding="async"
                         onError={handleImgError} />
                       <div className="img-fallback hidden absolute inset-0 flex items-center justify-center bg-surface-tertiary dark:bg-dark-surface-tertiary">
                         <span className="text-xs text-text-secondary dark:text-dark-text-muted">Failed to load</span>
