@@ -35,7 +35,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
           </div>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-10 mx-auto">
+        <nav className="hidden md:flex items-center gap-6 lg:gap-10 mx-auto">
           {navItems.map((item) => {
             const isActive = location.pathname === item.href
             return (
@@ -44,7 +44,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
                 to={item.href}
                 aria-current={isActive ? 'page' : undefined}
                 className={cn(
-                  'text-base font-semibold transition-colors relative py-1 tracking-wide',
+                  'text-sm lg:text-base font-semibold transition-colors relative py-1 tracking-wide whitespace-nowrap',
                   isActive
                     ? 'text-brand-700 dark:text-brand-400'
                     : 'text-text-secondary dark:text-dark-text-secondary hover:text-text-primary dark:hover:text-dark-text-primary'
@@ -92,7 +92,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
 
           <Link
             to="/contact"
-            className="hidden md:inline-flex items-center px-5 py-2.5 rounded-full bg-brand-700 text-white text-sm font-semibold uppercase tracking-wider hover:bg-brand-800 transition-all hover:shadow-lg hover:shadow-brand-700/25"
+            className="hidden md:inline-flex items-center px-4 lg:px-5 py-2 rounded-full bg-brand-700 text-white text-xs lg:text-sm font-semibold uppercase tracking-wider hover:bg-brand-800 transition-all hover:shadow-lg hover:shadow-brand-700/25"
           >
             Join Us
           </Link>

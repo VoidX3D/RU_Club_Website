@@ -32,7 +32,6 @@ export function storageUrl(path: string, transform?: StorageTransform): string {
     if (transform.width) params.set('width', String(transform.width))
     if (transform.height) params.set('height', String(transform.height))
     params.set('quality', String(transform.quality ?? 85))
-    params.set('resize', 'cover')
     params.set('format', 'webp')
     result = `${supabaseUrl}/storage/v1/render/image/public/ruclub/static/assets/${p}?${params.toString()}`
   } else {
