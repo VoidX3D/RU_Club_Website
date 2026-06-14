@@ -65,26 +65,23 @@ export default function MissionCarousel() {
         ) : activeMissions.length > 0 ? (
           <div data-aos="fade-up" data-aos-delay="100">
             <div className="mission-arrows">
-              <Swiper
-                modules={[Navigation, Pagination, Autoplay]}
-                centeredSlides
-                slidesPerView={1}
-                spaceBetween={16}
-                autoplay={{ delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true }}
-                speed={700}
-                navigation={{ prevEl, nextEl }}
-                pagination={{ clickable: true }}
-                grabCursor
-                loop={activeMissions.length > 1}
-                watchOverflow
-                observer
-                observeParents
-                observeSlideChildren
-                breakpoints={{
-                  640: { slidesPerView: 'auto', spaceBetween: 24, centeredSlides: true }
-                }}
-                className="mission-carousel !pb-14"
-              >
+                <Swiper
+                  modules={[Navigation, Pagination, Autoplay]}
+                  centeredSlides={false}
+                  slidesPerView={1}
+                  spaceBetween={12}
+                  autoplay={{ delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+                  speed={600}
+                  navigation={{ prevEl, nextEl }}
+                  pagination={{ clickable: true }}
+                  grabCursor
+                  loop={activeMissions.length > 1}
+                  watchOverflow
+                  breakpoints={{
+                    640: { slidesPerView: 'auto', centeredSlides: true, spaceBetween: 24 }
+                  }}
+                  className="mission-carousel !pb-14"
+                >
                 {activeMissions.map((m) => (
                   <SwiperSlide key={m.id}>
                     <Link to={`/mission/${m.slug}`} className="group block w-full h-full overflow-hidden relative bg-surface-tertiary dark:bg-dark-surface-tertiary border border-border dark:border-dark-border hover:border-brand-500/40 transition-all duration-300">

@@ -96,9 +96,7 @@ export default function Members() {
         <div className="w-full px-4 sm:px-6">
           <PageHeader badge="Our Team" title="Members" />
             {members?.stats && (
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-                className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto"
-              >
+              <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto">
                 {[
                   { label: 'Total', value: members.stats.total, icon: 'users', color: 'text-brand-700 dark:text-brand-400' },
                   { label: 'Teachers', value: members.stats.teachers, icon: 'graduation', color: 'text-purple-700 dark:text-purple-400' },
@@ -116,7 +114,7 @@ export default function Members() {
                     <div className="text-xs text-text-muted dark:text-dark-text-muted uppercase tracking-widest mt-1 font-medium">{stat.label}</div>
                   </div>
                 ))}
-              </motion.div>
+              </div>
             )}
 
           {error && <ErrorBanner message={error} />}
