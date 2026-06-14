@@ -62,6 +62,11 @@
 > [!IMPORTANT]
 > 🏁 **Project archived.** No further code changes will be made. All content management continues via the admin panel at [ru-admin-site.vercel.app](https://ru-admin-site.vercel.app). The site remains fully functional on Vercel + Supabase.
 
+### 🐛 Fixed
+- **Contact form 404** — `contact_submissions` table, trigger, and rate-limit function created in Supabase migration; `DO $$ BEGIN ... EXCEPTION WHEN duplicate_object THEN NULL; END $$` pattern for idempotent RLS policy creation
+- **Preload warning** — removed `<link rel="preload" as="image">` for hero background from `index.html` (caused "preloaded but not used" warning on non-home routes; hero image lazy-loaded by component)
+- **Members page spacing** — added `mb-14` between stats grid and Leadership/Teachers tables for visual breathing room
+
 ### 🏁 Final
 - **Project archived** — repository set to read-only. Future updates exclusively through admin panel (DB). 407 commits, 16 days, one complete SPA. 🌱
 
