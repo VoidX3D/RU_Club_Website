@@ -8,8 +8,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## [Unreleased]
 
+### Added
+- `*.fbcdn.net` to CSP `img-src` in `vercel.json` — unblocks Facebook CDN member images (was causing CSP violations)
+- PageLoader in admin site upgraded to full-screen overlay (was a tiny 160px spinner)
+- Stored WebP files now served directly via object URL instead of render endpoint — eliminates on-the-fly transformation overhead; `storageUrl()` swaps `.jpg`/`.png`/`.gif` to `.webp` when a transform is provided
+
 ### Changed
+- Optimizer `STORAGE_SUBDIRS` expanded to cover ALL assets: `members,mission,announcements,partners,gallery,brand,icons,images,hero` (was only members/mission/announcements/partners)
+- `storageUrl()` default WebP quality raised from 80 → 90 across both main site (`utils.ts`) and admin site (`api/admin.ts`)
+- Optimizer quality raised from 80 → 90 in workflow and script defaults
+- GitHub workflow `optimize-images.yml` now includes `STORAGE_SUBDIRS` env var covering all directories
+- All existing images (59 total) re-optimized to WebP quality 90 with full resolution preserved — overwrites old capped-quality WebP files
 - Button/CTA background from `bg-brand-600` to `bg-brand-700` for better contrast with white text across all components
+- Associated hover shadows updated (`hover:shadow-brand-600/*` → `hover:shadow-brand-700/*`)
+- All remaining `text-brand-600` → `text-brand-700` across 16 files (PageHeader, CTASection, Gallery, Navbar, Announcements, MissionDetail, Missions, AnnouncementDetail, Contact, Footer, LegalNav, FeaturesSection, Privacy, License, Consent, CookieConsent) — covers `hover:text-brand-600`, `group-hover:text-brand-600`, `group-hover/link:text-brand-600`, and standalone `text-brand-600`
+- CTASection `border-brand-600` → `border-brand-700` for secondary button border hover
 - Associated hover shadows updated (`hover:shadow-brand-600/*` → `hover:shadow-brand-700/*`)
 - All remaining `text-brand-600` → `text-brand-700` across 16 files (PageHeader, CTASection, Gallery, Navbar, Announcements, MissionDetail, Missions, AnnouncementDetail, Contact, Footer, LegalNav, FeaturesSection, Privacy, License, Consent, CookieConsent) — covers `hover:text-brand-600`, `group-hover:text-brand-600`, `group-hover/link:text-brand-600`, and standalone `text-brand-600`
 - CTASection `border-brand-600` → `border-brand-700` for secondary button border hover

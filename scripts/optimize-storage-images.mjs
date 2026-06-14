@@ -30,7 +30,7 @@ const {
   SUPABASE_SERVICE_KEY,
   STORAGE_BUCKET = 'ruclub',
   STORAGE_PREFIX = 'static/assets',
-  STORAGE_SUBDIRS = 'members,mission,announcements,partners',
+  STORAGE_SUBDIRS = 'members,mission,announcements,partners,gallery,brand,icons,images,hero',
   QUALITY = '90',
 } = process.env
 

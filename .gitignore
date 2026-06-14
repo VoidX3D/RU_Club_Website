@@ -25,3 +25,4 @@ node_modules/
 *.tsbuildinfo
 .vercel
 .env.vercel
+optimizer-report.json

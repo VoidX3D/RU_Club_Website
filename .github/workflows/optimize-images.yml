@@ -1,8 +1,9 @@
 # ============================================================
 # Supabase Storage Image Optimizer — GitHub Actions
 #
-# Converts storage images to WebP at original resolution (no resize)
-# and sets 1-year cache headers.
+# Converts ALL storage images to WebP at original resolution (no resize)
+# with quality 90 and 1-year cache headers.
+# Serves WebP via render endpoint; originals available for download.
 #
 # Required secrets:
 #   VITE_SUPABASE_URL       — Supabase project URL
@@ -39,7 +40,8 @@ jobs:
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           STORAGE_BUCKET: 'ruclub'
           STORAGE_PREFIX: 'static/assets'
-          QUALITY: '80'
+          STORAGE_SUBDIRS: 'members,mission,announcements,partners,gallery,brand,icons,images,hero'
+          QUALITY: '90'
 
       - name: Upload optimizer report
         uses: actions/upload-artifact@v4
