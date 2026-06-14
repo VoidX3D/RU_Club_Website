@@ -15,10 +15,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - Orphaned `googleb4f18c2145156fe6.html` — Google Search Console file-based verification (meta tag is active)
 - Old 128×128 `logo_icon.png` — replaced by properly-sized 180×180, 192×192, and 512×512 icons
 - Unused `clsx` and `tailwind-merge` dependencies from admin site
+- Partners without valid image src are now filtered out at data layer (no 400 console errors)
+- Empty string image/src values now treated as null by `resolveImageUrl` (no render endpoint calls for missing files)
 
 ### Changed
 - `site.webmanifest` now references `logo_icon_192.png` and `logo_icon_512.png` instead of same file for both sizes
 - `apple-touch-icon` now points to 180×180 version for correct sizing
+- Hero background image optimized: 1920×1146 → 1600×955, recompressed at WebP quality 75 (138KB → 95KB, 31% smaller — improves mobile LCP)
+- `getPartners()` now filters out entries with empty/null/unresolvable image src
 
 ### Added
 - Admin activity logging: `admin_logs` table in Supabase, auto-log every mutation (save/delete/upload) in admin API, log viewer page in admin panel

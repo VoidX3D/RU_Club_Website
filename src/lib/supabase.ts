@@ -8,7 +8,7 @@ import type {
 import { storageUrl } from './utils'
 
 function resolveImageUrl(url: string | null | undefined, prefix?: string): string | undefined {
-  if (!url) return undefined
+  if (!url || !url.trim()) return undefined
   if (url.startsWith('http')) return url
   if (url.includes('/')) return storageUrl(url)
   if (prefix) return storageUrl(`${prefix}${url}`)
@@ -117,10 +117,12 @@ export async function getPartners(): Promise<Partner[] | null> {
       .order('sort_order')
     if (error) throw error
     if (!data) return null
-    return data.map((p: { src: string; alt: string; name: string }) => ({
-      ...p,
-      src: resolveImageUrl(p.src, 'partners/') as string,
-    })) as Partner[]
+    return data
+      .map((p: { src: string; alt: string; name: string }) => ({
+        ...p,
+        src: resolveImageUrl(p.src, 'partners/') as string,
+      }))
+      .filter(p => p.src) as Partner[]
   }, 'partners')
 }
 
