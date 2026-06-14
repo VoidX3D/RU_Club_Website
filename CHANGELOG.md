@@ -12,6 +12,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - `downloadAndUploadImage()` from admin API — external URL download no longer supported
 - URL text input in admin MembersPage — images can only be added via file picker (click avatar)
 - External URL handling from `members:save`, `announcements:save`, `partners:save` — only file upload supported now
+- Orphaned `googleb4f18c2145156fe6.html` — Google Search Console file-based verification (meta tag is active)
+- Old 128×128 `logo_icon.png` — replaced by properly-sized 180×180, 192×192, and 512×512 icons
+- Unused `clsx` and `tailwind-merge` dependencies from admin site
+
+### Changed
+- `site.webmanifest` now references `logo_icon_192.png` and `logo_icon_512.png` instead of same file for both sizes
+- `apple-touch-icon` now points to 180×180 version for correct sizing
 
 ### Added
 - Admin activity logging: `admin_logs` table in Supabase, auto-log every mutation (save/delete/upload) in admin API, log viewer page in admin panel
