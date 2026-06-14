@@ -27,8 +27,8 @@ export default function MissionCarousel() {
           {loading ? (
             <>
               <div className="h-3 w-24 bg-surface-tertiary dark:bg-dark-surface-tertiary rounded animate-pulse mx-auto mb-4" />
-              <div className="h-10 w-96 max-w-full bg-surface-tertiary dark:bg-dark-surface-tertiary rounded animate-pulse mx-auto mb-3" />
-              <div className="h-5 w-72 max-w-full bg-surface-tertiary dark:bg-dark-surface-tertiary rounded animate-pulse mx-auto" />
+              <div className="h-[clamp(2.75rem,6vw,4.25rem)] w-80 max-w-full bg-surface-tertiary dark:bg-dark-surface-tertiary rounded-lg animate-pulse mx-auto" />
+              <div className="inline-flex items-center gap-2 mt-8 px-8 py-3.5 rounded-full bg-surface-tertiary dark:bg-dark-surface-tertiary animate-pulse mx-auto w-56" />
             </>
           ) : (
             <>
@@ -45,15 +45,23 @@ export default function MissionCarousel() {
               )}
             </>
           )}
-          <Link to="/missions" className="inline-flex items-center gap-2 mt-8 px-8 py-3.5 rounded-full bg-brand-700 text-white font-semibold text-sm uppercase tracking-wider hover:bg-brand-800 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brand-700/30">
-            View All Missions
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
-          </Link>
+          {!loading && (
+            <Link to="/missions" className="inline-flex items-center gap-2 mt-8 px-8 py-3.5 rounded-full bg-brand-700 text-white font-semibold text-sm uppercase tracking-wider hover:bg-brand-800 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brand-700/30">
+              View All Missions
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+            </Link>
+          )}
         </div>
 
         {loading ? (
-          <div className="max-w-5xl mx-auto">
-            <div className="aspect-video bg-surface-tertiary dark:bg-dark-surface-tertiary animate-pulse" />
+          <div className="max-w-5xl mx-auto px-4">
+            <div className="relative overflow-hidden rounded-xl bg-surface-tertiary dark:bg-dark-surface-tertiary animate-pulse aspect-video">
+              <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 space-y-3">
+                <div className="h-5 w-16 rounded-full bg-white/10" />
+                <div className="h-7 w-3/4 rounded bg-white/10" />
+                <div className="h-4 w-1/2 rounded bg-white/10" />
+              </div>
+            </div>
           </div>
         ) : error ? (
           <div className="max-w-5xl mx-auto text-center py-12">
