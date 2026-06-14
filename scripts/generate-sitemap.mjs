@@ -39,8 +39,8 @@ async function getDynamicRoutes() {
     const supabase = createClient(supabaseUrl, supabaseKey)
 
     const [missionsRes, announcementsRes] = await Promise.all([
-      supabase.from('missions').select('slug, updated_at, created_at').eq('show', true),
-      supabase.from('announcements').select('id, updated_at, created_at').eq('active', true),
+      supabase.from('missions').select('slug').eq('show', true),
+      supabase.from('announcements').select('id').eq('active', true),
     ])
 
     if (missionsRes.error) {
@@ -51,7 +51,7 @@ async function getDynamicRoutes() {
           loc: `/mission/${m.slug}`,
           priority: '0.8',
           changefreq: 'monthly',
-          lastmod: m.updated_at?.slice(0, 10) || m.created_at?.slice(0, 10) || today,
+          lastmod: today,
         })
       }
       console.log(`[sitemap] Added ${routes.length} mission detail pages`)
@@ -65,7 +65,7 @@ async function getDynamicRoutes() {
           loc: `/announcement/${a.id}`,
           priority: '0.7',
           changefreq: 'monthly',
-          lastmod: a.updated_at?.slice(0, 10) || a.created_at?.slice(0, 10) || today,
+          lastmod: today,
         })
       }
       console.log(`[sitemap] Added ${routes.length} announcement detail pages`)

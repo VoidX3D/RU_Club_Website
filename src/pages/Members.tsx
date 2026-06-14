@@ -55,7 +55,7 @@ export default function Members() {
                       <td className="px-3 py-2.5"><span className="text-xs text-text-muted dark:text-dark-text-muted font-mono">{String(i + 1).padStart(2, '0')}</span></td>
                       <td className="px-3 py-2.5">
                         <div className="flex items-center gap-2.5">
-                          <div className="relative shrink-0">
+                          <div className="relative shrink-0 w-8 h-8">
                             {member.image ? (
                               <img src={member.image} alt={member.name} width="32" height="32" className="w-8 h-8 rounded-full object-cover bg-surface-tertiary dark:bg-dark-surface-tertiary" loading="lazy" decoding="async" onError={handleImgError} />
                             ) : null}
