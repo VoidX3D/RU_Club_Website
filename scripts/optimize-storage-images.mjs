@@ -47,6 +47,7 @@ const supabase = createClient(VITE_SUPABASE_URL, SUPABASE_SERVICE_KEY, {
 const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'img-opt-'))
 
 const imageExtensions = new Set(['.jpg', '.jpeg', '.png', '.gif'])
+const webpExtension = '.webp'
 let webpCreated = 0
 let failed = 0
 let skipped = 0
@@ -85,6 +86,23 @@ const imageFiles = allFiles.filter(f =>
   !f.name.endsWith('.webp') &&
   allowedDirs.some(d => f.path.startsWith(d))
 )
+
+// Purge all existing WebP files in target directories
+const webpFiles = allFiles.filter(f =>
+  f.name.endsWith('.webp') &&
+  allowedDirs.some(d => f.path.startsWith(d))
+)
+
+if (webpFiles.length > 0) {
+  console.log(`Purging ${webpFiles.length} old WebP files...`)
+  const batchSize = 100
+  for (let i = 0; i < webpFiles.length; i += batchSize) {
+    const batch = webpFiles.slice(i, i + batchSize).map(f => f.path)
+    const { error } = await supabase.storage.from(STORAGE_BUCKET).remove(batch)
+    if (error) console.error(`  ERROR purging batch: ${error.message}`)
+  }
+  console.log(`Purged ${webpFiles.length} WebP files\n`)
+}
 
 console.log(`Found ${allFiles.length} files, ${imageFiles.length} images to convert\n`)
 
