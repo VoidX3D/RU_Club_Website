@@ -65,22 +65,20 @@ export default function Contact() {
     try {
       const results = await Promise.allSettled([
         submitContactForm({ name: formData.name, email: formData.email, subject: formData.subject, message: formData.message }),
-        fetch('https://formspree.io/f/xjgzzwej', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({ name: formData.name, email: formData.email, subject: formData.subject, message: formData.message }),
-        }),
-        fetch('https://formspree.io/f/xnjrrwbp', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({ name: formData.name, email: formData.email, subject: formData.subject, message: formData.message }),
-        }),
+        ...(import.meta.env.VITE_FORMSPREE_ID
+          ? [fetch(`https://formspree.io/f/${import.meta.env.VITE_FORMSPREE_ID}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify({ name: formData.name, email: formData.email, subject: formData.subject, message: formData.message }),
+            })]
+          : []),
       ])
       const dbResult = results[0]
       if (dbResult.status === 'rejected' || (dbResult.status === 'fulfilled' && dbResult.value?.error)) {
-        const msg = dbResult.status === 'rejected'
-          ? dbResult.reason?.message || 'Failed to send message.'
-          : dbResult.value?.error?.message || 'Failed to send message.'
+        const errData = dbResult.status === 'rejected' ? dbResult.reason : dbResult.value?.error
+        const msg: string = typeof errData === 'object' && errData !== null && 'message' in (errData as Record<string, unknown>)
+          ? String((errData as Record<string, unknown>).message)
+          : String(errData) || 'Failed to send message.'
         setError(msg)
         setSubmitting(false)
         return

@@ -42,7 +42,11 @@ export class DataError extends Error {
 
 function classifyError(err: unknown, table: string): DataError {
   if (err instanceof DataError) return err
-  const msg = err instanceof Error ? err.message : String(err)
+  const msg = err instanceof Error
+    ? err.message
+    : typeof err === 'object' && err !== null && 'message' in (err as Record<string, unknown>)
+      ? String((err as Record<string, unknown>).message)
+      : String(err)
   const code = (err as { code?: string })?.code
 
   if (msg.includes('Could not find the table') || msg.includes('does not exist') || msg.includes('relation')) {

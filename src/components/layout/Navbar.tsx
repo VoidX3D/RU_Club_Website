@@ -90,13 +90,6 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
             )}
           </button>
 
-          <Link
-            to="/contact"
-            className="hidden md:inline-flex items-center px-4 lg:px-5 py-2 rounded-full bg-brand-700 text-white text-xs lg:text-sm font-semibold uppercase tracking-wider hover:bg-brand-800 transition-all hover:shadow-lg hover:shadow-brand-700/25"
-          >
-            Join Us
-          </Link>
-
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="p-2.5 rounded-full md:hidden text-text-secondary dark:text-dark-text-secondary hover:bg-surface-tertiary dark:hover:bg-dark-surface-tertiary transition-colors"
@@ -134,13 +127,6 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
                 {item.label}
               </Link>
             ))}
-            <Link
-              to="/contact"
-              onClick={() => setMobileOpen(false)}
-              className="block mt-3 px-4 py-3 rounded-full bg-brand-700 text-white text-center font-semibold"
-            >
-              Join Us
-            </Link>
           </nav>
         </div>
       )}
