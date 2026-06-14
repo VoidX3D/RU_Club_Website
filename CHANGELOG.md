@@ -66,6 +66,14 @@
 - CHANGELOG.md completely restyled with **shields.io badges**, **GitHub Alert boxes** (`> [!IMPORTANT]`, `> [!NOTE]`, `> [!TIP]`), **emoji decorations**, **statistics tables**, **collapsible `<details>` sections**, and **decorative HTML comment banners** between versions 🎨
 - VersionCard now renders item text with **full inline markdown** (`**bold**`, `` `code` ``, `[links](url)`, emoji, etc.) via `marked.parseInline()` + DOMPurify sanitization
 - Changelog parser updated: section headings auto-strip emoji prefixes (e.g. `### 🛠️ Fixed` → `Fixed`), links/backticks preserved in item text instead of stripped
+- **`/rules` page** — Club Rules & Regulations page with full markdown content from Supabase (`club_rules` table), rendered via `renderMarkdown()` 🔖
+- **`club_rules` Supabase table** — single-row table seeded with 10 sections of club rules (code of conduct, membership, meetings, events, projects, discipline, dress code, resources, communication, amendments)
+- **Navbar "Club Rules" link** — positioned after Missions
+- **Footer "Club Rules" link** — Quick Links section
+- **Sitemap** — `/rules` added to static routes
+- **Admin site RulesPage** — view/edit toggle with RichTextEditor for markdown, saves to DB via `rules:save` API with audit logging
+- **Admin sidebar** — "Club Rules" nav entry
+- **Admin API** — `rules:list` / `rules:save` endpoints
 
 ### 🛠️ Fixed
 - All server-side image resizing reverted — images served at original resolution with `?format=webp` only (no `&width=`, no `&height=`, no `&quality=` params) — [Read more](https://opencode.ai)
