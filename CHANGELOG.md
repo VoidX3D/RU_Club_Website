@@ -8,6 +8,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## [Unreleased]
 
+### Fixed
+- All server-side image resizing reverted — images served at original resolution with `?format=webp` only (no `&width=`, no `&height=`, no `&quality=` params)
+- Hero image restored to original 1920×1146 WebP (138 KiB) — no dimension reduction
+- `storageUrl()` signature simplified: removed optional `width` param
+- `resolveImageUrl()` signature simplified: removed optional `width` param
+
+### Changed
+- Partner logos: `max-h-10` → `max-h-14` (56px) to prevent clipping on square logos like Motherland, UNDP, KOICA
+
 ### Removed
 - `downloadAndUploadImage()` from admin API — external URL download no longer supported
 - URL text input in admin MembersPage — images can only be added via file picker (click avatar)
@@ -21,18 +30,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 ### Changed
 - `site.webmanifest` now references `logo_icon_192.png` and `logo_icon_512.png` instead of same file for both sizes
 - `apple-touch-icon` now points to 180×180 version for correct sizing
+- Hero background image optimized: 1920×1146 → 1600×955, recompressed at WebP quality 75 (138KB → 95KB, 31% smaller — improves mobile LCP)
+- Hero image further compressed: 1600×955 → 1400×840 at quality 70 (95KB → 71KB, −25%) for faster mobile LCP
 - `getPartners()` now filters out entries with empty/null/unresolvable image src
+- Partner logos: served at width=120 via render endpoint (was full resolution 225×225 — saves ~85% bandwidth per logo)
+- Mission carousel featured images: served at width=1000 (was 1920×1078 — saves ~60% bandwidth)
+- Mission detail images: served at width=1400 (was full resolution on detail pages)
+- Gallery thumbnails: served at width=320 via render endpoint (matches displayed 322px size)
+- Gallery download URLs now use `storageObjectUrl()` — raw object URL without format/width transforms (browser downloads original file)
 - MissionCarousel loading skeleton now mirrors real layout (label, title, button, card) — no more empty-looking section before data loads
 - All `transition-all` with `hover:border-*` changed to `transition-colors` (+ `transition-transform` where needed) — stops border animations from triggering layout recalculations (fixes 4 non-composited animations flagged by PageSpeed)
-- Hero image restored to original 1920×1146 WebP at quality 80 (138 KiB) — no server-side resize
-- All images served at original resolution with `?format=webp` only — no width/height params (no server-side crop/resize)
-- Swiper slide transition: `all` → `opacity, transform, filter` only (removes z-index, border-color, box-shadow from animation)
-- Swiper `spaceBetween` replaced by CSS `gap` on `.swiper-wrapper` (eliminates inline `margin-right` layout recalc)
-- Partner logos: `max-h-10` → `max-h-14` (56px) to prevent clipping on square logos
 
 ### Added
-- Source maps in production (`build.sourcemap: true`) — Lighthouse debugging
-- `storageObjectUrl()` in `utils.ts` — returns raw Supabase object URL (no WebP transform) for gallery downloads
+- Source maps in production (`build.sourcemap: 'hidden'`) — Lighthouse can debug without exposing source to browser
+- `storageObjectUrl()` in `utils.ts` — returns raw Supabase object URL (no WebP/width transforms) for downloads
+- Optional `width` param in `storageUrl(path, width?)` — appends `&width=N` to render endpoint for responsive image delivery
+- Optional `width` param in `resolveImageUrl(url, prefix?, width?)` — threaded through to `storageUrl()`
 - Supabase HTTP URLs in DB are now auto-converted to render endpoint (was returning object URLs as-is, bypassing WebP)
 - Optimizer script now purges old `.webp` files before regenerating fresh ones from originals
 
