@@ -18,7 +18,7 @@ interface SEOHeadProps {
   jsonLd?: Record<string, unknown>
 }
 
-const SITE_KEYWORDS = 'environmental sustainability, tree plantation, waste management, zero-waste ecosystem, Pokhara, Nepal, environmental club, RU Club Motherland, Motherland Secondary School, climate action, community service, recycling, green initiative'
+const SITE_KEYWORDS = 'RU Club, RU Club Motherland, Recycle Upcycle Club, recycling club Nepal, environmental sustainability, tree plantation, waste management, zero-waste ecosystem, Pokhara, Nepal, environmental club, Motherland Secondary School, climate action, community service, recycling, green initiative, upcycling club, Pokhara eco club'
 
 export default function SEOHead({
   title,

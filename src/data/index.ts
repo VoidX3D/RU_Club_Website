@@ -91,8 +91,8 @@ export const SITE_ORG_ID = `${SITE_URL}/#organization`
 export const siteConfig: SiteConfig = {
   name: 'RU Club Motherland',
   shortName: 'RU Club',
-  tagline: 'Environmental Sustainability Club',
-  description: 'Environmental sustainability club at Motherland Secondary School, Pokhara, Nepal. Transforming awareness into action for a zero-waste ecosystem.',
+  tagline: 'Recycling & Upcycling Club',
+  description: 'RU Club Motherland — Environmental sustainability, recycling and upcycling club at Motherland Secondary School, Pokhara, Nepal. Transforming awareness into action for a zero-waste ecosystem.',
   url: SITE_URL,
   logo: `${STATIC_ASSETS}/brand/logo.webp`,
   logoIcon: `${STATIC_ASSETS}/brand/logo_icon.webp`,
