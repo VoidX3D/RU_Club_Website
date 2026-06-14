@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - `site.webmanifest` now references `logo_icon_192.png` and `logo_icon_512.png` instead of same file for both sizes
 - `apple-touch-icon` now points to 180×180 version for correct sizing
 - Hero background image optimized: 1920×1146 → 1600×955, recompressed at WebP quality 75 (138KB → 95KB, 31% smaller — improves mobile LCP)
+- Hero image further compressed: 1600×955 → 1400×840 at quality 70 (95KB → 71KB, −25%) for faster mobile LCP
 - `getPartners()` now filters out entries with empty/null/unresolvable image src
 - Partner logos: served at width=120 via render endpoint (was full resolution 225×225 — saves ~85% bandwidth per logo)
 - Mission carousel featured images: served at width=1000 (was 1920×1078 — saves ~60% bandwidth)
@@ -29,6 +30,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - Gallery thumbnails: served at width=320 via render endpoint (matches displayed 322px size)
 - Gallery download URLs now use `storageObjectUrl()` — raw object URL without format/width transforms (browser downloads original file)
 - MissionCarousel loading skeleton now mirrors real layout (label, title, button, card) — no more empty-looking section before data loads
+- All `transition-all` with `hover:border-*` changed to `transition-colors` (+ `transition-transform` where needed) — stops border animations from triggering layout recalculations (fixes 4 non-composited animations flagged by PageSpeed)
 
 ### Added
 - Source maps in production (`build.sourcemap: 'hidden'`) — Lighthouse can debug without exposing source to browser

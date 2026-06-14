@@ -179,7 +179,7 @@ export default function Changelog() {
           <FadeInView delay={0.4} className="mt-16 text-center">
             <Link
               to="/"
-              className="group inline-flex items-center gap-2 px-6 py-3 bg-white/[0.03] border border-white/[0.06] text-gray-300 text-sm font-medium hover:bg-white/[0.06] hover:border-emerald-500/25 hover:text-emerald-300 transition-all duration-300"
+              className="group inline-flex items-center gap-2 px-6 py-3 bg-white/[0.03] border border-white/[0.06] text-gray-300 text-sm font-medium hover:bg-white/[0.06] hover:border-emerald-500/25 hover:text-emerald-300 transition-colors duration-300"
             >
               <motion.svg
                 animate={{ x: [0, -3, 0] }}

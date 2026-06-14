@@ -11,7 +11,7 @@ export default function CTASection() {
           <Link to="/contact" className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-brand-700 text-white font-semibold text-sm uppercase tracking-wider hover:bg-brand-800 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brand-700/30">
             {ctaContent.primaryBtn}
           </Link>
-          <Link to="/gallery" className="inline-flex items-center px-8 py-3.5 rounded-full bg-white dark:bg-dark-surface border border-border dark:border-dark-border text-text-secondary dark:text-dark-text-secondary font-semibold text-sm uppercase tracking-wider hover:border-brand-700 hover:text-brand-700 dark:hover:text-brand-400 transition-all hover:-translate-y-0.5">
+          <Link to="/gallery" className="inline-flex items-center px-8 py-3.5 rounded-full bg-white dark:bg-dark-surface border border-border dark:border-dark-border text-text-secondary dark:text-dark-text-secondary font-semibold text-sm uppercase tracking-wider hover:border-brand-700 hover:text-brand-700 dark:hover:text-brand-400 transition-colors transition-transform hover:-translate-y-0.5">
             {ctaContent.secondaryBtn}
           </Link>
         </div>

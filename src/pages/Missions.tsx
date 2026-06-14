@@ -36,7 +36,7 @@ export default function Missions() {
                   className="flex"
                 >
                   <Link to={`/mission/${mission.slug}`}
-                    className="group flex flex-col w-full bg-white dark:bg-dark-surface-secondary border border-border dark:border-dark-border hover:border-brand-500/40 transition-all duration-300"
+                    className="group flex flex-col w-full bg-white dark:bg-dark-surface-secondary border border-border dark:border-dark-border hover:border-brand-500/40 transition-colors duration-300"
                   >
                     <div className="aspect-[4/3] overflow-hidden bg-surface-tertiary dark:bg-dark-surface-tertiary">
                       {mission.featured ? (

@@ -17,7 +17,7 @@ export default function FeaturesSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {featureCards.map((card, i) => (
             <div key={card.title} data-aos="fade-up" data-aos-delay={i * 100}
-              className="group relative bg-white dark:bg-dark-surface border border-border dark:border-dark-border px-6 py-10 md:px-8 md:py-12 text-center transition-all duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-brand-500/10 hover:border-brand-400/50 overflow-hidden rounded-lg"
+              className="group relative bg-white dark:bg-dark-surface border border-border dark:border-dark-border px-6 py-10 md:px-8 md:py-12 text-center transition-colors transition-transform duration-500 hover:-translate-y-2 hover:shadow-xl hover:shadow-brand-500/10 hover:border-brand-400/50 overflow-hidden rounded-lg"
             >
               <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-brand-600 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center" />
               <div className="w-[70px] h-[70px] mx-auto mb-6 bg-brand-100 dark:bg-brand-900/30 flex items-center justify-center text-brand-700 dark:text-brand-400 transition-transform duration-500 group-hover:scale-110">

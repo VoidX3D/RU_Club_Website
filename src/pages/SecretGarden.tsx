@@ -96,7 +96,7 @@ export default function SecretGarden() {
               </div>
               <div className="mt-8 flex justify-center gap-3">
                 <a href="#about" className="px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-medium text-sm hover:from-emerald-500 hover:to-teal-500 transition-all hover:scale-105 shadow-lg shadow-emerald-600/25">Explore</a>
-                <a href="mailto:sincerebhattarai01@gmail.com" className="px-6 py-3 bg-white/5 border border-white/10 text-gray-300 font-medium text-sm hover:bg-white/10 hover:border-emerald-500/30 transition-all hover:scale-105">Contact Me</a>
+                <a href="mailto:sincerebhattarai01@gmail.com" className="px-6 py-3 bg-white/5 border border-white/10 text-gray-300 font-medium text-sm hover:bg-white/10 hover:border-emerald-500/30 transition-colors transition-transform hover:scale-105">Contact Me</a>
               </div>
               <div className="relative mt-16 h-20">
                 <div className="absolute inset-0 flex items-center justify-center gap-4 sm:gap-6">
@@ -120,7 +120,7 @@ export default function SecretGarden() {
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-16">
               {achievements.map((a) => (
-                <div key={a.label} className="p-5 bg-white/[0.03] border border-white/5 text-center hover:bg-white/[0.06] hover:border-emerald-500/20 transition-all group rounded-lg">
+                <div key={a.label} className="p-5 bg-white/[0.03] border border-white/5 text-center hover:bg-white/[0.06] hover:border-emerald-500/20 transition-colors group rounded-lg">
                   <div className="text-2xl sm:text-3xl font-display font-bold text-emerald-400 mb-1 group-hover:scale-110 transition-transform">{a.value}</div>
                   <div className="text-xs text-gray-500 uppercase tracking-wider">{a.label}</div>
                 </div>
@@ -156,7 +156,7 @@ export default function SecretGarden() {
                       <div className="w-3 h-3 bg-emerald-400 animate-pulse" />
                     </div>
                   </div>
-                  <div className="flex-1 bg-white/[0.03] border border-white/5 p-5 hover:bg-white/[0.06] hover:border-emerald-500/20 transition-all rounded-lg">
+                  <div className="flex-1 bg-white/[0.03] border border-white/5 p-5 hover:bg-white/[0.06] hover:border-emerald-500/20 transition-colors rounded-lg">
                     <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">{item.year}</span>
                     <h3 className="text-white font-display font-semibold text-lg mt-1">{item.title}</h3>
                     <p className="text-gray-400 text-sm mt-1.5 leading-relaxed">{item.desc}</p>
@@ -174,11 +174,11 @@ export default function SecretGarden() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {skills.map((group) => (
-                <div key={group.category} className="bg-white/[0.03] border border-white/5 p-6 hover:bg-white/[0.06] hover:border-emerald-500/20 transition-all rounded-lg">
+                <div key={group.category} className="bg-white/[0.03] border border-white/5 p-6 hover:bg-white/[0.06] hover:border-emerald-500/20 transition-colors rounded-lg">
                   <h3 className="text-emerald-400 font-display font-semibold text-sm mb-4 uppercase tracking-wider">{group.category}</h3>
                   <div className="flex flex-wrap gap-2">
                     {group.items.map((skill) => (
-                      <span key={skill} className="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-medium border border-white/5 hover:bg-emerald-500/10 hover:border-emerald-500/30 hover:text-emerald-300 transition-all cursor-default rounded-lg">{skill}</span>
+                      <span key={skill} className="px-3 py-1.5 bg-white/5 text-gray-300 text-xs font-medium border border-white/5 hover:bg-emerald-500/10 hover:border-emerald-500/30 hover:text-emerald-300 transition-colors cursor-default rounded-lg">{skill}</span>
                     ))}
                   </div>
                 </div>
@@ -217,7 +217,7 @@ export default function SecretGarden() {
                 const isExternal = link.url.startsWith('http')
                 return (
                   <a key={link.platform} href={link.url} {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                    className="group relative flex items-center gap-4 p-4 sm:p-5 bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] hover:border-emerald-500/30 transition-all overflow-hidden rounded-lg">
+                    className="group relative flex items-center gap-4 p-4 sm:p-5 bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] hover:border-emerald-500/30 transition-colors overflow-hidden rounded-lg">
                     <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className="w-11 h-11 bg-white/5 flex items-center justify-center text-gray-400 group-hover:text-emerald-400 group-hover:bg-emerald-500/10 transition-all shrink-0 relative z-10">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill={link.fill ? 'currentColor' : 'none'} stroke={link.fill ? 'none' : 'currentColor'} strokeWidth={link.fill ? 0 : 2} strokeLinecap="round" strokeLinejoin="round">{link.icon}</svg>
