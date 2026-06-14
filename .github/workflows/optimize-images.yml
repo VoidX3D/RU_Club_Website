@@ -12,6 +12,9 @@
 
 name: Optimize Storage Images
 
+permissions:
+  contents: read
+
 on:
   schedule:
     - cron: '0 6 * * 1'
