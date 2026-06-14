@@ -1,5 +1,7 @@
 # RU Club Motherland 🌿
 
+> 🏁 **Project archived.** This repository is now read-only. All content management continues via the [admin panel](https://ru-admin-site.vercel.app). The live site at [ruclub.rweb.site](https://ruclub.rweb.site) remains fully functional — built to last.
+
 **Environmental Sustainability Club** at Motherland Secondary School, Pokhara, Nepal.
 
 > Transforming environmental awareness into collective action for a sustainable Pokhara.

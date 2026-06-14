@@ -59,8 +59,11 @@
 
 ## [Unreleased]
 
-> [!NOTE]
-> 🚧 **Upcoming.** Planned features for the next release.
+> [!IMPORTANT]
+> 🏁 **Project archived.** No further code changes will be made. All content management continues via the admin panel at [ru-admin-site.vercel.app](https://ru-admin-site.vercel.app). The site remains fully functional on Vercel + Supabase.
+
+### 🏁 Final
+- **Project archived** — repository set to read-only. Future updates exclusively through admin panel (DB). 407 commits, 16 days, one complete SPA. 🌱
 
 ### 🎨 Changed
 - **Changelog page redesigned** — now renders via `renderMarkdown()` (proper marked + DOMPurify pipeline), per-version cards with timeline dots, expand/collapse, stats bar, cleaner dark theme ✨
