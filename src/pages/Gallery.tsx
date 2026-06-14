@@ -118,7 +118,7 @@ export default function Gallery() {
                           onClick={() => openLightbox(gIdx, iIdx)}
                           className="group relative aspect-[4/3] rounded-xl overflow-hidden bg-surface-tertiary dark:bg-dark-surface-tertiary cursor-pointer"
                         >
-                          <img src={img.url} alt={img.alt} className="w-full h-full object-scale-down group-hover:scale-110 transition-transform duration-500 p-2"
+                          <img src={img.url} alt={img.alt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             loading={gIdx === 0 && iIdx < 8 ? undefined : 'lazy'}
                             fetchPriority={gIdx === 0 && iIdx < 8 ? 'high' : undefined}
                             decoding="async"
