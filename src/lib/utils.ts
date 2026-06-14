@@ -10,8 +10,10 @@ const supabaseUrl = (import.meta.env.VITE_SUPABASE_URL || '').replace(/\/$/, '')
 export function storageUrl(path: string): string {
   if (!path || path.startsWith('http')) return path
   const p = path.startsWith('/') ? path.slice(1) : path
+  const parts = p.split('/')
+  const encoded = parts.map((seg, i) => i === parts.length - 1 ? encodeURIComponent(seg) : seg).join('/')
   if (supabaseUrl) {
-    return `${supabaseUrl}/storage/v1/render/image/public/ruclub/static/assets/${p}?format=webp`
+    return `${supabaseUrl}/storage/v1/render/image/public/ruclub/static/assets/${encoded}?format=webp`
   }
   return path
 }
