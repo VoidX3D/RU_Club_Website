@@ -19,6 +19,7 @@ const staticRoutes = [
   { loc: '/missions', priority: '0.9', changefreq: 'weekly' },
   { loc: '/gallery', priority: '0.85', changefreq: 'weekly' },
   { loc: '/members', priority: '0.8', changefreq: 'monthly' },
+  { loc: '/rules', priority: '0.8', changefreq: 'monthly' },
   { loc: '/contact', priority: '0.8', changefreq: 'monthly' },
   { loc: '/changelog', priority: '0.7', changefreq: 'weekly' },
   { loc: '/privacy', priority: '0.5', changefreq: 'yearly' },

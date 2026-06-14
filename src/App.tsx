@@ -13,6 +13,7 @@ const Gallery = lazy(() => import('@/pages/Gallery'))
 const Announcements = lazy(() => import('@/pages/Announcements'))
 const AnnouncementDetail = lazy(() => import('@/pages/AnnouncementDetail'))
 const Members = lazy(() => import('@/pages/Members'))
+const Rules = lazy(() => import('@/pages/Rules'))
 const Contact = lazy(() => import('@/pages/Contact'))
 const Changelog = lazy(() => import('@/pages/Changelog'))
 const Privacy = lazy(() => import('@/pages/Privacy'))
@@ -84,6 +85,7 @@ export default function App() {
                 <Route path="/announcements" element={<LazyRoute><Announcements /></LazyRoute>} />
                 <Route path="/announcement/:id" element={<LazyRoute><AnnouncementDetail /></LazyRoute>} />
                 <Route path="/members" element={<LazyRoute><Members /></LazyRoute>} />
+                <Route path="/rules" element={<LazyRoute><Rules /></LazyRoute>} />
                 <Route path="/contact" element={<LazyRoute><Contact /></LazyRoute>} />
                 <Route path="*" element={<LazyRoute><NotFound /></LazyRoute>} />
               </Route>

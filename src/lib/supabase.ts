@@ -361,6 +361,21 @@ export async function getAnnouncementDetail(id: string): Promise<AnnouncementFul
 }
 
 // ============================================================
+// CLUB RULES
+// ============================================================
+export async function getClubRules(): Promise<{ id: string; content: string } | null> {
+  return query(async () => {
+    const { data, error } = await supabase
+      .from('club_rules')
+      .select('id, content')
+      .eq('id', 'club-rules')
+      .single()
+    if (error) throw error
+    return data as { id: string; content: string } | null
+  }, 'club_rules')
+}
+
+// ============================================================
 // CONTACT FORM
 // ============================================================
 export async function submitContactForm(formData: ContactFormData): Promise<{ data: boolean | null; error: DataError | null }> {
