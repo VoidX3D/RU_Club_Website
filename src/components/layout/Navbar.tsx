@@ -35,7 +35,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
           </div>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6 lg:gap-10 mx-auto">
+        <nav className="hidden md:flex items-center gap-3 lg:gap-6 xl:gap-10 mx-auto px-2">
           {navItems.map((item) => {
             const isActive = location.pathname === item.href
             return (
@@ -44,7 +44,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
                 to={item.href}
                 aria-current={isActive ? 'page' : undefined}
                 className={cn(
-                  'text-sm lg:text-base font-semibold transition-colors relative py-1 tracking-wide whitespace-nowrap',
+                  'text-xs lg:text-sm xl:text-base font-semibold transition-colors relative py-1 tracking-wide whitespace-nowrap',
                   isActive
                     ? 'text-brand-700 dark:text-brand-400'
                     : 'text-text-secondary dark:text-dark-text-secondary hover:text-text-primary dark:hover:text-dark-text-primary'
