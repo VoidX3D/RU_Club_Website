@@ -17,7 +17,7 @@ export default defineConfig({
     __APP_VERSION__: JSON.stringify(new Date().toISOString().slice(0, 10).replace(/-/g, '')),
   },
   build: {
-    sourcemap: 'hidden',
+    sourcemap: true,
     rollupOptions: {
       output: {
         chunkFileNames: 'assets/[name]-[hash].js',
