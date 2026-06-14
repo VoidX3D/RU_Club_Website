@@ -1,5 +1,17 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { marked } from 'marked'
+import DOMPurify from 'dompurify'
+
+function renderInline(md: string): string {
+  const raw = marked.parseInline(md, { breaks: true, gfm: true }) as string
+  return DOMPurify.sanitize(raw, {
+    ALLOWED_TAGS: ['b', 'i', 'u', 's', 'em', 'strong', 'a', 'code', 'kbd', 'sub', 'sup', 'br', 'span', 'del', 'ins', 'mark'],
+    ALLOWED_ATTR: ['href', 'target', 'rel', 'title', 'class'],
+    ALLOW_DATA_ATTR: false,
+    ALLOW_UNKNOWN_PROTOCOLS: false,
+  })
+}
 
 interface ChangelogItem { text: string }
 interface ChangelogSection { heading: string; items: ChangelogItem[] }
@@ -129,7 +141,7 @@ export default function VersionCard({ version, index }: Props) {
                               className="text-sm text-gray-400 leading-relaxed flex items-start gap-2"
                             >
                               <span className="text-emerald-500/40 mt-1.5 shrink-0 text-[10px]">▸</span>
-                              <span>{item.text}</span>
+                              <span dangerouslySetInnerHTML={{ __html: renderInline(item.text) }} />
                             </motion.li>
                           ))}
                         </ul>

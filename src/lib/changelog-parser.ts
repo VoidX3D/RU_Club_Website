@@ -36,7 +36,7 @@ export function parseChangelog(text: string): ChangelogVersion[] {
     lineNum++
     const trimmed = rawLine.trim()
 
-    if (!trimmed || trimmed.startsWith('# ')) continue
+    if (!trimmed || trimmed.startsWith('# ') || trimmed.startsWith('<!--') || trimmed.startsWith('<h')) continue
 
     const versionMatch = trimmed.match(VERSION_REGEX)
     if (versionMatch) {
@@ -60,16 +60,15 @@ export function parseChangelog(text: string): ChangelogVersion[] {
     const sectionMatch = trimmed.match(SECTION_REGEX)
     if (sectionMatch) {
       if (currentSection) currentVersion.sections.push(currentSection)
-      const heading = sectionMatch[1].trim()
+      let heading = sectionMatch[1].trim()
+      heading = heading.replace(/^[^\w\s]+\s*/g, '').trim()
       currentSection = { heading, items: [] }
       continue
     }
 
     const itemMatch = trimmed.match(ITEM_REGEX)
     if (itemMatch && currentSection) {
-      let text = itemMatch[1].trim()
-      text = text.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
-      text = text.replace(/`([^`]+)`/g, '$1')
+      const text = itemMatch[1].trim()
       currentSection.items.push({ text })
     }
   }
