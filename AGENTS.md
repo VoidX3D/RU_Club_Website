@@ -31,7 +31,7 @@ RU Club Motherland is a **React 19 + TypeScript 6 + Vite 8** SPA for an environm
 │   │   ├── supabase.ts     → ALL DB queries (9 exports + DataError + retry with 3s backoff)
 │   │   ├── analytics.ts    → GA4 triple-tag init + scroll/outbound/download tracking
 │   │   ├── utils.ts        → cn(), storageUrl(), handleImgError(), validateEmail()
-│   │   └── changelog-parser.ts → parseChangelog(), formatVersionCount() — pure functions
+│   │   └── markdown.ts       → renderMarkdown() — marked + DOMPurify + KaTeX pipeline
 │   ├── hooks/
 │   │   ├── useTheme.ts     → Dark/light toggle (localStorage + prefers-color-scheme)
 │   │   ├── useSiteData.ts  → Generic fetcher with loading/error/refetch (online+visibility, keeps data on refetch)
@@ -60,8 +60,7 @@ RU Club Motherland is a **React 19 + TypeScript 6 + Vite 8** SPA for an environm
 │   │   │   └── CTASection.tsx  → Centered CTA with two buttons
 │   │   └── changelog/
 │   │       ├── ParticleField.tsx → Canvas particle background (mouse-responsive)
-│   │       ├── FadeInView.tsx   → Framer Motion scroll-triggered fade wrapper
-│   │       └── VersionCard.tsx  → Accordion version card with color-coded badges
+│   │       └── FadeInView.tsx   → Framer Motion scroll-triggered fade wrapper
 │   └── pages/              → 13 lazy-loaded pages + 1 legal page
 │       ├── Home.tsx, Missions.tsx, MissionDetail.tsx, Gallery.tsx
 │       ├── Announcements.tsx, AnnouncementDetail.tsx, Members.tsx, Contact.tsx

@@ -62,6 +62,10 @@
 > [!NOTE]
 > 🚧 **Upcoming.** Planned features for the next release.
 
+### 🎨 Changed
+- **Changelog page redesigned** — now renders via `renderMarkdown()` (proper marked + DOMPurify pipeline), per-version cards with timeline dots, expand/collapse, stats bar, cleaner dark theme ✨
+- Removed custom `changelog-parser.ts` and `VersionCard.tsx` — replaced by simple version splitter that feeds raw markdown blocks through the shared render pipeline
+
 ### ✨ Added
 - **Member images** — upload member profile photos via admin panel, display on `/members` page with `object-cover` fallback initials; images stored in Supabase Storage `members/` directory
 - **Partner logos** — upload/replace partner logos via admin panel; stored in Supabase Storage `partners/` directory
