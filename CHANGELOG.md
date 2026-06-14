@@ -8,8 +8,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## [Unreleased]
 
+### Removed
+- `downloadAndUploadImage()` from admin API — external URL download no longer supported
+- URL text input in admin MembersPage — images can only be added via file picker (click avatar)
+- External URL handling from `members:save`, `announcements:save`, `partners:save` — only file upload supported now
+
 ### Added
 - Admin activity logging: `admin_logs` table in Supabase, auto-log every mutation (save/delete/upload) in admin API, log viewer page in admin panel
+- VersionBanner updated with build version badge, "What's new" link to /changelog, brand gradient styling
 - `downloadAndUploadImage()` in admin API — external image URLs are downloaded, stored in Supabase Storage with consistent naming, and served from there (prevents URL rot)
 - Optimizer script now purges old `.webp` files before regenerating fresh ones from originals
 
