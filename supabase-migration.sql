@@ -307,6 +307,33 @@ CREATE TRIGGER contact_rate_limit
   EXECUTE FUNCTION public.check_contact_rate_limit();
 
 -- ============================================================
+-- ADMIN LOGS
+-- ============================================================
+CREATE TABLE IF NOT EXISTS admin_logs (
+  id bigint primary key generated always as identity,
+  action text not null,
+  details text,
+  entity_type text,
+  entity_id text,
+  created_at timestamptz not null default now()
+);
+
+-- Index for fast lookups by time
+CREATE INDEX IF NOT EXISTS idx_admin_logs_created ON admin_logs(created_at DESC);
+
+-- No RLS needed — admin API uses service_role key
+-- Cleanup old logs (keep 90 days)
+CREATE OR REPLACE FUNCTION public.cleanup_admin_logs()
+RETURNS void
+LANGUAGE plpgsql
+SET search_path = ''
+AS $$
+BEGIN
+  DELETE FROM admin_logs WHERE created_at < now() - interval '90 days';
+END;
+$$;
+
+-- ============================================================
 -- LINT FIXES
 -- ============================================================
 
