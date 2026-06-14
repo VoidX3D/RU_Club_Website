@@ -18,11 +18,9 @@ export interface StorageTransform {
 
 const urlCache = new Map<string, string>()
 
-const IMAGE_EXT_RE = /\.(jpe?g|png|gif)$/i
-
 export function storageUrl(path: string, transform?: StorageTransform): string {
   if (!path || path.startsWith('http')) return path
-  const key = transform ? `${path}|${transform.width}|${transform.height}|${transform.quality ?? 90}` : path
+  const key = transform ? `${path}|${transform.width}|${transform.height}|${transform.quality ?? 85}` : path
   const cached = urlCache.get(key)
   if (cached) return cached
 
@@ -30,8 +28,13 @@ export function storageUrl(path: string, transform?: StorageTransform): string {
 
   let result: string
   if (transform && supabaseUrl) {
-    const webpPath = p.replace(IMAGE_EXT_RE, '.webp')
-    result = `${STORAGE_BASE}${webpPath}`
+    const params = new URLSearchParams()
+    if (transform.width) params.set('width', String(transform.width))
+    if (transform.height) params.set('height', String(transform.height))
+    params.set('quality', String(transform.quality ?? 85))
+    params.set('resize', 'cover')
+    params.set('format', 'webp')
+    result = `${supabaseUrl}/storage/v1/render/image/public/ruclub/static/assets/${p}?${params.toString()}`
   } else {
     result = `${STORAGE_BASE}${p}`
   }

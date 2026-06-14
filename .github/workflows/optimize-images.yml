@@ -41,7 +41,7 @@ jobs:
           STORAGE_BUCKET: 'ruclub'
           STORAGE_PREFIX: 'static/assets'
           STORAGE_SUBDIRS: 'members,mission,announcements,partners,gallery,brand,icons,images,hero'
-          QUALITY: '90'
+          QUALITY: '85'
 
       - name: Upload optimizer report
         uses: actions/upload-artifact@v4

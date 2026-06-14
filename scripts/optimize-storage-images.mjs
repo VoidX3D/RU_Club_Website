@@ -31,7 +31,7 @@ const {
   STORAGE_BUCKET = 'ruclub',
   STORAGE_PREFIX = 'static/assets',
   STORAGE_SUBDIRS = 'members,mission,announcements,partners,gallery,brand,icons,images,hero',
-  QUALITY = '90',
+  QUALITY = '85',
 } = process.env
 
 if (!VITE_SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
