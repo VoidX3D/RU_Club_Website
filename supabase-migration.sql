@@ -292,7 +292,7 @@ LANGUAGE plpgsql
 SET search_path = ''
 AS $$
 BEGIN
-  IF (SELECT count(*) FROM contact_submissions
+  IF (SELECT count(*) FROM public.contact_submissions
       WHERE email = NEW.email
       AND created_at > now() - interval '1 hour') >= 5 THEN
     RAISE EXCEPTION 'Too many submissions. Please try again later.';

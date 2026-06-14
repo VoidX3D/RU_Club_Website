@@ -39,7 +39,7 @@
 |---|---|
 | **Total Releases** | **14** |
 | **Total Changes** | **150+** |
-| **Total Commits** | **407** |
+| **Total Commits** | **409** |
 | **Latest Version** | **v1.4.0** _(2026-06-14)_ |
 | **Oldest Recorded** | **v0.1.0** _(2026-05-30)_ |
 | **Active Development** | **16 days** |
@@ -68,7 +68,10 @@
 - **Members page spacing** — added `mb-14` between stats grid and Leadership/Teachers tables for visual breathing room
 
 ### 🏁 Final
-- **Project archived** — repository set to read-only. Future updates exclusively through admin panel (DB). 407 commits, 16 days, one complete SPA. 🌱
+- **Project archived** — repository set to read-only. Future updates exclusively through admin panel (DB). 409 commits, 16 days, one complete SPA. 🌱
+- **Contact form fully fixed** — RLS insert policy + trigger function schema-qualified + migration file tracked
+- **Migration SQL tracked** — `supabase/` removed from `.gitignore` (only `.temp/` ignored); idempotent migration committed for future reference
+- **supabase-migration.sql** — `FROM contact_submissions` → `FROM public.contact_submissions` to match the trigger fix
 
 ### 🎨 Changed
 - **Changelog page redesigned** — now renders via `renderMarkdown()` (proper marked + DOMPurify pipeline), per-version cards with timeline dots, expand/collapse, stats bar, cleaner dark theme ✨
