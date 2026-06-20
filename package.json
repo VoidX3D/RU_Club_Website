@@ -16,7 +16,7 @@
     "@vercel/analytics": "^2.0.1",
     "aos": "^2.3.4",
     "clsx": "^2.1.1",
-    "dompurify": "^3.4.9",
+    "dompurify": "^3.4.11",
     "framer-motion": "^12.40.0",
     "katex": "^0.17.0",
     "marked": "^18.0.5",
